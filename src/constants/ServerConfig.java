@@ -17,8 +17,6 @@ public class ServerConfig {
 	
 	public static String recvops_FILE_NAME = "recvops.properties";
 	public static String sendops_FILE_NAME = "sendops.properties";
-	//public static String recvops_FILE_NAME = "recv.ini";
-	//public static String sendops_FILE_NAME = "send.ini";
 	
 	public static String WZPath = "wz";
 	

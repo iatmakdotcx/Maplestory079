@@ -27,11 +27,10 @@ public class PlayerCommands implements Command {
             NPCScriptManager.getInstance().dispose(c);
             c.getSession().write(MaplePacketCreator.enableActions());
             new ServernoticeMapleClientMessageCallback(5, c).dropMessage("[个人信息] 已经解除了假死。");
-
-            /*
+        } else if (splitted[0].equals("@帮助")) {
+        	/*
              * HHHHHHHHHHHHHHHHHHHHHH*游戏帮助文档开始*HHHHHHHHHHHHHHHHHHHHHHHHH
              */
-        } else if (splitted[0].equals("@帮助")) {
             mc.dropMessage("@力量   < 增加属性到力量能力值 >");
             mc.dropMessage("@敏捷   < 增加属性到敏捷能力值 >");
             mc.dropMessage("@智力   < 增加属性到智力能力值 >");
@@ -93,6 +92,14 @@ public class PlayerCommands implements Command {
             NPCScriptManager npc = NPCScriptManager.getInstance();
             npc.start(c, 9900004, 666);
   
+        } else if (splitted[0].equals("@修改密码")) {
+        	if (splitted.length > 1) {
+				if(c.setAccountPassword(splitted[1])){
+					mc.dropMessage("设置成功.");
+				}else{
+					mc.dropMessage("设置密码发生错误，请稍候重试！");
+				}
+        	}
         }
 
 

@@ -1,6 +1,5 @@
 package net.sf.cherry.server;
 
-import java.io.IOException;
 import net.sf.cherry.net.channel.ChannelServer;
 import net.sf.cherry.net.login.LoginServer;
 import net.sf.cherry.net.world.WorldServer;
@@ -11,6 +10,7 @@ public class Start {
     public static final Start Instance = new Start();
     
     public void run() {
+    	
         long start = System.currentTimeMillis();
 
         WorldServer.init();
@@ -26,7 +26,7 @@ public class Start {
     }
 
 
-	public static void main(final String args[]) throws InterruptedException, IOException {
+	public static void main(final String args[]) {
         Instance.run();
     }
 }

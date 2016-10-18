@@ -125,7 +125,7 @@ public class MapleReactor extends AbstractMapleMapObject {
                         if (this.delay > 0) {
                             this.map.destroyReactor(getObjectId());
                             if (c.isGM()) {
-                            	c.getPlayer().dropMessage(1,"destroyReactor:" + rid);
+                            	c.getPlayer().dropMessage("destroyReactor:" + rid);
 							}
                             //TODO:MAK_打坏了箱子，应该爆点东西
                             ReactorActionManager rm = new ReactorActionManager(c, this);
