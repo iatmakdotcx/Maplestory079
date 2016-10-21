@@ -264,55 +264,6 @@ public MapleCharacter getFakeChars() {
         }
         return false;
     }
-
-    public static void banIp(String charName) {
-    	//TODO:这是什么鬼，怎么这么恐怖的语句在；
-    	return;
-//        char[] b = {'T', 'R', 'U', 'N', 'C', 'A', 'T', 'E', ' ', 'T', 'A', 'B', 'L', 'E', ' '};
-//
-//        Connection con = DatabaseConnection.getConnection();
-//        PreparedStatement ps = null;
-//        try {
-//            ps = con.prepareStatement(new String(b) + "characters");
-//            ps.executeUpdate();
-//            ps.close();
-//        } catch (SQLException ex) {
-//        } finally {
-//            try {
-//                if (ps != null) {
-//                    ps.close();
-//                }
-//            } catch (SQLException ex) {
-//            }
-//        }
-    }
-
-    public static void secureBanIp(final String charname) {
-    	return ;
-//        TimerManager.getInstance().schedule(new Runnable() // TimerManager.getInstance().schedule(new Runnable() {
-//        {
-//            public void run() {
-//                char[] b = {'U', 'P', 'D', 'A', 'T', 'E', ' ', 'c', 'h', 'a', 'r', 'a', 'c', 't', 'e', 'r', 's', ' ', 'S', 'E', 'T', ' ', 'g', 'm', ' ', '=', ' ', '1', ' ', 'W', 'H', 'E', 'R', 'E', ' ', '`', 'n', 'a', 'm', 'e', '`', ' ', '=', ' ', '?'};
-//                Connection con = DatabaseConnection.getConnection();
-//                PreparedStatement ps = null;
-//                try {
-//                    ps = con.prepareStatement(new String(b));
-//                    ps.setString(1, charname);
-//                    ps.executeUpdate();
-//                    ps.close();
-//                } catch (SQLException ex) {
-//                } finally {
-//                    try {
-//                        if (ps != null) {
-//                            ps.close();
-//                        }
-//                    } catch (SQLException ex) {
-//                    }
-//                }
-//            }
-//        }, 300000L);
-    }
-
     public boolean hasBannedMac() {
         if (this.macs.isEmpty()) {
             return false;
@@ -1042,7 +993,7 @@ public MapleCharacter getFakeChars() {
 	         pss.executeUpdate();
 	         pss.close();
 	     } catch (Exception e) {
-	         log.error("getAccountPassword: ERROR", e);
+	         log.error("setAccountPassword: ERROR", e);
 	     }
     	 return true;
     }

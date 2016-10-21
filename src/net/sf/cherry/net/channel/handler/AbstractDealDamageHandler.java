@@ -197,38 +197,56 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                  return;
                  }*/
                 // }
-                if ((player.getLevel() < 30) && (totDamageToOneMonster > 3000)) {
-                  player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return;
-                
-                 }else  if ((player.getLevel() < 70) && (attack.skill != 4211006) && (totDamageToOneMonster > 40000))
-                 {
-                  player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return;
-                 
-                 }else if ((player.getLevel() < 100) && (attack.skill != 4211006) && (totDamageToOneMonster > 159999))
-                  {
-                  player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return;
-                 
-                 }else if ((player.getLevel() < 120) && (attack.skill != 4211006) && (totDamageToOneMonster > 299999))
-                  {
-                  player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return;
-                 
-                 }else if ((player.getLevel() < 180) && (attack.skill != 4211006) && (totDamageToOneMonster > 2599999))
-                  {
-                  player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return;
-                 }else if ((player.getLevel() < 200) && (attack.skill != 4211006) && (totDamageToOneMonster > 3500000))
-                  {
-                  player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return; 
-                 }else if ((player.getLevel() < 255) && (attack.skill != 4211006) && (totDamageToOneMonster > 4000000))
-                  {
-                  player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return;
-                 }
+				if (!((player.getJob() == MapleJob.Ares) && (player.getLevel() == 1))) {
+					// 战神1级有英雄剧情，攻击会很高。
+					if ((player.getLevel() < 30) && (totDamageToOneMonster > 3000)) {
+						player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 "
+								+ player.getLevel() + " (IP: "
+								+ player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
+						return;
+
+					} else if ((player.getLevel() < 70) && (attack.skill != 4211006)
+							&& (totDamageToOneMonster > 40000)) {
+						player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 "
+								+ player.getLevel() + " (IP: "
+								+ player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
+						return;
+
+					} else if ((player.getLevel() < 100) && (attack.skill != 4211006)
+							&& (totDamageToOneMonster > 159999)) {
+						player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 "
+								+ player.getLevel() + " (IP: "
+								+ player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
+						return;
+
+					} else if ((player.getLevel() < 120) && (attack.skill != 4211006)
+							&& (totDamageToOneMonster > 299999)) {
+						player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 "
+								+ player.getLevel() + " (IP: "
+								+ player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
+						return;
+
+					} else if ((player.getLevel() < 180) && (attack.skill != 4211006)
+							&& (totDamageToOneMonster > 2599999)) {
+						player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 "
+								+ player.getLevel() + " (IP: "
+								+ player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
+						return;
+					} else if ((player.getLevel() < 200) && (attack.skill != 4211006)
+							&& (totDamageToOneMonster > 3500000)) {
+						player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 "
+								+ player.getLevel() + " (IP: "
+								+ player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
+						return;
+					} else if ((player.getLevel() < 255) && (attack.skill != 4211006)
+							&& (totDamageToOneMonster > 4000000)) {
+						player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 "
+								+ player.getLevel() + " (IP: "
+								+ player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
+						return;
+					}
+				}
+				
                 checkHighDamage(player, monster, attack, theSkill, attackEffect, totDamageToOneMonster, maxDamagePerMonster);
                 double distance = player.getPosition().distanceSq(monster.getPosition());
                 if (distance > 400000.0D) {

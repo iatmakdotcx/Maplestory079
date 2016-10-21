@@ -742,45 +742,31 @@ public class UseCashItemHandler extends AbstractMaplePacketHandler {
                     }
                     break;
                 case 520:
-                    // c.getPlayer().gainMeso(ii.getMeso(itemId), true, false, true);
-                    // NPCScriptManager.getInstance().start(c, 9310059, 7);
-                    if (itemId == 5201004) {//20豆豆
-                        MapleInventoryManipulator.removeById(c, MapleInventoryType.CASH, itemId, 1, true, false);
-                        c.getPlayer().dropMessage("增加了20豆豆！如果不显示请换线！");
-                        player.gainCashDD(20);
-                        c.getPlayer().getClient().getSession().write(MaplePacketCreator.getCharInfo(c.getPlayer()));
-                        return;
-                    }
-                   /* if (itemId == 5201001) {//500豆豆
-                        MapleInventoryManipulator.removeById(c, MapleInventoryType.CASH, itemId, 1, true, false);
+                    if (itemId == 5201001) {//500豆豆
                         c.getPlayer().dropMessage("增加了500豆豆！如果不显示请换线！");
                         player.gainCashDD(500);
-                        c.getPlayer().getClient().getSession().write(MaplePacketCreator.getCharInfo(c.getPlayer()));
-                        return;
                     }
                     if (itemId == 5201002) {//3000
-                        MapleInventoryManipulator.removeById(c, MapleInventoryType.CASH, itemId, 1, true, false);
                         c.getPlayer().dropMessage("增加了3000豆豆！如果不显示请换线！");
                         player.gainCashDD(3000);
-                        c.getPlayer().getClient().getSession().write(MaplePacketCreator.getCharInfo(c.getPlayer()));
-                        return;
-                    }*/
+                    }
+                    if (itemId == 5201004) {//20豆豆
+                        c.getPlayer().dropMessage("增加了20豆豆！如果不显示请换线！");
+                        player.gainCashDD(20);
+                    }
                     if (itemId == 5201005) {//50
-                        MapleInventoryManipulator.removeById(c, MapleInventoryType.CASH, itemId, 1, true, false);
                         c.getPlayer().dropMessage("增加了50豆豆！如果不显示请换线！");
                         player.gainCashDD(50);
-                        c.getPlayer().getClient().getSession().write(MaplePacketCreator.getCharInfo(c.getPlayer()));
-                        return;
                     }
                     if (itemId == 5201000) {//50
-                        MapleInventoryManipulator.removeById(c, MapleInventoryType.CASH, itemId, 1, true, false);
                         c.getPlayer().dropMessage("增加了2000豆豆！如果不显示请换线！");
                         player.gainCashDD(2000);
-                        c.getPlayer().getClient().getSession().write(MaplePacketCreator.getCharInfo(c.getPlayer()));
-                        return;
                     }
-                    //MapleInventoryManipulator.removeById(c, MapleInventoryType.CASH, itemId, 0, true, false);
-                    //c.getSession().write(MaplePacketCreator.enableActions());
+                    MapleInventoryManipulator.removeById(c, MapleInventoryType.CASH, itemId, 1, true, false);
+                    c.getSession().write(MaplePacketCreator.getCharInfo(c.getPlayer()));
+                    c.getPlayer().getMap().removePlayer(c.getPlayer());
+                    c.getPlayer().getMap().addPlayer(c.getPlayer());
+                    c.getSession().write(MaplePacketCreator.enableActions());
                     break;
                 case 524:
                     MaplePet pet1 = c.getPlayer().getPet(0);

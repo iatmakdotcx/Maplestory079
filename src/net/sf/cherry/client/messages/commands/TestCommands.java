@@ -70,16 +70,16 @@ public class TestCommands
 
   public CommandDefinition[] getDefinition() {
         return new CommandDefinition[]{
-            //new CommandDefinition("test", "?", "Probably does something", 50),
-            new CommandDefinition("阿露封包调试", "?", "Probably does something", 50)
-            //new CommandDefinition("packet", "hex data", "Shows a clock to everyone in the map", 50),
-            //new CommandDefinition("invismonster", "", "", 50), new CommandDefinition("gimmecp", "", "", 50),
-            //new CommandDefinition("playerdied", "", "", 50), new CommandDefinition("playersummoned", "", "", 50),
-            //new CommandDefinition("curpos", "", "", 50), new CommandDefinition("curteam", "", "", 50),
-            //new CommandDefinition("curteam", "", "", 50), new CommandDefinition("mapletip", "", "", 50),
-            //new CommandDefinition("qsttest", "[time]", "Intro", 50),
-           // new CommandDefinition("fakewarp", "[chr name] [mapid]", "Makes the [chr name]'s client think they were warped to [mapid]. Note that this can cause [chr name] to seem like they're hacking!", 50)};
-                };
+            new CommandDefinition("test", "?", "Probably does something", 50),
+            new CommandDefinition("阿露封包调试", "?", "Probably does something", 50),
+            new CommandDefinition("packet", "hex data", "Shows a clock to everyone in the map", 50),
+            new CommandDefinition("invismonster", "", "", 50), new CommandDefinition("gimmecp", "", "", 50),
+            new CommandDefinition("playerdied", "", "", 50), new CommandDefinition("playersummoned", "", "", 50),
+            new CommandDefinition("curpos", "", "", 50), new CommandDefinition("curteam", "", "", 50),
+            new CommandDefinition("curteam", "", "", 50), new CommandDefinition("mapletip", "", "", 50),
+            new CommandDefinition("qsttest", "[time]", "Intro", 50),
+            new CommandDefinition("fakewarp", "[chr name] [mapid]", "Makes the [chr name]'s client think they were warped to [mapid]. Note that this can cause [chr name] to seem like they're hacking!", 50)
+        };
     }
 }
 

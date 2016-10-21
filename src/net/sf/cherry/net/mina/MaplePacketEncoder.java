@@ -26,21 +26,21 @@ import net.sf.cherry.tools.data.input.GenericLittleEndianAccessor;
      if (client != null)
        synchronized (client.getSendCrypto()) {
          byte[] input = ((MaplePacket)message).getBytes();
-                if(GameConstants.封包显示){
-	                int packetLen = input.length;
-	                int pHeader = readFirstShort(input);
-	                String pHeaderStr = Integer.toHexString(pHeader).toUpperCase();
-	                String op = lookupRecv(pHeader);
-	                String Recv = "服务端发送 " + op + " [" + pHeaderStr + "] (" + packetLen + ")\r\n";
-	                if (packetLen <= 50000) {
-	                     String RecvTo = Recv + HexTool.toString(input) + "\r\n" + HexTool.toStringFromAscii(input);
-	                     FileoutputUtil.packetLog("log\\服务端封包.log", RecvTo);
-	                     //System.out.println(RecvTo);
-	                     log.info("服务端发送"+"\r\n"+HexTool.toString(input));
-	                } else {
-	                    log.info(HexTool.toString(new byte[]{input[0],input[1]})+" ...");
-	                }
-                }
+         if(GameConstants.封包显示){
+            int packetLen = input.length;
+            int pHeader = readFirstShort(input);
+            String pHeaderStr = Integer.toHexString(pHeader).toUpperCase();
+            String op = lookupRecv(pHeader);
+            String Recv = "服务端发送 " + op + " [" + pHeaderStr + "] (" + packetLen + ")\r\n";
+            if (packetLen <= 50000) {
+                 String RecvTo = Recv + HexTool.toString(input) + "\r\n" + HexTool.toStringFromAscii(input);
+                 FileoutputUtil.packetLog("log\\服务端封包.log", RecvTo);
+                 //System.out.println(RecvTo);
+                 log.info(Recv+"\r\n"+HexTool.toString(input));
+            } else {
+                log.info(HexTool.toString(new byte[]{input[0],input[1]})+" ...");
+            }
+         }
          byte[] unencrypted = new byte[input.length];
          System.arraycopy(input, 0, unencrypted, 0, input.length);
          byte[] ret = new byte[unencrypted.length + 4];

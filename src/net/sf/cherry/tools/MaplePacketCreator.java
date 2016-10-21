@@ -710,6 +710,8 @@ public class MaplePacketCreator {
             if (statupdate.getLeft().getValue() >= 1) {
                 if (statupdate.getLeft().getValue() == 0x1) {
                     mplew.writeShort(statupdate.getRight().shortValue());
+                } else if (statupdate.getLeft().getValue() == 0x8 || statupdate.getLeft().getValue() == 0x10 || statupdate.getLeft().getValue() == 0x20) {
+                    mplew.writeLong(statupdate.getRight());
                 } else if (statupdate.getLeft().getValue() <= 0x4) {
                     mplew.writeInt(statupdate.getRight());
                 } else if (statupdate.getLeft().getValue() < 0x80) {

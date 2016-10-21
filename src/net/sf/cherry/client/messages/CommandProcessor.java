@@ -233,7 +233,7 @@ import net.sf.cherry.tools.StringUtil;
          dropHelpForDefinition(mc, commandDefinition);
      }
    }
- 
+
    private void dropHelpForDefinition(MessageCallback mc, CommandDefinition commandDefinition)
    {
      mc.dropMessage(commandDefinition.getCommand() + " " + commandDefinition.getParameterDescription() + ": " + commandDefinition.getHelp());
@@ -243,7 +243,6 @@ import net.sf.cherry.tools.StringUtil;
      MapleCharacter player = c.getPlayer();
      if ((line.charAt(0) == '!') || (line.charAt(0) == '@'))
      {
-    
        byte type;
        if ((line.charAt(0) == '!') && (c.getPlayer().isGM()))
          type = 0;
@@ -251,6 +250,17 @@ import net.sf.cherry.tools.StringUtil;
          type = 1;
        }
        String[] splitted = line.split(" ");
+       if (splitted[0].equals("!help") && splitted.length > 1) {
+    	   
+		 int HelpPage = 0;
+		 try{
+			 HelpPage = Integer.parseInt(splitted[1]);
+		 }catch (Exception e) {
+		 }
+		 dropHelp(c.getPlayer(), mc, HelpPage);
+		 return true;
+       }
+       
        splitted[0] = splitted[0].toLowerCase();
        if ((splitted.length > 0) && (splitted[0].length() > 1)) {
          DefinitionCommandPair definitionCommandPair = (DefinitionCommandPair)this.commands.get(splitted[0].substring(1));

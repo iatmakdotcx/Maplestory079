@@ -119,7 +119,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
     private int modsl;//怪物数量
     private int tuiguang;//推广人表
     private int tuiguang2;//推广值
-    //private int jinglingskill;//精灵的祝福
     private int str;
     private int dex;
     private int luk;
@@ -337,78 +336,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         this.quests = new LinkedHashMap();
         this.anticheat = new CheatTracker(this);
         setPosition(new Point(0, 0));
-    }
-
-    public void setzbLog(String fsbid) {
-        Connection con = DatabaseConnection.getConnection();
-        PreparedStatement ps = null;
-        try {
-            ps = con.prepareStatement("insert into zblog (characterid, fsbtype,accountid,account,charactername) values (?,?,?,?,?)");
-            ps.setInt(1, this.id);
-            ps.setString(2, fsbid);
-            ps.setInt(3, getClient().getAccID());
-            ps.setString(4, getClient().getAccountName());
-            ps.setString(5, getClient().getPlayer().getName());
-            ps.executeUpdate();
-            ps.close();
-        } catch (Exception ex) {
-            log.error("插入语句错误，请确认你的SQL密码正确且没有关闭。", ex);
-        } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException ex) {
-            }
-        }
-    }
-
-    public void setlingqulLog(String fsbid) { //精灵的祝福
-        Connection con = DatabaseConnection.getConnection();
-        PreparedStatement ps = null;
-        try {
-            ps = con.prepareStatement("insert into lingqulog (characterid, fsbtype,accountid,account,charactername) values (?,?,?,?,?)");
-            ps.setInt(1, this.id);
-            ps.setString(2, fsbid);
-            ps.setInt(3, getClient().getAccID());
-            ps.setString(4, getClient().getAccountName());
-            ps.setString(5, getClient().getPlayer().getName());
-            ps.executeUpdate();
-            ps.close();
-        } catch (Exception ex) {
-            log.error("插入语句错误，请确认你的SQL密码正确且没有关闭。", ex);
-        } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException ex) {
-            }
-        }
-    }
-
-    public void setjinglingskillLog(String fsbid) { //精灵的祝福
-        Connection con = DatabaseConnection.getConnection();
-        PreparedStatement ps = null;
-        try {
-            ps = con.prepareStatement("insert into jinglingskilllog (characterid, fsbtype,accountid,account,charactername) values (?,?,?,?,?)");
-            ps.setInt(1, this.id);
-            ps.setString(2, fsbid);
-            ps.setInt(3, getClient().getAccID());
-            ps.setString(4, getClient().getAccountName());
-            ps.setString(5, getClient().getPlayer().getName());
-            ps.executeUpdate();
-            ps.close();
-        } catch (Exception ex) {
-            log.error("插入语句错误，请确认你的SQL密码正确且没有关闭。", ex);
-        } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException ex) {
-            }
-        }
     }
 
     public void setskillmd5Log(String fsbid) {
@@ -3746,22 +3673,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
                     client.getSession().write(MaplePacketCreator.getShowQuestCompletion(q.getQuest().getId()));
                 }
             }
-        }
-    }
-
-    public void setczLog(String fsbid) {
-        java.sql.Connection con = DatabaseConnection.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement("insert into czlog (characterid, fsbtype,accountid,account,charactername) values (?,?,?,?,?)");
-            ps.setInt(1, this.id);
-            ps.setString(2, fsbid);
-            ps.setInt(3, getClient().getAccID());
-            ps.setString(4, getClient().getAccountName());
-            ps.setString(5, getClient().getPlayer().getName());
-            ps.executeUpdate();
-            ps.close();
-        } catch (Exception Ex) {
-            log.error("插入语句错误，请确认你的SQL密码正确且没有关闭。", Ex);
         }
     }
 

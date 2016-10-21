@@ -38,10 +38,10 @@ import net.sf.cherry.server.ShutdownServer;
    public CommandDefinition[] getDefinition()
    {
      return new CommandDefinition[] { 
-         //new CommandDefinition("shutdown", "[when in Minutes]", "Shuts down the current channel - don't use atm", 1000),
-         //new CommandDefinition("shutdownnow", "", "Shuts down the current channel now", 1000),
-         //new CommandDefinition("shutdownworld", "[when in Minutes]", "Cleanly shuts down all channels and the loginserver of this world", 500) };
-             };
+         new CommandDefinition("shutdown", "[when in Minutes]", "Shuts down the current channel - don't use atm", 1000),
+         new CommandDefinition("shutdownnow", "", "Shuts down the current channel now", 1000),
+         new CommandDefinition("shutdownworld", "[when in Minutes]", "Cleanly shuts down all channels and the loginserver of this world", 500) 
+     };
    }
  }
 

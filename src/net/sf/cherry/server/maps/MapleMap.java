@@ -1603,17 +1603,17 @@ public class MapleMap {
         TimerManager tMan = TimerManager.getInstance();
         final Point droppos = calcDropPos(pos, pos);
         final MapleMapItem drop = new MapleMapItem(item, droppos, dropper, owner);
-        if (item.getItemId() >= 5010000 && item.getItemId() <= 5999999
-                || item.getItemId() >= 1602000 && item.getItemId() <= 1799999
-                || item.getItemId() == 1122000
-                || item.getItemId() == 1112404) {
-            owner.dropMessage(1, "你TM想丢现金物品？\r\n尼玛煞笔！\r\n你的物品消失了");
-            return;
-        }
-        if (item.getItemId() >= 5010000 && item.getItemId() <= 5999999
-                || item.getUniqueId() > 0) {
-            owner.dropMessage(1, "你TM想丢现金物品？\r\n尼玛煞笔！\r\n你的物品消失了");
-            return;
+        if (dropper instanceof MapleCharacter) {
+	        if (item.getItemId() >= 5010000 && item.getItemId() <= 5999999|| 
+	            item.getItemId() >= 1602000 && item.getItemId() <= 1799999|| 
+	            item.getItemId() == 1122000 ||  //黑龙项环
+	            item.getItemId() == 1112404 ||  //极光戒指
+	            item.getUniqueId() > 0
+	            ) 
+	        {
+	            owner.dropMessage(1, "你的物品消失了");
+	            return;
+	        }
         }
 
         spawnAndAddRangedMapObject(drop, new DelayedPacketCreation() {

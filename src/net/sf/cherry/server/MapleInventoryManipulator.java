@@ -770,7 +770,7 @@ public static boolean 商店防止复制1(MapleClient c, IItem item, String logI
             c.getSession().write(MaplePacketCreator.enableActions());
             //return;
         }
-Map stats = ii.getEquipStats(source.getItemId());
+        Map stats = ii.getEquipStats(source.getItemId());
         if (MapleItemInformationProvider.getInstance().isKarmaAble(source.getItemId()) && source.getFlag() != GameConstants.UNTRADEABLE) { //装备交易属性
             source.setFlag((byte) GameConstants.UNTRADEABLE);
             c.getSession().write(MaplePacketCreator.getCharInfo(c.getPlayer()));

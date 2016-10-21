@@ -44,8 +44,8 @@ import net.sf.cherry.net.channel.ChannelServer;
    public CommandDefinition[] getDefinition()
    {
      return new CommandDefinition[] { 
-         //new CommandDefinition("saveall", "", "Saves all characters", 3) };
-             };
+         new CommandDefinition("saveall", "", "Saves all characters", 3) 
+     };
    }
  }
 

@@ -25,7 +25,7 @@ public class GameConstants {
     public final static int UNKNOWN_SKILL = 0x100;
     public final static float ITEM_ARMOR_EXP = 1 / 350000;
     public static final float ITEM_WEAPON_EXP = 1 / 700000;
-    public static boolean 封包显示 = false;//true = 开  false = 关
+    public static boolean 封包显示 = true;//true = 开  false = 关
     public final static long FT_UT_OFFSET = 116444592000000000L; // EDT
     public final static long MAX_TIME = 150842304000000000L; //00 80 05 BB 46 E6 17 02
     public static final long FINAL_TIME = 3439785600000L;

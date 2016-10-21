@@ -119,14 +119,12 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
             } catch (SQLException ex) {
             }
         }
-        //TODO:Mak   有宠物导致登陆失败
         c.getSession().write(MaplePacketCreator.getCharInfo(player));
         System.out.println("当前玩家【"+ c.getPlayer().getName() + "】连接进入"+c.getChannel()+"频道！");  
         if (player.gmLevel() > 0) {
             int[] skills = {9001004};
             for (int i : skills) {
                 SkillFactory.getSkill(i).getEffect(SkillFactory.getSkill(i).getMaxLevel()).applyTo(player);
-                //////System.out.println("buff隐身");
             }
 
         }

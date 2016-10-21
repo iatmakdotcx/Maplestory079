@@ -94,6 +94,10 @@ public class PlayerCommands implements Command {
   
         } else if (splitted[0].equals("@修改密码")) {
         	if (splitted.length > 1) {
+        		if (splitted[1].length()>5) {
+        			mc.dropMessage("新密码最少必须4位.");
+        			return;
+				}
 				if(c.setAccountPassword(splitted[1])){
 					mc.dropMessage("设置成功.");
 				}else{
@@ -101,8 +105,6 @@ public class PlayerCommands implements Command {
 				}
         	}
         }
-
-
     }
 
     public static void GameX(Exception e) {
@@ -121,7 +123,9 @@ public class PlayerCommands implements Command {
                     new CommandDefinition("智力", "<amount>", "Sets your intelligence to a higher amount if you have enough AP or takes it away if you aren't over 32767 AP.", 0),
                     new CommandDefinition("运气", "<amount>", "Sets your luck to a higher amount if you have enough AP or takes it away if you aren't over 32767 AP.", 0),
                     new CommandDefinition("敏捷", "<amount>", "Sets your dexterity to a higher amount if you have enough AP or takes it away if you aren't over 32767 AP.", 0),
-                    new CommandDefinition("转职", "", "转职", 0),};
+                    new CommandDefinition("转职", "", "转职", 0),
+                    new CommandDefinition("修改密码", "<新密码>", "修改密码", 0),
+        };
     }
 
     public static int getOptionalIntArg(String splitted[], int position, int def) {
