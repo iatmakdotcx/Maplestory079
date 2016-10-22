@@ -149,7 +149,8 @@ import constants.ServerConfig;
    SCRIPTED_ITEM, 
    REVIVE_ITEM, 
    SUMMON_TALK, 
-   MONSTER_BOOK_COVER, 
+   MONSTER_BOOK_COVER,
+   quest_KJ,   //快捷交任务
    //MTS_SJ,
    ChatRoom_SYSTEM;
  
