@@ -92,8 +92,3 @@ import net.sf.cherry.server.MaplePortal;
      this.scripts.clear();
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.scripting.portal.PortalScriptManager
- * JD-Core Version:    0.6.0
- */

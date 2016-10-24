@@ -204,7 +204,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
     private int md5data;
     private String skillmd5SS = "50";
     private String ipyz;
-    private int maplepoints;
+//    private int maplepoints;
     private int cardnx;
     private List<MapleDisease> diseases = new ArrayList();
     private boolean incs;
@@ -737,7 +737,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
             ret.skillmd5 = rs.getString("skillmd5");
             ret.md5data = rs.getInt("md5data");
             ret.ipyz = rs.getString("ipyz");
-            ret.maplepoints = rs.getInt("mPoints");
+            ret.mPoints = rs.getInt("mPoints");
             ret.cardnx = rs.getInt("cardNX");
             ret.Present = rs.getInt("Present");
             ret.tempban = ret.getTempBanCalendar(rs);
@@ -1055,7 +1055,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
                 ret.skillmd5 = rs.getString("skillmd5");
                 ret.jinglingskill = rs.getInt("jinglingskill");
                 ret.lingqu = rs.getInt("lingqu");
-                ret.maplepoints = rs.getInt("mPoints");
+                ret.mPoints = rs.getInt("mPoints");
                 ret.cardnx = rs.getInt("cardNX");
                 ret.Present = rs.getInt("Present");
             }
@@ -1452,7 +1452,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
             ps.close();
             ps = con.prepareStatement("UPDATE accounts SET `paypalNX` = ?, `mPoints` = ?, `cardNX` = ?, `Present` = ?,jinglingskill = ?,lingqu = ?  WHERE id = ?");
             ps.setInt(1, this.paypalnx);
-            ps.setInt(2, this.maplepoints);
+            ps.setInt(2, this.mPoints);
             ps.setInt(3, this.cardnx);
             ps.setInt(4, this.Present);
             ps.setInt(5, this.jinglingskill);
@@ -3181,7 +3181,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         statups.add(new Pair(MapleStat.AVAILABLEAP, Integer.valueOf(getRemainingAp())));
         getClient().getSession().write(MaplePacketCreator.updatePlayerStats(statups));
     }
-
+    
     public void changeSkillLevel(ISkill skill, int newLevel, int newMasterlevel) {
         this.skills.put(skill, new SkillEntry(newLevel, newMasterlevel));
         getClient().getSession().write(MaplePacketCreator.updateSkill(skill.getId(), newLevel, newMasterlevel));
@@ -3580,6 +3580,10 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         this.savedLocations[type.ordinal()] = getMapId();
     }
 
+    public void saveLocation(SavedLocationType type, int mapz) {
+        this.savedLocations[type.ordinal()] = mapz;
+    }
+    
     public void clearSavedLocation(SavedLocationType type) {
         this.savedLocations[type.ordinal()] = -1;
     }
@@ -5118,11 +5122,12 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
                 this.paypalnx += quantity;
                 break;
             case 1:
-                this.maplepoints += quantity;
+                this.mPoints += quantity;
                 break;
             case 4:
                 this.cardnx += quantity;
             case 2:
+            	this.mPoints += quantity;
             case 3:
         }
     }
@@ -5132,11 +5137,13 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
             case 0:
                 return this.paypalnx;
             case 1:
-                return this.maplepoints;
+                return this.mPoints;
+            case 2:
+            	return this.mPoints;
+            case 3:
+            	return 99999;
             case 4:
                 return this.cardnx;
-            case 2:
-            case 3:
         }
         return 0;
     }

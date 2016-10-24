@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.cherry.net.RecvPacketOpcode;
+import net.sf.cherry.net.SendPacketOpcode;
 import net.sf.cherry.server.maps.MapleMapObjectType;
 
 public class ServerConfig {
@@ -37,8 +38,20 @@ public class ServerConfig {
 			RecvPacketOpcode.MOVE_PET.getValue(),
 			RecvPacketOpcode.PONG.getValue(),
 			RecvPacketOpcode.MOVE_SUMMON.getValue()
-            ));;
+            ));
 	public static boolean isIgnorePack(Short packetId){
 		return ignoreList.contains((int)packetId);
+	}
+	private static List<Integer> ignoreList_Send = (List<Integer>) Collections.unmodifiableList(Arrays.asList(
+			SendPacketOpcode.NPC_ACTION.getValue(), 
+			SendPacketOpcode.MOVE_PLAYER.getValue(), 
+			SendPacketOpcode.CLOSE_RANGE_ATTACK.getValue(), 
+			SendPacketOpcode.MOVE_PET.getValue(),
+			SendPacketOpcode.PING.getValue(),
+			SendPacketOpcode.MOVE_MONSTER_RESPONSE.getValue(),
+			SendPacketOpcode.MOVE_SUMMON.getValue()
+            ));
+	public static boolean isIgnorePack客户端发送(Short packetId){
+		return ignoreList_Send.contains((int)packetId);
 	}
 }

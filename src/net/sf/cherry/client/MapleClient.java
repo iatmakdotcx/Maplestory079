@@ -454,8 +454,7 @@ public MapleCharacter getFakeChars() {
                         } else {
                             this.loggedIn = false;
                             loginok = 4;
-                            MapleClient tmp403_402 = this;
-                            tmp403_402.passwordTries = (byte) (tmp403_402.passwordTries + 1);
+                            this.passwordTries += 1;
                             if (this.passwordTries == 5) {
                                 getSession().close();
                             }
@@ -464,6 +463,13 @@ public MapleCharacter getFakeChars() {
                         	setAccountPassword(pwd);
                         }
                     }
+                }
+            } else {
+            	//用户名不存在，尝试三次，自动注册
+            	passwordTries += 1;
+            	if (this.passwordTries == 2) {
+            		login_AutoReg(login, pwd);
+            		login(login, pwd, ipMacBanned);
                 }
             }
             rs.close();
@@ -483,7 +489,23 @@ public MapleCharacter getFakeChars() {
         }
         return loginok;
     }
-
+    private void login_AutoReg(String login, String pwd)
+    {
+    	Connection con = DatabaseConnection.getConnection();
+    	PreparedStatement ips = null;
+		try {
+	        String newSalt = LoginCrypto.makeSalt();
+			ips = con.prepareStatement("INSERT INTO accounts (name, password, salt) VALUES (?, ?, ?)");
+			ips.setString(1, login);
+			ips.setString(2, LoginCrypto.makeSaltedSha512Hash(pwd, newSalt));
+			ips.setString(3, newSalt);
+	        ips.executeUpdate();
+	        ips.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    
+    }
     public static String getChannelServerIPFromSubnet(String clientIPAddress, int channel) {
         long ipAddress = IPAddressTool.dottedQuadToLong(clientIPAddress);
         Properties subnetInfo = LoginServer.getInstance().getSubnetInfo();

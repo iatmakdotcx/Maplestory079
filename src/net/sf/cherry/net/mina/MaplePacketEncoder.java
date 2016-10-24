@@ -7,6 +7,7 @@ import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import constants.ServerConfig;
 import net.sf.cherry.client.MapleClient;
 import net.sf.cherry.net.MaplePacket;
 import net.sf.cherry.net.SendPacketOpcode;
@@ -28,17 +29,19 @@ import net.sf.cherry.tools.data.input.GenericLittleEndianAccessor;
          byte[] input = ((MaplePacket)message).getBytes();
          if(GameConstants.封包显示){
             int packetLen = input.length;
-            int pHeader = readFirstShort(input);
-            String pHeaderStr = Integer.toHexString(pHeader).toUpperCase();
-            String op = lookupRecv(pHeader);
-            String Recv = "服务端发送 " + op + " [" + pHeaderStr + "] (" + packetLen + ")\r\n";
-            if (packetLen <= 50000) {
-                 String RecvTo = Recv + HexTool.toString(input) + "\r\n" + HexTool.toStringFromAscii(input);
-                 FileoutputUtil.packetLog("log\\服务端封包.log", RecvTo);
-                 //System.out.println(RecvTo);
-                 log.info(Recv+"\r\n"+HexTool.toString(input));
-            } else {
-                log.info(HexTool.toString(new byte[]{input[0],input[1]})+" ...");
+            short pHeader = readFirstShort(input);
+            if (!ServerConfig.isIgnorePack客户端发送(pHeader)) {
+	            String pHeaderStr = Integer.toHexString(pHeader).toUpperCase();
+	            String op = lookupRecv(pHeader);
+	            String Recv = "【服务端发送】 " + op + " [" + pHeaderStr + "] (" + packetLen + ")\r\n";
+	            if (packetLen <= 50000) {
+	                 String RecvTo = Recv + HexTool.toString(input) + "\r\n" + HexTool.toStringFromAscii(input);
+	                 FileoutputUtil.packetLog("log\\服务端封包.log", RecvTo);
+	                 //System.out.println(RecvTo);
+	                 log.info(Recv+"\r\n"+HexTool.toString(input));
+	            } else {
+	                log.info(HexTool.toString(new byte[]{input[0],input[1]})+" ...");
+	            }
             }
          }
          byte[] unencrypted = new byte[input.length];
@@ -67,7 +70,7 @@ import net.sf.cherry.tools.data.input.GenericLittleEndianAccessor;
      }
      return "UNKNOWN";
    }
-    private int readFirstShort(byte[] arr) {
+    private short readFirstShort(byte[] arr) {
          return new GenericLittleEndianAccessor(new ByteArrayByteStream(arr)).readShort();
    }
  }

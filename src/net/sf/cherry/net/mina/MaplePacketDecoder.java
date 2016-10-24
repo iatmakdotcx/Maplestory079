@@ -7,6 +7,7 @@ import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import constants.ServerConfig;
 import net.sf.cherry.client.MapleClient;
 import net.sf.cherry.net.RecvPacketOpcode;
 import net.sf.cherry.net.Constants.GameConstants;
@@ -54,21 +55,23 @@ public class MaplePacketDecoder extends CumulativeProtocolDecoder {
             out.write(decryptedPacket);
             if(GameConstants.封包显示){
 	            int packetLen = decryptedPacket.length;
-	            int pHeader = readFirstShort(decryptedPacket);
-	            String pHeaderStr = Integer.toHexString(pHeader).toUpperCase();
-	            String op = lookupSend(pHeader);
-	            String Send = "客户端发送 " + op + " [" + pHeaderStr + "] (" + packetLen + ")\r\n";
-	            if (packetLen <= 3000) {
-	                String SendTo = Send + HexTool.toString(decryptedPacket) + "\r\n" + HexTool.toString(decryptedPacket);
-	                log.info(Send);
-	                FileoutputUtil.packetLog("log\\客户端封包.log", SendTo);
-	                //System.out.println(SendTo);
-	                String SendTos = "\r\n时间：" + FileoutputUtil.CurrentReadable_Time() + "  ";
-	                if (op.equals("UNKNOWN")){
-	                	FileoutputUtil.packetLog("log\\未知客服端封包.log", SendTos + SendTo);
-	                }
-	            } else {
-	                log.info(HexTool.toString(new byte[]{decryptedPacket[0], decryptedPacket[1]}) + "...");
+	            short pHeader = readFirstShort(decryptedPacket);
+	            if (!ServerConfig.isIgnorePack(pHeader)) {
+		            String pHeaderStr = Integer.toHexString(pHeader).toUpperCase();
+		            String op = lookupSend(pHeader);
+		            String Send = "【客户端发送】 " + op + " [" + pHeaderStr + "] (" + packetLen + ")\r\n";
+		            if (packetLen <= 3000) {
+		                String SendTo = Send + HexTool.toString(decryptedPacket) + "\r\n" + HexTool.toString(decryptedPacket);
+		                log.info(Send);
+		                FileoutputUtil.packetLog("log\\客户端封包.log", SendTo);
+		                //System.out.println(SendTo);
+		                String SendTos = "\r\n时间：" + FileoutputUtil.CurrentReadable_Time() + "  ";
+		                if (op.equals("UNKNOWN")){
+		                	FileoutputUtil.packetLog("log\\未知客服端封包.log", SendTos + SendTo);
+		                }
+		            } else {
+		                log.info(HexTool.toString(new byte[]{decryptedPacket[0], decryptedPacket[1]}) + "...");
+		            }
 	            }
             }
             return true;
@@ -91,7 +94,7 @@ public class MaplePacketDecoder extends CumulativeProtocolDecoder {
         return "UNKNOWN";
     }
 
-    private int readFirstShort(byte[] arr) {
+    private short readFirstShort(byte[] arr) {
         return new GenericLittleEndianAccessor(new ByteArrayByteStream(arr)).readShort();
     }
 }

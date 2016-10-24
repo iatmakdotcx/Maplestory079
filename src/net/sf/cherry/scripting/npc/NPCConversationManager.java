@@ -512,11 +512,14 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
     public void changeJob(MapleJob job) {
         getPlayer().changeJob(job);
     }
-
+    
     public MapleJob getJob() {
         return getPlayer().getJob();
     }
-
+    
+    public void apReset(){
+    	getPlayer().apReset();
+    }
     public void startQuest(int id) {
         startQuest(id, false);
     }

@@ -13,7 +13,7 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c)
    {
        new ServernoticeMapleClientMessageCallback(5, c).dropMessage("已经成功解除了假死状态。.");
-            NPCScriptManager.getInstance().dispose(c);
-            c.getSession().write(MaplePacketCreator.enableActions());
+       NPCScriptManager.getInstance().dispose(c);
+       c.getSession().write(MaplePacketCreator.enableActions());
    }
  }

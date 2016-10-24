@@ -17,6 +17,7 @@ import net.sf.cherry.net.RecvPacketOpcode;
 import net.sf.cherry.net.SendPacketOpcode;
 import net.sf.cherry.net.channel.ChannelServer;
 import net.sf.cherry.scripting.portal.PortalScriptManager;
+import net.sf.cherry.scripting.quest.QuestScriptManager;
 import net.sf.cherry.scripting.reactor.ReactorScriptManager;
 import net.sf.cherry.server.MapleShopFactory;
 import net.sf.cherry.server.life.MapleMonsterInformationProvider;
@@ -37,22 +38,12 @@ public class ReloadingCommands
                 mc.dropMessage("RemoteException occurred while attempting to reload guilds.");
                 log.error("RemoteException occurred while attempting to reload guilds.", re);
             }
-        } else if (splitted[0].equals("!重载包头")) {
-            try {
-                ExternalCodeTableGetter.populateValues(SendPacketOpcode.getDefaultProperties(), SendPacketOpcode.values());
-                ExternalCodeTableGetter.populateValues(RecvPacketOpcode.getDefaultProperties(), RecvPacketOpcode.values());
-            } catch (Exception e) {
-                log.error("Failed to reload props", e);
-            }
-            PacketProcessor.getProcessor(PacketProcessor.Mode.CHANNELSERVER).reset(PacketProcessor.Mode.CHANNELSERVER);
-            //PacketProcessor.getProcessor(PacketProcessor.Mode.CHANNELSERVER).reset(PacketProcessor.Mode.CHANNELSERVER);
-            mc.dropMessage("Recvops and sendops reloaded.");
         } else if (splitted[0].equals("!重载传送门")) {
             PortalScriptManager.getInstance().clearScripts();
             mc.dropMessage("传送门重载完毕！");
         } else if (splitted[0].equals("!重载任务")) {
-          //  QuestScriptManager.getInstance().clearScripts();
-            mc.dropMessage("Portals reloaded.");
+            QuestScriptManager.getInstance().clearScripts();
+            mc.dropMessage("Quest reloaded.");
         } else if (splitted[0].equals("!重载任务爆率")) {
             MapleMonsterInformationProvider.getInstance().clearDrops();
             mc.dropMessage("Drops and quest drops reloaded.");
@@ -78,11 +69,9 @@ public class ReloadingCommands
     public CommandDefinition[] getDefinition() {
         return new CommandDefinition[]{
             new CommandDefinition("重载家族", "", "", 50), 
-            new CommandDefinition("重载包头", "", "", 50), 
             new CommandDefinition("重载传送门", "", "", 50), 
             new CommandDefinition("重载任务爆率", "", "", 50),
             new CommandDefinition("重载反应堆", "", "", 50), 
-          //  new CommandDefinition("reloadshops", "", "", 50),
             new CommandDefinition("重载副本", "", "", 50), 
             new CommandDefinition("重载任务", "", "", 50), 
             new CommandDefinition("重载商店", "", "", 50), 

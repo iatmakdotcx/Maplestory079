@@ -1,7 +1,7 @@
 function enter(pi) {
 	if (!pi.isQuestFinished(21014))
 	{
-	  pi.playerMessage("要不先去村庄里看看！");
+	  pi.playerMessage("瑕佷笉鍏堝幓鏉戝簞閲岀湅鐪嬶紒");
 	  return false;
 	}else{
 	  pi.warp(140010100, 2);

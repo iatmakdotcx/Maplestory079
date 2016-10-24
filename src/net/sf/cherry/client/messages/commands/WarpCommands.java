@@ -1,18 +1,4 @@
-/*
-                《该文件是XioxMS服务端的核心文件之一》
-  目前版权 (C) 2010年   XioxMS             <100807851@qq.com>
- * -----------------------------------------------------------*
-  之前人员 (C) 2008年   Huy              <patrick.huy@frz.cc>
-                       Matthias Butz       <matze@odinms.de>
-                       Jan Christian Meyer <vimes@odinms.de>
- * ------------------------------------------------------------*
- @该服务端目前维护人员:xioxms
- @这个文件是自由形式.你可以任意内容
- @这个程序发布的目的是期望它能有用@
- @如果你需要技术支持,可以联系更新/维护人员<QQ100807851>
- @你应该已经收到一份Affero GNU通用公共授权
- -如果不是,请仔细查看http://www.gnu.org/licenses/*
-*/
+
 package net.sf.cherry.client.messages.commands;
 
 import java.net.InetAddress;
@@ -258,7 +244,7 @@ public class WarpCommands implements Command {
             }
         }
     }
-//!warpalive 280030000 
+
     @Override
     public CommandDefinition[] getDefinition() {
         return new CommandDefinition[]{

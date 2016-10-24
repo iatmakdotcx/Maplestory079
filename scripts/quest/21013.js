@@ -1,4 +1,4 @@
-importPackage(net.sf.cherry.client);
+﻿importPackage(net.sf.cherry.client);
 
 var status = -1;
 
@@ -21,10 +21,6 @@ function start(mode, type, selection) {
 			}
 			qm.sendNext("制作礼物的材料放在这附近的箱子里了。劳烦英雄大人找到这个箱子，把 #b#t4032309##k 和 #b#t4032310##k 带来给我。然后我就能立刻把礼物做好。", 1);
 		} else if (status == 3) {
-			qm.sendNext("不过因为目前系统有点问题，所以管理员直接会把 #b#t4032309##k 和 #b#t4032310##k 给你，你直接给我就可以了！", 1);
-		} else if (status == 4) {
-			qm.gainItem(4032309, 1);
-			qm.gainItem(4032310, 1);
 			qm.displayGuide(18);
 			qm.dispose();
 		}

@@ -36,7 +36,6 @@ import net.sf.cherry.net.channel.ChannelServer;
            }
          }
        }
- 
        mc.dropMessage("All characters have been saved.");
      }
    }
@@ -48,8 +47,3 @@ import net.sf.cherry.net.channel.ChannelServer;
      };
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.client.messages.commands.SaveAllCommand
- * JD-Core Version:    0.6.0
- */

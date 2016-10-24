@@ -218,7 +218,6 @@ public class LoginServer
         try {
             this.acceptor.bind(is, msh, cfg);
             log.info("监听端口为:〖{}〗", Integer.valueOf(PORT));
-            log.info("开启成功");
         } catch (IOException e) {
             log.error("Binding to port {} failed", Integer.valueOf(PORT), e);
         }

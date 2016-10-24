@@ -31,8 +31,3 @@
      return this.requiredLevel;
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.client.messages.CommandDefinition
- * JD-Core Version:    0.6.0
- */

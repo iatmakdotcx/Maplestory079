@@ -30,6 +30,7 @@ import net.sf.cherry.server.maps.MapleMapObject;
 import net.sf.cherry.server.maps.MapleMapObjectType;
 import net.sf.cherry.server.quest.MapleQuest;
 import net.sf.cherry.tools.MaplePacketCreator;
+import net.sf.cherry.server.maps.SavedLocationType;
 
 public class AbstractPlayerInteraction {
 
@@ -48,7 +49,7 @@ public class AbstractPlayerInteraction {
     }
 
     public void clearAranPolearm() {
-        this.c.getPlayer().getInventory(MapleInventoryType.EQUIPPED).removeItem((byte) -11);
+        this.c.getPlayer().getInventory(MapleInventoryType.EQUIPPED).removeItem((byte)-1);
     }
 
     public void warp(int map) {
@@ -196,6 +197,26 @@ public class AbstractPlayerInteraction {
         }
         this.c.getSession().write(MaplePacketCreator.getShowItemGain(id, quantity, true));
         return true;
+    }
+    
+    public int getSavedLocation(String loc) {
+        Integer ret = Integer.valueOf(this.c.getPlayer().getSavedLocation(SavedLocationType.fromString(loc)));
+        if ((ret == null) || (ret.intValue() == -1)) {
+            return 100000000;
+        }
+        return ret.intValue();
+    }
+    
+    public void saveLocation(String loc) {
+        this.c.getPlayer().saveLocation(SavedLocationType.fromString(loc));
+    }
+
+    public void saveReturnLocation(String loc) {
+        this.c.getPlayer().saveLocation(SavedLocationType.fromString(loc), this.c.getPlayer().getMap().getReturnMap().getId());
+    }
+
+    public void clearSavedLocation(String loc) {
+        this.c.getPlayer().clearSavedLocation(SavedLocationType.fromString(loc));
     }
 
     public void changeMusic(String songName) {

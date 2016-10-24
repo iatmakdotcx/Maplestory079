@@ -2,7 +2,15 @@
  
  public enum SavedLocationType
  {
-   MONSTER_CARNIVAL, FREE_MARKET, WORLDTOUR, FLORINA, CYGNUSINTRO, DOJO, PVP, Pachinko_port;
+   MONSTER_CARNIVAL, 
+   FREE_MARKET, 
+   WORLDTOUR, 
+   FLORINA, 
+   CYGNUSINTRO, 
+   DOJO, 
+   PVP, 
+   AMORIA,
+   Pachinko_port;
    //怪物嘉年华       自由市场    
  
    public static SavedLocationType fromString(String Str) {

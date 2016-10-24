@@ -139,7 +139,8 @@ public class NoticeCommand implements Command {
 	}
 
 	public CommandDefinition[] getDefinition() {
-		return new CommandDefinition[] { new CommandDefinition("阿露喊喇叭", "[mcw] [n/p/l/nv/v/b] message", "", 50),
+		return new CommandDefinition[] { 
+				new CommandDefinition("阿露喊喇叭", "[mcw] [n/p/l/nv/v/b] message", "", 50),
 				// new CommandDefinition("suiyue", "", "", 0),
 				new CommandDefinition("公告", "[mcw] [n/p/l/nv/v/b] message", "", 3)
 				// new CommandDefinition("me", "message", "send a message with

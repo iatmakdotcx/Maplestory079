@@ -214,6 +214,7 @@ public final class PacketProcessor {
             registerHandler(RecvPacketOpcode.MOB_DAMAGED, new MobDamagedHandler());
             registerHandler(RecvPacketOpcode.SUMMON_TALK, new SummonTalkHandler());
             registerHandler(RecvPacketOpcode.ChatRoom_SYSTEM, new ChatRoomHandler());
+            registerHandler(RecvPacketOpcode.quest_KJ, new QuestKJHandler());
         } else {
             throw new RuntimeException("未知的包处理器模式.");
         }

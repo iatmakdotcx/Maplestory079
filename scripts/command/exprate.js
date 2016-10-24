@@ -33,17 +33,12 @@ function getDefinition () {
 
 function execute (c, mc, splitted) {
 	if (splitted.length != 2) {
-		mc.dropMessage("Syntax: !exprate <rate>");
+		mc.dropMessage("Syntax: !exprate <频道id> <经验倍数>");
 	} else {
-		var exp = splitted[1];
-		var packet = MaplePacketCreator.serverNotice(6, "Exprate has been changed to " + exp + "x");
-		ChannelServer.getInstance(1).setExpRate(exp);
-		ChannelServer.getInstance(2).setExpRate(exp);
-		ChannelServer.getInstance(3).setExpRate(exp);
-		ChannelServer.getInstance(4).setExpRate(exp);
-		ChannelServer.getInstance(1).broadcastPacket(packet);
-		ChannelServer.getInstance(2).broadcastPacket(packet);
-		ChannelServer.getInstance(3).broadcastPacket(packet);
-		ChannelServer.getInstance(4).broadcastPacket(packet);
+		var ChannelId = splitted[1];  //频道id
+		var exp = splitted[2];        //经验倍数
+		var packet = MaplePacketCreator.serverNotice(6, "当期 频道 " + ChannelId + "经验倍数已经修改为 " + exp + "x");
+		ChannelServer.getInstance(ChannelId).setExpRate(exp);
+		ChannelServer.getInstance(ChannelId).broadcastPacket(packet);
 	}
 }
