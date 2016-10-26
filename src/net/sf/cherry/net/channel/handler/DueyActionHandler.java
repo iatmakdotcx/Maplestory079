@@ -168,6 +168,7 @@ public class DueyActionHandler extends AbstractMaplePacketHandler {
                         }
                     } else {
                         //c.disconnect();
+                    	System.out.println("Makssssssssssssssssssssssss");
                         c.getSession().close();
                         return;
                     }

@@ -170,7 +170,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
     private int GMLevel;
     private int vip;
     private int Reborns;
-    private boolean invincible;
     private boolean hidden = false;
     private boolean canDoor = true;
     private int chair;
@@ -305,7 +304,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
     private long deadtime = 1000L;
     private long lasttime = 0L;
     private long currenttime = 0L;
-    private long 防止复制时间 = 2000L;
+    private long 防止复制时间 = 1000L;
     private long 开始闪烁 = 500L;
     private int 怪物伤害 = 5;
     private int 闪烁时间 = 0;
@@ -4320,16 +4319,18 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         this.skillMacros[position] = updateMacro;
     }
 
-    public int setWarning(int warning) {
-        return warning;
+    public void setWarning(int warning) {
+        this.Warning = warning;
+    }
+    public int getWarning() {
+        return Warning;
     }
 
     public void gainWarning(boolean warningEnabled, int gain) {
-        int warnings = 3;
-        setWarning(warnings + gain);
+        setWarning(getWarning() + gain);
         MaplePacket packet = MaplePacketCreator.serverNotice(6, "截至目前  " + getName() + ":该用户的警告量是: " + this.Warning + " 次！");
         if (warningEnabled == true) {
-            switch (warnings) {
+            switch (getWarning()) {
                 case 1: //Warning 1	
                     new ServernoticeMapleClientMessageCallback(5, getClient()).dropMessage("这是你的第一次警告！请注意在游戏中勿使用非法程序！");
                     break;
@@ -4401,6 +4402,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
     }
 
     public void Dci() {
+    	System.out.println("Mak==========================================================");
         //this.client.disconnect();
         this.client.getSession().close();
     }
@@ -5743,11 +5745,10 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         this.client.getSession().write(MaplePacketCreator.CygnusIntroLock(true));
         saveLocation(SavedLocationType.CYGNUSINTRO);
 
-        MapleMap introMap = this.client.getChannelServer().getMapFactory().getMap(913040000);
+        MapleMap introMap = this.client.getChannelServer().getMapFactory().getMap(913040000); 
         changeMap(introMap, introMap.getPortal(0));
 
         TimerManager.getInstance().schedule(new Runnable() {
-
             public void run() {
                 MapleCharacter.this.client.getSession().write(MaplePacketCreator.CygnusIntroDisableUI(false));
                 MapleCharacter.this.client.getSession().write(MaplePacketCreator.CygnusIntroLock(false));
@@ -7027,14 +7028,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
             log.error("Error getting next unique id", e);
         }
         return nextid;
-    }
-
-    public boolean getInvincible() {
-        return this.invincible;
-    }
-
-    public void setInvincible(boolean set) {
-        this.invincible = set;
     }
 
     public void setMonsterBookCover(int bookCover) {

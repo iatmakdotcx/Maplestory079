@@ -18,3 +18,8 @@ function action(mode, type, selection) {
         cm.dispose();
     }
 }
+
+function start()
+{
+  action(1,0,0)
+}

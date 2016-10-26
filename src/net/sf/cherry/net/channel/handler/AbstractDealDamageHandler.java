@@ -37,7 +37,7 @@ import net.sf.cherry.server.maps.MapleMapObjectType;
 import net.sf.cherry.tools.MaplePacketCreator;
 import net.sf.cherry.tools.Pair;
 import net.sf.cherry.tools.data.input.LittleEndianAccessor;
-
+import constants.ServerConfig;
 
 public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandler {
 
@@ -130,74 +130,7 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                         player.getCheatTracker().registerOffense(CheatingOffense.SAME_DAMAGE, dmgCheck + " times: " + totDamageToOneMonster);
                    }
                 }
-
-                //  if ((!player.isGM()) && (!player.getJob().isA(MapleJob.Ares))) {
-                /*if(player.getJob().isA(MapleJob.Ares_3) || player.getJob().isA(MapleJob.Ares_4)){
-                 if((player.getCurrentMaxBaseDamage() <= totDamageToOneMonster / 10)){
-                 player.dropMessage(1,"A:非法使用外挂或者修改WZ\r\n导致:攻击力过高.\r\n攻击力无效！\r\n请勿再次使用后果自负！");
-                 return;
-                 }
-                 }else if((player.getCurrentMaxBaseDamage() <= totDamageToOneMonster / 5) && !GameConstants.is不检测技能(attack.skill)){
-                 player.dropMessage(1,"B:非法使用外挂或者修改WZ\r\n导致:攻击力过高.\r\n攻击力无效！\r\n请勿再次使用后果自负！");
-                 return;
-
-                 }else if(attack.skill == 4211006){
-                 if((player.getCurrentMaxBaseDamage() <= totDamageToOneMonster / 10)){
-                 //  //////System.out.println("最大攻击力B:"+player.getCurrentMaxBaseDamage());
-                 //  //////System.out.println("当前最大攻击值B:"+totDamageToOneMonster / 10);
-                 player.dropMessage(1,"C:非法使用外挂或者修改WZ\r\n导致:攻击力过高.\r\n攻击力无效！\r\n请勿再次使用后果自负！");
-                 return;
-                 }
-                 } else if(GameConstants.No_Skill(attack.skill)){
-                 if((player.getCurrentMaxBaseDamage() <= totDamageToOneMonster / 10)){
-                 //  //////System.out.println("最大攻击力B:"+player.getCurrentMaxBaseDamage());
-                 //  //////System.out.println("当前最大攻击值B:"+totDamageToOneMonster / 10);
-                 player.dropMessage(1,"D:非法使用外挂或者修改WZ\r\n导致:攻击力过高.\r\n攻击力无效！\r\n请勿再次使用后果自负！");
-                 return;
-                 }
-                 }*/
-                /*if ((player.getLevel() < 120)
-                 && (totDamageToOneMonster > 1000000)) {
-                      AutobanManager.getInstance().broadcastMessage(player.getClient(), player.getName() + " 被系统封号.");
-                 player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return;
-                 }*//*
-                 if ((player.getLevel() < 10)
-                 && (totDamageToOneMonster > 300)) {
-                 AutobanManager.getInstance().broadcastMessage(player.getClient(), player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + ")");
-                 player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return;
-                 }
-
-                 if ((player.getLevel() < 20)
-                 && (totDamageToOneMonster > 800)) {
-                 AutobanManager.getInstance().broadcastMessage(player.getClient(), player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + ")");
-                 player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return;
-                 }
-
-                 if ((player.getLevel() < 30)
-                 && (totDamageToOneMonster > 2600)) {
-                 //   AutobanManager.getInstance().broadcastMessage(player.getClient(), player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + ")");
-                 //  player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return;
-                 }
-
-                 if ((player.getLevel() < 70)
-                 && (totDamageToOneMonster > 2000000)) {
-                 //  AutobanManager.getInstance().broadcastMessage(player.getClient(), player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + ")");
-                 // player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return;
-                 }
-
-                 if ((player.getLevel() < 255) && (attack.skill != 4211006)
-                 && (totDamageToOneMonster > 2000000)) {
-                 // AutobanManager.getInstance().broadcastMessage(player.getClient(), player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + ")");
-                 // player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 " + player.getLevel() + " (IP: " + player.getClient().getSession().getRemoteAddress().toString().split(":")[0] + ")");
-                 return;
-                 }*/
-                // }
-				if (!((player.getJob() == MapleJob.Ares) && (player.getLevel() == 1))) {
+				if ((!((player.getJob() == MapleJob.Ares) && (player.getLevel() == 1))) && ServerConfig.异常攻击伤害检测) {
 					// 战神1级有英雄剧情，攻击会很高。
 					if ((player.getLevel() < 30) && (totDamageToOneMonster > 3000)) {
 						player.ban(player.getName() + " 被系统封号.(异常攻击伤害值: " + totDamageToOneMonster + " 当前等级 "

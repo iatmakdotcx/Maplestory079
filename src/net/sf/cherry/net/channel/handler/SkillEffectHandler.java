@@ -23,6 +23,7 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
                 ch.getFakeChar().getMap().broadcastMessage(ch.getFakeChar(), MaplePacketCreator.skillEffect(ch.getFakeChar(), skillId, level, flags, speed, op), false);
             }
      } else {
+    	 System.out.println("Mak-----------------------");
        c.getSession().close();
        return;
      }

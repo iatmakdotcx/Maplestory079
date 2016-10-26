@@ -54,8 +54,3 @@ import net.sf.cherry.client.MapleClient;
      c.removeScriptEngine(path);
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.scripting.AbstractScriptManager
- * JD-Core Version:    0.6.0
- */

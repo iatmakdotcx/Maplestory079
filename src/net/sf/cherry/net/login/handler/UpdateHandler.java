@@ -11,8 +11,3 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
      c.getPlayer().saveToDB(true);
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.net.login.handler.UpdateHandler
- * JD-Core Version:    0.6.0
- */

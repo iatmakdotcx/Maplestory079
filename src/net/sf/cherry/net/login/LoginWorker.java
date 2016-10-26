@@ -107,6 +107,7 @@ import net.sf.cherry.tools.MaplePacketCreator;
                     //client.setIdleTask(TimerManager.getInstance().schedule(new Runnable() {
 
                         public void run() {
+                        	System.out.println("Mak00000000000000");
                             client.getSession().close();
                         }
                     }, 10 * 60 * 10000));

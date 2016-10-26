@@ -7,7 +7,6 @@ import java.util.List;
 
 import net.sf.cherry.net.RecvPacketOpcode;
 import net.sf.cherry.net.SendPacketOpcode;
-import net.sf.cherry.server.maps.MapleMapObjectType;
 
 public class ServerConfig {
 	public static Charset STRCHARSET = Charset.forName("GBK");
@@ -20,6 +19,8 @@ public class ServerConfig {
 	public static String sendops_FILE_NAME = "sendops.properties";
 	
 	public static String WZPath = "wz";
+	
+	public static boolean 异常攻击伤害检测 = false;
 	
 	
 	public static void SetRMIParam() {

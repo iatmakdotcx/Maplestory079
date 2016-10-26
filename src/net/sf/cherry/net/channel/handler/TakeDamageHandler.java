@@ -140,7 +140,7 @@ public class TakeDamageHandler extends AbstractMaplePacketHandler {
             player.getCheatTracker().registerOffense(CheatingOffense.ALWAYS_ONE_HIT);
         }
 
-        if ((!player.isHidden()) && (player.isAlive()) && (!player.hasGodmode()) && (!player.getInvincible())) {
+        if ((!player.isHidden()) && (player.isAlive()) && (!player.hasGodmode())) {
             if ((player.getBuffedValue(MapleBuffStat.MORPH) != null) && (damage > 0)) {
                 player.cancelMorphs();
             }

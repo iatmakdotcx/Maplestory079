@@ -50,9 +50,8 @@ public class ItemMoveHandler extends AbstractMaplePacketHandler {
         MapleCharacter player = c.getPlayer();
         player.setCurrenttime(System.currentTimeMillis());
         if (player.getCurrenttime() - player.getLasttime() < player.get防止复制时间()) {
-        c.getPlayer().dropMessage(6,"请慢点使用.不然会掉线哟！");
-        c.getSession().write(MaplePacketCreator.enableActions());
-        return;
+	        c.getSession().write(MaplePacketCreator.enableActions());
+	        return;
         }
         player.setLasttime(System.currentTimeMillis());
         
