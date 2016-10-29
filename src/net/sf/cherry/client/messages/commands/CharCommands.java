@@ -457,7 +457,7 @@ public class CharCommands implements Command {
                    // new CommandDefinition("5", "", "", 3),
                    // new CommandDefinition("6", "", "", 3),
         		   // new CommandDefinition("8", "", "", 3),
-                    new CommandDefinition("clearDrops", "", "清除地上掉落的物品", 3),
+                    new CommandDefinition("cleardrops", "", "清除地上掉落的物品", 3),
                     new CommandDefinition("最大属性", "", "", 50),
                     new CommandDefinition("最小属性", "", "", 50),
                     new CommandDefinition("maxhp", "", "", 50),

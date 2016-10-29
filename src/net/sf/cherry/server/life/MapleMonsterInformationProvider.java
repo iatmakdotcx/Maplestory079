@@ -97,7 +97,7 @@ public class MapleMonsterInformationProvider {
         }
         try {
             Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT itemid, chance, monsterid, questid FROM monsterdrops WHERE monsterid = ?");
+            PreparedStatement ps = con.prepareStatement("SELECT itemid, chance, monsterid, questid FROM drops_monster WHERE monsterid = ?");
             ps.setInt(1, monsterid);
             ResultSet rs = ps.executeQuery();
             MapleMonster theMonster = null;

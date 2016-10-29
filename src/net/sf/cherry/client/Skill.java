@@ -50,11 +50,11 @@ public class Skill
             isBuff = (effect != null) && (hit == null) && (ball == null);
             isBuff |= ((action != null) && (MapleDataTool.getString("0", action, "").equals("alert2")));
             switch (id) {
-                case 1121001:
-                case 1121006:
-                case 1221001:
-                case 1221007:
-                case 1311005:
+                case 1121001:  //磁石
+                case 1121006:  //突进
+                case 1221001:  //磁石
+                case 1221007:  //突进
+                case 1311005:  //龙之献祭
                 case 1321001:
                 case 1321003:
                 case 2111002:

@@ -60,13 +60,10 @@ public class ChangeMapHandler extends AbstractMaplePacketHandler {
             String startwp = slea.readMapleAsciiString();
             MaplePortal portal = c.getPlayer().getMap().getPortal(startwp);
             MapleCharacter player = c.getPlayer();
-            //////System.out.println("换地图+A");
             if ((targetid != -1) && (!c.getPlayer().isAlive())) {
                 boolean executeStandardPath = true;
-            //////System.out.println("换地图+B");
                 if (player.getEventInstance() != null) {
                     executeStandardPath = player.getEventInstance().revivePlayer(player);
-            //////System.out.println("换地图+C");
                 }
                 if (executeStandardPath) {
                     if (c.getPlayer().haveItem(5510000, 1, false, true)) {
@@ -75,30 +72,24 @@ public class ChangeMapHandler extends AbstractMaplePacketHandler {
                         c.getPlayer().changeMap(c.getPlayer().getMap(), c.getPlayer().getMap().getPortal(0));
                         c.getPlayer().updateSingleStat(MapleStat.HP, 50);
                         c.getSession().write(MaplePacketCreator.serverNotice(5, "使用了原地复活术。死亡后您在当前地图复活。"));
-            //////System.out.println("换地图+D");
                     } else {
                         player.setHp(50);
-            //////System.out.println("换地图+E");
                         if (c.getPlayer().getMap().getForcedReturnId() != 999999999) {
                             MapleMap to = c.getPlayer().getMap().getForcedReturnMap();
                             MaplePortal pto = to.getPortal(0);
                             player.setStance(0);
                             player.changeMap(to, pto);
-            //////System.out.println("换地图+F");
-           for (FakeCharacter ch : c.getPlayer().getFakeChars()) {
-                    ch.getFakeChar().changeMap(to, pto);
-            //////System.out.println("换地图+G");
-                  }
+				            for (FakeCharacter ch : c.getPlayer().getFakeChars()) {
+				                    ch.getFakeChar().changeMap(to, pto);
+				            }
                         } else {
                             MapleMap to = c.getPlayer().getMap().getReturnMap();
                             MaplePortal pto = to.getPortal(0);
                             player.setStance(0);
                             player.changeMap(to, pto);
-            //////System.out.println("换地图+H");
-           for (FakeCharacter ch : c.getPlayer().getFakeChars()) {
-                    ch.getFakeChar().changeMap(to, pto);
-            //////System.out.println("换地图+I");
-                  }
+				            for (FakeCharacter ch : c.getPlayer().getFakeChars()) {
+				                    ch.getFakeChar().changeMap(to, pto);
+				            }
                         }
                     }
                 }
@@ -107,32 +98,30 @@ public class ChangeMapHandler extends AbstractMaplePacketHandler {
                 MapleMap to = ChannelServer.getInstance(c.getChannel()).getMapFactory().getMap(targetid);
                 MaplePortal pto = to.getPortal(0);
                 player.changeMap(to, pto);
-            //////System.out.println("换地图+J");
-           for (FakeCharacter ch : c.getPlayer().getFakeChars()) {
-                    ch.getFakeChar().changeMap(to, pto);
-            //////System.out.println("换地图+K");
-                  }
+	            for (FakeCharacter ch : c.getPlayer().getFakeChars()) {
+	               ch.getFakeChar().changeMap(to, pto);
+	            }
             } else if (targetid != -1 && !c.getPlayer().isGM()) {
                 MapleMap to = ChannelServer.getInstance(c.getChannel()).getMapFactory().getMap(targetid);
-                if (c.getPlayer().isGM() || ((player.getMapId() == 0 && to.getId() == 10000)
+                if (c.getPlayer().isGM() || 
+                		(
+                		   (player.getMapId() == 0 && to.getId() == 10000)
                         || (player.getMapId() == 914090010 && to.getId() == 914090011)
                         || (player.getMapId() == 914090011 && to.getId() == 914090012)
                         || (player.getMapId() == 914090012 && to.getId() == 914090013)
-                        || (player.getMapId() == 914090013 && to.getId() == 140090000))) {
+                        || (player.getMapId() == 914090013 && to.getId() == 140090000)
+                        )
+                	) {
                     MaplePortal pto = to.getPortal(0);
                     player.changeMap(to, pto);
-            //////System.out.println("换地图+L");
                     for (FakeCharacter ch : c.getPlayer().getFakeChars()) {              
-                    ch.getFakeChar().changeMap(to, pto);
-            //////System.out.println("换地图+M");
-                  }
+                      ch.getFakeChar().changeMap(to, pto);
+                    }
                 } else {
                     c.getSession().write(MaplePacketCreator.enableActions());
                     log.warn("玩家 {} 试图以非正常方式切换地图！", c.getPlayer().getName());
-            //////System.out.println("换地图+N");
                 }
             } else {
-
                 if (portal != null) {
                     portal.enterPortal(c);
                     for (FakeCharacter fc : player.getFakeChars()) {
@@ -142,10 +131,8 @@ public class ChangeMapHandler extends AbstractMaplePacketHandler {
                         }
                     }
                     player.getFakeChars().clear();
-            //////System.out.println("换地图+O");
                 } else {
                     c.getSession().write(MaplePacketCreator.enableActions());
-            //////System.out.println("换地图+P");
                     log.warn("Portal {} not found on map {}", startwp, c.getPlayer().getMap().getId());
                 }
             }

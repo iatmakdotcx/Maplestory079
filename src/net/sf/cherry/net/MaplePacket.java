@@ -11,7 +11,3 @@ public abstract interface MaplePacket extends Serializable
   public abstract void setOnSend(Runnable paramRunnable);
 }
 
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.net.MaplePacket
- * JD-Core Version:    0.6.0
- */

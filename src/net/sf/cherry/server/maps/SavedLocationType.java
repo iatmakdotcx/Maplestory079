@@ -10,6 +10,7 @@
    DOJO, 
    PVP, 
    AMORIA,
+   FISHING,  //钓鱼地图
    Pachinko_port;
    //怪物嘉年华       自由市场    
  

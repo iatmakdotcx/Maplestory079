@@ -11,7 +11,7 @@ import net.sf.cherry.tools.MaplePacketCreator;
 
 /**
  *
- * @author Administrator
+ * @author 老虎机
  */
 public class LaoHuJiHandler {
 

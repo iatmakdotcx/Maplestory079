@@ -149,8 +149,7 @@ public class CommandProcessor implements CommandProcessorMBean {
 	}
 
 	public boolean processCommand(MapleClient c, String line) {
-		return instance.processCommandInternal(c, new ServernoticeMapleClientMessageCallback(c),
-				c.getPlayer().getGMLevel(), line);
+		return instance.processCommandInternal(c, new ServernoticeMapleClientMessageCallback(c), c.getPlayer().getGMLevel(), line);
 	}
 
 	public String processCommandJMX(int cserver, int mapid, String command) {
@@ -255,8 +254,7 @@ public class CommandProcessor implements CommandProcessorMBean {
 	}
 
 	private void dropHelpForDefinition(MessageCallback mc, CommandDefinition commandDefinition) {
-		mc.dropMessage(commandDefinition.getCommand() + " " + commandDefinition.getParameterDescription() + ": "
-				+ commandDefinition.getHelp());
+		mc.dropMessage(commandDefinition.getCommand() + " " + commandDefinition.getParameterDescription() + ": " + commandDefinition.getHelp());
 	}
 
 	private boolean processCommandInternal_new(MapleClient c, MessageCallback mc, int gmLevel, String line) {
@@ -316,27 +314,24 @@ public class CommandProcessor implements CommandProcessorMBean {
 
 			splitted[0] = splitted[0].toLowerCase();
 			if ((splitted.length > 0) && (splitted[0].length() > 1)) {
-				DefinitionCommandPair definitionCommandPair = (DefinitionCommandPair) this.commands
-						.get(splitted[0].substring(1));
-				if ((definitionCommandPair != null)
-						&& (gmLevel >= definitionCommandPair.getDefinition().getRequiredLevel())) {
+				DefinitionCommandPair dCPair = (DefinitionCommandPair) this.commands.get(splitted[0].substring(1));
+				if ((dCPair != null) && (gmLevel >= dCPair.getDefinition().getRequiredLevel())) {
 					if (type == 0)
 						synchronized (gmlog) {
-							gmlog.add(new Pair(player, line));
+							gmlog.add(new Pair<MapleCharacter, String>(player, line));
 						}
 					try {
-						definitionCommandPair.getCommand().execute(c, mc, splitted);
+						dCPair.getCommand().execute(c, mc, splitted);
 					} catch (IllegalCommandSyntaxException e) {
 						mc.dropMessage("IllegalCommandSyntaxException:" + e.getMessage());
-						dropHelpForDefinition(mc, definitionCommandPair.getDefinition());
+						dropHelpForDefinition(mc, dCPair.getDefinition());
 					} catch (Exception e) {
 						mc.dropMessage("发生了一个错误： " + e.getClass().getName() + " " + e.getMessage());
-						// log.error("COMMAND ERROR", e);
 						log.error("使用了错误的指令。");
 					}
 					return true;
 				}
-				if ((definitionCommandPair == null) && (c.getPlayer().getGMLevel() > 0)) {
+				if ((dCPair == null) && (c.getPlayer().getGMLevel() > 0)) {
 					if (type == 0)
 						mc.dropMessage("[系统] 命令 " + splitted[0] + " 不存在或你无权使用.");
 					else {

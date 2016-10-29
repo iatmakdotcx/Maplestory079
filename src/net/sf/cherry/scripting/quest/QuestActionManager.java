@@ -4,37 +4,6 @@
 import net.sf.cherry.scripting.npc.NPCConversationManager;
 import net.sf.cherry.server.quest.MapleQuest;
  
-/* public class QuestActionManager extends NPCConversationManager
- {
-   private boolean start;
-   private int quest;
- 
-public QuestActionManager(MapleClient c, int npc, int quest, boolean start) {
-        super(c, npc,1);
-        this.quest = quest;
-        this.start = start;
-    }
- 
-   public int getQuest() {
-     return this.quest;
-   }
- 
-   public boolean isStart() {
-     return this.start;
-   }
- 
-    public void dispose() {
-        QuestScriptManager.getInstance().dispose(this, getClient());
-    }
- 
-   public void startQuest() {
-     MapleQuest.getInstance(this.quest).start(getPlayer(), getNpc(), true);
-   }
- 
-   public void completeQuest() {
-     MapleQuest.getInstance(this.quest).complete(getPlayer(), getNpc(), true);
-   }
- }*/
 public class QuestActionManager extends NPCConversationManager {
 
     private boolean start;
@@ -67,7 +36,3 @@ public class QuestActionManager extends NPCConversationManager {
         MapleQuest.getInstance(quest).complete(getPlayer(), getNpc(), true);
     }
 }
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.scripting.quest.QuestActionManager
- * JD-Core Version:    0.6.0
- */

@@ -1,23 +1,26 @@
 /*
- *重生迷之蛋
+ *重生的谜之蛋|| 永恒的谜之蛋
  */
 package net.sf.cherry.net.channel.handler;
 
 import net.sf.cherry.client.MapleClient;
 import net.sf.cherry.net.AbstractMaplePacketHandler;
-import net.sf.cherry.scripting.npc.NPCScriptManager;
 import net.sf.cherry.tools.MaplePacketCreator;
 import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
 
-/**
- *
- * @author Administrator
- */
 public class MZD extends AbstractMaplePacketHandler {
-    @Override
-     public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c)
+   @Override
+   public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c)
    {
-      NPCScriptManager.getInstance().start(c, 9330009);
-     c.getSession().write(MaplePacketCreator.enableActions());
-      }
+	  //toDrop.add(4280000); //永恒的谜之蛋
+      //toDrop.add(4280001); //重生的谜之蛋
+	  //72 00  0F 00  C1 4E 41 00 00  没有“重生的热度5490001”
+	  //72 00  0F 00  C1 4E 41 00 01  有“重生的热度5490001”
+	  byte slot = slea.readByte();
+	  slea.skip(1);
+      int itemid = slea.readInt();
+      //TODO:Mak  谜之蛋来爆爆爆
+      
+      c.getSession().write(MaplePacketCreator.enableActions());
    }
+}

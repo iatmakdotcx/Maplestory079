@@ -48,7 +48,7 @@ public class ReactorScriptManager extends AbstractScriptManager {
         if (ret == null) {
             ret = new LinkedList<DropEntry>();
             try {
-                PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement("SELECT itemid, chance FROM reactordrops WHERE reactorid = ? AND chance >= 0");
+                PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement("SELECT itemid, chance FROM drops_reactor WHERE reactorid = ? AND chance >= 0");
                 ps.setInt(1, rid);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {

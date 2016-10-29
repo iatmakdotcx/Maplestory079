@@ -139,7 +139,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
     private int[] savedLocations;
     private int fame;
     private long lastfametime;
-    private long lastFishingTime;
     private List<Integer> lastmonthfameids;
     private transient int localmaxhp;
     private transient int localmaxmp;
@@ -319,6 +318,9 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
     private List<FakeCharacter> fakes = new ArrayList<FakeCharacter>();
     private int xflh;
     private int jf;
+    
+    
+   private Fishing fishingObj;
 
     public MapleCharacter() {
         setStance(0);
@@ -3781,52 +3783,36 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         return ret.masterlevel;
     }
 
-    public void startFishingTask() {
-        cancelFishingTask();
-        lastFishingTime = System.currentTimeMillis();
+ 
+    public void doFish() {
+    	if (fishingObj == null){
+	    	int fishingTime = 18000;
+	    	if (getItemQuantity(5340001, false) == 1) {
+	            getClient().getSession().write(MaplePacketCreator.sendHint("使用高级鱼竿钓鱼。1分钟一次\r\n", 200, 200));
+	            fishingTime = 1000;//1分钟一次 60000
+	        } else if (c.getPlayer().getItemQuantity(5340000, false) == 1) {
+	            getClient().getSession().write(MaplePacketCreator.sendHint("使用普通鱼竿钓鱼。3分钟一次\r\n", 200, 200));
+	            fishingTime = 18000;//1分钟一次 60000
+	        } else {
+	            getClient().getSession().write(MaplePacketCreator.sendHint("没有鱼竿无法钓鱼\r\n请去商城购买鱼竿！", 200, 200));
+	            cancelFishing();
+	            return;
+	        }
+	    	fishingObj = new Fishing(this, fishingTime);
+    	}else{
+    		getClient().getSession().write(MaplePacketCreator.sendHint("正在钓鱼中..0..", 200, 200));
+    	}
     }
 
-    public boolean canFish(long now) {
-        return lastFishingTime > 0 && lastFishingTime + MapleCharacter.getFishingTime(false, isGM()) < now; // custom occupations?
+    public void cancelFishing() {
+    	if (fishingObj != null){
+    		fishingObj.cancelFishing();
+    		fishingObj = null;
+    		System.gc();
+    	}
     }
 
-    public static int getFishingTime(boolean vip, boolean gm) {
-        return gm ? 1000 : (vip ? 30000 : 60000);
-    }
-
-    public void doFish(long now) {
-        lastFishingTime = now;
-        /*
-         * if (client == null || client.getPlayer() == null ||
-         * !client.isReceiving() || (!haveItem(2270008, 1, false, true)) ||
-         * !GameConstants.isFishingMap(getMapId()) || chair <= 0) {
-         * cancelFishingTask(); return; }
-         */
-        MapleInventoryManipulator.removeById(client, MapleInventoryType.USE, 2270008, 1, false, false);
-        boolean passed = false;
-        // while (!passed) {
-        //int randval = RandomRewards.getFishingReward();
-        //switch (randval) {
-        //case 0: // Meso
-        //   final int money = Randomizer.rand(10, 50000);
-        // gainMeso(money, true);
-        //    passed = true;
-        //   break;
-        //  case 1: // EXP
-        // final int experi = Math.min(Randomizer.nextInt(Math.abs(getExp() / 200) + 1), 500000);
-        //   gainExp(experi, true, false, true);
-        //   passed = true;
-        //   break;
-        //  default:
-        //if (MapleItemInformationProvider.getInstance().itemExists(randval)) {
-        //   MapleInventoryManipulator.addById(client, randval, (short) 1, "Fishing" + " on " + FileoutputUtil.CurrentReadable_Date());
-        //      passed = true;
-        //  }
-        //break;
-
-
-    }
-
+    
     public int getTotalDex() {
         return this.localdex;
     }
@@ -5650,7 +5636,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         return ret;
     }
     //闯关任务 - 得到当前关卡积分
-
     public int TaskExp(int missionid) {
         int ret = 0; //默认是0积分
         try {
@@ -7401,10 +7386,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         }
     }
 
-    public void cancelFishingTask() {
-        lastFishingTime = 0;
-    }
-
     public void maxAllSkills() {
         MapleDataProvider dataProvider = MapleDataProviderFactory.getDataProvider(new File(ServerConfig.WZPath + "/" + "String.wz"));
         MapleData skilldData = dataProvider.getData("Skill.img");
@@ -7602,87 +7583,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
             }
         }
     }
-    private transient ScheduledFuture<?> fishTimer;
-    private transient ScheduledFuture<?> zaixian;
-    private int fishTasking = 0;
-    public int 鱼饵 = 2300000; //鱼饵
-    public int 高级鱼饵 = 2300001;
-    public short 减少鱼饵 = -1; //
-    public int fishingMap = 741000201; //地图910000000
-    public int fishingChair = 3011000; //椅子
-    ///final IItem toUse = c.getPlayer().getInventory(MapleInventoryType.SETUP).findById(fishingChair);
-    public static int[] 钓鱼物品 = {
-        5240027, 5240001, 5240004, 5240010, 5201001, 5240010, 5240001, 5240001, 5240001, 5240001, 5240001, //宠物饲料系列 ok
-        5200000, 5071000, 5160014, 5160014, 5050001, 5010002, 1012013, 1092051, 5010002, 5010002, 5010002, //装备系列
-        4000014, 4000436, 5120010, 5120010, 4005000, 4005001, 4005002, 4005003, 4005004, 4006000, 4006000, //垃圾系列
-        2030000, 2030001, 2030002, 2030003, 2030004, 2040012, 2040101, 2040300, 2040405, 2040412, 2040514, //卷轴系列
-        2040711, 2040711, 2040711, 2040711, 2040807, 2040807, 2040807, 2040807, 2040900, 2040900, 2040900, //豆豆系列
-        2040900, 2040900, 2040900, 2040916, 2040916, 2040916, 2041006, 2041006, 2041013, 2041015, 2041015, 2041022,
-        2041022, 2041032, 2041032
-    };
-
-  
-
-    public void fishingTimer(int time) {
-        fishTimer = TimerManager.getInstance().register(new Runnable() {
-            @Override
-            public void run() {
-                if (fishTasking < 9 && getClient().getPlayer().getMapId() == getClient().getPlayer().fishingMap) {
-                    fishTasking++;
-                    String 钓鱼成功 = "钓鱼成功!";
-                    String 钓鱼开始 = "钓鱼开始!";
-                    String 钓鱼中 = "钓鱼中***请稍等!";
-                    if(fishTasking == 9){
-                    getClient().getSession().write(MaplePacketCreator.sendHint(钓鱼成功, 200, 200));
-                    }else if(fishTasking > 1 && fishTasking < 9){
-                    getClient().getSession().write(MaplePacketCreator.sendHint(钓鱼中, 200, 200));
-                    }else if(fishTasking <= 1){
-                    getClient().getSession().write(MaplePacketCreator.sendHint(钓鱼开始, 200, 200));
-                    }
-                } else {
-                    fishTasking = 0;
-                    if (getItemQuantity(2300000, false) == 0 && getItemQuantity(2300001, false) == 0 || getClient().getPlayer().getMapId() != getClient().getPlayer().fishingMap) {
-                        cancelFishing();
-                        return;
-                    }
-                    if (getItemQuantity(高级鱼饵, false) >= 1) {
-                        NPCScriptManager.getInstance().start(getClient(), 9900000,1);
-                        //MapleInventoryManipulator.removeById(getClient(), MapleInventoryType.USE, 高级鱼饵, 1, true, false);
-                        //saveToDB(true);
-                    } else if (getItemQuantity(鱼饵,false) >= 1) {
-                        NPCScriptManager.getInstance().start(getClient(), 9900000);
-                       // MapleInventoryManipulator.removeById(getClient(), MapleInventoryType.USE, 鱼饵, 1, true, false);
-                        //saveToDB(true);
-                    }
-                }
-            }
-        }, time, time);
-    }
-
-    public void cancelFishing() {
-        if (fishTimer != null) {
-            if (getMap().getId() != 741000201) {
-                dropMessage("[钓鱼] 你离开了钓鱼场!");
-                fishTimer.cancel(false);
-                fishTimer = null;
-            } else if (getClient().getPlayer().getChair() != fishingChair) {
-                dropMessage("[钓鱼] 你没有坐上钓鱼椅子无法钓鱼!");
-                fishTimer.cancel(false);
-                fishTimer = null;
-            } else {
-                if (getItemQuantity(鱼饵, false) == 0 && getItemQuantity(高级鱼饵, false) == 0) {
-                    getClient().getSession().write(MaplePacketCreator.sendHint("你没有鱼饵\r\n高级鱼饵 = 0 \r\n普通鱼饵 = 0", 200, 200));
-                    fishTimer.cancel(false);
-                    fishTimer = null;
-                } else {
-                    dropMessage("[钓鱼] 你离开了钓鱼场!");
-                    fishTimer.cancel(false);
-                    fishTimer = null;
-
-                }
-            }
-        }
-    }
 
     public void setshoucLog(String fsbid) {
         java.sql.Connection con = DatabaseConnection.getConnection();
@@ -7824,117 +7724,3 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
     
 }
 
-/*public void fishingTimer(int time) {
-           /* if (getItemQuantity(5340001, false) == 1) {
-                getClient().getSession().write(MaplePacketCreator.sendHint("使用普通鱼竿钓鱼。3分钟一次\r\n", 200, 200));
-            } else if (getItemQuantity(5340000, false) == 1) {
-                getClient().getSession().write(MaplePacketCreator.sendHint("使用高级鱼竿钓鱼。1分钟一次\r\n", 200, 200));
-            } else if (getItemQuantity(5340000, false) == 0 && getItemQuantity(5340001, false) == 0) {
-                getClient().getSession().write(MaplePacketCreator.sendHint("没有鱼竿无法钓鱼\r\n请去商城购买鱼竿！", 200, 200));
-                cancelFishing();
-                return;
-            }
-            fishTimer = TimerManager.getInstance().register(new Runnable() {
-
-                @Override
-                public void run() {
-                    if (fishTasking < 9 && getClient().getPlayer().getMapId() == getClient().getPlayer().fishingMap) {
-                        fishTasking++;
-                        String gage = "";
-                        for (int i = 0; i <= fishTasking; i++) {
-                            gage += "●";
-                        }
-                        for (int i = 9; i > fishTasking; i--) {
-                            gage += "○";
-                        }
-                        getClient().getSession().write(MaplePacketCreator.sendHint("钓鱼中...\r\n" + gage, 200, 200));
-                    } else {
-                        fishTasking = 0;
-                        if (getItemQuantity(2300000, false) == 0 && getItemQuantity(2300001, false) == 0 || getClient().getPlayer().getMapId() != getClient().getPlayer().fishingMap) {
-                            //if (getItemQuantity(2300000, false) == 0 || getClient().getPlayer().getMapId() != getClient().getPlayer().fishingMap && getClient().getPlayer().getChair() != fishingChair) {//这里是检测椅子 getClient().getPlayer().getChair() == fishingChair
-                            cancelFishing();
-                            return;
-                        }
-                      /*  int chance = (int) Math.random() * 900;
-                        int count = 0;
-                        for (int item : 钓鱼系列.钓鱼物品) {
-                            if (item >= chance) {
-                                count++;
-                                //count = chance;
-                            }
-                        }
-                        int[] goods = new int[count];
-                        count = 0;
-                        for (int item : 钓鱼系列.钓鱼物品) {
-                            if (item >= chance) {
-                                goods[count] = 钓鱼系列.钓鱼物品[RandomizerNew.nextInt(钓鱼系列.钓鱼物品.length)];
-                                count++;
-                                //count = chance;
-                            }
-                        }
-                        int chance2 = (int) Math.random() * goods.length;
-                        if (getItemQuantity(高级鱼饵, true) >= 1) {
-                           /* if (goods.length == 0) {
-                                getClient().getSession().write(MaplePacketCreator.sendHint("什么也没钓到", 200, 200));
-                                MapleInventoryManipulator.removeById(getClient(), MapleInventoryType.USE, 高级鱼饵, 1, true, false);
-                            } else {
-                                for (int i = 1; i <= 5; i++) {
-                                    if (getPlayer().getInventory(MapleInventoryType.getByType((byte) (i))).isFull()) {
-                                        getClient().getSession().write(MaplePacketCreator.sendHint("您至少应该让所有包裹都空出一格", 200, 200));
-                                        cancelFishing();
-                                        return;
-                                    }
-                                }
-                        NPCScriptManager.getInstance().start(getClient(), 9900000, 2300001);
-                                /*if (getInventory(GameConstants.getInventoryType(goods[chance2])).getNextFreeSlot() < -1) {
-                                    getClient().getSession().write(MaplePacketCreator.sendHint("背包已满", 200, 200));
-                                } else {*/
-                                   // MapleInventoryManipulator.addById(getClient(), goods[chance2], (short) 1, null);
-                                    //MapleInventoryManipulator.removeById(getClient(), MapleInventoryType.USE, 高级鱼饵, 1, true, false);
-                                    //getClient().getSession().write(MaplePacketCreator.sendHint("你获得了 #b" + MapleItemInformationProvider.getInstance().getItemInformation(goods[chance2]).name + "#k\r\n切记背包要有空格！", 200, 200)); 
-                                   // getClient().getSession().write(MaplePacketCreator.sendHint("[使用高级鱼饵]\r\n你获得了 #b物品#k\r\n切记背包要有空格！", 200, 200));
-                                   // dropMessage("[钓鱼提醒] 请随时注意您的背包.满了请清理.否则钓到的物品会消失！");
-                              //  }
-                           // }
-                           //         saveToDB(true);
-                      //  } else if (getItemQuantity(鱼饵, true) >= 1) {
-                            /*if (goods.length == 0) {
-                                MapleInventoryManipulator.addById(getClient(), goods[chance2], (short) 1, null);
-                                MapleInventoryManipulator.removeById(getClient(), MapleInventoryType.USE, 鱼饵, 1, true, false);
-                            } else {*/
-                                /*
-                                 * for (int i = 1; i <= 5; i++) { if
-                                 * (c.getPlayer().getInventory(MapleInventoryType.getByType((byte)
-                                 * (i))).isFull()) {
-                                 * getClient().getSession().write(MaplePacketCreator.sendHint("您至少应该让所有包裹都空出一格",
-                                 * 200, 200)); cancelFishing(); return; }
-                                 }
-                                 */
-                               /* if (getInventory(GameConstants.getInventoryType(goods[chance2])).getNextFreeSlot() < -1) {
-                                    getClient().getSession().write(MaplePacketCreator.sendHint("背包已满", 200, 200));
-                                } else {
-                                for (int i = 1; i <= 5; i++) {
-                                    if (getPlayer().getInventory(MapleInventoryType.getByType((byte) (i))).isFull()) {
-                                        getClient().getSession().write(MaplePacketCreator.sendHint("您至少应该让所有包裹都空出一格", 200, 200));
-                                        cancelFishing();
-                                        return;
-                                    }
-                                }
-                        NPCScriptManager.getInstance().start(getClient(), 9900000, 2300000);
-                                    //MapleInventoryManipulator.addById(getClient(), goods[chance2], (short) 1, null);
-
-                                    MapleInventoryManipulator.removeById(getClient(), MapleInventoryType.USE, 鱼饵, 1, true, false);
-
-                                    saveToDB(true);
-                                    //getClient().getSession().write(MaplePacketCreator.sendHint("你获得了 #b" + MapleItemInformationProvider.getInstance().getItemInformation(goods[chance2]).name + "#k\r\n切记背包要有空格！", 200, 200)); 
-                                   // getClient().getSession().write(MaplePacketCreator.sendHint("[使用普通鱼饵]\r\n你获得了 #b#z" + goods[chance2] + "##k\r\n切记背包要有空格！", 200, 200));
-                                   // dropMessage("[钓鱼提醒] 请随时注意您的背包.满了请清理.否则钓到的物品会消失！");
-
-                              //  }
-                           // }
-                        }
-                    }
-                }
-            }, time, time);
-        
-    }*/

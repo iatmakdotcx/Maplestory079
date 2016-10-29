@@ -41,8 +41,3 @@ import net.sf.cherry.provider.wz.XMLWZFile;
      return new File(wzPath, filename);
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.provider.MapleDataProviderFactory
- * JD-Core Version:    0.6.0
- */

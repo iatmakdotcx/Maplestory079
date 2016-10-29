@@ -33,8 +33,3 @@ public abstract interface MaplePortal
 
   public abstract boolean getPortalState();
 }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.server.MaplePortal
- * JD-Core Version:    0.6.0
- */

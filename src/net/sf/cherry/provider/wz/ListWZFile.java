@@ -64,8 +64,3 @@ import net.sf.cherry.tools.data.input.LittleEndianAccessor;
      return modernImgs.contains(path);
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.provider.wz.ListWZFile
- * JD-Core Version:    0.6.0
- */

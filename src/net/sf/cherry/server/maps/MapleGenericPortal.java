@@ -123,8 +123,3 @@ import net.sf.cherry.tools.MaplePacketCreator;
      return this.status;
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.server.maps.MapleGenericPortal
- * JD-Core Version:    0.6.0
- */

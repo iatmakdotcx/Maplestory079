@@ -16,8 +16,3 @@ public abstract interface MapleData extends MapleDataEntity, Iterable<MapleData>
 
   public abstract Object getData();
 }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.provider.MapleData
- * JD-Core Version:    0.6.0
- */

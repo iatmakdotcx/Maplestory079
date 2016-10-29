@@ -10,8 +10,3 @@
      return c.isLoggedIn();
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.net.AbstractMaplePacketHandler
- * JD-Core Version:    0.6.0
- */

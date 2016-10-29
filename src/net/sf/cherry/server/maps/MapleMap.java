@@ -381,13 +381,15 @@ public class MapleMap {
         for (int i = 0; i < maxDrops; i++) {
             toDrop.add(monster.getDrop(dropOwner));
         }
+        //非事件地图掉落
         if (dropOwner.getEventInstance() == null) {
             int chance = (int) (Math.random() * 100);
-            if (chance < 10) { //20% chance of getting a maple leaf
+            if (chance < 10) { //10% chance of getting a maple leaf
                 toDrop.add(4001126); //枫叶  4031875永恒的雪花
             }
             if (chance < 8) {
-                toDrop.add(4280001); //重生迷之蛋
+                toDrop.add(4280000); //永恒的谜之蛋
+                toDrop.add(4280001); //重生的谜之蛋
                 //toDrop.add(2370012); //孙子兵法
             }
         }

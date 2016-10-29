@@ -43,8 +43,3 @@ import java.util.Random;
      return this.rand.nextDouble();
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.tools.Randomizer
- * JD-Core Version:    0.6.0
- */

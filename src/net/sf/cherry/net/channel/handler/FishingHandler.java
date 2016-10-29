@@ -22,6 +22,7 @@
 
 package net.sf.cherry.net.channel.handler;
 
+import net.sf.cherry.client.Fishing;
 import net.sf.cherry.client.IItem;
 import net.sf.cherry.client.MapleClient;
 import net.sf.cherry.client.MapleInventoryType;
@@ -37,48 +38,20 @@ public class FishingHandler extends AbstractMaplePacketHandler{
 
     @Override
     public void handlePacket(SeekableLittleEndianAccessor slea, final MapleClient c) {
-        int itemId = 3011000;
         if (c.getPlayer().getJob() == null || c.getPlayer().getMap() == null) { 
             return; 
         } 
-        final IItem toUse = c.getPlayer().getInventory(MapleInventoryType.SETUP).findById(itemId); 
-        if (toUse == null) { 
-            c.getPlayer().getCheatTracker().registerOffense(CheatingOffense.USING_UNAVAILABLE_ITEM, Integer.toString(itemId)); 
+       
+        if (!Fishing.hasFishingChair(c.getPlayer())) { 
             return; 
         } 
-         
-    /*if (itemId == c.getPlayer().fishingChair && c.getPlayer().getMapId() == c.getPlayer().fishingMap) { 
-            c.getPlayer().fishingTimer(5000);//1分钟一次 60000
-              c.getPlayer().set怪物伤害(1);
-        }*/
-        if (itemId == c.getPlayer().fishingChair && c.getPlayer().getMapId() == c.getPlayer().fishingMap) { 
-            if (c.getPlayer().getItemQuantity(5340001, false) == 1) {
-                c.getPlayer().getClient().getSession().write(MaplePacketCreator.sendHint("使用高级鱼竿钓鱼。1分钟一次\r\n", 200, 200));
-            c.getPlayer().fishingTimer(6000);//1分钟一次 60000
-           // c.getPlayer().saveToDB(true);
-            } else if (c.getPlayer().getItemQuantity(5340000, false) == 1) {
-                c.getPlayer().getClient().getSession().write(MaplePacketCreator.sendHint("使用普通鱼竿钓鱼。3分钟一次\r\n", 200, 200));
-            c.getPlayer().fishingTimer(18000);//1分钟一次 60000
-            //c.getPlayer().saveToDB(true);
-
-            } else if (c.getPlayer().getItemQuantity(5340000, false) == 0 && c.getPlayer().getItemQuantity(5340001, false) == 0) {
-                c.getPlayer().getClient().getSession().write(MaplePacketCreator.sendHint("没有鱼竿无法钓鱼\r\n请去商城购买鱼竿！", 200, 200));
-                //c.getPlayer().cancelFishing();
-                return;
-            }
-        }else if(itemId == c.getPlayer().fishingChair && c.getPlayer().getMapId() != c.getPlayer().fishingMap){
-            return; 
-        } else if(itemId != c.getPlayer().fishingChair && c.getPlayer().getMapId() == c.getPlayer().fishingMap){
-            return;
-        } else if (toUse == null) { 
-            c.getPlayer().getCheatTracker().registerOffense(CheatingOffense.USING_UNAVAILABLE_ITEM, Integer.toString(itemId)); 
-            return; 
+       
+        if (Fishing.isFishingChair(c.getPlayer().getChair()) && Fishing.isFishingMap(c.getPlayer().getMapId())) { 
+        	c.getPlayer().doFish();
         } else {
-            return;
-        }
-
-        c.getPlayer().setChair(itemId); 
-        c.getPlayer().getMap().broadcastMessage(c.getPlayer(), MaplePacketCreator.showChair(c.getPlayer().getId(), itemId), false); 
+        	c.getPlayer().getClient().getSession().write(MaplePacketCreator.sendHint("必须要在钓鱼地图，才能钓鱼！\r\n", 200, 200));
+        } 
+        
         c.getSession().write(MaplePacketCreator.enableActions()); 
     }
     

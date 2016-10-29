@@ -10,10 +10,6 @@ import java.util.List;
 
 import net.sf.cherry.server.maps.MapleMapObjectType;
 
-/**
- *
- * @author Administrator
- */
 class GameConstants {
 
     public static final List<MapleMapObjectType> rangedMapobjectTypes = (List<MapleMapObjectType>) Collections.unmodifiableList(Arrays.asList(
@@ -89,9 +85,6 @@ class GameConstants {
     public static final String[] stats = {"tuc", "reqLevel", "reqJob", "reqSTR", "reqDEX", "reqINT", "reqLUK", "reqPOP", "cash", "cursed", "success", "setItemID", "equipTradeBlock", "durability", "randOption", "randStat", "masterLevel", "reqSkillLevel", "elemDefault", "incRMAS", "incRMAF", "incRMAI", "incRMAL", "canLevel", "skill", "charmEXP"};
     public static final int[] hyperTele = {310000000, 220000000, 100000000, 250000000, 240000000, 104000000, 103000000, 102000000, 101000000, 120000000, 260000000, 200000000, 230000000};
     
-    public static boolean isFishingMap(int mapid) {
-        return mapid == 741000200 || mapid == 741000201 || mapid == 741000202 || mapid == 741000203 || mapid == 741000204;
-    }
 
     public static MapleInventoryType getInventoryType(int itemId) {
         byte type = (byte) (itemId / 1000000);

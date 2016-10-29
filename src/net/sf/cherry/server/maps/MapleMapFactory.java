@@ -270,7 +270,7 @@ import net.sf.cherry.tools.StringUtil;
      myReactor.setPosition(new Point(x, y));
  
      myReactor.setDelay(MapleDataTool.getInt(reactor.getChildByPath("reactorTime")) * 1000);
-      myReactor.setState((byte) 0);
+     myReactor.setState((byte) 0);
      myReactor.setName(MapleDataTool.getString(reactor.getChildByPath("name"), ""));
  
      return myReactor;
@@ -322,8 +322,3 @@ import net.sf.cherry.tools.StringUtil;
      return this.maps;
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.server.maps.MapleMapFactory
- * JD-Core Version:    0.6.0
- */
