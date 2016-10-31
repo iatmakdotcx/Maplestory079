@@ -94,7 +94,7 @@ public class Item
     public void setOwner(String owner) {
         this.owner = owner;
     }
-public void setxingji(int xingji) {
+    public void setxingji(int xingji) {
         this.xingji = xingji;
     }
     public int getPetId() {

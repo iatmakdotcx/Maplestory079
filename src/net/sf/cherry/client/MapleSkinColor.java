@@ -2,7 +2,18 @@
  
  public enum MapleSkinColor
  {
-   NORMAL(0), DARK(1), BLACK(2), PALE(3), BLUE(4), PINK(5), YELLOW(6), GRAY(7), YELLOWBROWN(8), WHITE(9), GREEN(10), ARAN(11);
+   NORMAL(0), 
+   DARK(1), 
+   BLACK(2), 
+   PALE(3), 
+   BLUE(4), 
+   PINK(5), 
+   YELLOW(6), 
+   GRAY(7), 
+   YELLOWBROWN(8), 
+   WHITE(9), 
+   GREEN(10), 
+   ARAN(11);
  
    final int id;
  
@@ -23,7 +34,3 @@
    }
  }
 
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.client.MapleSkinColor
- * JD-Core Version:    0.6.0
- */

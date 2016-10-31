@@ -3,6 +3,7 @@
  */
 package net.sf.cherry.net.channel.handler;
 
+import net.sf.cherry.client.LuckyTurntable;
 import net.sf.cherry.client.MapleClient;
 import net.sf.cherry.net.AbstractMaplePacketHandler;
 import net.sf.cherry.tools.MaplePacketCreator;
@@ -20,7 +21,7 @@ public class MZD extends AbstractMaplePacketHandler {
 	  slea.skip(1);
       int itemid = slea.readInt();
       //TODO:Mak  谜之蛋来爆爆爆
-      
+      LuckyTurntable.getInstance().UseAItemToTurntable(c, itemid);
       c.getSession().write(MaplePacketCreator.enableActions());
    }
 }

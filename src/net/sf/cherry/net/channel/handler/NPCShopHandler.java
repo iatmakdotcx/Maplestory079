@@ -28,8 +28,3 @@ public class NPCShopHandler extends AbstractMaplePacketHandler {
         }
     }
 }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.net.channel.handler.NPCShopHandler
- * JD-Core Version:    0.6.0
- */

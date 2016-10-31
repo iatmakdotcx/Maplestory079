@@ -94,8 +94,3 @@ public class MapleCSInventoryItem {
 
 
 }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.client.MapleCSInventoryItem
- * JD-Core Version:    0.6.0
- */

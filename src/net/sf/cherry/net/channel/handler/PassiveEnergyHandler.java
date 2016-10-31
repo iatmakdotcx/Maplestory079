@@ -36,8 +36,3 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
      c.getPlayer().getMap().broadcastMessage(c.getPlayer(), MaplePacketCreator.damageMonster(oid, damage), false, true);
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.net.channel.handler.PassiveEnergyHandler
- * JD-Core Version:    0.6.0
- */

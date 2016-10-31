@@ -26,8 +26,3 @@ import net.sf.cherry.tools.data.output.MaplePacketLittleEndianWriter;
      }
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.net.channel.handler.NPCAnimation
- * JD-Core Version:    0.6.0
- */

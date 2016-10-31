@@ -85,32 +85,28 @@ public class BAOWUHE extends AbstractMaplePacketHandler {
             if (!MapleInventoryManipulator.checkSpace(c, reward.itemid, reward.quantity, "")) {
                 c.getSession().write(MaplePacketCreator.getShowInventoryFull());
                 new ServernoticeMapleClientMessageCallback(5, c).dropMessage("背包空间不足！");
-                //chr.dropMessage(6, "背包空间不足。");
-                ////////System.out.println("1");
                 break;
-                /*                 }if (itemId == 2022615) { //地铁遗失物箱子
+            }
+            
+            if (itemId == 2022615) { //地铁遗失物箱子
                  NPCScriptManager.getInstance().start(c, 9330006);
                  c.getSession().write(MaplePacketCreator.enableActions());
-                 }if (itemId == 2022618) { //地铁遗失物箱子
+            } else if (itemId == 2022618) { //地铁遗失物箱子
                  NPCScriptManager.getInstance().start(c, 9330008);
-                 c.getSession().write(MaplePacketCreator.enableActions());}*/
-            }
-            if (itemId == 2022615) { //补偿盒子
+                 c.getSession().write(MaplePacketCreator.enableActions());
+            } else if (itemId == 2022615) { //补偿盒子
                 NPCScriptManager.getInstance().start(c, 9330006, 1);
                 c.getSession().write(MaplePacketCreator.enableActions());
                 break;
-            }
-            if (itemId == 2022613) { //法老王盒子1
+            } else if (itemId == 2022613) { //法老王盒子1
                 NPCScriptManager.getInstance().start(c,9310057, 1);
                 c.getSession().write(MaplePacketCreator.enableActions());
                 break;
-            }
-            if (itemId == 2022618) { //法老王盒子2
+            } else if (itemId == 2022618) { //法老王盒子2
                 NPCScriptManager.getInstance().start(c, 9330008);
                 c.getSession().write(MaplePacketCreator.enableActions());
                 break;
-            }
-            if ((RandomizerNew.nextInt(rewards.getLeft()) < reward.prob)) {//Is it even possible to get an item with prob 1?USE  //消耗类的黑龙箱子 与 企鹅王的宝物盒的爆率设置
+            } else if ((RandomizerNew.nextInt(rewards.getLeft()) < reward.prob)) {//Is it even possible to get an item with prob 1?USE  //消耗类的黑龙箱子 与 企鹅王的宝物盒的爆率设置
                 if (CashItemInfo.getInventoryType(reward.itemid) == MapleInventoryType.EQUIP) {
                     Item item = (Item) ii.getEquipById(reward.itemid);
                     if (reward.period != -1) {
@@ -136,6 +132,5 @@ public class BAOWUHE extends AbstractMaplePacketHandler {
             }
         }
         c.getSession().write(MaplePacketCreator.enableActions());
-        //  //////System.out.println("7");
     }
 }

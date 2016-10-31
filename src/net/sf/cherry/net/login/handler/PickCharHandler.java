@@ -46,8 +46,3 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
      }
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.net.login.handler.PickCharHandler
- * JD-Core Version:    0.6.0
- */
