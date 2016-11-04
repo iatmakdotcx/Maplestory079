@@ -49,21 +49,9 @@ import net.sf.cherry.client.MapleInventoryType;
     public boolean onSale() {
         return onSale;
     }
-        public static MapleInventoryType getInventoryType(int itemId) {
-        byte type = (byte) (itemId / 1000000);
-        if ((type < 1) || (type > 5)) {
-            return MapleInventoryType.UNDEFINED;
-        }
-        return MapleInventoryType.getByType(type);
-    }
 
     public int getItemId(int i) {
         return itemId;
     }
 
 }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.server.CashItemInfo
- * JD-Core Version:    0.6.0
- */
