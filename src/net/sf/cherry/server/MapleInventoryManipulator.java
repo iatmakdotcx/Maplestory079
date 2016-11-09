@@ -936,7 +936,7 @@ public static boolean 商店防止复制1(MapleClient c, IItem item, String logI
             String message = "Dropping " + quantity + " " + (source == null ? "?" : source.getItemId()) + " (" +
                     type.name() + "/" + src + ")";
             log.info(MapleClient.getLogMessage(c, message));
-            c.getSession().close(); // 断开客户端与服务器端的库存是库存是不一致的
+            c.disconnect();
             return;
         }
         Point dropPos = new Point(c.getPlayer().getPosition());

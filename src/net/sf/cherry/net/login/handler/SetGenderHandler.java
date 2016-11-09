@@ -17,7 +17,7 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
        c.getSession().write(MaplePacketCreator.genderChanged(c));
        c.getSession().write(MaplePacketCreator.licenseRequest());
      } else {
-       c.getSession().close();
+       c.disconnect();
      }
    }
  }

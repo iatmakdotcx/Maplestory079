@@ -44,7 +44,7 @@ public class MapleServerHandler extends IoHandlerAdapter {
     @Override
     public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
         MapleClient client = (MapleClient) session.getAttribute(MapleClient.CLIENT_KEY);
-        //log.error(MapleClient.getLogMessage(client, cause.getMessage()), cause);
+        log.error(MapleClient.getLogMessage(client, cause.getMessage()), cause);
     }
 
     @Override
@@ -113,6 +113,7 @@ public class MapleServerHandler extends IoHandlerAdapter {
                 //log.trace("有消息 {}由 {} ({}) {}\n{}", new Object[]{from, packetHandler.getClass().getSimpleName(), content.length, HexTool.toString(content), HexTool.toStringFromAscii(content)});
             }
         }
+        
         if (packetHandler != null && packetHandler.validateState(client)) {
             try {
                 if (trace && !ServerConfig.isIgnorePack(packetId)) {

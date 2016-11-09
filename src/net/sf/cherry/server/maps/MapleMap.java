@@ -20,6 +20,8 @@ import java.util.Set;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.swing.text.DefaultStyledDocument.ElementSpec;
+
 import net.sf.cherry.client.Equip;
 import net.sf.cherry.client.IItem;
 import net.sf.cherry.client.Item;
@@ -365,132 +367,51 @@ public class MapleMap {
         }
         return ret;
     }
-
-    private void dropFromMonster(MapleCharacter dropOwner, MapleMonster monster) {
-        if (dropsDisabled || monster.dropsDisabled()) {
-            return;
-        }
-
-        MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
-
-        final int maxDrops = monster.getMaxDrops(dropOwner);
-        final boolean explosive = monster.isExplosive();
-
-        List<Integer> toDrop = new ArrayList<Integer>();
-
-        for (int i = 0; i < maxDrops; i++) {
-            toDrop.add(monster.getDrop(dropOwner));
-        }
-        //非事件地图掉落
-        if (dropOwner.getEventInstance() == null) {
-            int chance = (int) (Math.random() * 100);
-            if (chance < 10) { //10% chance of getting a maple leaf
-                toDrop.add(4001126); //枫叶  4031875永恒的雪花
-            }
-            if (chance < 8) {
-                toDrop.add(4280000); //永恒的谜之蛋
-                toDrop.add(4280001); //重生的谜之蛋
-                //toDrop.add(2370012); //孙子兵法
-            }
-        }
-         if (dropOwner.getItemQuantity(5220008, true) >= 1) { //幸运道符
-            int chance = (int) (Math.random() * 100);
-            toDrop.add(2370012);
-            if (chance < 3) {
-                toDrop.add(2370005);//5000
-            }
-            if (chance < 8) {
-                toDrop.add(2370007);//2000
-            }
-            if (chance < 10) {
-                toDrop.add(2370008);//1000/
-            }
-            if (chance < 40) {
-                toDrop.add(2370009);//500
-                toDrop.add(2370010);//300
-            }
-            dropOwner.getClient().getSession().write(MaplePacketCreator.serverNotice(5, "消耗了[幸运道符] 1个，打猎获得额外经验包。"));
-            MapleInventoryManipulator.removeById(dropOwner.getClient(), MapleItemInformationProvider.getInstance().getInventoryType(5220008), 5220008, 1, true, false);
-        }
-        if (monster.getMap().getId() == 677000011) {
-            int chance = (int) (Math.random() * 100);
-            if (chance < 25) { //20% chance of getting a maple leaf
-                toDrop.add(4031232); //帽子
-            }
-            //4031232
-        }
-        //地狱大公爆率设置
-        if (monster.getId() == 9400633) { //地狱大公 HP 180,000  LEVEL 32 MP 500 EXP 5,250
-            int chance = (int) (Math.random() * 12);
-            if (chance < 40) {
-                toDrop.add(1302133); //单手剑
-                toDrop.add(1402072);//双手剑
-                toDrop.add(1332099);//短剑
-                toDrop.add(1372058);//短杖
-                toDrop.add(1372058);//长杖
-                toDrop.add(1412046);//斧
-                toDrop.add(1432061);//枪
-                toDrop.add(1452085);//弓箭
-                toDrop.add(1462075);//弩
-                toDrop.add(1472100);//全套
-                toDrop.add(1482046);//指节
-                toDrop.add(1492048);//短枪
-            }
-        }
-        if (monster.getId() == 8180000 || monster.getId() == 8180001) {//肥龙 胖凤 爆任务物品 920010200
-            int chance = (int) (Math.random() * 100);
-            if (chance < 40) {
-                toDrop.add(4031511);
-            }
-        }
-        if (monster.getId() == 9300039) {
-            toDrop.add(4001045);
-        }
-        if (monster.getId() == 9300119) {//老海盗
-            toDrop.add(4031551);
-        }
-        if (dropOwner.getMapId() == 920010200) { //
-            int chance = (int) (Math.random() * 100);
-            if (chance < 20) {
-                toDrop.add(4001052);
-            }
-        }
-        if (dropOwner.getMapId() == 920010800) {
-            int chance = (int) (Math.random() * 100);
-            if (chance < 20) {
-                toDrop.add(4001054);
-            }
-        }
-        /*野外任务爆率*/
+    private void GetDropsFromMonster_特殊事件(MapleCharacter dropOwner, MapleMonster monster, List<Integer> toDrop){
+    //非事件地图掉落
+	//  if (dropOwner.getEventInstance() == null) {
+	//      int chance = (int) (Math.random() * 100);
+	//      if (chance < 10) { //10% chance of getting a maple leaf
+	//          toDrop.add(4001126); //枫叶  4031875永恒的雪花
+	//      }
+	//      if (chance < 8) {
+	//          toDrop.add(4280000); //永恒的谜之蛋
+	//          toDrop.add(4280001); //重生的谜之蛋
+	//          //toDrop.add(2370012); //孙子兵法
+	//      }
+	//  }
+    }
+    
+    
+    private void GetDropsFromMonster_特殊物品(MapleCharacter dropOwner, MapleMonster monster, List<Integer> toDrop){
+    	 if (dropOwner.getItemQuantity(5220008, true) >= 1) { //幸运道符
+             int chance = (int) (Math.random() * 100);
+             toDrop.add(2370012);
+             if (chance < 3) {
+                 toDrop.add(2370005);//5000
+             }
+             if (chance < 8) {
+                 toDrop.add(2370007);//2000
+             }
+             if (chance < 10) {
+                 toDrop.add(2370008);//1000/
+             }
+             if (chance < 40) {
+                 toDrop.add(2370009);//500
+                 toDrop.add(2370010);//300
+             }
+             dropOwner.getClient().getSession().write(MaplePacketCreator.serverNotice(5, "消耗了[幸运道符] 1个，打猎获得额外经验包。"));
+             MapleInventoryManipulator.removeById(dropOwner.getClient(), MapleItemInformationProvider.getInstance().getInventoryType(5220008), 5220008, 1, true, false);
+         }
+    }
+    private void GetDropsFromMonster_任务(MapleCharacter dropOwner, MapleMonster monster, List<Integer> toDrop){
+    	/*野外任务爆率*/
         if (dropOwner.getQuest(MapleQuest.getInstance(2084)).getStatus().equals(MapleQuestStatus.Status.STARTED)) { //接了任务
             if (monster.getId() == 3110100 || monster.getId() == 5130103) { //鳄鱼 黑鳄鱼
                 int chance = (int) (Math.random() * 100);
                 if (chance < 70) {
                     toDrop.add(4031164); //皮革
                 }
-            }
-        }
-
-        if (monster.getId() == 9001000 || monster.getId() == 9001001 || monster.getId() == 9001002 || monster.getId() == 9001003) { //三转分身教官爆出黑符
-            int chance = (int) (Math.random() * 100);
-            if (chance < 100) {
-                toDrop.add(4031059);
-            }
-        }
-        if (monster.getId() == dropOwner.getmodid()) {
-            int chance = (int) (Math.random() * 100);
-            if (chance < 10) {
-                toDrop.add(4004000);
-                toDrop.add(4004001);
-                toDrop.add(4004002);
-                toDrop.add(4004003);
-                toDrop.add(4004004);
-            }
-        }
-        if (dropOwner.getMapId() == 108000300) { //战士二转任务
-            int chance = (int) (Math.random() * 100);
-            if (chance < 60) {
-                toDrop.add(4031013);//黑珠
             }
         }
         /*新手任务 - 石球碎片*/
@@ -582,7 +503,187 @@ public class MapleMap {
                 }
             }
         }
-        //罗密欧副本爆率：
+    	
+   }
+    private void GetDropsFromMonster_特殊怪物(MapleCharacter dropOwner, MapleMonster monster, List<Integer> toDrop){
+    	//地狱大公爆率设置
+        if (monster.getId() == 9400633) { //地狱大公 HP 180,000  LEVEL 32 MP 500 EXP 5,250
+            int chance = (int) (Math.random() * 12);
+            if (chance < 40) {
+                toDrop.add(1302133); //单手剑
+                toDrop.add(1402072);//双手剑
+                toDrop.add(1332099);//短剑
+                toDrop.add(1372058);//短杖
+                toDrop.add(1372058);//长杖
+                toDrop.add(1412046);//斧
+                toDrop.add(1432061);//枪
+                toDrop.add(1452085);//弓箭
+                toDrop.add(1462075);//弩
+                toDrop.add(1472100);//全套
+                toDrop.add(1482046);//指节
+                toDrop.add(1492048);//短枪
+            }
+        }else if (monster.getId() == 8180000 || monster.getId() == 8180001) {//肥龙 胖凤 爆任务物品 920010200
+            int chance = (int) (Math.random() * 100);
+            if (chance < 40) {
+                toDrop.add(4031511);
+            }
+        }else if (monster.getId() == 9300039) {
+            toDrop.add(4001045);
+        }else if (monster.getId() == 9300119) {//老海盗
+            toDrop.add(4031551);
+        }else if (monster.getId() == 9001000 || monster.getId() == 9001001 || monster.getId() == 9001002 || monster.getId() == 9001003) { //三转分身教官爆出黑符
+            int chance = (int) (Math.random() * 100);
+            if (chance < 100) {
+                toDrop.add(4031059);
+            }
+        }else if (monster.getId() == dropOwner.getmodid()) {
+        	//每个角色的幸运怪？？？
+            int chance = (int) (Math.random() * 100);
+            if (chance < 10) {
+                toDrop.add(4004000);
+                toDrop.add(4004001);
+                toDrop.add(4004002);
+                toDrop.add(4004003);
+                toDrop.add(4004004);
+            }
+        } /*
+         * 绯红BOSS爆率设置 ↓
+         */
+        /*9400589, // 地狱船长
+         9400590, // 海之魔女
+         9400591, // 血焰将军
+         9400592, // 猎魔人
+         9400593 // 暗影杀手*/
+
+		if (monster.getId() == 9400589) { // 地狱船长
+			int chance = (int) (Math.random() * 100);
+			if (chance < 25) {
+				toDrop.add(1442068);
+			} 
+			if (chance < 60) {
+				toDrop.add(5201001);// 500豆豆
+				toDrop.add(1022088);// 全属性+1考古学眼睛
+				toDrop.add(5201001);// 500豆豆
+				toDrop.add(5201001);// 500豆豆
+				toDrop.add(5201001);// 500豆豆
+			}
+			if (chance < 100) {
+				toDrop.add(5201004); // 20豆豆
+				toDrop.add(5201005);// 50豆豆
+				toDrop.add(5201005);// 50豆豆
+				toDrop.add(5201005);// 50豆豆
+				toDrop.add(5201005);// 50豆豆
+				toDrop.add(5201005);// 50豆豆
+				toDrop.add(5201005);// 50豆豆
+				toDrop.add(1012015);// 圣诞鹿 +1攻击
+				toDrop.add(5201005);// 50豆豆
+			}
+		}else if (monster.getId() == 9400590) {// 海之魔女
+			int chance = (int) (Math.random() * 100);
+			if (chance < 35) {
+				toDrop.add(1382060);// 绯红法杖
+				toDrop.add(1442068);// 绯洪弯刃
+			}
+			if (chance < 70) {
+				toDrop.add(5201000);
+				toDrop.add(1142142);
+				toDrop.add(1022088);// 全属性+1考古学眼睛
+			}
+			if (chance < 100) {
+				toDrop.add(5201005);
+				toDrop.add(5201005);
+				toDrop.add(1412040);
+			}
+		}else if (monster.getId() == 9400591) { // 绯红第三个怪物  血焰将军
+			int chance = (int) (Math.random() * 100);
+			if (chance < 10) {
+				toDrop.add(1022089); // 勋章
+			}
+			if (chance < 45) {
+				toDrop.add(1442068); // 绯红弯刃
+				toDrop.add(1382060);// 绯红法杖
+				toDrop.add(1452060);// 绯红弓
+				toDrop.add(1432056);// 暴风枪
+				toDrop.add(1482022);// 枫叶金爪
+				toDrop.add(1492022);// 加仑手枪
+				toDrop.add(1332087);// 街霸短刃
+				toDrop.add(1402044);// 灯笼南瓜
+			}
+			if (chance < 100) {
+				toDrop.add(5201001);
+				toDrop.add(5201001);
+				toDrop.add(1432023);// 奥丁				
+			}
+		}else if (monster.getId() == 9400592) { // 绯红第三个怪物   猎魔人
+			int chance = (int) (Math.random() * 100);
+			if (chance < 10) {
+				toDrop.add(1022089); // 勋章
+			}
+			if (chance < 45) {
+				toDrop.add(1442068); // 绯红弯刃
+				toDrop.add(1382060);// 绯红法杖
+				toDrop.add(1452060);// 绯红弓
+				toDrop.add(1432056);// 暴风枪
+				toDrop.add(1482022);// 枫叶金爪
+				toDrop.add(1492022);// 加仑手枪
+				toDrop.add(1332087);// 街霸短刃
+				toDrop.add(1402044);// 灯笼南瓜		
+			}
+			if (chance < 100) {
+				toDrop.add(5201001);
+				toDrop.add(5201001);
+				toDrop.add(1432023);// 奥丁
+				
+			}
+		}else if (monster.getId() == 9400593) { // 绯红第三个怪物 暗影杀手
+			int chance = (int) (Math.random() * 100);
+			if (chance < 100) {
+				toDrop.add(5201001);
+				toDrop.add(5201001);
+				toDrop.add(1432023);// 奥丁
+				if (chance < 45) {
+					toDrop.add(1442068); // 绯红弯刃
+					toDrop.add(1382060);// 绯红法杖
+					toDrop.add(1452060);// 绯红弓
+					toDrop.add(1432056);// 暴风枪
+					toDrop.add(1482022);// 枫叶金爪
+					toDrop.add(1492022);// 加仑手枪
+					toDrop.add(1332087);// 街霸短刃
+					toDrop.add(1402044);// 灯笼南瓜
+					if (chance < 10) {
+						toDrop.add(1022089); // 勋章
+					}
+				}
+			}
+		}
+    }
+    private void GetDropsFromMonster_特殊地图(MapleCharacter dropOwner, MapleMonster monster, List<Integer> toDrop){
+    	if (monster.getMap().getId() == 677000011) {//地狱大公蜿蜒小道
+            int chance = (int) (Math.random() * 100);
+            if (chance < 25) { //20% chance of getting a maple leaf
+                toDrop.add(4031232); //帽子
+            }
+            //4031232
+        } else if (dropOwner.getMapId() == 108000300) { //战士二转任务
+            int chance = (int) (Math.random() * 100);
+            if (chance < 60) {
+                toDrop.add(4031013);//黑珠
+            }
+        } else if (dropOwner.getMapId() == 920010200) { //
+            int chance = (int) (Math.random() * 100);
+            if (chance < 20) {
+                toDrop.add(4001052);
+            }
+        } else if (dropOwner.getMapId() == 920010800) {
+            int chance = (int) (Math.random() * 100);
+            if (chance < 20) {
+                toDrop.add(4001054);
+            }
+        }
+    }
+    private void GetDropsFromMonster_副本(MapleCharacter dropOwner, MapleMonster monster, List<Integer> toDrop){
+    	//罗密欧副本爆率：
         /*第一关*/
         if (dropOwner.getMapId() == 926100000 || dropOwner.getMapId() == 926100001 || dropOwner.getMapId() == 926100200 || dropOwner.getMapId() == 926100500 || dropOwner.getMapId() == 926100600 || dropOwner.getMapId() == 926100700) {
             if (monster.getId() >= 9500184 && monster.getId() <= 9500186) { //魔法书
@@ -622,13 +723,10 @@ public class MapleMap {
                     toDrop.add(4031806); //罗密欧的求婚戒指
                 }
             }
-        }
-        /*罗密欧副本完毕↑*/
-
-        /*海盗船副本*/
-        if (dropOwner.getMapId()
-                == 925100000 || dropOwner.getMapId() == 925100200 || dropOwner.getMapId() == 925100400 || dropOwner.getMapId() == 925100600 || dropOwner.getMapId() == 925100500 || dropOwner.getMapId() == 925100700) {
-            /*第一关*/
+            /*罗密欧副本完毕↑*/
+        } else if (dropOwner.getMapId() == 925100000 || dropOwner.getMapId() == 925100200 || dropOwner.getMapId() == 925100400 || dropOwner.getMapId() == 925100600 || dropOwner.getMapId() == 925100500 || dropOwner.getMapId() == 925100700) {
+            /*海盗船副本*/   
+        	/*第一关*/
             if (monster.getId() == 9300109 || monster.getId() == 9300110) {
                 int chance = (int) (Math.random() * 100);
                 if (chance < 5) {
@@ -649,177 +747,82 @@ public class MapleMap {
                     toDrop.add(4001117); //骷髅钥匙
                 }
             }
+            /*海盗船副本完毕↑*/
+        } else if (dropOwner.getMapId()== 677000012) {
+        	/*藏宝地图*/
+        	if (monster.getId() == 8510000) { //鱼王皮亚奴斯    //8520000,9500363 //9300294 - 能力之皮亚奴斯
+				int chance = (int) (Math.random() * 100);
+	            if (chance < 80) {
+	                toDrop.add(5201001);
+	                toDrop.add(1012015);
+	                toDrop.add(1022088);  //考古学家眼镜
+	            } else {
+	                toDrop.add(5201001);  //豆豆箱(500个)
+	            }
+			}else if (monster.getId() == 3220000) { //树妖王
+				int chance = (int) (Math.random() * 100);
+	            if (chance < 80) {
+	                toDrop.add(5201001);
+	                toDrop.add(1012015);
+	                toDrop.add(1482022);
+	            } else {
+	                toDrop.add(5201001);  //豆豆箱(500个)
+	            }
+			}
         }
-
-        /*海盗船副本完毕↑*/
-        /*藏宝地图*/
-        if (dropOwner.getMapId()
-                == 677000012 && monster.getId() == 3220000) { //树妖王
-            int chance = (int) (Math.random() * 100);
-            if (chance < 80) {
-                toDrop.add(5201001);
-                toDrop.add(1012015);
-                toDrop.add(1022088);
-            } else {
-                toDrop.add(5201001);
-            }
-
+    }
+    private void dropFromMonster(MapleCharacter dropOwner, MapleMonster monster) {
+    	dropsDisabled = true;
+    	if (dropsDisabled || monster.dropsDisabled()) {
+            return;
         }
+        //TODO:杀死怪物爆物品
+        MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
 
-        if (dropOwner.getMapId()
-                == 677000012 && monster.getId() == 3220000) { //鱼王
-            int chance = (int) (Math.random() * 100);
-            if (chance < 80) {
-                toDrop.add(5201001);
-                toDrop.add(1012015);
-                toDrop.add(1482022);
-            } else {
-                toDrop.add(5201001);
-            }
+        final int maxDrops = monster.getMaxDrops(dropOwner);
+        final boolean explosive = monster.isExplosive();
 
+        List<Integer> toDrop = new ArrayList<Integer>();
+
+        for (int i = 0; i < maxDrops; i++) {
+            toDrop.add(monster.getDrop(dropOwner));
         }
-        /*
-         * 绯红BOSS爆率设置 ↓
-         */
-        /*          9400589, // 地狱船长
-         9400590, // 海之魔女
-         9400591, // 血焰将军
-         9400592, // 猎魔人
-         9400593 // 暗影杀手*/
-        /*if (monster.getId() == 9400589) { //绯红怪物
-         int chance = (int) (Math.random() * 100);
-         if (chance < 100) {
-         toDrop.add(5201004); //20豆豆
-         toDrop.add(5201005);//50豆豆
-         toDrop.add(5201005);//50豆豆
-         toDrop.add(5201005);//50豆豆
-         toDrop.add(5201005);//50豆豆
-         toDrop.add(5201005);//50豆豆
-         toDrop.add(5201005);//50豆豆
-         toDrop.add(1012015);//圣诞鹿 +1攻击
-         toDrop.add(5201005);//50豆豆
-         }
-         if (chance < 60) {
-         toDrop.add(5201001);// 500豆豆
-         toDrop.add(1022088);//全属性+1考古学眼睛
-         toDrop.add(5201001);// 500豆豆
-         toDrop.add(5201001);// 500豆豆
-         toDrop.add(5201001);// 500豆豆
-         }
-         if (chance < 25) {
-         toDrop.add(1442068);
-         }
-         }
-         if (monster.getId() == 9400590) {//绯红第二个怪物
-         int chance = (int) (Math.random() * 100);
-         if (chance < 100) {
-         toDrop.add(5201005);
-         toDrop.add(5201005);
-         toDrop.add(1412040);
-         if (chance < 70) {
-         toDrop.add(5201000);
-         toDrop.add(1142142);
-         toDrop.add(1022088);//全属性+1考古学眼睛
-         }
-         if (chance < 35) {
-         toDrop.add(1382060);//绯红法杖
-         toDrop.add(1442068);//绯洪弯刃
-         }
-         }
-         }
-         if (monster.getId() == 9400591) { //绯红第三个怪物
-         int chance = (int) (Math.random() * 100);
-         if (chance < 100) {
-         toDrop.add(5201001);
-         toDrop.add(5201001);
-         toDrop.add(1432023);//奥丁
-         if (chance < 45) {
-         toDrop.add(1442068); //绯红弯刃
-         toDrop.add(1382060);//绯红法杖
-         toDrop.add(1452060);//绯红弓
-         toDrop.add(1432056);//暴风枪
-         toDrop.add(1482022);//枫叶金爪
-         toDrop.add(1492022);//加仑手枪
-         toDrop.add(1332087);//街霸短刃
-         toDrop.add(1402044);//灯笼南瓜
-         if (chance < 10) {
-         toDrop.add(1022089); //勋章
-         }
-         }
-         }
-         }
-         if (monster.getId() == 9400592) { //绯红第三个怪物
-         int chance = (int) (Math.random() * 100);
-         if (chance < 100) {
-         toDrop.add(5201001);
-         toDrop.add(5201001);
-         toDrop.add(1432023);//奥丁
-         if (chance < 45) {
-         toDrop.add(1442068); //绯红弯刃
-         toDrop.add(1382060);//绯红法杖
-         toDrop.add(1452060);//绯红弓
-         toDrop.add(1432056);//暴风枪
-         toDrop.add(1482022);//枫叶金爪
-         toDrop.add(1492022);//加仑手枪
-         toDrop.add(1332087);//街霸短刃
-         toDrop.add(1402044);//灯笼南瓜
-         if (chance < 10) {
-         toDrop.add(1022089); //勋章
-         }
-         }
-         }
-         }
-         if (monster.getId() == 9400593) { //绯红第三个怪物
-         int chance = (int) (Math.random() * 100);
-         if (chance < 100) {
-         toDrop.add(5201001);
-         toDrop.add(5201001);
-         toDrop.add(1432023);//奥丁
-         if (chance < 45) {
-         toDrop.add(1442068); //绯红弯刃
-         toDrop.add(1382060);//绯红法杖
-         toDrop.add(1452060);//绯红弓
-         toDrop.add(1432056);//暴风枪
-         toDrop.add(1482022);//枫叶金爪
-         toDrop.add(1492022);//加仑手枪
-         toDrop.add(1332087);//街霸短刃
-         toDrop.add(1402044);//灯笼南瓜
-         if (chance < 10) {
-         toDrop.add(1022089); //勋章
-         }
-         }
-         }
-         }*/
+       
+        GetDropsFromMonster_特殊事件(dropOwner, monster, toDrop);
+        GetDropsFromMonster_特殊物品(dropOwner, monster, toDrop);
+        GetDropsFromMonster_任务(dropOwner, monster, toDrop);
+        GetDropsFromMonster_特殊怪物(dropOwner, monster, toDrop);
+        GetDropsFromMonster_特殊地图(dropOwner, monster, toDrop);
+        GetDropsFromMonster_副本(dropOwner, monster, toDrop);
+
+        
         Set<Integer> alreadyDropped = new HashSet<Integer>();
         int htpendants = 0;
         int htstones = 0;
-        for (int i = 0;
-                i < toDrop.size();
-                i++) {
-            if (toDrop.get(i) == 1122000) {
-                if (htpendants > 3) {
-                    toDrop.set(i, -1);
-                } else {
-                    htpendants++;
-                }
-            } else if (toDrop.get(i) == 4001094) {
-                if (htstones > 2) {
-                    toDrop.set(i, -1);
-                } else {
-                    htstones++;
-                }
-            } else if (alreadyDropped.contains(toDrop.get(i)) && !explosive) {
-                toDrop.remove(i);
-                i--;
-            } else {
-                alreadyDropped.add(toDrop.get(i));
-            }
-        }
+		for (int i = 0; i < toDrop.size(); i++) {
+			if (toDrop.get(i) == 1122000) {
+				if (htpendants > 3) {
+					toDrop.set(i, -1);
+				} else {
+					htpendants++;
+				}
+			} else if (toDrop.get(i) == 4001094) {
+				if (htstones > 2) {
+					toDrop.set(i, -1);
+				} else {
+					htstones++;
+				}
+			} else if (alreadyDropped.contains(toDrop.get(i)) && !explosive) {
+				toDrop.remove(i);
+				i--;
+			} else {
+				alreadyDropped.add(toDrop.get(i));
+			}
+		}
 
-        if (toDrop.size()
-                > maxDrops) {
-            toDrop = toDrop.subList(0, maxDrops);
-        }
+		if (toDrop.size() > maxDrops) {
+			toDrop = toDrop.subList(0, maxDrops);
+		}
         Point[] toPoint = new Point[toDrop.size()];
         int shiftDirection = 0;
         int shiftCount = 0;
@@ -1026,7 +1029,6 @@ public class MapleMap {
 
     @SuppressWarnings("static-access")
     public void killMonster(final MapleMonster monster, final MapleCharacter chr, final boolean withDrops, final boolean secondTime, int animation) {
-    	//TODO:杀死怪物爆物品
         if (chr.getCheatTracker().checkHPLoss()) {
             chr.getCheatTracker().registerOffense(CheatingOffense.ATTACK_WITHOUT_GETTING_HIT);
         }

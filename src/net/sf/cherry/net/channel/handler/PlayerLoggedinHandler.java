@@ -30,7 +30,6 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
 public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(PlayerLoggedinHandler.class);
-    private MapleQuest quest;
 
     public boolean validateState(MapleClient c) {
         return !c.isLoggedIn();
@@ -69,7 +68,7 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
             }
             if ((state != 1) || (!allowLogin)) {
                 c.setPlayer(null);
-                c.getSession().close();
+                c.disconnect();
                 return;
             }
             c.updateLoginState(2);
@@ -121,8 +120,15 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
         }
         c.getSession().write(MaplePacketCreator.getCharInfo(player));
         System.out.println("当前玩家【"+ c.getPlayer().getName() + "】连接进入"+c.getChannel()+"频道！");  
+        
         if (player.gmLevel() > 0) {
-            int[] skills = {9001004};
+            int[] skills = {
+            		9001001,  //轻功 [最高等级 : 1]\n15分内增加周边角色的移动速度和跳跃力。
+            		//9001002,  //圣化之力  [最高等级 : 1]\n15分内周边角色打怪时，取得更多经验值。
+            		9001003,  //祝福 [最高等级 : 1]\n15分内周边角色的各种能力值大幅增加。
+            		//9001004,  //隐藏术  [最高等级 : 1]\n隐藏自己，其他角色看不见。使用技能会被解除。
+            		9001008,  //神圣之火[最高等级:1]15分钟内,强化肉体全体最大HP和最大MP提升60%
+            		}; 
             for (int i : skills) {
                 SkillFactory.getSkill(i).getEffect(SkillFactory.getSkill(i).getMaxLevel()).applyTo(player);
             }
@@ -133,13 +139,9 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
         int[] skills = { 5110001 };
         for (int i : skills) {
         SkillFactory.getSkill(i).getEffect(SkillFactory.getSkill(i).getMaxLevel()).applyTo(player);
-        //////System.out.println("buff能量");
         }
    }
 
- 
- 
-       
         if(c.getChannel() == 2){
         System.out.println("当前连接进了"+c.getChannel()+"频道！");
         c.getPlayer().getMap().removePlayer(c.getPlayer());
@@ -170,22 +172,20 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
         }
         if (c.getPlayer().isGM()) {
             c.getPlayer().dropMessage("[欢迎] 尊敬的管理员 " + c.getPlayer().getName() + " ,当前在线人数为: " + c.getPlayer().Lianjie());
-             System.out.println("当前管理员【"+ c.getPlayer().getName() + "】连接进入"+c.getChannel()+"频道！");
+            System.out.println("当前管理员【"+ c.getPlayer().getName() + "】连接进入"+c.getChannel()+"频道！");
         }
 
         if (player.getCherryBan()) {
             player.getClient().getSession().write(MaplePacketCreator.serverNotice(1, player.getCherryBanTimestamp().getYear() + 1900 + "年" + (player.getCherryBanTimestamp().getMonth() + 1) + "月" + player.getCherryBanTimestamp().getDate() + "日以后起\r\n恢复正常游戏状态。"));
         }
-/* 256 */     if ((c.getPlayer().getvip() == 8) && (!player.isGM()))
-/*     */       try
-/*     */       {
-/* 259 */         c.getChannelServer().getWorldInterface().broadcastMessage(null, MaplePacketCreator.serverNotice(11, c.getChannel(), new StringBuilder().append("[全服公告] : ").append("VIP⑤玩家").append(":").toString() + c.getPlayer().getName() + " 来到我们的游戏世界！大家欢迎！", true).getBytes());
-/*     */       } catch (RemoteException ex) {
-/* 261 */         java.util.logging.Logger.getLogger(PlayerLoggedinHandler.class.getName()).log(Level.SEVERE, null, ex);
-/*     */       }
-/*     */   
-/*     */ 
-
+        
+        
+//		if ((c.getPlayer().getvip() == 8) && (!player.isGM()))
+//			try {
+//				c.getChannelServer().getWorldInterface().broadcastMessage(null,MaplePacketCreator.serverNotice(11, c.getChannel(),new StringBuilder().append("[全服公告] : ").append("VIP⑤玩家").append(":").toString() + c.getPlayer().getName() + " 来到我们的游戏世界！大家欢迎！",true).getBytes());
+//			} catch (RemoteException ex) {
+//				java.util.logging.Logger.getLogger(PlayerLoggedinHandler.class.getName()).log(Level.SEVERE, null, ex);
+//			}
 
                  /*       if (c.getPlayer().getvip() >= 1 && c.getPlayer().getvip() <= 3){
 AutobanManager.getInstance().broadcastMessage(player.getClient(),  "热烈欢迎破功玩家 ["+ c.getPlayer().getName() + "]进入游戏,大家赶快搜刮Ta吧!!!");

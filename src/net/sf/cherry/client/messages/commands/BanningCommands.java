@@ -175,12 +175,8 @@ public class BanningCommands
                 victim = cserv.getPlayerStorage().getCharacterById(Integer.parseInt(splitted[1]));
             }
             if (level < 2) {
-                victim.getClient().getSession().close();
+                victim.getClient().disconnect();
                 victim.Dci();
-                if (level >= 1) {
-                    victim.getClient().disconnect();
-                    victim.Dci();
-                }
             } else {
                 mc.dropMessage("Please use dc -f instead.");
             }
@@ -221,7 +217,6 @@ public class BanningCommands
        } else if (splitted[0].equalsIgnoreCase("!掉线处理1")) {
             MapleCharacter victim = cserv.getPlayerStorage().getCharacterById(Integer.parseInt(splitted[1]));
             victim.getClient().disconnect();
-            victim.getClient().getSession().close();
 
         } else if (splitted[0].equals("!掉线处理")) {
             int level = 0;
@@ -233,12 +228,8 @@ public class BanningCommands
                 victim = cserv.getPlayerStorage().getCharacterByName(splitted[1]);
             }
             if (level < 2) {
-                victim.getClient().getSession().close();
+                victim.getClient().disconnect();
                 victim.Dci();
-                if (level >= 1) {
-                    victim.getClient().disconnect();
-                    victim.Dci();
-                }
             } else {
                 mc.dropMessage("Please use dc -f instead.");
             }

@@ -149,7 +149,6 @@ import net.sf.cherry.tools.MaplePacketCreator;
          for (MapleCharacter mch : cmc) {
            if ((!mch.isGM()) && (mch != null))
              try {
-               mch.getClient().getSession().close();
                mch.getClient().disconnect();
              }
              catch (Exception e) {

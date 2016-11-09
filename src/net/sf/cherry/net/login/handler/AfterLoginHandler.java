@@ -28,7 +28,7 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
                c.setPinTries((byte)(c.getPinTries() + 1));
                if (c.getPinTries() == 5) {
                  c.ban();
-                 c.getSession().close();
+                 c.disconnect();
                }
                c.getSession().write(MaplePacketCreator.pinOperation((byte)2));
              }
@@ -47,7 +47,7 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
              c.setPinTries((byte)(c.getPinTries() + 1));
              if (c.getPinTries() == 5) {
                c.ban();
-               c.getSession().close();
+               c.disconnect();
              }
              c.getSession().write(MaplePacketCreator.pinOperation((byte)2));
            }
@@ -56,7 +56,7 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
          c.getSession().write(MaplePacketCreator.getLoginFailed(4));
      }
      else if (((action == 1) || (action == 2)) && (c.getLoginState() != 4)) {
-       c.getSession().close();
+       c.disconnect();
      }
    }
  }

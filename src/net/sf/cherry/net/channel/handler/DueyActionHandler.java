@@ -99,8 +99,7 @@ public class DueyActionHandler extends AbstractMaplePacketHandler {
             String recipient = slea.readMapleAsciiString();
             byte speed = slea.readByte();
             if (c.getPlayer().getName().equalsIgnoreCase(recipient)) {
-                //c.disconnect();
-                c.getSession().close();
+                c.disconnect();
                 return;
             }
             if (speed == 1) { //Quicksend
@@ -117,8 +116,7 @@ public class DueyActionHandler extends AbstractMaplePacketHandler {
             }
             if (quick) {
                 if ((!c.getPlayer().haveItem(5330000, 1, false, false)) || (message.length() > 100)) { //Client editing hax
-                    //c.disconnect();
-                    c.getSession().close();
+                    c.disconnect();
                     return;
                 }
             }
@@ -167,9 +165,7 @@ public class DueyActionHandler extends AbstractMaplePacketHandler {
                             addItemToDB(c, item, amount, mesos, c.getPlayer().getName(), MapleCharacter.getIdByName(recipient, 0), recipientOn, false, "");
                         }
                     } else {
-                        //c.disconnect();
-                    	System.out.println("Makssssssssssssssssssssssss");
-                        c.getSession().close();
+                        c.disconnect();
                         return;
                     }
                 } else {

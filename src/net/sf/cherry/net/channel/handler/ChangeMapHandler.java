@@ -38,7 +38,7 @@ public class ChangeMapHandler extends AbstractMaplePacketHandler {
             c.updateLoginState(1);
             try {
                 c.getSession().write(MaplePacketCreator.getChannelChange(InetAddress.getByName(socket[0]), Integer.parseInt(socket[1])));
-                c.getSession().close();
+                c.disconnect();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }*/

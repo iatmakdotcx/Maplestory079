@@ -13,7 +13,7 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
        c.getSession().write(MaplePacketCreator.licenseResult());
        c.updateLoginState(0);
      } else {
-       c.getSession().close();
+       c.disconnect();
      }
    }
  }

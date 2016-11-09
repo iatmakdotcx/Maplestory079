@@ -4337,8 +4337,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         }
         tempban(reason, duration, greason, this.client.getAccID());
         this.banned = true;
-        //this.client.disconnect();
-        this.client.getSession().close();
+        this.client.disconnect();
     }
 
     public static boolean tempban(String reason, Calendar duration, int greason, int accountid) {
@@ -4383,14 +4382,11 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
             }
         }
         this.banned = true;
-        //this.client.disconnect();
-        this.client.getSession().close();
+        this.client.disconnect();
     }
 
     public void Dci() {
-    	System.out.println("Mak==========================================================");
-        //this.client.disconnect();
-        this.client.getSession().close();
+        this.client.disconnect();
     }
 
     public static boolean ban(String id, String reason, boolean account) {
@@ -6336,7 +6332,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         PreparedStatement ps = null;
         PreparedStatement ps2 = null;
         try {
-            getClient().getSession().close();
+            getClient().disconnect();
             Connection con = DatabaseConnection.getConnection();
             ps = con.prepareStatement("UPDATE accounts SET loggedin = 0 WHERE id = ?");
             ps.setInt(1, this.accountid);

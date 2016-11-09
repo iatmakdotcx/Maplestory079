@@ -17,7 +17,7 @@ public class TestCommands
         if (splitted[0].equals("!test")) {
             c.getSession().write(MaplePacketCreator.getPacketFromHexString("2B 00 14 30 C0 23 00 00 11 00 00 00"));
             
-        } else if (splitted[0].equals("!阿露封包调试")) {
+        } else if (splitted[0].equals("!封包调试")) {
             c.StartWindow();
         } else if (splitted[0].equals("!packet")) {
             if (splitted.length > 1) {
@@ -71,7 +71,7 @@ public class TestCommands
   public CommandDefinition[] getDefinition() {
         return new CommandDefinition[]{
             new CommandDefinition("test", "?", "Probably does something", 50),
-            new CommandDefinition("阿露封包调试", "?", "Probably does something", 50),
+            new CommandDefinition("封包调试", "?", "Probably does something", 50),
             new CommandDefinition("packet", "hex data", "Shows a clock to everyone in the map", 50),
             new CommandDefinition("invismonster", "", "", 50), new CommandDefinition("gimmecp", "", "", 50),
             new CommandDefinition("playerdied", "", "", 50), new CommandDefinition("playersummoned", "", "", 50),

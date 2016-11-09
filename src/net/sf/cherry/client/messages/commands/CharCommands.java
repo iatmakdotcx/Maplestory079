@@ -348,13 +348,11 @@ public class CharCommands implements Command {
         }  else if (splitted[0].equals("!全掉处理")) {
             ChannelServer cserv1 = c.getChannelServer();
             for (MapleCharacter mch : cserv1.getPlayerStorage().getAllCharacters()) {
-                mch.getClient().getSession().close();
                 mch.getClient().disconnect();
             }
         } else if (splitted[0].equalsIgnoreCase("!踢人处理")) {
             MapleCharacter victim1 = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
             victim1.getClient().disconnect();
-            victim1.getClient().getSession().close();
         }else if (splitted[0].equals("!eventlevel")) {
         	if (splitted.length < 4) {
                 mc.dropMessage("Syntax Error: !eventlevel <minlevel> <maxlevel> <mapid> <minutes>");

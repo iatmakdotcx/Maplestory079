@@ -77,6 +77,8 @@ public class LuckyTurntable {
 		    	//使用物品
 		    	MapleInventoryType type = MapleItemInformationProvider.getInstance().getInventoryType(ItemId);
 		    	MapleInventoryManipulator.removeById(c, type, ItemId, 1, true, false);
+		    	c.getSession().write(MaplePacketCreator.getShowItemGain(DropItemId, (short)1, true)); //显示语句
+
 		    	return true;
 	    	}else{
 	    		c.getPlayer().dropMessage("物品使用失败，请稍后重试！");
