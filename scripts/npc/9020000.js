@@ -1,8 +1,8 @@
 /*
-	This file is part of the cherry Maple Story Server
+	This file is part of the OdinMS Maple Story Server
     Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-                       Matthias Butz <matze@cherry.de>
-                       Jan Christian Meyer <vimes@cherry.de>
+                       Matthias Butz <matze@odinms.de>
+                       Jan Christian Meyer <vimes@odinms.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License version 3
@@ -29,96 +29,99 @@
 ---------------------------------------------------------------------------------------------------
 **/
 
-var status = 0;
-
+var status;
 var minLevel = 21;
-var maxLevel = 40;
-
-var minPartySize = 4;
-var maxPartySize = 4;
+var maxLevel = 200;
+var minPlayers = 1;
+var maxPlayers = 6;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+    status = -1;
+    action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (mode == 0 && status == 0) {
-			cm.dispose();
-			return;
-		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			// Lakelis has no preamble, directly checks if you're in a party
-			if (cm.getParty() == null) { // No Party
-				cm.sendOk("How about you and your party members collectively beating a quest? Here you'll find obstacles and problems where you won't be able to beat it unless with great teamwork. If you want to try it, please tell the #bleader of your party#k to talk to me.\r\n\r\n#rRequirements: " + minPartySize + " Party Members, all between level " + minLevel + "and level " + maxLevel + ".");
-				cm.dispose();
-			} else if (!cm.isLeader()) { // Not Party Leader
-				cm.sendOk("If you want to try the quest, please tell the #bleader of your party#k to talk to me.");
-				cm.dispose();
-			} else {
-				// Check if all party members are within PQ levels
-				var party = cm.getParty().getMembers();
-				var mapId = cm.getPlayer().getMapId();
-				var next = true;
-				var levelValid = 0;
-				var inMap = 0;
-				var it = party.iterator();
-				while (it.hasNext()) {
-					var cPlayer = it.next();
-					if ((cPlayer.getLevel() >= minLevel) && (cPlayer.getLevel() <= maxLevel)) {
-						levelValid += 1;
-					} else {
-						next = false;
-					}
-					if (cPlayer.getMapid() == mapId) {
-						inMap += 1;
-					}
-				}
-				if (party.size() < minPartySize || party.size() > maxPartySize || inMap < minPartySize) {
-					next = false;
-				}
-				if (next) {
-					var em = cm.getEventManager("KerningPQ");
-					if (em == null) {
-						cm.sendOk("The Kerning PQ is currently unavailable.");
-					} else {
-						if (em.getProperty("entryPossible") != "false") {
-							// Begin the PQ.
-							em.startInstance(cm.getParty(),cm.getPlayer().getMap());
-							// Remove Passes and Coupons
-							
-							cm.removeAll(4001008);
-							cm.removeAll(4001007);
-							if(cm.partyMemberHasItem(4001008) || cm.partyMemberHasItem(4001007)) { 
-								cm.getPlayer().getEventInstance().setProperty("smugglers", "true"); 
-								cm.partyNotice("Your smuggling attempt has been detected. We will allow the attempt, but you will not get any NX cash from this run.");
-
-							}
-							em.setProperty("entryPossible", "false");
-							cm.getPlayer().getEventInstance().setProperty("startTime", new java.util.Date().getTime());
-						} else { // Check if the PQ really has people inside
-							var playersInPQ = 0;
-							for (var mapid = 103000800; mapid <= 103000805; mapid++) {
-								playersInPQ += cm.countPlayersInMap(mapid);
-							}
-							if (playersInPQ <= 1)
-								em.setProperty("entryPossible", "true");
-							cm.sendOk("Another party has already entered the #rKerning Party Quest#k in this channel. Please try another channel, or wait for the current party to finish.");
-						}
-					}
-					cm.dispose();
-				} else {
-					cm.sendNext("Your party is invalid. Please adhere to the following requirements:\r\n\r\n#rRequirements: " + minPartySize + " Party Members, all between level " + minLevel + " and level " + maxLevel + ".");
-					cm.dispose();
-				}
-			}
-		}
-	}
+    if (mode == 1)
+        status++;
+    else {
+        cm.dispose();
+        return;
+    }
+    if (status == 0) {
+            var tex2 = "";
+            var text = "";
+            for (i = 0; i < 10; i++) {
+                text += "";
+            }
+			//显示物品ID图片用的代码是  #v这里写入ID#
+            text += "#d亲爱的岛民你好！#l\r\n这里是废弃都市组队任务，要求3~6人，等级在21~35级即可开始废弃组队任务,召集小伙伴一起通关吧！。\r\n\r\n"//3
+            text += "#L1##r开始组队副本#l\r\n"//3
+			//text += "#L2##r副本固定奖励#l\r\n\r\n"//3
+            cm.sendSimple(text);
+	} else if (selection == 1) {
+        if (cm.getParty() == null) { // No Party
+            cm.sendOk("你没有队伍无法进入！");
+            cm.dispose();
+        } else if (!cm.isLeader()) { // Not Party Leader
+            cm.sendOk("请让你的队长和我说话~");
+            cm.dispose();
+        } else {
+            var party = cm.getParty().getMembers();
+            var inMap = cm.partyMembersInMap();
+            var levelValid = 0;
+            for (var i = 0; i < party.size(); i++) {
+                if (party.get(i).getLevel() >= minLevel && party.get(i).getLevel() <= maxLevel)
+                    levelValid++;
+            }
+            if (inMap < minPlayers || inMap > maxPlayers) {
+                cm.sendOk("你的队伍人数不足"+minPlayers+"人.请把你的队伍人员召集到废气都市在进入副本.");
+                //cm.sendOk("Your party is not a party of "+minPlayers+". Please make sure all your members are present and qualified to participate in this quest. I see #b" + inMap + "#k of your party members are in Kerning. If this seems wrong, #blog out and log back in,#k or reform the party.");
+                cm.dispose();
+            } else if (levelValid != inMap) {
+                cm.sendOk("请确保你的队伍人员最小等级在 "+minLevel+" 和 "+maxLevel+"之间. I see #b" + levelValid + "#k members are in the right level range. If this seems wrong, #blog out and log back in,#k or reform the party.");
+                cm.dispose();
+            } else {
+                var em = cm.getEventManager("KerningPQ");
+                if (em == null) {
+                    cm.sendOk("This PQ is currently unavailable.");
+                //} else if (em.getProperty("KPQOpen").equals("true")) {
+                } else {
+        if (cm.getPlayerCount(103000800) <= 0 && cm.getPlayerCount(103000801) <= 0 && cm.getPlayerCount(103000802) <= 0 && cm.getPlayerCount(103000803) <= 0 && cm.getPlayerCount(103000804) <= 0) {
+			//if(cm.getMonsterCount(103000804) <= 0){
+				/*cm.spawnMobOnMap(9300002,1,297,-2188,103000804);
+				cm.spawnMobOnMap(9300002,1,433,-2192,103000804);
+				cm.spawnMobOnMap(9300002,1,132,-2193,103000804);
+				cm.spawnMobOnMap(9300000,1,-18,-1480,103000804);
+				cm.spawnMobOnMap(9300000,1,80,-1486,103000804);
+				cm.spawnMobOnMap(9300000,1,391,-1488,103000804);
+				cm.spawnMobOnMap(9300000,1,247,-1485,103000804);
+				cm.spawnMobOnMap(9300000,1,-111,-1475,103000804);
+				cm.spawnMobOnMap(9300000,1,299,-1485,103000804);
+				cm.spawnMobOnMap(9300003,1,162,-451,103000804);*/
+			//}
+				//em.startInstance(cm.getPlayer().getParty(), cm.getPlayer().getMap());
+                em.startInstance(cm.getParty(), cm.getPlayer().getMap());
+		} else {
+                            cm.sendOk("请稍等...任务正在进行中.");
+                        }
+						// Capt. Lac Map
+				//em.startInstance(cm.getPlayer().getParty(), cm.getPlayer().getMap());
+                    // Begin the PQ.
+                //    em.startInstance(cm.getParty(), cm.getPlayer().getMap());
+                    // Remove Passes and Coupons GMS DOESNT DO THIS!!!
+                    //party = cm.getPlayer().getEventInstance().getPlayers();
+                    //cm.removeFromParty(4001008, party);
+                    //cm.removeFromParty(4001007, party);
+                  //  em.setProperty("KPQOpen" , "false");
+                //} else {
+                 //   cm.sendNext("There is already another party inside. Please wait !");
+                }
+                cm.dispose();
+            }
+        }
+	} else if (selection == 2) {
+            cm.openNpc(9310084, 22);
+                            //cm.sendOk(".");
+                //cm.dispose();
+    }
 }

@@ -54,7 +54,7 @@ function setup() {
 	
 	mf.getMap(103000800).getPortal("next00").setScriptName("kpq1");
 
-	var eventTime = 30 * (1000 * 1);
+	var eventTime = 30 * (1000 * 1) * 60;
 	em.schedule("timeOut", eventTime);
 	eim.startEventTimer(eventTime);
 	
