@@ -22,7 +22,6 @@ import net.sf.cherry.server.maps.MapleDoor;
    private int doorTown = 999999999;
    private int doorTarget = 999999999;
    private Point doorPosition = new Point(0, 0);
-   private MapleCharacter player;
    private boolean online;
  
    public MaplePartyCharacter(MapleCharacter maplechar)

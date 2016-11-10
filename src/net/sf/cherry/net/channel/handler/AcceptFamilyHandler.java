@@ -14,8 +14,8 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
    public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c)
    {
      c.doneedlog(this, c.getPlayer());
-     //////System.out.println("=======AcceptFamilyHandler=====");
-     ////System.out.println(slea);
+     System.out.println("=======AcceptFamilyHandler=====");
+     System.out.println(slea);
    }
  }
 

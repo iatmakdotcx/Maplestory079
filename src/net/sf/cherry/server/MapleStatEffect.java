@@ -1039,7 +1039,7 @@ public class MapleStatEffect
         }
     }
 
-    public final void applyComboBuff(MapleCharacter applyto, int combo, int 矛连击强化防御, int 矛连击强化魔法防御) {
+    public final void applyComboBuff(MapleCharacter applyto, int combo) {
         ArrayList statups = new ArrayList();
         //statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.矛连击强化, watk));
         statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.矛连击强化, Integer.valueOf(combo / 50)));
@@ -1051,7 +1051,7 @@ public class MapleStatEffect
         ScheduledFuture schedule = TimerManager.getInstance().schedule(cancelAction, 99999);
         applyto.registerEffect(this, starttime, schedule);
     }
-       public final void 爆击强化(MapleCharacter applyto, int combo) {
+    public final void 爆击强化(MapleCharacter applyto, int combo) {
         ArrayList statups = new ArrayList();
       //  statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.矛连击强化, watk));
         statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.矛连击强化, Integer.valueOf(combo / 10)));
@@ -1064,36 +1064,37 @@ public class MapleStatEffect
         applyto.registerEffect(this, starttime, schedule);
     }
     public final void 检测buff(MapleCharacter applyto, int 类型) {
-        ArrayList statups = new ArrayList();
-        if(类型 == 1){
-        statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.命中率检测, Integer.valueOf(getAcc())));
-       applyto.getClient().getSession().write(MaplePacketCreator.giveBuff(applyto, 9001009, 99999, statups)); //祝福
-        }
-        if(类型 == 2){
-        //statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.攻击力检测, Integer.valueOf(20)));
-        statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.魔法力检测, Integer.valueOf(0)));
-        statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.防御力检测, Integer.valueOf(80)));
-        statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.魔法防御力检测, Integer.valueOf(80)));
-        statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.手技检测, Integer.valueOf(0)));
-        statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.命中率检测, Integer.valueOf(0)));
-        statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.回避率检测, Integer.valueOf(50)));
-         applyto.getClient().getSession().write(MaplePacketCreator.giveBuff(applyto, 1320009, 99999, statups)); //灵魂祝福
-        final long starttime = System.currentTimeMillis();
-        CancelEffectAction cancelAction = new CancelEffectAction(applyto, this, starttime);
-        ScheduledFuture schedule = TimerManager.getInstance().schedule(cancelAction, 99999);
-        applyto.registerEffect(this, starttime, schedule);
-        }
-        if(类型 == 3){
-        statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.手技检测, Integer.valueOf(0)));
-        statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.命中率检测, Integer.valueOf(0)));
-        statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.回避率检测, Integer.valueOf(0)));
-         applyto.getClient().getSession().write(MaplePacketCreator.giveBuff(applyto, 1002, 99999, statups));
-        final long starttime = System.currentTimeMillis();
-        CancelEffectAction cancelAction = new CancelEffectAction(applyto, this, starttime);
-        ScheduledFuture schedule = TimerManager.getInstance().schedule(cancelAction, 99999);
-        applyto.registerEffect(this, starttime, schedule);
-        }
-    
+		ArrayList statups = new ArrayList();
+		if (类型 == 1) {
+			statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.命中率检测, Integer.valueOf(getAcc())));
+			applyto.getClient().getSession().write(MaplePacketCreator.giveBuff(applyto, 9001009, 99999, statups)); // 祝福
+		}
+		if (类型 == 2) {
+			// statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.攻击力检测,
+			// Integer.valueOf(20)));
+			statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.魔法力检测, Integer.valueOf(0)));
+			statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.防御力检测, Integer.valueOf(80)));
+			statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.魔法防御力检测, Integer.valueOf(80)));
+			statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.手技检测, Integer.valueOf(0)));
+			statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.命中率检测, Integer.valueOf(0)));
+			statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.回避率检测, Integer.valueOf(50)));
+			applyto.getClient().getSession().write(MaplePacketCreator.giveBuff(applyto, 1320009, 99999, statups)); // 灵魂祝福
+			final long starttime = System.currentTimeMillis();
+			CancelEffectAction cancelAction = new CancelEffectAction(applyto, this, starttime);
+			ScheduledFuture schedule = TimerManager.getInstance().schedule(cancelAction, 99999);
+			applyto.registerEffect(this, starttime, schedule);
+		}
+		if (类型 == 3) {
+			statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.手技检测, Integer.valueOf(0)));
+			statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.命中率检测, Integer.valueOf(0)));
+			statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.回避率检测, Integer.valueOf(0)));
+			applyto.getClient().getSession().write(MaplePacketCreator.giveBuff(applyto, 1002, 99999, statups));
+			final long starttime = System.currentTimeMillis();
+			CancelEffectAction cancelAction = new CancelEffectAction(applyto, this, starttime);
+			ScheduledFuture schedule = TimerManager.getInstance().schedule(cancelAction, 99999);
+			applyto.registerEffect(this, starttime, schedule);
+		}
+
     }
     private int calcHPChange(MapleCharacter applyfrom, boolean primary) {
         int hpchange = 0;

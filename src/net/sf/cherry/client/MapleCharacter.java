@@ -2342,19 +2342,13 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
                     energybar = 10000;
                 }
                 List<Pair<MapleBuffStat, Integer>> stat = Collections.singletonList(new Pair<MapleBuffStat, Integer>(MapleBuffStat.能量, energybar));
-                // ////System.out.println("A-------------1");
                 setBuffedValue(MapleBuffStat.能量, energybar);
                 getClient().getSession().write(MaplePacketCreator.givePirateBuff(energybar, 0, stat));
-                //  ////System.out.println("A-------------2");
-                // //////System.out.println("handleEnergyChargeGain");
                 getClient().getSession().write(MaplePacketCreator.showOwnBuffEffect(energycharge.getId(), 2));
-                // ////System.out.println("A-------------3");
                 getMap().broadcastMessage(this, MaplePacketCreator.showBuffeffect(id, energycharge.getId(), 2));
-                // ////System.out.println("A-------------4");
                 getMap().broadcastMessage(this, MaplePacketCreator.giveForeignBuff(energybar, stat));
                 if (energybar == 10000) {
                     getMap().broadcastMessage(this, MaplePacketCreator.giveForeignEnergyCharge(id, energybar));
-                    //  ////System.out.println("A-------------5");
                 }
             }
             if (energybar >= 10000 && energybar < 11000) {

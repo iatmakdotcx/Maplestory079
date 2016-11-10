@@ -62,7 +62,6 @@ public class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                     }
                 }
             } catch (RemoteException e) {
-                WorldChannelInterface worldInterface;
                 channelServer.reconnectWorld();
                 allowLogin = false;
             }

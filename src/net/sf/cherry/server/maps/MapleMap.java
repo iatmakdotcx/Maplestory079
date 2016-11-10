@@ -772,7 +772,6 @@ public class MapleMap {
         }
     }
     private void dropFromMonster(MapleCharacter dropOwner, MapleMonster monster) {
-    	dropsDisabled = true;
     	if (dropsDisabled || monster.dropsDisabled()) {
             return;
         }

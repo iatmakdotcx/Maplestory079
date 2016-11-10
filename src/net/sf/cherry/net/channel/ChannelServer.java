@@ -140,6 +140,8 @@ public class ChannelServer
     }
 
     public void reconnectWorld() {
+    	System.out.println("重新连接World服务器！！！");
+    	System.out.println(Thread.currentThread().getStackTrace());
         try {
             this.wci.isAvailable();
         } catch (RemoteException ex) {

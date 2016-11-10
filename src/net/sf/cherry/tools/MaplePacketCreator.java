@@ -3176,12 +3176,7 @@ public class MaplePacketCreator {
                 mplew.writeInt(buffid);
                 mplew.writeInt(bufflength);
             }
-            if ((bufflength % 20000000 == 1004) || (bufflength == 5221006)) {
-                mplew.writeInt(0);
-            } else {
-                mplew.writeShort(0);
-            }
-
+            mplew.writeShort(0);
             mplew.write(0);
             mplew.write(0);
             mplew.write(0);

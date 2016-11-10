@@ -38,6 +38,7 @@ public class ServerConfig {
 			RecvPacketOpcode.MOVE_LIFE.getValue(), 
 			RecvPacketOpcode.MOVE_PET.getValue(),
 			RecvPacketOpcode.PONG.getValue(),
+			RecvPacketOpcode.HEAL_OVER_TIME.getValue(),
 			RecvPacketOpcode.MOVE_SUMMON.getValue()
             ));
 	public static boolean isIgnorePack(Short packetId){
@@ -50,6 +51,7 @@ public class ServerConfig {
 			SendPacketOpcode.MOVE_PET.getValue(),
 			SendPacketOpcode.PING.getValue(),
 			SendPacketOpcode.MOVE_MONSTER_RESPONSE.getValue(),
+			SendPacketOpcode.UPDATE_STATS.getValue(),
 			SendPacketOpcode.MOVE_SUMMON.getValue()
             ));
 	public static boolean isIgnorePack客户端发送(Short packetId){

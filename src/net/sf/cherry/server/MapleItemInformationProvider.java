@@ -1346,6 +1346,7 @@ public class MapleItemInformationProvider {
         return bRestricted;
     }
     public boolean isConsumeOnPickup(int itemId) {
+    	//捡起物品后自动使用
         if (this.consumeOnPickupCache.containsKey(Integer.valueOf(itemId))) {
             return ((Boolean) this.consumeOnPickupCache.get(Integer.valueOf(itemId))).booleanValue();
         }

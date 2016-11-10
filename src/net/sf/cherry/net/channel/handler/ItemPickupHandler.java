@@ -19,7 +19,6 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
  {
    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c)
    {
-     c.doneedlog(this, c.getPlayer());
      slea.readByte();
      slea.readLong();
      int oid = slea.readInt();
@@ -33,7 +32,7 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
        c.getSession().write(MaplePacketCreator.getShowInventoryFull());
        return;
      }
-     if ((ob instanceof MapleMapItem)) {
+     if (ob instanceof MapleMapItem) {
        MapleMapItem mapitem = (MapleMapItem)ob;
        MapleCharacter player = c.getPlayer();
        synchronized (mapitem) {
@@ -56,11 +55,9 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
            c.getPlayer().getCheatTracker().registerOffense(CheatingOffense.SHORT_ITEMVAC);
          }
          if (mapitem.getMeso() > 0)
-         {
-           ChannelServer cserv;
-           int mesosgain;
-           if ((c.getPlayer().getParty() != null) && (mapitem.getDropper() != c.getPlayer())) {
-             cserv = c.getChannelServer();
+         {          
+           if ((c.getPlayer().getParty() != null)) {
+        	  //如果有组队，捡起金币要平分
              int mesosamm = mapitem.getMeso();
              int partynum = 0;
              for (MaplePartyCharacter partymem : c.getPlayer().getParty().getMembers()) {
@@ -68,10 +65,10 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
                  partynum++;
                }
              }
-             mesosgain = mesosamm / partynum;
+             int mesosgain = mesosamm / partynum;
              for (MaplePartyCharacter partymem : c.getPlayer().getParty().getMembers())
-               if ((partymem.isOnline()) && (partymem.getMapid() == c.getPlayer().getMap().getId())) {
-                 MapleCharacter somecharacter = cserv.getPlayerStorage().getCharacterById(partymem.getId());
+               if ((partymem.isOnline()) && (partymem.getMapid() == c.getPlayer().getMap().getId()) && (partymem.getChannel() == c.getChannel())) {
+            	 MapleCharacter somecharacter = partymem.getPlayer();
                  if (somecharacter != null)
                    somecharacter.gainMeso(mesosgain, true, true);
                }
@@ -81,31 +78,31 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
              c.getPlayer().gainMeso(mapitem.getMeso(), true, true);
            }
            c.getPlayer().getMap().broadcastMessage(MaplePacketCreator.removeItemFromMap(mapitem.getObjectId(), 2, c.getPlayer().getId()), mapitem.getPosition());
-
            c.getPlayer().getCheatTracker().pickupComplete();
            c.getPlayer().getMap().removeMapObject(ob);
          } else if (useItem(c, mapitem.getItem().getItemId())) {
+        	//捡起物品后自动使用的玩意儿，比如buf药水，怪物卡等
            if (mapitem.getItem().getItemId() / 10000 == 238) {
+        	   //怪物卡片
              c.getPlayer().getMonsterBook().addCard(c, mapitem.getItem().getItemId());
            }
-           mapitem.setPickedUp(true);
            c.getPlayer().getMap().broadcastMessage(MaplePacketCreator.removeItemFromMap(mapitem.getObjectId(), 2, c.getPlayer().getId()), mapitem.getPosition());
-           c.getPlayer().getMap().removeMapObject(ob);
+           c.getPlayer().getCheatTracker().pickupComplete();
+           c.getPlayer().getMap().removeMapObject(ob);           
          }
          else if ((mapitem.getItem().getItemId() >= 5000000) && (mapitem.getItem().getItemId() <= 5000100)) {
+          //宠物
            int petId = MaplePet.createPet(mapitem.getItem().getItemId());
            if (petId == -1) {
              return;
            }
            MapleInventoryManipulator.addById(c, mapitem.getItem().getItemId(), mapitem.getItem().getQuantity(), "Cash Item was purchased.", null, petId);
            c.getPlayer().getMap().broadcastMessage(MaplePacketCreator.removeItemFromMap(mapitem.getObjectId(), 2, c.getPlayer().getId()), mapitem.getPosition());
-
            c.getPlayer().getCheatTracker().pickupComplete();
            c.getPlayer().getMap().removeMapObject(ob);
          }
          else if (MapleInventoryManipulator.addFromDrop(c, mapitem.getItem(), "Picked up by " + c.getPlayer().getName(), true)) {
            c.getPlayer().getMap().broadcastMessage(MaplePacketCreator.removeItemFromMap(mapitem.getObjectId(), 2, c.getPlayer().getId()), mapitem.getPosition());
-
            c.getPlayer().getCheatTracker().pickupComplete();
            c.getPlayer().getMap().removeMapObject(ob);
          }
@@ -131,8 +128,3 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
      return false;
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.net.channel.handler.ItemPickupHandler
- * JD-Core Version:    0.6.0
- */

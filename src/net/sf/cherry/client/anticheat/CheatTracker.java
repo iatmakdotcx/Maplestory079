@@ -378,7 +378,7 @@ public class CheatTracker {
 
     public void checkPickupAgain(MapleClient c) {
         synchronized (this.pickupComplete) {
-            if (this.pickupComplete.booleanValue()) {
+            if (this.pickupComplete) {
                 this.pickupComplete = Boolean.FALSE;
                // c.getPlayer().dropMessage(1, "[检测提示]\r\n非法宠物类型.请联系管理员！");
             } else {

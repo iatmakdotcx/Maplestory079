@@ -46,10 +46,8 @@ import net.sf.cherry.server.MaplePortal;
      }
      File scriptFile = new File("scripts/portal/" + scriptName + ".js");
      if (!scriptFile.exists()) {
-       this.scripts.put(scriptName, null);
        return null;
      }
- 
      FileReader fr = null;
      ScriptEngine portal = this.sef.getScriptEngine();
      try {
