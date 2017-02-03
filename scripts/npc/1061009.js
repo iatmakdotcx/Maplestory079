@@ -42,7 +42,7 @@ function action(mode, type, selection) {
 	}
 	status++;
 	if (status == 0) {
-		    if (cm.getLevel() > 119 ) {  
+		    if (cm.getLevel() > 19 ) {  
 			cm.sendYesNo("异界里尘封千年的魔王门集合在一起，用它们邪恶的魔法，侵蚀光明的结界，勇士们必须在他们，冲破结界之前消灭他们。你愿意去帮我消灭即将冲破结界的魔王吗。\r\n#d剩余:#r" + cm.getzb() + "元宝");
 		} else {
 			cm.sendOk("挑战绯红骑士团需要120级以上。绯红骑士团爆绯红装备，和必成卷轴，一些稀有的物品，");

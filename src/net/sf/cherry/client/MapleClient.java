@@ -31,6 +31,7 @@ import org.apache.mina.common.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gui.DebugWindow;
 import net.sf.cherry.client.messages.MessageCallback;
 import net.sf.cherry.database.DatabaseConnection;
 import net.sf.cherry.database.DatabaseException;

@@ -104,6 +104,7 @@ public final class PacketProcessor {
             registerHandler(RecvPacketOpcode.USE_FAMILY, new FamilyUseHandler());
             registerHandler(RecvPacketOpcode.ACCEPT_FAMILY, new AcceptFamilyHandler());
             registerHandler(RecvPacketOpcode.CHANGE_MAP, new ChangeMapHandler());
+            registerHandler(RecvPacketOpcode.CHANGE_MAP_COMPLETE, new ChangeMapCompleteHandler());
             registerHandler(RecvPacketOpcode.CHANGE_CHANNEL, new ChangeChannelHandler());
             registerHandler(RecvPacketOpcode.ENTER_CASH_SHOP, new EnterCashShopHandler());
             registerHandler(RecvPacketOpcode.MOVE_PLAYER, new MovePlayerHandler());

@@ -38,9 +38,9 @@ import net.sf.cherry.server.MaplePortal;
    }
  
    private PortalScript getPortalScript(String scriptName, MapleClient c) {
-      if (c.getPlayer().isGM()) {
-         c.getPlayer().dropMessage("[系统提示]您已经建立与传送门:" + scriptName + "的对话。");
-      }
+     if (c.getPlayer().isGM()) {
+        c.getPlayer().dropMessage("[系统提示]您已经建立与传送门:" + scriptName + "的对话。");
+     }
      if (this.scripts.containsKey(scriptName)) {
        return (PortalScript)this.scripts.get(scriptName);
      }
@@ -71,8 +71,10 @@ import net.sf.cherry.server.MaplePortal;
        }
      }
  
-     PortalScript script = (PortalScript)((Invocable)portal).getInterface(PortalScript.class);
-     this.scripts.put(scriptName, script);
+     PortalScript script = (PortalScript)((Invocable)portal).getInterface(PortalScript.class);    
+     if (!c.getPlayer().isGM()) {
+	 	this.scripts.put(scriptName, script);
+     }
      return script;
    }
  

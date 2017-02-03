@@ -151,6 +151,7 @@ import constants.ServerConfig;
    SUMMON_TALK, 
    MONSTER_BOOK_COVER,
    quest_KJ,   //快捷交任务
+   CHANGE_MAP_COMPLETE,
    //MTS_SJ,
    ChatRoom_SYSTEM;
  

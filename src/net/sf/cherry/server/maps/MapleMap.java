@@ -2598,7 +2598,7 @@ public class MapleMap {
 
     public boolean isPQMap() { //不包括互动地图
         int tmapid = this.getId();
-        if ((tmapid > 922010000 && tmapid < 922011100) || (tmapid >= 103000800 && tmapid < 103000890)) { //kpq + lpq only atm
+        if ((tmapid > 922010000 && tmapid < 922011100) || (tmapid >= 103000800 && tmapid < 103000890) || (tmapid >= 106021500 && tmapid < 106021510)) { //kpq + lpq only atm
             return true;
         }
         return false;

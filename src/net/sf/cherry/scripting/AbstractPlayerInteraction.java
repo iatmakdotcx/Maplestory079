@@ -1,5 +1,6 @@
 package net.sf.cherry.scripting;
 
+import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +31,9 @@ import net.sf.cherry.server.maps.MapleMapObject;
 import net.sf.cherry.server.maps.MapleMapObjectType;
 import net.sf.cherry.server.quest.MapleQuest;
 import net.sf.cherry.tools.MaplePacketCreator;
+import net.sf.cherry.server.life.MapleLifeFactory;
+import net.sf.cherry.server.life.MapleMonster;
+import net.sf.cherry.server.life.MapleMonsterStats;
 import net.sf.cherry.server.maps.SavedLocationType;
 
 public class AbstractPlayerInteraction {
@@ -521,6 +525,42 @@ public class AbstractPlayerInteraction {
 
     public void clearMapTimer() {
         this.c.getPlayer().getMap().clearMapTimer();
+    }
+    
+    public void spawnMonster(int MapId, int mobid, int amount, int x, int y) {
+        Point spawnPos = new Point(x, y);
+        for (int i = 0; i < amount; i++) {
+            MapleMonster npcmob = MapleLifeFactory.getMonster(mobid);
+            npcmob.setHp(npcmob.getMaxHp());
+            npcmob.setMp(npcmob.getMaxMp());
+            getMap(MapId).spawnMonsterOnGroundBelow(npcmob, spawnPos);
+        }
+    }
+    
+    public void spawnMonster(int MapId, int mobid, int HP, int MP, int level, int EXP, int boss, int undead, int amount, int x, int y) {
+        MapleMonsterStats newStats = new MapleMonsterStats();
+        Point spawnPos = new Point(x, y);
+        if (HP >= 0) {
+            newStats.setHp(HP);
+        }
+        if (MP >= 0) {
+            newStats.setMp(MP);
+        }
+        if (level >= 0) {
+            newStats.setLevel(level);
+        }
+        if (EXP >= 0) {
+            newStats.setExp(EXP);
+        }
+        newStats.setBoss(boss == 1);
+        newStats.setUndead(undead == 1);
+        for (int i = 0; i < amount; i++) {
+            MapleMonster npcmob = MapleLifeFactory.getMonster(mobid);
+            npcmob.setOverrideStats(newStats);
+            npcmob.setHp(npcmob.getMaxHp());
+            npcmob.setMp(npcmob.getMaxMp());
+            getMap(MapId).spawnMonsterOnGroundBelow(npcmob, spawnPos);
+        }
     }
 }
 
