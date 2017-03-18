@@ -31,8 +31,3 @@ import java.util.SimpleTimeZone;
      return time + 116444520000000000L;
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.tools.DateUtil
- * JD-Core Version:    0.6.0
- */

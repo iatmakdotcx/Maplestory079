@@ -119,9 +119,7 @@ import net.sf.cherry.net.channel.ChannelServer;
    public MaplePartyCharacter getLeader() {
      return this.leader;
    }
-    public MaplePartyCharacter get组长() {
-     return this.leader;
-   }
+
    public void setLeader(MaplePartyCharacter nLeader) {
      this.leader = nLeader;
    }
@@ -150,8 +148,3 @@ import net.sf.cherry.net.channel.ChannelServer;
      return this.id == other.id;
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.net.world.MapleParty
- * JD-Core Version:    0.6.0
- */

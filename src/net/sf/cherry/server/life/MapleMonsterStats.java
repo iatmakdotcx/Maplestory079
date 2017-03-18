@@ -29,6 +29,7 @@ import net.sf.cherry.tools.Pair;
    private boolean firstAttack;
    private int buffToGive;
    private boolean explosive;
+   private boolean friendly;
    private MapleLifeFactory.BanishInfo banish;
  
    public int getExp()
@@ -223,9 +224,12 @@ import net.sf.cherry.tools.Pair;
    public boolean isExplosive() {
      return this.explosive;
    }
+   
+   public void setFriendly(boolean set) {
+	     this.friendly = set;
+   }
+ 
+   public boolean isFriendly() {
+     return this.friendly;
+   }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.server.life.MapleMonsterStats
- * JD-Core Version:    0.6.0
- */

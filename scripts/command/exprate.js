@@ -1,6 +1,6 @@
-/*
+﻿/*
 	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
+    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>  
                        Matthias Butz <matze@odinms.de>
                        Jan Christian Meyer <vimes@odinms.de>
 
@@ -32,7 +32,7 @@ function getDefinition () {
 }
 
 function execute (c, mc, splitted) {
-	if (splitted.length != 2) {
+	if (splitted.length != 3) {
 		mc.dropMessage("Syntax: !exprate <频道id> <经验倍数>");
 	} else {
 		var ChannelId = splitted[1];  //频道id

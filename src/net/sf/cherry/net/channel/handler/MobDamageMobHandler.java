@@ -16,8 +16,3 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
      c.doneedlog(this, c.getPlayer());
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.net.channel.handler.MobDamageMobHandler
- * JD-Core Version:    0.6.0
- */

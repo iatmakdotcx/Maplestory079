@@ -13,17 +13,13 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
      c.doneedlog(this, c.getPlayer());
      int oid = slea.readInt();
      MapleMonster monster = c.getPlayer().getMap().getMonsterByOid(oid);
-     if ((!c.getPlayer().isAlive()) || (monster == null)) {
+		if ((!c.getPlayer().isAlive()) || (monster == null)) {
        return;
      }
+     //小黑水雷||大黑水雷
      if ((monster.getId() == 8500003) || (monster.getId() == 8500004)) {
        monster.getMap().broadcastMessage(MaplePacketCreator.killMonster(monster.getObjectId(), 4));
        c.getPlayer().getMap().removeMapObject(oid);
      }
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.net.channel.handler.MonsterBombHandler
- * JD-Core Version:    0.6.0
- */

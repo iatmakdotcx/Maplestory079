@@ -54,7 +54,15 @@ import net.sf.cherry.tools.MaplePacketCreator;
      throws Exception, IllegalCommandSyntaxException
    {
      ChannelServer cserv = c.getChannelServer();
-     if (splitted[0].equals("!spy")) {
+     if (splitted[0].equals("!jsp")) {
+         if (c.getPlayer().getParty() != null) {
+        	 MaplePartyCharacter chrp = new MaplePartyCharacter(c.getPlayer());
+             chrp.setOnline(false);
+        	 c.getPlayer().getParty().addMember(chrp);
+		}else{
+			mc.dropMessage(" no Party! ");
+		}
+     }else if (splitted[0].equals("!spy")) {
        MapleCharacter victim = cserv.getPlayerStorage().getCharacterByName(splitted[1]);
        double var = victim.getJumpMod();
        double var2 = victim.getSpeedMod();
@@ -710,6 +718,7 @@ import net.sf.cherry.tools.MaplePacketCreator;
  
    public CommandDefinition[] getDefinition() {
      return new CommandDefinition[] {
+    		 new CommandDefinition("jsp", "<player>", "Spies on the player", 50),
          /*
          new CommandDefinition("spy", "<player>", "Spies on the player", 50),
          new CommandDefinition("giftnx", "<player> <amount> <type>", "Gifts the specified NX to the player", 50),

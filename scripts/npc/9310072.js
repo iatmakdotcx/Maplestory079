@@ -57,9 +57,9 @@ function action(mode, type, selection) {
 		else
 			status--;
 		if (status == 0) {
-			cm.sendSimple("#e您好！欢迎来到亲亲嘴冒险岛，#r此NPC只是功能演示！请勿用于商业#k!!您目前是本服的#r VIP" + cm.getChar().getVip() + " \r\n\r\n#b#L0#进入VIP1(地图)#l     #k#L1#进入VIP2(宫殿)#l\r\n\r\n#r#L2#进入VIP3(圣地)#l     #d#L3#进入VIP4(天堂)#l\r\n\r\n#r#L4#工资领取(包括普通玩家和各级VIP智能判断)#l");				
+			cm.sendSimple("#e您好！欢迎来到亲亲嘴冒险岛，#r此NPC只是功能演示！请勿用于商业#k!!您目前是本服的#r VIP" + cm.getPlayer().getvip() + " \r\n\r\n#b#L0#进入VIP1(地图)#l     #k#L1#进入VIP2(宫殿)#l\r\n\r\n#r#L2#进入VIP3(圣地)#l     #d#L3#进入VIP4(天堂)#l\r\n\r\n#r#L4#工资领取(包括普通玩家和各级VIP智能判断)#l");				
 		}else if (status == 1) {
-			var viplevel = cm.getChar().getVip();
+			var viplevel = cm.getPlayer().getvip();
 			if(selection == 0){
 				if(viplevel < 1){					
 					cm.sendOk("您不是本服的VIP,无法进入此地图")
@@ -138,10 +138,10 @@ function action(mode, type, selection) {
 					if((cm.getMeso()+ sf_money) < 2147483647){
 						cm.gainMeso(sf_money);
 						cm.setzb(sf_zb);
-						cm.getChar().modifyCSPoints(1,sf_Nx);
-						cm.getChar().UpdateCash();   //更新显示抵用状态
+						cm.getPlayer().modifyCSPoints(1,sf_Nx);
+						cm.getPlayer().UpdateCash();   //更新显示抵用状态
 						cm.setBossLog("qqzmxd_GZ");
-						cm.sendOk("您已成功领取到#rVIP"+ cm.getChar().getVip() +"#k的工资#r" + sf_money + "#k金币、#r" + sf_zb + "#k元宝、#r" + sf_Nx + "#k点抵用券");
+						cm.sendOk("您已成功领取到#rVIP"+ cm.getPlayer().getvip() +"#k的工资#r" + sf_money + "#k金币、#r" + sf_zb + "#k元宝、#r" + sf_Nx + "#k点抵用券");
 						cm.getC().getChannelServer().getWorldInterface().broadcastMessage(null, net.sf.cherry.tools.MaplePacketCreator.serverNotice(noticeType,cm.getC().getChannel(),"工资发放员" + " : " + "恭喜 " + vipstr + " " + cm.getPlayer().getName() +" 领取到今天的工资"  + sf_money + "金币、" + sf_zb + "元宝、" + sf_Nx + "点抵用券",true).getBytes());
 						cm.dispose();
 					}else{

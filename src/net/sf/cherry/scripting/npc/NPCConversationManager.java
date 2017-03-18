@@ -71,7 +71,31 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
     private MapleCharacter chr;
     private List<MaplePartyCharacter> otherParty;
     private transient int NPC_Mode;
+    
+    @Deprecated
+    public MapleCharacter getcashdd() {
+        return getPlayer();
+    }
 
+    @Deprecated
+    public int getMeso() {
+        return getPlayer().getMeso();
+    }
+
+    @Deprecated
+    public int getLevel() {
+        return getPlayer().getLevel();
+    }
+
+    @Deprecated
+    public MapleCharacter getChar() {
+        return getPlayer();
+    }
+    
+    public MapleClient getC() {
+        return getClient();
+    }
+    
     public int getzb() {
         int money = 0;
         try {
@@ -540,10 +564,6 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         MapleQuest.getInstance(id).forfeit(getPlayer());
     }
 
-    @Deprecated
-    public int getMeso() {
-        return getPlayer().getMeso();
-    }
 
     public void gainMeso(int gain) {
         getPlayer().gainMeso(gain, true, false, true);
@@ -555,13 +575,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 
     public int getNpc() {
         return this.npc;
-    }
-
-    @Deprecated
-    public int getLevel() {
-        return getPlayer().getLevel();
-    }
-
+    }    
     public void unequipEverything() {
         MapleInventory equipped = getPlayer().getInventory(MapleInventoryType.EQUIPPED);
         MapleInventory equip = getPlayer().getInventory(MapleInventoryType.EQUIP);
@@ -583,15 +597,6 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         for (Entry<ISkill, MapleCharacter.SkillEntry> skill : skills.entrySet()) {
             getPlayer().changeSkillLevel(skill.getKey(), 0, 0);
         }
-    }
-
-    @Deprecated
-    public MapleCharacter getChar() {
-        return getPlayer();
-    }
-
-    public MapleClient getC() {
-        return getClient();
     }
 
     public EventManager getEventManager(String event) {
@@ -1796,11 +1801,6 @@ public void yqm(int yqm) {
 
     public int getExt(String bossid) {
         return getPlayer().getExt(bossid);
-    }
-
-    @Deprecated
-    public MapleCharacter getcashdd() {
-        return getPlayer();
     }
 
     public void gaincashdd(long cashdd) {

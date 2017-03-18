@@ -17,9 +17,20 @@ var mySelection;
 			
 
 function start() {
+	if (cm.getParty() == null) //Check for Party
+	{
+		cm.sendNext("没有队伍!");
+		cm.dispose();
+		return;
+	}
+	if(cm.getPlayer().getEventInstance()==null){
+		cm.sendNext("没有开始副本!");
+		cm.dispose();
+		return;
+	}	
+
 	status = -1;
-	mapId = cm.getChar().getMapId();
-	if (cm.getParty() != null) //Check for Party
+	mapId = cm.getPlayer().getMapId();
 	playerStatus = cm.isLeader();
 	preamble = null;
 	action(1, 0, 0);

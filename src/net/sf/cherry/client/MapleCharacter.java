@@ -7711,6 +7711,13 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements In
         return i;
     }
     
+    public void startQuest(int id, int npc) {
+        startQuest(id, npc, false);
+    }
+
+    public void startQuest(int id, int npc,  boolean force) {
+        MapleQuest.getInstance(id).start(getPlayer(), npc, force);
+    }
     
 }
 

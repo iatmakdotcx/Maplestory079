@@ -26,6 +26,7 @@ import net.sf.cherry.server.TimerManager;
 import net.sf.cherry.server.life.MapleMonster;
 import net.sf.cherry.server.maps.MapleMap;
 import net.sf.cherry.server.maps.MapleMapFactory;
+import net.sf.cherry.server.quest.MapleQuest;
  
  public class EventInstanceManager
  {
@@ -312,13 +313,38 @@ import net.sf.cherry.server.maps.MapleMapFactory;
    public boolean isLeader(MapleCharacter chr) {
      return chr.getParty().getLeader().getId() == chr.getId();
    }
+   
+   public final boolean disposeIfPlayerBelow(byte size, int towarp) {
+       MapleMap map = null;
+       if (towarp > 0) {
+           map = getMapFactory().getMap(towarp);
+       }
+
+       try {
+           if ((this.chars != null) && (this.chars.size() <= size)) {
+               final List<MapleCharacter> chrs = new LinkedList<MapleCharacter>(chars);
+               for (MapleCharacter chr : chrs) {
+                   if (chr != null) {
+                       if (towarp > 0) {
+                           chr.changeMap(map, map.getPortal(0));
+                       }
+                   }
+               }
+               return true;
+           }
+       } catch (Exception ex) {
+           ex.printStackTrace();
+       } finally {
+       }
+       return false;
+   }
  
    public void saveAllBossQuestPoints(int bossPoints) {
      for (MapleCharacter character : this.chars) {
        int points = character.getBossPoints();
        character.setBossPoints(points + bossPoints);
      }
-   }
+   }  
  
    public void saveBossQuestPoints(int bossPoints, MapleCharacter character) {
      int points = character.getBossPoints();

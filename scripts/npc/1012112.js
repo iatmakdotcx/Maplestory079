@@ -27,7 +27,7 @@ Tory - [Does the Main function of HenesysPQ]
 var status = 0;
 var minLevel = 10;
 var maxLevel = 20;
-var minPlayers = 1;
+var minPlayers = 3;
 var maxPlayers = 6;
 
 function start() {
@@ -51,12 +51,12 @@ function action(mode, type, selection) {
 			if (status == 0) {
 				cm.sendNext("哈啰~我叫达尔利。这里面是开满月花的美丽山丘。听说…里面有一个叫做兴儿的老虎，好像四处在寻找可以填饱肚子的食物…");
 			} else if (status == 1) {
-				cm.sendSimple("勇士…你愿意前往月花山丘，集结队员的力量，一起帮助兴儿吗？#l#k");
+				cm.sendNext("勇士…你愿意前往月花山丘，集结队员的力量，一起帮助兴儿吗？#l#k");
 			} else if (status == 2) {
 				if (cm.getParty() == null) {
-					cm.sendOk("你还没有组队");
+					cm.sendOk("你还没有组队！不能参加本活动");
 					cm.dispose();
-									return;
+					return;
 				}
 				if (!cm.isLeader()) {
 					cm.sendOk("若想要进入里面，需要你所隶属队伍的队长，与我进行对话喔！快去找你的队长吧~^^");
@@ -67,9 +67,9 @@ function action(mode, type, selection) {
 					var next = true;
 					var levelValid = 0;
 					var inMap = 0;
-					if (party.size() < minPlayers || party.size() > maxPlayers) 
+					if (party.size() < minPlayers || party.size() > maxPlayers) {
 						next = false;
-					else {
+					}else {
 						for (var i = 0; i < party.size() && next; i++) {
 							if ((party.get(i).getLevel() >= minLevel) && (party.get(i).getLevel() <= maxLevel))
 								levelValid += 1;

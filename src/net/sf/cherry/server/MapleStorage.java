@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -172,8 +173,7 @@ public class MapleStorage {
             ps.setInt(1, this.id);
             ps.executeUpdate();
             ps.close();
-            ps = con.prepareStatement("INSERT INTO inventoryitems (storageid, itemid, inventorytype, position, quantity, owner, expiredate, uniqueid, flag,itemexp,itemlevel,xingji) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            pse = con.prepareStatement("INSERT INTO inventoryequipment VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            ps = con.prepareStatement("INSERT INTO inventoryitems (storageid, itemid, inventorytype, position, quantity, owner, expiredate, uniqueid, flag,itemexp,itemlevel,xingji) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             for (IItem item : this.items) {
                 ps.setInt(1, this.id);
@@ -203,6 +203,8 @@ public class MapleStorage {
                     throw new DatabaseException("Inserting char failed.");
                 }
                 rs.close();
+                
+                pse = con.prepareStatement("INSERT INTO inventoryequipment VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 if (type.equals(MapleInventoryType.EQUIP)) {
                     pse.setLong(1, itemid);
                     IEquip equip = (IEquip) item;
@@ -226,10 +228,6 @@ public class MapleStorage {
                     pse.setInt(19, equip.getLocked());
                     pse.setBoolean(20, equip.isRing());
                     pse.setInt(21, equip.getVicious());
-                    pse.setInt(22, equip.getFlag());
-                    pse.setInt(23, equip.getItemLevel());
-                    pse.setInt(24, equip.getItemExp());
-                    pse.setInt(25, equip.getxingji());
                     pse.executeUpdate();
                 }
             }
@@ -310,6 +308,28 @@ public class MapleStorage {
             typeItems.put(type, new ArrayList<IItem>(items));
         }
         c.getSession().write(MaplePacketCreator.getStorage(npcId, slots, items, meso));
+    }
+    
+    public void arrange() {
+        Collections.sort(items, new Comparator<IItem>(){
+            @Override
+            public int compare(IItem o1, IItem o2) {
+                if (o1.getItemId() < o2.getItemId()) {
+                    return -1;
+                }
+                if (o1.getItemId() == o2.getItemId()) {
+                    return 0;
+                }
+                return 1;
+            }
+        });
+        for (MapleInventoryType type : MapleInventoryType.values()) {
+            this.typeItems.put(type, this.items);
+        }
+    }
+    
+    public void update(MapleClient c) {
+        c.getSession().write(MaplePacketCreator.arrangeStorage(this.slots, items));
     }
 
     public void sendStored(MapleClient c, MapleInventoryType type) {

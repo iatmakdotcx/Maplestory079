@@ -82,6 +82,10 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     private boolean hpLock = false;
     private ScheduledFuture<?> dropPeriod;
 
+    public MapleMonsterStats getStats() {
+        return this.stats;
+    }
+    
     public MapleMonster(int id, MapleMonsterStats stats) {
         super(id);
         initWithStats(stats);
@@ -289,6 +293,10 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         return stats.getUndead();
     }
 
+    public void damagefromMonster(int damage) {
+        int rDamage = Math.max(0, Math.min(damage, this.hp));
+        this.hp -= rDamage;
+    }
     /**
      *
      * @param from the player that dealt the damage

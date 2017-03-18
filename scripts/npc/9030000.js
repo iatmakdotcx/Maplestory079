@@ -1,7 +1,6 @@
 importPackage(net.sf.cherry.server);
 
 var status;
-var choice;
 
 function start() {
 	status = -1;
@@ -15,9 +14,9 @@ function action(mode, type, selection) {
 		cm.dispose();
 		return;
 	}
-	if (status == 0)
+	if (status == 0){
 		cm.sendNext("想要查看你有没要领取的道具或金币吗\r\n你在这里可以取回未在雇佣商人那边领取的道具或金币，可是来见我时，记的要以开设商店的角色来找我哦！");
-	else if (status == 1)
+	} else if (status == 1){
 		if (cm.hasTemp()) {
 			if (cm.getHiredMerchantItems(true)) {
 				cm.sendOk("在这里可以领取服务器关闭前，你所未能及时领取的物品！");
@@ -29,12 +28,9 @@ function action(mode, type, selection) {
 		} else {
 			cm.sendSimple("请在下面选择需要查询的项目\r\n#b#L0#金币#l\r\n#L1#物品#l");
 		}
-	else if (status == 2) {
-		cm.sendNext("正在查询当前角色数据库，请稍等...");
-		choice = selection;
 	} else {
-		if (choice == 0) {
-			if (status == 3) {
+		if (selection == 0) {
+			if (status == 2) {
 				var mesoEarnt = cm.getHiredMerchantMesos();//总共有的钱
 				var selfmoney = cm.getMeso(); //身上现有的钱
 				var Nmoney = 2147483647 - selfmoney;  // 能领取的钱
@@ -50,10 +46,10 @@ function action(mode, type, selection) {
 						cm.sendYesNo("你有#r "+ mesoEarnt +" #k金币未领取,您可以全部领完。是否现在要领取？");					
 					}
 				}else {
-					cm.sendOk("数据查询完毕，看来你没有需要领取的金币！");
+					cm.sendOk("从这里看来你没有需要领取的金币！");
 					cm.dispose();
 				}
-			} else if (status == 4) {
+			} else if (status == 3) {
 				var Smoney = cm.getMeso();  //身上现有的钱
 				var Lmoney = 2147483647 -Smoney;  // 能领取的钱
 				if(Lmoney >= cm.getHiredMerchantMesos()){
