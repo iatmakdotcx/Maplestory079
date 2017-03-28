@@ -32,8 +32,3 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
        }
    }
  }
-
-/* Location:           E:\maoxiandaodanji\dist\cherry.jar
- * Qualified Name:     net.sf.cherry.net.channel.handler.UseCatchItemHandler
- * JD-Core Version:    0.6.0
- */

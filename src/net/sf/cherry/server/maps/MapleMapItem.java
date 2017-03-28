@@ -40,6 +40,10 @@ import net.sf.cherry.tools.MaplePacketCreator;
      this.dropper = dropper;
      this.owner = owner;
    }
+   public MapleMapItem(Point position, IItem item) {
+       setPosition(position);
+       this.item = item;
+   }
  
    public IItem getItem() {
      return this.item;

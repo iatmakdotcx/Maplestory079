@@ -59,6 +59,7 @@ import net.sf.cherry.tools.MaplePacketCreator;
         	 MaplePartyCharacter chrp = new MaplePartyCharacter(c.getPlayer());
              chrp.setOnline(false);
         	 c.getPlayer().getParty().addMember(chrp);
+        	 mc.dropMessage(" Party size "+c.getPlayer().getParty().getPartyMembers().size());
 		}else{
 			mc.dropMessage(" no Party! ");
 		}

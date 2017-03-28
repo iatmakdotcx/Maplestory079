@@ -51,6 +51,9 @@ public class MonsterSpawningCommands
             MapleMonster onemob = MapleLifeFactory.getMonster(mid);
             int newhp = 0;
             int newexp = 0;
+            if (onemob.getExp()==0) {
+            	onemob.getStats().setExp(1);
+			}
             double oldExpRatio = onemob.getHp() / onemob.getExp();
 
             if (hp != null) {

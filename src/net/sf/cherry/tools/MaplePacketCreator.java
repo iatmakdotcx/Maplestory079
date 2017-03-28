@@ -4619,7 +4619,18 @@ public class MaplePacketCreator {
 
         return mplew.getPacket();
     }
+    
+    public static MaplePacket damageFriendlyMob(MapleMonster mob, long damage, boolean display) {
+        MaplePacketLittleEndianWriter mplew = new MaplePacketLittleEndianWriter();
 
+        mplew.writeShort(SendPacketOpcode.DAMAGE_MONSTER.getValue());
+        mplew.writeInt(mob.getObjectId());
+        mplew.write(display ? 1 : 2);
+        mplew.writeInt(damage > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)damage);
+        mplew.writeInt(mob.getHp() > Integer.MAX_VALUE ? (int)((double)(mob.getHp() / mob.getMaxHp()) * 2.147483647E9) : (int)mob.getHp());
+        mplew.writeInt(mob.getMaxHp() > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)mob.getMaxHp());
+        return mplew.getPacket();
+    }
     public static MaplePacket updateBuddylist(Collection<BuddylistEntry> buddylist) {
         MaplePacketLittleEndianWriter mplew = new MaplePacketLittleEndianWriter();
 

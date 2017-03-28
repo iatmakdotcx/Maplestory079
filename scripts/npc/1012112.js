@@ -69,6 +69,9 @@ function action(mode, type, selection) {
 					var inMap = 0;
 					if (party.size() < minPlayers || party.size() > maxPlayers) {
 						next = false;
+						cm.sendOk(party.size());
+						cm.dispose();
+						return;
 					}else {
 						for (var i = 0; i < party.size() && next; i++) {
 							if ((party.get(i).getLevel() >= minLevel) && (party.get(i).getLevel() <= maxLevel))
@@ -76,8 +79,13 @@ function action(mode, type, selection) {
 							if (party.get(i).getMapid() == mapId)
 								inMap += 1;
 						}
-						if (levelValid < minPlayers || inMap < minPlayers)
-							next = false;
+						if (levelValid < minPlayers || inMap < minPlayers){
+							cm.sendOk(levelValid);
+							cm.dispose();
+							//next = false;
+							return;
+						}
+							
 					}
 					if (next) {
 						var em = cm.getEventManager("HenesysPQ");
@@ -98,14 +106,14 @@ function action(mode, type, selection) {
 		} else if (cm.getChar().getMapId() == 910010400) {
 			if (status == 0){
 			cm.warp(100000200);
-			cm.playerMessage("You have been warped to #rHenesys Park#k.");
+			cm.playerMessage("你被传送到了射手公园.");
 			cm.dispose();
 			}
 		} else if (cm.getPlayer().getMapId() == 910010100) {
 			if (status==0) {
-				cm.sendYesNo("Would you like go to #rHenesys Park#k?");				
+				cm.sendYesNo("你想要前往#r射手公园#k吗?");				
 			} else if (status == 1) {
-					cm.warp(100000200, 0);
+					cm.warp(100000200);
 				cm.dispose();
 			}
 		}

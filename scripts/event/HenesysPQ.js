@@ -1,22 +1,21 @@
+importPackage(java.awt);
+importPackage(net.sf.cherry.server.life);
+
 var minPlayers = 1;
 var leaderid = 1;
 var pqMap = 910010000;
-var pqTime = 600000;//10 Minutes
+var pqTime = 60000;//10 Minutes
 
 function init() {
 	
 }
 
 function setup(level, partyId) {
-	
     var eim = em.newInstance("HenesysPQ" + (leaderid++));
-    em.setProperty("stage", "0");
     var map = eim.getMapInstance(pqMap);
 	map.killAllMonsters();
-    //map.resetFully(false);
-    //map.setSpawns(false);
-    //map.resetSpawnLevel(level);
-    eim.startEventTimer(pqTime); 
+    eim.startEventTimer(pqTime);
+	map.spawnMonsterwithpos(MapleLifeFactory.getMonster(9300061), new Point(-200,-200));	
     return eim;
 }
 
@@ -46,7 +45,9 @@ function monsterValue(eim, mobId) {
     if (mobId == 9300061) {
         eim.broadcastPlayerMsg(5, "The Moon Bunny has been killed.");
         end(eim);
-    }
+    }else{
+		eim.broadcastPlayerMsg(5, mobId);
+	}
     return 1;
 }
 
@@ -65,7 +66,6 @@ function clearPQ(eim) {
 function allMonstersDead(eim) {}
 
 function leftParty(eim, player) {
-    // If only 2 players are left, uncompletable:
     end(eim);
 }
 function disbandParty(eim) {

@@ -4,6 +4,7 @@ import net.sf.cherry.client.MapleClient;
 import net.sf.cherry.net.AbstractMaplePacketHandler;
 import net.sf.cherry.server.life.MapleMonster;
 import net.sf.cherry.server.maps.MapleMap;
+import net.sf.cherry.tools.MaplePacketCreator;
 import net.sf.cherry.tools.Randomizer;
 import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
 
@@ -26,8 +27,32 @@ public class FriendlyMobDamagedHandler extends AbstractMaplePacketHandler {
         	int damage = (mobto.getStats().getHp() / 50);
         	damage = Randomizer.getInstance().nextInt(damage) * 2;
             //TODO:MAK  怪物伤害
-            mobto.damagefromMonster(damage);
-            //checkShammos(chr, mobto, map);
+            //mobto.damagefromMonster(damage);
+        	mobto.damage(c.getPlayer(), damage, true);
+        	if (!mobto.isAlive()) {
+        		//如果队长有“万年冰河水”，恢复药保护的怪物血
+//        		for (MapleCharacter chrz : map.getCharacters()) {
+//        			if ((chrz.getParty() != null) && (chrz.getParty().getLeader().getId() == chrz.getId())) {
+//                        if (!chrz.haveItem(2022698)) {
+//                            break;
+//                        }
+//                        MapleInventoryManipulator.removeById(chrz.getClient(), MapleInventoryType.USE, 2022698, 1, false, true);
+//                        mobto.heal(mobto.getMaxHp(), mobto.getMaxMp());
+//                        return;
+//                    }
+//        		}
+        		//map.broadcastMessage(MaplePacketCreator.serverNotice(6, "Your party has failed to protect the monster."));
+        		if (c.getPlayer().getEventInstance()!=null) {
+        			c.getPlayer().getEventInstance().monsterKilled(c.getPlayer(), mobto);
+				}
+			}else{
+				
+				
+				
+			}
         } 
 	}
+	
+	
+	
 }

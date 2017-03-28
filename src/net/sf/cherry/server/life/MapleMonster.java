@@ -57,6 +57,7 @@ import net.sf.cherry.server.quest.MapleQuest;
 import net.sf.cherry.tools.ArrayMap;
 import net.sf.cherry.tools.MaplePacketCreator;
 import net.sf.cherry.tools.Pair;
+import sun.font.TrueTypeFont;
 
 public class MapleMonster extends AbstractLoadedMapleLife {
 
@@ -80,7 +81,10 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     private Map<Pair<Integer, Integer>, Integer> skillsUsed = new HashMap<Pair<Integer, Integer>, Integer>();
     private List<MonsterStatus> monsterBuffs = new ArrayList<MonsterStatus>();
     private boolean hpLock = false;
-    private ScheduledFuture<?> dropPeriod;
+    //自动掉落物品
+    private long lastDropTime = 0L;
+    private transient ScheduledFuture<?> AutoDropItemTImer;
+    
 
     public MapleMonsterStats getStats() {
         return this.stats;
@@ -125,6 +129,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
 
     public void setMap(MapleMap map) {
         this.map = map;
+        startDropItemSchedule();
     }
 
     public int getDrop(MapleCharacter killer) {
@@ -292,11 +297,6 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     public boolean getUndead() {
         return stats.getUndead();
     }
-
-    public void damagefromMonster(int damage) {
-        int rDamage = Math.max(0, Math.min(damage, this.hp));
-        this.hp -= rDamage;
-    }
     /**
      *
      * @param from the player that dealt the damage
@@ -328,28 +328,62 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             rDamage = 0;
         }
         attacker.addDamage(from, rDamage, updateAttackTime);
-        this.hp -= rDamage;
-        int remhppercentage = (int) Math.ceil((this.hp * 100.0) / getMaxHp());
-        if (remhppercentage < 1) {
+        
+        if (this.stats.getSelfD() != -1) {
+        	//有自爆伤害的怪
+        	this.hp -= rDamage;
+        	 if (this.hp > 0L) {
+                 if (this.hp < this.stats.getSelfDHp()) {
+                     this.map.killMonster(this, from, false, false, this.stats.getSelfD());
+                 } else {
+                     for (AttackerEntry mattacker : attackers) {
+                         for (AttackingMapleCharacter cattacker : mattacker.getAttackers()) {
+                             if ((cattacker.getAttacker().getMap() == from.getMap()) && (cattacker.getLastAttackTime() >= System.currentTimeMillis() - 4000L)) {
+                                 cattacker.getAttacker().getClient().getSession().write(MaplePacketCreator.showMonsterHP(getObjectId(), getHPPercent()));
+                             }
+                         }
+                     }
+                 }
+             } else {
+                 this.map.killMonster(this, from, true, false, (byte) 1);
+             }
+        }else{
+        	//普通怪物
+	        this.hp -= rDamage;
+	        
+	        if (this.eventInstance != null) {
+                this.eventInstance.monsterDamaged(from, this, (int) rDamage);
+            }
+
+	        if (hasBossHPBar()) {
+	            from.getMap().broadcastMessage(makeBossHPBarPacket(), getPosition());
+	        } else if (this.stats.isFriendly()){
+	        	//TODO:///显示Friendly怪物血
+	        	from.getMap().broadcastMessage(MaplePacketCreator.damageFriendlyMob(this, damage, true));
+	        } else if (!isBoss()) {
+	            for (AttackerEntry mattacker : attackers) {
+	                for (AttackingMapleCharacter cattacker : mattacker.getAttackers()) {
+	                    // current attacker is on the map of the monster
+	                    if (cattacker.getAttacker().getMap() == from.getMap()) {
+	                        if (cattacker.getLastAttackTime() >= System.currentTimeMillis() - 4000) {
+	                            cattacker.getAttacker().getClient().getSession().write(MaplePacketCreator.showMonsterHP(getObjectId(), getHPPercent()));
+	                        }
+	                    }
+	                }
+	            }
+	        }        	
+        }
+        //pq怪被攻击后，重新开始计算丢东西时间
+        startDropItemSchedule(); 
+    }
+    public int getHPPercent() {
+    	int remhppercentage = (int) Math.ceil(this.hp * 100.0D / getMaxHp());
+    	if (remhppercentage < 1) {
             remhppercentage = 1;
         }
-        long okTime = System.currentTimeMillis() - 4000;
-        if (hasBossHPBar()) {
-            from.getMap().broadcastMessage(makeBossHPBarPacket(), getPosition());
-        } else if (!isBoss()) {
-            for (AttackerEntry mattacker : attackers) {
-                for (AttackingMapleCharacter cattacker : mattacker.getAttackers()) {
-                    // current attacker is on the map of the monster
-                    if (cattacker.getAttacker().getMap() == from.getMap()) {
-                        if (cattacker.getLastAttackTime() >= okTime) {
-                            cattacker.getAttacker().getClient().getSession().write(MaplePacketCreator.showMonsterHP(getObjectId(), remhppercentage));
-                        }
-                    }
-                }
-            }
-        }
+    	return remhppercentage;
     }
-
+    
     public void heal(int hp, int mp) {
         int hp2Heal = getHp() + hp;
         int mp2Heal = getMp() + mp;
@@ -1274,11 +1308,46 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         return stats.getBanishInfo();
     }
 
-    public void setDropPeriod(ScheduledFuture<?> dropPeriod) {
-        this.dropPeriod = dropPeriod;
+    public void startDropItemSchedule() {
+        if ((this.stats.getDropItemPeriod() <= 0) || (!isAlive())) {
+            return;
+        }
+        this.lastDropTime = System.currentTimeMillis();
+        
+        if (AutoDropItemTImer == null) {
+	        AutoDropItemTImer = TimerManager.getInstance().register(new Runnable() {
+	            @Override
+	            public void run() {
+	            	doDropItem(System.currentTimeMillis());            	
+	            }
+	        }, 10000, 1000);
+    	}
     }
 
-    public ScheduledFuture<?> getDropPeriod() {
-        return dropPeriod;
+    public void cancelDropItem(){
+    	this.stats.setDropItemPeriod(0);
+    	if (AutoDropItemTImer != null)
+    		AutoDropItemTImer.cancel(true);
     }
+
+    public void doDropItem(long now) {
+		if (!isAlive() || this.map == null) {
+			cancelDropItem();
+		}
+		if ((this.lastDropTime > 0L) && (this.lastDropTime + this.stats.getDropItemPeriod() * 1000 < now)) {
+	        int itemId;
+	        switch (getId()) {
+	            case 9300061:  //迎月花保护月妙组队任务 
+	                itemId = 4001101;
+	                break;
+	            default:
+	            	cancelDropItem();
+	                return;
+	        }
+	        
+	        this.map.spawnAutoDrop(itemId, getPosition());
+	        this.lastDropTime = now;
+		}
+    }
+    
 }

@@ -60,6 +60,7 @@ public class MapleLifeFactory {
             stats.setName(MapleDataTool.getString(mid + "/name", mobStringData, "MISSINGNO"));
             stats.setBuffToGive(MapleDataTool.getIntConvert("buff", monsterInfoData, -1));
             stats.setExplosive(MapleDataTool.getIntConvert("explosiveReward", monsterInfoData, 0) > 0);
+            stats.setFriendly(MapleDataTool.getIntConvert("damagedByMob", monsterInfoData, 0) > 0);
             MapleData firstAttackData = monsterInfoData.getChildByPath("firstAttack");
             int firstAttack = 0;
             if (firstAttackData != null) {
@@ -69,8 +70,16 @@ public class MapleLifeFactory {
                     firstAttack = MapleDataTool.getInt(firstAttackData);
                 }
             }
+            MapleData selfd = monsterInfoData.getChildByPath("selfDestruction");
+            if (selfd != null) {
+                stats.setSelfDHP(MapleDataTool.getIntConvert("hp", selfd, 0));
+                stats.setRemoveAfter(MapleDataTool.getIntConvert("removeAfter", selfd, stats.getRemoveAfter()));
+                stats.setSelfD((byte) MapleDataTool.getIntConvert("action", selfd, -1));
+            } else {
+                stats.setSelfD((byte) -1);
+            }
             stats.setFirstAttack(firstAttack > 0);
-            stats.setDropPeriod(MapleDataTool.getIntConvert("dropItemPeriod", monsterInfoData, 0));
+            stats.setDropItemPeriod(MapleDataTool.getIntConvert("dropItemPeriod", monsterInfoData, 0));
             if ((stats.isBoss()) || (mid == 8810018) || (mid == 8810026)) {
                 MapleData hpTagColor = monsterInfoData.getChildByPath("hpTagColor");
                 MapleData hpTagBgColor = monsterInfoData.getChildByPath("hpTagBgcolor");

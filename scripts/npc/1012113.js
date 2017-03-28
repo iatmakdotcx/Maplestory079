@@ -31,7 +31,7 @@ function action(mode, type, selection) {
 			status--;
 		if(cm.getChar().getMapId()==910010300){
 			if (status==0) {
-				cm.sendNext("Tough Luck eh? Try again later!");				
+				cm.sendNext("下次加油吧!");				
 			}else if (status == 1){
 				cm.warp(100000200);
 				cm.dispose();

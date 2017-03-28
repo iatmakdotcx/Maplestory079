@@ -15,7 +15,6 @@ import net.sf.cherry.tools.Pair;
    private int mp;
    private int level;
    private int removeAfter;
-   private int dropPeriod;
    private boolean boss;
    private boolean undead;
    private boolean ffaLoot;
@@ -30,7 +29,10 @@ import net.sf.cherry.tools.Pair;
    private int buffToGive;
    private boolean explosive;
    private boolean friendly;
+   private int dropItemPeriod;
    private MapleLifeFactory.BanishInfo banish;
+   private byte selfDestruction_action;
+   private int selfDestruction_hp;
  
    public int getExp()
    {
@@ -71,14 +73,6 @@ import net.sf.cherry.tools.Pair;
  
    public void setRemoveAfter(int removeAfter) {
      this.removeAfter = removeAfter;
-   }
- 
-   public int getDropPeriod() {
-     return this.dropPeriod;
-   }
- 
-   public void setDropPeriod(int dropPeriod) {
-     this.dropPeriod = dropPeriod;
    }
  
    public void setBoss(boolean boss) {
@@ -225,11 +219,34 @@ import net.sf.cherry.tools.Pair;
      return this.explosive;
    }
    
+   public int getDropItemPeriod() {
+       return this.dropItemPeriod;
+   }
+
+   public void setDropItemPeriod(int d) {
+       this.dropItemPeriod = d;
+   }
    public void setFriendly(boolean set) {
 	     this.friendly = set;
    }
  
    public boolean isFriendly() {
      return this.friendly;
+   }
+   
+   public void setSelfD(byte selfDestruction_action) {
+       this.selfDestruction_action = selfDestruction_action;
+   }
+
+   public byte getSelfD() {
+       return this.selfDestruction_action;
+   }
+
+   public void setSelfDHP(int selfDestruction_hp) {
+       this.selfDestruction_hp = selfDestruction_hp;
+   }
+
+   public int getSelfDHp() {
+       return this.selfDestruction_hp;
    }
  }

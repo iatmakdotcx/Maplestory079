@@ -20,8 +20,6 @@ import java.util.Set;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.swing.text.DefaultStyledDocument.ElementSpec;
-
 import net.sf.cherry.client.Equip;
 import net.sf.cherry.client.IItem;
 import net.sf.cherry.client.Item;
@@ -930,12 +928,12 @@ public class MapleMap {
             for (MapleMapObject object : objects) {
                 MapleMonster mons = chr.getMap().getMonsterByOid(object.getObjectId());
                 if (mons != null && mons.getId() >= 8800003 && mons.getId() <= 8800010) {
+                	//如果扎昆的手臂没有打完，这里就忽略掉队扎昆的伤害
                     return true;
                 }
             }
         }
         if (monster.isAlive()) {
-            boolean killMonster = false;
             synchronized (monster) {
                 if (!monster.isAlive()) {
                     return false;
@@ -985,9 +983,6 @@ public class MapleMap {
                     }
                 }
             }
-            if (killMonster) {
-                killMonster(monster, chr, true);
-            }
             return true;
         }
         return false;
@@ -1026,7 +1021,6 @@ public class MapleMap {
             }
         }   }
 
-    @SuppressWarnings("static-access")
     public void killMonster(final MapleMonster monster, final MapleCharacter chr, final boolean withDrops, final boolean secondTime, int animation) {
         if (chr.getCheatTracker().checkHPLoss()) {
             chr.getCheatTracker().registerOffense(CheatingOffense.ATTACK_WITHOUT_GETTING_HIT);
@@ -1575,7 +1569,28 @@ public class MapleMap {
         }
         return ret;
     }
+    
+    public final void spawnAutoDrop(int itemid, final Point pos) {
+        IItem idrop = null;
+        MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
+        if (ii.getInventoryType(itemid) == MapleInventoryType.EQUIP) {
+            idrop = ii.randomizeStats((Equip) ii.getEquipById(itemid));
+        } else {
+            idrop = new Item(itemid, (byte) 0, (short)1);
+        }        
+        idrop.log("地图:"+this.mapid+",自动掉落!", false);
+        final MapleMapItem mdrop = new MapleMapItem(pos, idrop);
+        spawnAndAddRangedMapObject(mdrop, new DelayedPacketCreation() {
+            public void sendPackets(MapleClient c) {
+                c.getSession().write(MaplePacketCreator.dropItemFromMapObject(mdrop.getItem().getItemId(), mdrop.getObjectId(), 0, 
+                		0, mdrop.getPosition(), mdrop.getPosition(), (byte) 1));
+            }
+        }, null);
+        broadcastMessage(MaplePacketCreator.dropItemFromMapObject(mdrop.getItem().getItemId(), mdrop.getObjectId(), 0, 
+        		0, mdrop.getPosition(), mdrop.getPosition(), (byte) 0), mdrop.getPosition());
 
+        TimerManager.getInstance().schedule(new ExpireMapItemJob(mdrop), dropLife);
+    }
     public void spawnItemDropGM(final MapleMapObject dropper, final MapleCharacter owner, final IItem item, Point pos, final boolean ffaDrop, final boolean expire) {
         TimerManager tMan = TimerManager.getInstance();
         final Point droppos = calcDropPos(pos, pos);
@@ -2598,7 +2613,11 @@ public class MapleMap {
 
     public boolean isPQMap() { //不包括互动地图
         int tmapid = this.getId();
-        if ((tmapid > 922010000 && tmapid < 922011100) || (tmapid >= 103000800 && tmapid < 103000890) || (tmapid >= 106021500 && tmapid < 106021510)) { //kpq + lpq only atm
+        if ((tmapid > 922010000 && tmapid < 922011100) || 
+        	(tmapid >= 103000800 && tmapid < 103000890) || 
+        	(tmapid >= 106021500 && tmapid < 106021510) ||
+        	(tmapid == 910010000) // 月兔pq
+        	) { //kpq + lpq only atm
             return true;
         }
         return false;

@@ -14,7 +14,7 @@ import net.sf.cherry.scripting.AbstractScriptManager;
  
  public class EventScriptManager extends AbstractScriptManager
  {
-   private Map<String, EventEntry> events = new LinkedHashMap();
+   private Map<String, EventEntry> events = new LinkedHashMap<String, EventEntry>();
  
    public EventScriptManager(ChannelServer cserv, String[] scripts)
    {

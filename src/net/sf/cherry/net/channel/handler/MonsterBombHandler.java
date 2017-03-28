@@ -20,6 +20,9 @@ import net.sf.cherry.tools.data.input.SeekableLittleEndianAccessor;
      if ((monster.getId() == 8500003) || (monster.getId() == 8500004)) {
        monster.getMap().broadcastMessage(MaplePacketCreator.killMonster(monster.getObjectId(), 4));
        c.getPlayer().getMap().removeMapObject(oid);
+     }else{
+    	 System.out.println("=============================MonsterBombHandler============================");
+    	 System.out.println("============================="+monster.getId()+"============================");
      }
    }
  }
