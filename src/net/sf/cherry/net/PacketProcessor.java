@@ -96,7 +96,7 @@ public final class PacketProcessor {
             registerHandler(RecvPacketOpcode.PLAYER_UPDATE, new UpdateHandler());
             registerHandler(RecvPacketOpcode.ERROR_LOG, new ErrorLogHandler());
             registerHandler(RecvPacketOpcode.RELOG, new RelogRequestHandler());
-        //} else if (mode == Mode.CHANNELSERVER) {
+        } else if (mode == Mode.CHANNELSERVER) {
             registerHandler(RecvPacketOpcode.PLAYER_LOGGEDIN, new PlayerLoggedinHandler());
             registerHandler(RecvPacketOpcode.STRANGE_DATA, LoginRequiringNoOpHandler.getInstance());
             registerHandler(RecvPacketOpcode.OPEN_FAMILY, new OpenFamilyHandler());
