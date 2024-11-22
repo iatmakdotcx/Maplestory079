@@ -32,7 +32,7 @@ function end(mode, type, selection) {
 			status--;
 
 		if (status == 0) {
-			qm.completeQuest();
+			qm.forceCompleteQuest();
 			qm.fixDualSkill();
 			qm.gainItem(4032616,-1);
 			qm.changeJob(430);

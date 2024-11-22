@@ -43,7 +43,7 @@ function end(mode, type, selection) {
 				qm.sendOk("恭喜!你现在是一名冰雷法师了!");
 				qm.changeJob(220);
 				//qm.gainSp(3);
-				qm.completeQuest();
+				qm.forceCompleteQuest();
 			} else {
 				qm.sendNext("请确认你装备栏有一格空间。");
 			}

@@ -1,7 +1,9 @@
-/*
-	ä»»åŠ¡: å¯åŠ¨å¸ƒé›·å…¹é¦–è„‘
-	æè¿°: ç»è¿‡ä¸€ç•ªæ¿€æˆ˜åç»ˆäºæ¶ˆç­äº†#o9400295#ï¼Œç„¶åæˆ‘å‘#p9120025#æŠ¥å‘Šã€‚
-*/
+/* ==================
+ ½Å±¾ÀàĞÍ:  ÈÎÎñ	    
+ ½Å±¾°æÈ¨£ºÓÎÏ·ºĞÍÅ¶Ó
+ ÁªÏµ¿Û¿Û£º297870163    609654666
+ =====================
+ */
 
 var status = -1;
 
@@ -20,16 +22,16 @@ function end(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            qm.sendNext("(I re-entered Shibuya of 2102. What I see down there is... #p9120033#!) \n......You are......!");
+            qm.sendNext("(ÎÒÔÙ´Î½øÈëÉ¬¹ÈµÄ2102ÎÒ¿´µ½ÄÇÀïµÄ... #p9120033#!) \n.....ÄãÊÇ......!");
         } else if (status == 1) {
-            qm.sendNextPrev("...Ah, so you're sent here to defeat #o9400296#. Seriously, I'm so sorry...\n(As he uttered those words, #p9120033# couldn't bear looking at me in the eye)");
+            qm.sendNextPrev("...°¡£¬ËùÒÔÄãËÍµ½ÕâÀï»÷°Ü #o9400296#. ËµÕæµÄ£¬ÎÒºÜ±§Ç¸...\n(ÈçËûËµ³öÕâĞ©»°, #p9120033# ²»ÄÜÔÚĞÜµÄÑÛ¾¦¿´×ÅÎÒ)");
         } else if (status == 2) {
-            qm.sendNextPrev("The enemy headquarters is located at the center of Roppongi, at #bRoppongi Mall#k. Of course, you won't be able to enter the face-on. At the main lobby, an army of robots called #o9400287# stand by, serving as security. Your first task is to enter the building wile faking those robots out.\n(As he mentioned these, #p9120033# handed me a single copy of globe.)");
+            qm.sendNextPrev("µĞÈË×Ü²¿Î»ÓÚÁù±¾Ä¾µÄÖĞĞÄ£¬ÔÚ#bRÁù±¾Ä¾¹ºÎïÖĞĞÄ#k. µ±È»£¬Äã½«ÎŞ·¨½øÈëÃæ×ÓÉÏ¡£ÔÚÖ÷´óÌü£¬»úÆ÷ÈË¾ü¶Ó±»³ÆÎª#o9400287# ĞäÊÖÅÔ¹Û£¬×÷Îª°²È«ĞÔ¡£ÄãµÄµÚÒ»¸öÈÎÎñÊÇ½øÈë´óÂ¥¹î¼ÆÎ±ÔìµÄ»úÆ÷ÈËÁË.\n(ÕıÈçËûËùËµµÄÕâĞ©, #p9120033# µİ¸øÎÒµØÇòµÄÒ»¸ö¸±±¾.)");
         } else if (status == 3) {
-            qm.sendNextPrev("The truth is, there have been underground pathways that leads from Shibuya to Roppongi Mall. Using this will allow you to enter the building without being noticed by #o9400287#. This is the map that'll lead you to there. It's just a straight line, so you should have no trouble entering there, but I'll give you the map nontheless.");
+            qm.sendNextPrev("ÊÂÊµÉÏ£¬ÒÑ¾­ÓĞµØÏÂÍ¨µÀ£¬´ÓÉ¬¹Èµ¼ÖÂÁù±¾Ä¾¹ºÎïÖĞĞÄ¡£Ê¹ÓÃÕâ½«ÔÊĞíÄã½øÈë´óÂ¥Î´¾­±»·¢ÏÖ#o9400287#. ÕâÊÇ»áµ¼ÖÂÄãÓĞµØÍ¼¡£ÕâÖ»ÊÇÒ»ÌõÖ±Ïß£¬ËùÒÔÄãÓ¦¸ÃÃ»ÓĞÎÊÌâ£¬½øÈëÄÇÀï£¬µ«ÎÒÈÔÈ»»áÎªÄúÌá¹©µØÍ¼.");
         } else if (status == 4) {
-            qm.sendOk("Please head over to Shibuya in year 2102, and use the undergroud path to enter the mall. Since the mall is the headquarters, you may encounter a number of monsters you wil have never seen. Please do not underestimate them. Good luck!");
-            qm.completeQuest();
+            qm.sendOk("ÇëÍ·²¿µ½É¬¹ÈÔÚ2102Äê£¬²¢Ê¹ÓÃíÏÂ·¾¶½øÈëÉÌ³¡¡£ÓÉÓÚÖĞĞÄÊÇ×Ü²¿£¬¿ÉÄÜ»áÓöµ½Ò»Ğ©ÄãÎ÷¸ÛµºÏß´ÓÎ´¼û¹ıµÄ¹ÖÎï¡£Çë²»ÒªµÍ¹ÀËûÃÇ¡£ ×£ÄãºÃÔË!");
+            qm.forceCompleteQuest();
             qm.safeDispose();
         }
     }

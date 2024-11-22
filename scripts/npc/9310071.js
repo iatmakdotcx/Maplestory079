@@ -1,144 +1,167 @@
 /*
-åŠ ç‚¹NPC
+SnailMS½Å±¾Éú³ÉÆ÷
 */
 
-var status = 0;
-var fee;
-var xap;
+var ¼¼ÄÜ»ğÑæ = "#fSkill/1210.img/skill/12101006/effect/7#";
+
+
+var minLevel = 120;//ÆïÊ¿ÍÅ×îµÍµÈ¼¶
+var ap = 30;//Ã¿¸öLinkºÅÔö¼ÓµÄapÖµ
+var count;
+var oldChrId = 0;
+var oldAp = 0;
 function start() {
-    status = -1;
-    action(1, 0, 0);
+	status = -1;
+	action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-    if (mode == -1) {
-        cm.dispose();
-    } else {
-        if (mode == 0) {
-            cm.sendOk("å¾ˆå¥½ä¸‹æ¬¡å†è§");
-            cm.dispose();
-            return;
-        }
-        if (mode == 1)
-            status++;
-        else
-            status--;
-        if (status == 0) {
-            cm.sendSimple("æ‚¨å¥½!æˆ‘å¯ä»¥å¸®æ‚¨å¿«é€ŸåŠ ç‚¹å–”!!#b\r\n#L0#å¢åŠ åŠ›é‡#l #L1#å¢åŠ æ•æ·#l #L2#å¢åŠ æ™ºåŠ›#l #L3#å¢åŠ è¿æ°”#l#k");
-        } else if (status == 1) {
-          	 if(selection == 0){
-			xap=1;
-			cm.sendGetNumber("è¯·é—®æ‚¨è¦åŠ å¤šå°‘ç‚¹åŠ›é‡?",1,1,10000);
-		 }else if(selection == 1){
-			xap=2;
-			cm.sendGetNumber("è¯·é—®æ‚¨è¦åŠ å¤šå°‘ç‚¹æ•æ·?",1,1,10000);
-		 }else if(selection == 2){
-			xap=3;
-			cm.sendGetNumber("è¯·é—®æ‚¨è¦åŠ å¤šå°‘ç‚¹æ™ºåŠ›?",1,1,10000);
-		 }else if(selection == 3){
-			xap=4;
-			cm.sendGetNumber("è¯·é—®æ‚¨è¦åŠ å¤šå°‘ç‚¹è¿æ°”?",1,1,10000);
-		 }
-        } else if (status == 2) {
-            fee = selection;
-	    if(xap == 1){
-		xap=5;
-            	cm.sendYesNo("ä½ ç¡®å®šè¦åŠ  #r" + fee + "#k ç‚¹åŠ›é‡å—?");  
-	    }else if(xap == 2){
-		xap=6;
-            	cm.sendYesNo("ä½ ç¡®å®šè¦åŠ  #r" + fee + "#k ç‚¹æ•æ·å—?");  
-	    }else if(xap == 3){
-		xap=7;
-            	cm.sendYesNo("ä½ ç¡®å®šè¦åŠ  #r" + fee + "#k ç‚¹æ™ºåŠ›å—?");  
-	    }else if(xap == 4){
-		xap=8;
-            	cm.sendYesNo("ä½ ç¡®å®šè¦åŠ  #r" + fee + "#k ç‚¹è¿æ°”å—?");       
-	    }	
-        } else if (status == 3) {
-	   var statup = new java.util.ArrayList();
-	   var p = cm.c.getPlayer(); 	  
-           if(xap == 5){
-		if(p.getRemainingAp() < fee){
-			cm.sendOk("æ‚¨çš„APä¸å¤ŸåŠ å“¦!");
+	if (mode == 1) {
+		status++;
+	} else {
+		if (status == 0) {
+			cm.sendOk("¶Ô»°½áÊøÓï");
 			cm.dispose();
-		}else{ 		
-			var newxi = p.getStr() + fee;	
-			var newap =  p.getRemainingAp()- fee;
-			if (newxi > 32000){
-				cm.sendOk("åŠ ç‚¹å¤±è´¥! å„é¡¹èƒ½åŠ›å€¼æœ€å¤šä¸èƒ½è¶…32000!");
-				cm.dispose();
-			}else{
-				p.setRemainingAp (newap);
-				p.setStr(newxi);			
-				statup.add (new net.sf.cherry.tools.Pair(net.sf.cherry.client.MapleStat.STR, java.lang.Integer.valueOf(newxi)));
-				statup.add (new net.sf.cherry.tools.Pair(net.sf.cherry.client.MapleStat.AVAILABLEAP, java.lang.Integer.valueOf(newap)));
-				p.getClient().getSession().write (net.sf.cherry.tools.MaplePacketCreator.updatePlayerStats(statup));
-				cm.sendOk("å¿«é€ŸåŠ ç‚¹æˆåŠŸ!");
-				cm.dispose();
-			      }
+			return;
 		}
-	   }else if(xap == 6){
-		if(p.getRemainingAp() < fee){
-			cm.sendOk("æ‚¨çš„APä¸å¤ŸåŠ å“¦!");
-			cm.dispose();
-		}else{ 		
-			var newxi = p.getDex() + fee;	
-			var newap =  p.getRemainingAp() - fee;
-			if (newxi > 32000){
-				cm.sendOk("åŠ ç‚¹å¤±è´¥! å„é¡¹èƒ½åŠ›å€¼æœ€å¤šä¸èƒ½è¶…32000!");
-				cm.dispose();
-			}else{
-				p.setRemainingAp (newap);
-				p.setDex(newxi);			
-				statup.add (new net.sf.cherry.tools.Pair(net.sf.cherry.client.MapleStat.DEX, java.lang.Integer.valueOf(newxi)));
-				statup.add (new net.sf.cherry.tools.Pair(net.sf.cherry.client.MapleStat.AVAILABLEAP, java.lang.Integer.valueOf(newap)));
-				p.getClient().getSession().write (net.sf.cherry.tools.MaplePacketCreator.updatePlayerStats(statup));
-				cm.sendOk("å¿«é€ŸåŠ ç‚¹æˆåŠŸ!");
-				cm.dispose();
-			     }
+		status--;
+	}
+	if (status == 0) {
+		count = cm.²éÑ¯ÆïÊ¿ÍÅÖ°ÒµÊıÁ¿(minLevel);
+		oldChrId = cm.²éÑ¯linkÊÚÓè½ÇÉ«(cm.getC().getAccID());
+		var text = "\t\t\t\t\t#d´óÖÚLinkÏµÍ³#k\r\n";
+		text += "  " + ¼¼ÄÜ»ğÑæ + "\t\t" + ¼¼ÄÜ»ğÑæ + "\r\n";
+		text += "Äãµ±Ç°ÓµÓĞ #r" + minLevel + " #k¼¶ÒÔÉÏÆïÊ¿ÍÅ½ÇÉ«µÄÊıÁ¿Îª #r" + count + "#k ¸ö\r\n";
+		text += "¿É»ñµÃ¹²¼Æ #b" + count * ap + " #kµãAPÖµ\r\n";
+		if(oldChrId != 0){
+			oldAp = cm.²éÑ¯linkAP(cm.getC().getAccID());
+			text += "ÒÑLinkÖÁ½ÇÉ« #b" + cm.getCharacterNameById(oldChrId) + "#k ¹²¼Æ #b" + oldAp + "#k µãAPÖµ#k\r\n";
 		}
-	   }else if(xap == 7){
-		if(p.getRemainingAp() < fee){
-			cm.sendOk("æ‚¨çš„APä¸å¤ŸåŠ å“¦!");
-			cm.dispose();
-		}else{ 		
-			var newxi = p.getInt() + fee;	
-			var newap =  p.getRemainingAp() - fee;
-			if (newxi > 32000){
-				cm.sendOk("åŠ ç‚¹å¤±è´¥! å„é¡¹èƒ½åŠ›å€¼æœ€å¤šä¸èƒ½è¶…32000!");
+		text += "\t#L1##d[ÎÒÒª»ñµÃÄÜÁ¦µã]#l\t#L2#[ÎÒÒªÊÕ»ØÄÜÁ¦µã]#l\r\n\r\n";
+		text += "#r×¢Òâ£ºLink»ñµÃµÄÄÜÁ¦µã²»ÄÜ¼Óµ½HPºÍMPÉÏÃæ£¬²»È»Ï´²»»ØÀ´£¡ÇĞ¼Ç£¡£¡\r\n";
+		cm.sendSimple(text);
+	} else if (status == 1) {
+		
+		if(selection == 1){
+			if(oldChrId == 0){
+				if(count == 0){
+					cm.sendOk("ÄãÃ»ÓĞ¿ÉÓÃµÄapÖµ°¡£¡");
+					cm.dispose();
+					return;
+				}else if(cm.¸øÓèLink(cm.getC().getAccID(), cm.getPlayer().getId(), count * ap)){
+					cm.¸øÄÜÁ¦µã(count * ap);
+					cm.sendOk("¹§Ï²Äã£¬»ñµÃÁË #b" + count * ap + "#k ÄÜÁ¦µã~\r\n");
+				}else{
+					cm.sendOk("Òò²»Ã÷Ô­Òò£¬¸øÓèLinkÊ§°Ü¡£");
+				}
 				cm.dispose();
+				return;
 			}else{
-				p.setRemainingAp (newap);
-				p.setInt(newxi);			
-				statup.add (new net.sf.cherry.tools.Pair(net.sf.cherry.client.MapleStat.INT, java.lang.Integer.valueOf(newxi)));
-				statup.add (new net.sf.cherry.tools.Pair(net.sf.cherry.client.MapleStat.AVAILABLEAP, java.lang.Integer.valueOf(newap)));
-				p.getClient().getSession().write (net.sf.cherry.tools.MaplePacketCreator.updatePlayerStats(statup));
-				cm.sendOk("å¿«é€ŸåŠ ç‚¹æˆåŠŸ!");
+				cm.sendOk("ÄãÒÑ¾­¸ø½ÇÉ« #r" + cm.getCharacterNameById(oldChrId) + "#k ´«ÊÚÁËLinkÁË!ÇëÏÈµÇÂ¼¸Ã½ÇÉ«ÊÕ»ØLink¡£\r\n");
 				cm.dispose();
-			     }
-		}
-	   }else if(xap == 8){
-		if(p.getRemainingAp() < fee){
-			cm.sendOk("æ‚¨çš„APä¸å¤ŸåŠ å“¦!");
-			cm.dispose();
-		}else{ 		
-			var newxi = p.getLuk() + fee;	
-			var newap =  p.getRemainingAp() - fee;
-			if (newxi > 32000){
-				cm.sendOk("åŠ ç‚¹å¤±è´¥! å„é¡¹èƒ½åŠ›å€¼æœ€å¤šä¸èƒ½è¶…32000!");
+				return;
+			}
+			
+		}else if (selection == 2) {
+			if(cm.getPlayer().getId() != oldChrId){
+				cm.sendOk("±§Ç¸£¬Ö»ÓĞ±»´«ÊÚÁËLinkµÄ½ÇÉ«²Å¿ÉÒÔÊÕ»Ø!");
 				cm.dispose();
+				return;
+			}else if(oldAp == 0){
+				cm.sendOk("ÄãÄ¿Ç°Ã»ÓĞ±»´«ÊÚLinkµÄ½ÇÉ«°¡!Ö±½Óµã»÷#b[ÎÒÒª»ñµÃÄÜÁ¦µã]#k¾Í¿ÉÒÔÁË¡£");
+				cm.dispose();
+				return;
+			}
+			var remainAP = cm.getPlayer().getRemainingAp();
+			var takeAp = cm.ÖØÖÃLink(cm.getC().getAccID());
+			if(takeAp > 0){
+				if(remainAP >= takeAp){
+					cm.ÊÕÄÜÁ¦µã(takeAp);
+					cm.sendOk("ÒÑ³É¹¦»ØÊÕ¹²¼Æ #r" + oldAp + "#k µãAPÖµ\r\n");
+					cm.dispose();
+					return;
+				}else{
+					cm.ÊÕÄÜÁ¦µã(remainAP);
+					takeAp -= remainAP;
+					var str = cm.getPlayer().getStat().getStr();
+					if(str - 4 >= takeAp){
+						cm.getPlayer().getStat().setStr(str - takeAp);
+						cm.Ë¢ĞÂ();
+						cm.sendOk("ÒÑ³É¹¦»ØÊÕ¹²¼Æ #r" + oldAp + " #kµãAPÖµ£¬²»¹»µÄ²¿·ÖÍ¨¹ı¿Û³ıÒÑ¼ÓÄÜÁ¦ÖµÀ´²¹Æë¡£\r\n");
+						cm.dispose();
+						return;
+					}else{
+						cm.getPlayer().getStat().setStr(4);
+						takeAp -= (str - 4);
+					}
+					
+					var dex = cm.getPlayer().getStat().getDex();
+					if(dex - 4 >= takeAp){
+						cm.getPlayer().getStat().setDex(dex - takeAp);
+						cm.Ë¢ĞÂ();
+						cm.sendOk("ÒÑ³É¹¦»ØÊÕ¹²¼Æ #r" + oldAp + " #kµãAPÖµ£¬²»¹»µÄ²¿·ÖÍ¨¹ı¿Û³ıÒÑ¼ÓÄÜÁ¦ÖµÀ´²¹Æë¡£\r\n");
+						cm.dispose();
+						return;
+					}else{
+						cm.getPlayer().getStat().setDex(4);
+						takeAp -= (dex - 4);
+					}
+					
+					var _int = cm.getPlayer().getStat().getInt();
+					if(_int - 4 >= takeAp){
+						cm.getPlayer().getStat().setInt(_int - takeAp);
+						cm.Ë¢ĞÂ();
+						cm.sendOk("ÒÑ³É¹¦»ØÊÕ¹²¼Æ #r" + oldAp + " #kµãAPÖµ£¬²»¹»µÄ²¿·ÖÍ¨¹ı¿Û³ıÒÑ¼ÓÄÜÁ¦ÖµÀ´²¹Æë¡£\r\n");
+						cm.dispose();
+						return;
+					}else{
+						cm.getPlayer().getStat().setInt(4);
+						takeAp -= (_int - 4);
+					}
+					
+					var luk = cm.getPlayer().getStat().getLuk();
+					if(luk - 4 >= takeAp){
+						cm.getPlayer().getStat().setLuk(luk - takeAp);
+						cm.Ë¢ĞÂ();
+						cm.sendOk("ÒÑ³É¹¦»ØÊÕ¹²¼Æ #r" + oldAp + " #kµãAPÖµ£¬²»¹»µÄ²¿·ÖÍ¨¹ı¿Û³ıÒÑ¼ÓÄÜÁ¦ÖµÀ´²¹Æë¡£\r\n");
+						cm.dispose();
+						return;
+					}else{
+						cm.getPlayer().getStat().setLuk(4);
+						takeAp -= (luk - 4);
+					}
+					
+					var HpMpApUsed = cm.getPlayer().getHpMpApUsed();
+					if(HpMpApUsed >= takeAp){
+						cm.getPlayer().setHpMpApUsed(HpMpApUsed - takeAp);
+						cm.Ë¢ĞÂ();
+						cm.sendOk("ÒÑ³É¹¦»ØÊÕ¹²¼Æ #r" + oldAp + " #kµãAPÖµ£¬²»¹»µÄ²¿·ÖÍ¨¹ı¿Û³ıÒÑ¼ÓÄÜÁ¦ÖµÀ´²¹Æë¡£\r\n");
+						cm.dispose();
+						return;
+					}else{
+						cm.getPlayer().setHpMpApUsed(0);
+						takeAp -= HpMpApUsed;
+					}
+					
+					if(takeAp > 0){
+						cm.sendOk("´íÎó£¬ÈÔÓĞ #r" + takeAp + " #kµãAPÖµÎ´ÊÕ»Ø£¬ÒÑÌá½»GM±¸°¸£¬ÇëÁªÏµGM´¦Àí¡£\r\n");
+						cm.dispose();
+						return;
+					}
+					
+				}
 			}else{
-				p.setRemainingAp (newap);
-				p.setLuk(newxi);			
-				statup.add (new net.sf.cherry.tools.Pair(net.sf.cherry.client.MapleStat.LUK, java.lang.Integer.valueOf(newxi)));
-				statup.add (new net.sf.cherry.tools.Pair(net.sf.cherry.client.MapleStat.AVAILABLEAP, java.lang.Integer.valueOf(newap)));
-				p.getClient().getSession().write (net.sf.cherry.tools.MaplePacketCreator.updatePlayerStats(statup));
-				cm.sendOk("å¿«é€ŸåŠ ç‚¹æˆåŠŸ!");
+				cm.sendOk("´íÎó£¬²éÑ¯¼ÇÂ¼ÄãÒÑ´«ÊÚµÄÄÜÁ¦µãÎª #r0#k\r\n");
 				cm.dispose();
-			    }
-		}
-	   }
-          
-        }
-    }
+				return;
+			}
+			
+		} 
+		return;
+		
+	} else {
+		cm.safeDispose();
+		return;
+	}
 }
+

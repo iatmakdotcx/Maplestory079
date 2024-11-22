@@ -16,23 +16,23 @@ function action(mode, type, selection) {
     }
 
     if (status == 0) {
-        cm.sendSangokuTalk("这一时刻终于来到了。第六天魔王的化身——织田信长的传奇到今天终于要结束了。", 9131007, false, true);
+        cm.sendSangokuTalk("終於到時間啦，第六天魔王的化身織田信長的神話今天將是最後一天啦。", 9130000, false, true);
     } else if (status == 1) {
-        cm.sendNextPrevS("之前的我没能护住自己侍奉的主公，没能保住自己的家门，就连姬儿都没能守护住……一想到今日终于能一雪前耻，我就激动得浑身发抖。", 17);
+        cm.sendNextPrevS("沒能守住主力軍隊，沒能守住家族，沒能守住公主殿下 的恥辱… 想到今天終於可以洗清，激動不已。", 17);
     } else if (status == 2) {
-        cm.sendSangokuTalk("能够一雪前耻当然是好事，但是切记，不要被复仇蒙蔽了你的双眼。我承认你确实很有本事，但是激动过头只会影响你的判断，并让你的动作出现破绽。", 9131007, true, true);
+        cm.sendSangokuTalk("雖然受到污名而報仇也不錯，但是只有一身熱血不太好。我不是不知道你的實力，頭腦過熱就會容易判斷錯誤，若判斷錯誤就容易失手。", 9130000, true, true);
     } else if (status == 3) {
-        cm.sendNextPrevS("谢谢你的提醒，不知道能不能控制涌入我剑上的血。", 17);
+        cm.sendNextPrevS("謝謝你的提醒，不知道能不能控制湧入我劍上的血。", 17);
     } else if (status == 4) {
-        cm.sendSangokuTalk("哈哈哈，你能这麽说就代表你还不错，那我就相信你的实力，把本能寺进攻第一步让你迈开可以吗？", 9131007, true, true);
+        cm.sendSangokuTalk("哈哈哈，你能這麼說就代表你還不錯，那我就相信你的實力，把本能寺進攻第一步讓你邁開可以嗎？", 9130000, true, true);
     } else if (status == 5) {
-        cm.sendNextPrevS("你是说东门的开门吗？", 17);
+        cm.sendNextPrevS("你是說東門的開門嗎？", 17);
     } else if (status == 6) {
-        cm.sendSangokuTalk("是喔，你翻过本能寺墙壁打开东门的话武田信玄骑马队进攻践踏魔王的手下的。", 9131007, true, true);
+        cm.sendSangokuTalk("是喔，你翻過本能寺牆壁打開東門的話武田信玄騎馬隊進攻踐踏魔王的手下的。", 9130000, true, true);
     } else if (status == 7) {
-        cm.sendNextPrevS("我的切开云雾之剑只要敌人的血，不在乎任务，请交给我吧。", 17);
+        cm.sendNextPrevS("我的切開雲霧之劍只要敵人的血，不在乎任務，請交給我吧。", 17);
     } else if (status == 8) {
-        cm.sendSangokuTalk("哈哈哈，很强大的气魄！若可以的话就这样一直都把你留作我的手下，祝你好运，武田信玄骑马队很快会跟上去的！", 9131007, true, true);
+        cm.sendSangokuTalk("哈哈哈，很強大的氣魄！若可以的話就這樣一直都把你留作我的手下，祝你好運，武田信玄騎馬隊很快會跟上去的！", 9130000, true, true);
     } else if (status == 9) {
         cm.EnableUI(0);
         cm.environmentChange("guide1");

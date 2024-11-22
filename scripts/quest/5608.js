@@ -16,7 +16,7 @@ function start(mode, type, selection) {
         qm.sendOk("I can always count on you to bring the fun.\r\nAnd also the guacemole, which I totally meant to tell you to bring. We'll just leave chips off the menu this time around. Check your Cash tab for the gift!");	
 	} else if (status == 2) {	   
 		qm.forceStartQuest();
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 		qm.gainItem(5010114, 1);
 		qm.dispose();
 	}

@@ -55,7 +55,7 @@ function end(mode, type, selection) {
     } else if (status == 2) {
         qm.sendNextPrev("好吧，既然你有转职教官的推荐信，我想你是一个很棒的人，很抱歉我没有自我介绍，我是包围蘑菇城堡的卫兵，正如你所看到的，这里是我们暂时的藏身之地，我们的情况很糟糕，尽管如此，欢迎你来到蘑菇王国！");
     } else if (status == 3) {
-        qm.completeQuest();
+        qm.forceCompleteQuest();
         qm.gainItem(4032375, -1);
         qm.forceStartQuest(2312);
         qm.dispose();

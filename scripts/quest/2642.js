@@ -22,9 +22,13 @@ function start(mode, type, selection) {
             return;
         }
 	if (status == 0) {
-	    qm.completeQuest();
+	    qm.forceCompleteQuest();
             qm.changeJob(432);
             qm.dispose();
         }
     }
+}
+
+function end(mode, type, selection) {
+	qm.dispose();
 }

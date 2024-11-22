@@ -15,7 +15,7 @@ function end(mode, type, selection) {
         status++; 
     } 
     if (status == 0) { 
-        qm.completeQuest();
+        qm.forceCompleteQuest();
 		qm.gainItem(2431132,1);
 		qm.gainItem(3994650,1);
         qm.dispose(); 

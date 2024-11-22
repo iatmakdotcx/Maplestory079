@@ -15,15 +15,13 @@ function action(mode, type, selection) {
 	}
 	cm.gainItem(itemid, 1);
 	if (em.getProperty("stage").equals("2")) {
-    		cm.gainNX(5000);
+    		//cm.gainNX(5000);
     		cm.gainExpR(140000);
 	} else {
-		cm.gainNX(3500);
+		//cm.gainNX(3500);
 		cm.gainExpR(105000);
 	}
     }
-    cm.addTrait("will", 25);
-    cm.addTrait("sense", 1);
     cm.getPlayer().endPartyQuest(1205);
     cm.warp(cm.getMapId() == 926100600 ? 926100700 : 926110700,0);
     cm.dispose();

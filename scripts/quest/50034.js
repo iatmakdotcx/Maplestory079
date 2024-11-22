@@ -1,11 +1,12 @@
-/*
-	任务: 毁灭的摇篮曲
-	描述: 异次元的另一面出现的女人，#p9120046#，我必须确认她的身分。
-*/
-var status = -1;
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */var status = -1;
 
 function start(mode, type, selection) {
-    cm.sendNext("You must escape!");
+    cm.sendNext("你必须逃跑!");
     cm.forceStartQuest();
     cm.dispose();
 }

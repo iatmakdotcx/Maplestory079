@@ -17,7 +17,7 @@ function start(mode, type, selection) {
 	    qm.sendYesNo("Finally! I need help! Can you come meet me?\r\n#r(Click Yes to teleport to the Victoria Tree Platform where Instructor Irvin is.)#k");
 	} else if (status == 1) {
         qm.forceStartQuest();
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 		qm.warp(104020100,0);
         qm.dispose();
     }

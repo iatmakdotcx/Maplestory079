@@ -32,7 +32,7 @@ function start(mode, type, selection) {
 	} else if (status == 8) {
 	    qm.sendPrev("Me and my doughy friends will all be waiting for your help.\r\nDon't leave without lending a hand! I will be waiting!");	
         qm.forceStartQuest();
-	    qm.completeQuest();
+	    qm.forceCompleteQuest();
 	    qm.dispose();
 	}
 }

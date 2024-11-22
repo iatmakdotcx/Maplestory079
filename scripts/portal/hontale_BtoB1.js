@@ -1,5 +1,5 @@
-/*
-	This file is part of the OdinMS Maple Story Server
+/* 
+ * This file is part of the OdinMS Maple Story Server
     Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
                        Matthias Butz <matze@odinms.de>
                        Jan Christian Meyer <vimes@odinms.de>
@@ -17,31 +17,10 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-importPackage(net.sf.cherry.server.maps);
-importPackage(net.sf.cherry.net.channel);
-importPackage(net.sf.cherry.tools);
-
-/*
-@Author Jvlaple
-*/
+ */
 
 function enter(pi) {
-	var nextMap = 240050101;
-	var eim = pi.getPlayer().getEventInstance()
-	var target = eim.getMapInstance(nextMap);
-	var targetPortal = target.getPortal("sp");
-	// only let people through if the eim is ready
-	var avail = eim.getProperty("1stageclear");
-	if (!pi.haveItem(4001092, 1)) {
-		// do nothing; send message to player
-		pi.getPlayer().getClient().getSession().write(MaplePacketCreator.serverNotice(6, "Horntail\'s Seal is Blocking this Door."));
-		return false;
-	}else {
-		pi.gainItem(4001092, -1);
-		pi.getPlayer().getClient().getSession().write(MaplePacketCreator.serverNotice(6, "The key disentegrates as Horntail\'s Seal is broken for a flash..."));
-		pi.getPlayer().changeMap(target, targetPortal);
-		return true;
-	}
+	pi.playPortalSE();
+	pi.warp(240050101, "st00");
+	return true;
 }

@@ -1,7 +1,9 @@
-/* RED 1st impact
-	Mai
-    Made by Daenerys
-*/
+/* ==================
+ 脚本类型: NPC	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
 
 var status = -1;
 var sel = 0;
@@ -15,7 +17,7 @@ function action(mode, type, selection) {
         status--;
     }
 	if (status == 0) {
-        cm.sendSimple("你想巩固基础的话，这里再合适不过了。你想在哪里修炼呢？\r\n#b#L0#冒险家的修炼场1#l\r\n#b#L1#冒险家的修炼场2#l\r\n#b#L2#冒险家的修炼场3#l\r\n#b#L3#冒险家的修炼场4#l\r\n"); 
+        cm.sendSimple("This is the perfect place to train your basic skills. Where do you want to train?\r\n#b#L0#Adventurer 培训中心 1#l\r\n#b#L1# Adventurer 培训中心 2#l\r\n#b#L2#Adventurer 培训中心 3#l\r\n#b#L3#Adventurer 培训中心 4#l\r\n"); 
     } else if (status == 1) {
         sel = selection;
 	if (selection == 0) {		

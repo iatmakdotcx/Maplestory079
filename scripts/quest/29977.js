@@ -11,10 +11,10 @@ var itemId = 1142400;
 function start(mode, type, selection) {
     qm.playerMessage("开始任务... " + qm.canHold(itemId, 1) + "  " + !qm.haveItem(itemId, 1));
     if (qm.haveItem(itemId, 1)) {
-        qm.completeQuest();
+        qm.forceCompleteQuest();
     } else if (qm.canHold(itemId, 1) && (qm.getJob() >= 5000 && qm.getJob() < 5112) && qm.getLevel() >= level) {
         qm.gainItem(itemId, 1);
-        qm.completeQuest();
+        qm.forceCompleteQuest();
     }
     qm.dispose();
 }
@@ -22,10 +22,10 @@ function start(mode, type, selection) {
 function end(mode, type, selection) {
     qm.playerMessage("完成任务..." + qm.canHold(itemId, 1) + "  " + !qm.haveItem(itemId, 1));
     if (qm.haveItem(itemId, 1)) {
-        qm.completeQuest();
+        qm.forceCompleteQuest();
     } else if (qm.canHold(itemId, 1) && (qm.getJob() >= 5000 && qm.getJob() < 5112) && qm.getLevel() >= level) {
         qm.gainItem(itemId, 1);
-        qm.completeQuest();
+        qm.forceCompleteQuest();
     }
     qm.dispose();
 }

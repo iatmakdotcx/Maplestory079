@@ -1,48 +1,47 @@
-/*
-	NPC Name: 		Kisan
-	Description: 		Quest - Cygnus tutorial helper
-*/
+
 
 var status = -1;
 
 function start(mode, type, selection) {
     if (mode == 1) {
-        status++;
+	status++;
     } else {
-        if (status == 2) {
-            qm.sendNext("ä½ ä¸æƒ³è¦è¿™ä¸ªä¸œè¥¿å—ï¼Ÿ");
-            qm.safeDispose();
-            return;
-        }
-        status--;
+	if (status == 2) {
+	    qm.sendNext("Äã²»ÏëÀ´£¿ËüÉõÖÁ²»ÊÇºÜÄÑ×öµÄ£¬Äú»áÊÕµ½ÌØÊâ×°±¸×÷Îª½±Àø£¡ºÃÁË£¬¸øËüÒ»Ğ©Ïë·¨£¬ÈÃÄã¸Ä±äÁËÖ÷Òâ£¬ÎÒÖªµÀ£¬.");
+	    qm.safeDispose();
+	    return;
+	}
+	status--;
     }
     if (status == 0) {
-        qm.sendNext("æœ‰è®¸å¤šæ–¹å¼å¯ä»¥æ¥æ‰“çŒï¼Œ ä½†æ˜¯æœ€åŸºæœ¬çš„æ–¹å¼å°±æ˜¯#bâ€œåŸºç¡€æ”»å‡»â€#kã€‚ä½ åªè¦ä¸€æŠŠæ­¦å™¨ï¼Œåªè¦ç®€å•çš„æ“ä½œå°±å¯ä»¥æ€æ­»æ•Œäººã€‚");
+	qm.sendNext("ÓĞĞí¶à·½·¨´òÁÔ£¬µ«×î»ù±¾µÄ·½·¨ÊÇÓÃÄãµÄ #bÆÕÍ¨¹¥»÷#k. ËùÓĞÄãĞèÒªµÄÊÇÔÚÄãµÄÊÖµÄÎäÆ÷£¬ÒòÎªËüÖ»ÊÇ°Ú¶¯ÄãµÄÎäÆ÷ÔÚ¹ÖÎïÒ»¼ş¼òµ¥µÄÊÂÇé¡£");
     } else if (status == 1) {
-        qm.sendNextPrev("æŒ‰ #bCtrl#k é”®å³å¯æ™®é€šæ”»å‡»ï¼Œ å¦‚æœä½ ä¸å¸¸ç”¨è¿™ä¸ªæŒ‰é”®ï¼Œå¯ä»¥åœ¨å³ä¸‹è§’çš„é”®ç›˜è®¾ç½®å¤„æ›´æ¢å…¶å®ƒçš„æŒ‰é”®ã€‚");
+	qm.sendNextPrev("Çë°´ #bCtrl#k Ê¹ÓÃÄãµÄÆÕÍ¨¹¥»÷. Í¨³£ÏÂ Ctrl Î»ÓÚ #b¼üÅÌµÄ×óÏÂ½Ç#k, µ«Äã²¢²»ĞèÒªÎÒ¸æËßÄã¶Ô²»¶Ô£¿ ·¢ÏÖCtrl ²¢³¢ÊÔ¹¥»÷£¡");
     } else if (status == 2) {
-        qm.sendAcceptDecline("è¯•ä¸€ä¸‹å§ï¼ä½ å¯ä»¥æ‰¾åˆ° #r#o100120##kï¼Œ æ‰“è´¥ä»–ä»¬ï¼Œç„¶åå’Œæˆ‘è°ˆè¯ã€‚");
+	qm.askAcceptDecline("ÏÖÔÚ£¬ÄãÒÑ¾­³¢ÊÔ¹ıÁË£¬ÎÒÃÇÒ»¶¨Òª²âÊÔËü¡£ÔÚÕâ·½Ãæ£¬Äã¿ÉÒÔÕÒµ½×î±¡Èõ #r#o100120##k ÔÚÒ®À×¸¥, ÕâÊÇÄúµÄ×î¼ÑÑ¡Ôñ¡£³¢ÊÔá÷ÁÔ #r1Ö»#k. µ±Äã»ØÀ´ÎÒ¸øÄãµÄ½±Àø¡£.");
     } else if (status == 3) {
-        qm.forceStartQuest();
-        qm.summonMsg(4);
-        qm.dispose();
+	qm.forceStartQuest();
+	qm.summonMsg(4);
+	qm.dispose();
     }
 }
 
 function end(mode, type, selection) {
     if (mode == 1) {
-        status++;
+	status++;
     } else {
-        status--;
+	status--;
     }
     if (status == 0) {
-        qm.sendNext("å™¢ï¼Œçœ‹æ¥ä½ å·²ç»æˆåŠŸæ‰“è´¥äº† #o100120#ã€‚ å¾ˆç®€å•ï¼Œä¸æ˜¯å—ï¼Ÿè¿™äº›åªæ˜¯æ™®é€šçš„æ€ªç‰©ï¼Œæ›´å‰å®³çš„æ€ªç‰©åœ¨å¤–é¢éå¸¸å±é™©çš„ä¸–ç•Œã€‚å¥½äº†ï¼Œçœ‹æ¥ä½ å·²ç»é€šè¿‡äº†æˆ‘çš„æµ‹è¯•ï¼Œæˆ‘é€ç»™ä½ ä¸€ç‚¹ä¸œè¥¿å§ã€‚");
+	qm.sendNext("ºÜ°ôà¡¿´ÄãÑ§µÃºÜ¿ì£¬½«À´Ò»¶¨ÊÇÇ¿´óµÄÍõÕß£¡");
     } else if (status == 1) {
-        qm.gainItem(1002869, 1);
-        qm.gainItem(1052177, 1);
-        qm.completeQuest();
-        qm.gainExp(30);
-        qm.summonMsg(6);
-        qm.dispose();
+	qm.sendNextPrev("ÕâÉí×°±¸ÊÇ¹ó×å×¨ÊôµÄ¡£ Ëü½«ËÍ¸øÄã´©£¬´©ÉÏËü°É£¡ È»ºó°´ÕÕ¼ıÍ·µÄ·½ÏòÈ¥ÕÒÎÒµÄĞÖµÜ #b#p1102006##k. Ëû»á¸æËßÄãÏÂÒ»²½¸ÃÔõÃ´×ö¡£ \r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#i1002869# #t1002869# - 1 \r\n#i1052177# #t1052177# - 1 \r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 30 ¾­ÑéÖµ");
+    } else if (status == 2) {
+	qm.gainItem(1002869, 1);
+	qm.gainItem(1052177, 1);
+	qm.forceCompleteQuest();
+	qm.gainExp(30);
+//	qm.summonMsg(6);
+	qm.dispose();
     }
 }

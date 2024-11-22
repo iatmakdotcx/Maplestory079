@@ -1,4 +1,4 @@
-?/*
+﻿﻿/*
  Made by Pungin
  */
         var status = -1;
@@ -11,7 +11,7 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendNextNew("#e<训练公告>#n\r\n练新兵们请参加敏捷性训练. 可以跟训练生克里斯塔·连兹一起进行训练。", 0x21, 1);
+        qm.sendNextSNew("#e<訓練公告>#n\r\n練新兵們請參加敏捷性訓練. 可以跟訓練生克里斯塔·連茲一起進行訓練。", 0x21, 1);
     } else if (status == 1) {
         qm.forceStartQuest();
         qm.dispose();

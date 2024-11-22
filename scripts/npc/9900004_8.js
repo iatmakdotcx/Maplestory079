@@ -1,109 +1,83 @@
-/* 绝版抵用卷商店 脸饰*/
-
-var status = -1;
-var itemList = Array(
-Array(3010767, 30000),
-Array(3010760, 120000),
-Array(3010761, 20000),
-Array(3014006, 120000),
-Array(3015000, 80000),
-Array(3010459, 50000),
-Array(3010613, 80000),
-Array(3010958, 30000),
-Array(3010066, 30000),
-Array(3010071, 20000),
-Array(3010073, 25000),
-Array(3010140, 36000),
-Array(3015004, 50000),
-Array(3010825, 80000),
-Array(3010755, 50000),
-Array(3010753, 100000),
-Array(3010959, 30000),
-Array(3010493, 30000),
-Array(3013001, 30000),
-Array(3015097, 35000),
-Array(3010587, 50000),
-Array(3010545, 60000),
-Array(3010048, 50000),
-Array(3010135, 70000),
-Array(3010403, 50000),
-Array(3010596, 60000),
-Array(3015027, 100000),
-Array(3010212, 100000),
-Array(3010043, 90000),
-Array(3010375, 120000),
-Array(3010522, 120000),
-Array(3010703, 120000),
-Array(3010719, 150000),
-Array(3015031, 170000),
-Array(3010848, 640000),
-Array(3010361, 200000),
-Array(3010589, 200000),
-Array(3010708, 200000),
-Array(3010661, 250000),
-Array(3014005, 200000),
-Array(3014009, 350000),
-Array(3015130, 250000),
-Array(3010681, 650000),
-Array(3010417, 650000),
-Array(3010723, 300000),
-Array(3015133, 350000),
-Array(3015089, 350000),
-Array(3015108, 280000),
-Array(3015131, 280000),
-Array(3010983, 150000),
-Array(3010984, 160000)
-);
-var selectedItem = -1;
-var selectedCost = -1;
-
+/*
+ ZEVMS冒险岛(079)游戏服务端
+ 脚本：推广系统
+ */
+var 箭头 = "#fUI/Basic/BtHide3/mouseOver/0#";
+var 心 = "#fUI/GuildMark.img/Mark/Etc/00009001/14#";
 function start() {
-    action(1, 0, 0);
+    status = -1;
+
+    action(1, 0, 0)
 }
 
 function action(mode, type, selection) {
-    if (mode == 1) {
-        status++;
-    } else {
-        if (status >= 0) {
-            cm.dispose();
-            return;
-        }
-        status--;
-    }
-    if (status == 0) {
-        var selStr = "#fUI/UIWindow2.img/QuestAlarm/BtQ/normal/0#亲爱的#r#h ##k您好，请选择您希望购买的道具：";
-        for (var i = 0; i < itemList.length; i++) {
-            selStr += "\r\n#L" + i + "##i" + itemList[i][0] + ":# #b#t" + itemList[i][0] + "##k   #r" + itemList[i][1]  + "#k抵用卷#l";
-        }
-        cm.sendSimple(selStr);
-    } else if (status == 1) {
-        var item = itemList[selection];
-        if (item != null) {
-            selectedItem = item[0];
-            selectedCost = item[1];
-            cm.sendYesNo("您是否购买#i" + selectedItem + ":# #b#t" + selectedItem + "##k 需要 #r" + selectedCost + "#k 抵用卷？");
-        } else {
-            cm.sendOk("出现错误...");
-            cm.dispose();
-        }
-    } else if (status == 2) {
-        if (selectedCost <= 0 || selectedItem <= 0) {
-            cm.sendOk("购买道具出现错误...");
-            cm.dispose();
-            return;
-        }
-        if (cm.getPlayer().getCSPoints(2) >= selectedCost) {
-            var gachaponItem = cm.gainGachaponItem(selectedItem, 1, "抵用卷商店", 3, true);
-            if (gachaponItem != -1) {
-                cm.gainNX(2, - selectedCost );
-                cm.sendOk("恭喜您成功购买#i" + selectedItem + ":# #b#t" + selectedItem + "##k。");
-            } else {
-                cm.sendOk("购买失败，请您确认在背包所有栏目窗口中是否有一格以上的空间。");
-            }
-        } else {
-            cm.sendOk("您没有那么多抵用卷。\r\n\r\n购买#i" + selectedItem + ":# #b#t" + selectedItem + "##k 需要 #r" + selectedCost + "#k 抵用卷。");
-        }
+    if (status <= 0 && mode <= 0) {
         cm.dispose();
+        return
+    }
+    if (mode == 1) {
+        status++
+    } else {
+        status--
+    }
+    var MC = cm.getServerName();
+    var 推广开关 = cm.GetPiot("推广开关", "1");
+    if (status <= 0) {
+        var
+        selStr = "\t\t " + 心 + "  " + 心 + "  " + 心 + " #r游戏推广员#k " + 心 + "  " + 心 + "  " + 心 + "\r\n\r\n";
+        selStr += "\t\t#d 提示:可以找管理员定制自己的推广奖励。#k\r\n\r\n";
+        selStr += "\t\t\t\t你的推广码为:#r" + cm.getPlayer().id + "#k#n\r\n";
+        if (cm.getBossRank("推广员", 2) > 0) {
+            selStr += "\t\t\t\t你的推广员是:#r" + cm.角色ID取名字(cm.getBossRank("推广员", 2)) + "#k#n\r\n";
+        }
+        selStr += "\t\t\t#L0#" + 箭头 + "#b返回页面#l#k\r\n";
+            selStr += "\t\t\t#L1#" + 箭头 + "#b输入推广码#l#k\r\n";
+            selStr += "\t\t\t#L2#" + 箭头 + "#b我推广的玩家群#l#k\r\n";
+            if (cm.getBossRank("推广员", 2) > 0) {
+                if (cm.getQuestStatus(9941303) == 0) {
+                    selStr += "\t\t\t#L3#" + 箭头 + "#b3人四转找管理领取100赞助奖励#l#k\r\n";
+                }
+            }
+ 
+        cm.sendSimple(selStr)
+    } else if (status == 1) {
+        switch (selection) {
+            case 0:
+                cm.dispose();
+                cm.openNpc(9900004, 0);
+                break;
+            case 1:
+                cm.dispose();
+                cm.openNpc(9900004,81);
+                break;
+		
+            case 2:
+                var text = "\t#r" + cm.getChar().getName() + "#k 推广的玩家：#n\r\n\r\n";
+
+                var rankinfo_list = cm.getBossRankCountTop("" + cm.getPlayer().id + "");
+                if (rankinfo_list != null) {
+                    for (var i = 0; i < rankinfo_list.size(); i++) {
+                        if (i == 20) {
+                            break;
+						}
+                        var info = rankinfo_list.get(i);
+
+                        text += i == 0 ? "#b" : i == 1 ? "#b" : i == 2 ? "#b" : "";
+                        text += "\t #r" + (i + 1) + "#k#n.[ ";
+                        // 填充名字空格
+                        text += info.getCname() + " ]";
+                        for (var j = 16 - info.getCname().getBytes().length; j > 0; j--) {
+                            text += " ";
+                        }
+                        text += "\t#bLv." + cm.角色名字取等级(info.getCname()) + "";
+                        text += "#k";
+
+                        text += "\r\n";
+                    }
+                }
+                cm.sendOkS(text, 3);
+                cm.dispose();
+                break;
+        }
     }
 }

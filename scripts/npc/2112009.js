@@ -15,10 +15,8 @@ function action(mode, type, selection) {
 	}
 	cm.gainItem(itemid, 1);
     }
-    cm.gainNX(2500);
-    cm.gainExp_PQ(120, 1.0);
-    cm.addTrait("will", 25);
-    cm.addTrait("sense", 1);
+    //cm.gainNX(2500);
+    cm.gainExpR(90000);
     cm.getPlayer().endPartyQuest(1205);
     cm.warp(926100700,0);
     cm.dispose();

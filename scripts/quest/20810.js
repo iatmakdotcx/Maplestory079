@@ -17,7 +17,7 @@ function start(mode, type, selection) {
 	    qm.sendYesNo("Mihile, cau thuc su manh me. Cau da san sang nhan suc manh moi roi chu?");
 	} else if (status==1){
             qm.sendNext("Hay su dung suc manh 1 cach thong minh va giup do nhung nguoi khac nua nhe!");
-            qm.completeQuest();
+            qm.forceCompleteQuest();
             qm.changeJob(5110);
         }
         

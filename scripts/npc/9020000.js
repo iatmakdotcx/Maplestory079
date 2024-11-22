@@ -1,127 +1,108 @@
 /*
-	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-                       Matthias Butz <matze@odinms.de>
-                       Jan Christian Meyer <vimes@odinms.de>
+Lakelis - Victoria Road: Kerning City (103000000)
+ **/
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License version 3
-    as published by the Free Software Foundation. You may not use, modify
-    or distribute this program under any other version of the
-    GNU Affero General Public License.
+var status = -1;
+var minMember = 1;
+var maxMember = 7;
+var ´ÎÊıÏŞÖÆ = 10;
+var ½±ÀøÔ¤ÀÀ = [
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
+	[4031997, 1, 100],
+	[2022468, 1, 100]
+];
 
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
 
-/**
--- Odin JavaScript --------------------------------------------------------------------------------
-	Lakelis - Victoria Road: Kerning City (103000000)
--- By ---------------------------------------------------------------------------------------------
-	Stereo
--- Version Info -----------------------------------------------------------------------------------
-	1.0 - First Version by Stereo
----------------------------------------------------------------------------------------------------
-**/
-
-var status;
-var minLevel = 21;
-var maxLevel = 200;
-var minPlayers = 1;
-var maxPlayers = 6;
+var eventMaps = Array(103000800, 103000801, 103000802, 103000803, 103000804, 103000805);
 
 function start() {
-    status = -1;
-    action(1, 0, 0);
+	action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-    if (mode == 1)
-        status++;
-    else {
-        cm.dispose();
-        return;
-    }
-    if (status == 0) {
-            var tex2 = "";
-            var text = "";
-            for (i = 0; i < 10; i++) {
-                text += "";
-            }
-			//æ˜¾ç¤ºç‰©å“IDå›¾ç‰‡ç”¨çš„ä»£ç æ˜¯  #vè¿™é‡Œå†™å…¥ID#
-            text += "#däº²çˆ±çš„å²›æ°‘ä½ å¥½ï¼#l\r\nè¿™é‡Œæ˜¯åºŸå¼ƒéƒ½å¸‚ç»„é˜Ÿä»»åŠ¡ï¼Œè¦æ±‚3~6äººï¼Œç­‰çº§åœ¨21~35çº§å³å¯å¼€å§‹åºŸå¼ƒç»„é˜Ÿä»»åŠ¡,å¬é›†å°ä¼™ä¼´ä¸€èµ·é€šå…³å§ï¼ã€‚\r\n\r\n"//3
-            text += "#L1##rå¼€å§‹ç»„é˜Ÿå‰¯æœ¬#l\r\n"//3
-			//text += "#L2##rå‰¯æœ¬å›ºå®šå¥–åŠ±#l\r\n\r\n"//3
-            cm.sendSimple(text);
-	} else if (selection == 1) {
-        if (cm.getParty() == null) { // No Party
-            cm.sendOk("ä½ æ²¡æœ‰é˜Ÿä¼æ— æ³•è¿›å…¥ï¼");
-            cm.dispose();
-        } else if (!cm.isLeader()) { // Not Party Leader
-            cm.sendOk("è¯·è®©ä½ çš„é˜Ÿé•¿å’Œæˆ‘è¯´è¯~");
-            cm.dispose();
-        } else {
-            var party = cm.getParty().getMembers();
-            var inMap = cm.partyMembersInMap();
-            var levelValid = 0;
-            for (var i = 0; i < party.size(); i++) {
-                if (party.get(i).getLevel() >= minLevel && party.get(i).getLevel() <= maxLevel)
-                    levelValid++;
-            }
-            if (inMap < minPlayers || inMap > maxPlayers) {
-                cm.sendOk("ä½ çš„é˜Ÿä¼äººæ•°ä¸è¶³"+minPlayers+"äºº.è¯·æŠŠä½ çš„é˜Ÿä¼äººå‘˜å¬é›†åˆ°åºŸæ°”éƒ½å¸‚åœ¨è¿›å…¥å‰¯æœ¬.");
-                //cm.sendOk("Your party is not a party of "+minPlayers+". Please make sure all your members are present and qualified to participate in this quest. I see #b" + inMap + "#k of your party members are in Kerning. If this seems wrong, #blog out and log back in,#k or reform the party.");
-                cm.dispose();
-            } else if (levelValid != inMap) {
-                cm.sendOk("è¯·ç¡®ä¿ä½ çš„é˜Ÿä¼äººå‘˜æœ€å°ç­‰çº§åœ¨ "+minLevel+" å’Œ "+maxLevel+"ä¹‹é—´. I see #b" + levelValid + "#k members are in the right level range. If this seems wrong, #blog out and log back in,#k or reform the party.");
-                cm.dispose();
-            } else {
-                var em = cm.getEventManager("KerningPQ");
-                if (em == null) {
-                    cm.sendOk("This PQ is currently unavailable.");
-                //} else if (em.getProperty("KPQOpen").equals("true")) {
-                } else {
-        if (cm.getPlayerCount(103000800) <= 0 && cm.getPlayerCount(103000801) <= 0 && cm.getPlayerCount(103000802) <= 0 && cm.getPlayerCount(103000803) <= 0 && cm.getPlayerCount(103000804) <= 0) {
-			//if(cm.getMonsterCount(103000804) <= 0){
-				/*cm.spawnMobOnMap(9300002,1,297,-2188,103000804);
-				cm.spawnMobOnMap(9300002,1,433,-2192,103000804);
-				cm.spawnMobOnMap(9300002,1,132,-2193,103000804);
-				cm.spawnMobOnMap(9300000,1,-18,-1480,103000804);
-				cm.spawnMobOnMap(9300000,1,80,-1486,103000804);
-				cm.spawnMobOnMap(9300000,1,391,-1488,103000804);
-				cm.spawnMobOnMap(9300000,1,247,-1485,103000804);
-				cm.spawnMobOnMap(9300000,1,-111,-1475,103000804);
-				cm.spawnMobOnMap(9300000,1,299,-1485,103000804);
-				cm.spawnMobOnMap(9300003,1,162,-451,103000804);*/
-			//}
-				//em.startInstance(cm.getPlayer().getParty(), cm.getPlayer().getMap());
-                em.startInstance(cm.getParty(), cm.getPlayer().getMap());
-		} else {
-                            cm.sendOk("è¯·ç¨ç­‰...ä»»åŠ¡æ­£åœ¨è¿›è¡Œä¸­.");
-                        }
-						// Capt. Lac Map
-				//em.startInstance(cm.getPlayer().getParty(), cm.getPlayer().getMap());
-                    // Begin the PQ.
-                //    em.startInstance(cm.getParty(), cm.getPlayer().getMap());
-                    // Remove Passes and Coupons GMS DOESNT DO THIS!!!
-                    //party = cm.getPlayer().getEventInstance().getPlayers();
-                    //cm.removeFromParty(4001008, party);
-                    //cm.removeFromParty(4001007, party);
-                  //  em.setProperty("KPQOpen" , "false");
-                //} else {
-                 //   cm.sendNext("There is already another party inside. Please wait !");
-                }
-                cm.dispose();
-            }
+	if (mode == 1) {
+		status++;
+	} else {
+		if (status == 0) {
+			cm.dispose();
+			return;
+		}
+		status--;
+	}
+	cm.removeAll(4001007);
+	cm.removeAll(4001008);
+	if (status == 0) {
+		var ÎÄ±¾ĞÅÏ¢ = "";
+		ÎÄ±¾ĞÅÏ¢ += "        #bÀï³Ìx1#k\r\n"
+        for (var i = 0; i < ½±ÀøÔ¤ÀÀ.length; i++) {
+            ÎÄ±¾ĞÅÏ¢ += "   " + cm.ÏÔÊ¾ÎïÆ·(½±ÀøÔ¤ÀÀ[i][0]) + "x" + ½±ÀøÔ¤ÀÀ[i][1] +" " + ½±ÀøÔ¤ÀÀ[i][2] +" % #k\r\n";
         }
-	} else if (selection == 2) {
-            cm.openNpc(9310084, 22);
-                            //cm.sendOk(".");
-                //cm.dispose();
-    }
+		cm.sendOk("<×é¶Ó¸±±¾: µÚÒ»´ÎÍ¬ĞĞ>#n \r\n»ã¼¯´ó¼ÒµÄÁ¦Á¿ºÍÖÇ»Û,°ÑÇ¿´óµÄ#bÂÌË®ÁéÍõ#k´ò°Ü°É!¡°»ñÈ¡Í¨ĞĞÖ¤¡±¡°²Â²ÂÕıÈ·´ğ°¸µÄÎ»ÖÃ¡±µÈÌâÄ¿µÄÕıÈ·»Ø´ğÊı´ïµ½Ò»¶¨Á¿µÄ»°,ÂÌË®ÁéÍõ¾Í»áµÇ³¡!\r\nÍ¨¹Ø»ñµÃ:	" + ÎÄ±¾ĞÅÏ¢ + " \r\n#r½ñÈÕÒÑÍê³É" + cm.ÅĞ¶ÏÃ¿ÈÕÖµ("·ÏÆú¶¼ÊĞ") + "´Î\r\n#b#L0#ÌôÕ½¸±±¾ ");
+	} else if (status == 1) {
+		if (cm.getParty() == null) { // No Party
+			cm.sendOk("Çë´´½¨¶ÓÎé£¡");
+		} else if (!cm.isLeader()) { // Not Party Leader
+			cm.sendOk("Çë½ĞÄãµÄ¶Ó³¤À´ÕÒÎÒ!");
+		} else {
+			// Check if all party members are within Levels 21-30
+			var party = cm.getParty().getMembers();
+			var mapId = cm.getMapId();
+			var next = true;
+			var levelValid = 0;
+			var inMap = 0;
+
+			var it = party.iterator();
+			while (it.hasNext()) {
+				var cPlayer = it.next();
+				if ((cPlayer.getLevel() >= 20 && cPlayer.getLevel() <= 256) || cPlayer.getJobId() == 900) {
+					levelValid += 1;
+				} else {
+					next = false;
+				}
+				if (cPlayer.getMapid() == mapId) {
+					inMap += (cPlayer.getJobId() == 900 ? 4 : 1);
+				}
+			}
+			if (party.size() >= maxMember || inMap < minMember) {
+				next = false;
+			}
+			// if(cm.ÅĞ¶ÏÍÅ¶ÓÃ¿ÈÕ("·ÏÆú¶¼ÊĞ", ´ÎÊıÏŞÖÆ) == 0){
+				// cm.sendOk("±§Ç¸£¬½ñÌìÄãµÄ¶ÓÎéÀïÓĞÈËÒÑ¾­×öÂú " + ´ÎÊıÏŞÖÆ + " ´ÎÁË£¡");
+				// cm.dispose();
+				// return;
+			// }
+			if (next) {
+				var em = cm.getEventManager("KerningPQ");
+				if (em == null) {
+					cm.sendOk("ÕÒ²»µ½½Å±¾£¬ÇëÁªÏµGM£¡");
+					cm.dispose();
+					return;
+				} else {
+					var prop = em.getProperty("state");
+					var chrInMap = false;
+					for(var i = 0; i < eventMaps.length; i++){
+						if(cm.getPlayer().isGM()){
+							cm.playerMessage(6, "µØÍ¼ " + eventMaps[i] + "  Íæ¼ÒÊıÁ¿£º" + cm.getC().getChannelServer().getMapFactory().getMap(eventMaps[i]).getCharactersSize());//²âÊÔ
+						}
+						if(cm.getC().getChannelServer().getMapFactory().getMap(eventMaps[i]).getCharactersSize() > 0){
+							chrInMap = true;
+							break;
+						}
+					}
+					if (prop == null || prop.equals("0") || !chrInMap) {
+						em.startInstance(cm.getParty(), cm.getMap());
+					} else {
+						cm.sendOk("ÒÑ¾­ÓĞ¶ÓÎéÔÚÀïÃæÌôÕ½ÁË¡£");
+						cm.dispose();
+						return;
+					}
+					cm.removeAll(4001008);
+					cm.removeAll(4001007);
+				}
+			} else {
+				cm.sendOk("ÄãµÄ¶ÓÎéĞèÒª¸öÈË,µÈ¼¶±ØĞëÔÚ21-255Ö®¼ä,ÇëÈ·ÈÏÄãµÄ¶ÓÓÑÓĞÃ»ÓĞ¶¼ÔÚÕâÀï,»òÊÇÀïÃæÒÑ¾­ÓĞÈËÁË!");
+			}
+		}
+		cm.dispose();
+	}
 }

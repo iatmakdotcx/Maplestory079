@@ -1,22 +1,22 @@
-/*  This is mada by Kent    
- *  This source is made by Funms Team
- *  BOSS组队副本 麦格纳斯[普通]
- *  @Author Kent 
+/*  
+ *  
+ *  BOSS组队副本 麦格纳斯[困难]
+ *  
  */
 
 //副本开关 开启、true 关闭、false
 var open = true;
 //配置文件名称
-var PQname = ["BossMagnus_NORMAL", "BossMagnus_HARD"];
+var PQname = ["BossMagnus_HARD"];
 //记录次数名称
-var PQLog = ["麦格纳斯", "麦格纳斯[困难]"];
+var PQLog = ["麦格纳斯[困难]"];
 //开始的地图
-var startmap = 401060000;
+var startmap = 401072000;
 //等级限制
-var minLevel = [155, 200];
+var minLevel = [200, 180];
 var maxLevel = [255, 255];
 //次数限制
-var maxenter = [2, 0];
+var maxenter = [1, 3];
 
 var status = -1;
 //限制人数
@@ -25,7 +25,7 @@ var maxPlayers = 6;
 //怪物最大等级设置
 var moblevel = 255;
 var chs;
-var questID = 31732;
+
 
 function start() {
     if (cm.getMapId() == startmap) {
@@ -33,7 +33,7 @@ function start() {
         for (var i = 0; i < PQname.length; i++) {
             text += "\r\n#b#L" + i + "#挑战 " + PQLog[i] + "#l#k";
         }
-        cm.sendSimple("#e<Boss - " + PQLog[0] + ">#n\r\n\r\n#b#h0# \n\#k你想和队员们一起努力，完成任务吗？这里面有很多如果不同心协力就无法解决的障碍……\r\n" + text);
+        cm.sendSimple("#e<Boss - " + PQLog[0] + ">#n\r\n\r\n#b#h0# \n\#k你想和队员们一起努力，完成任务吗？这里面有很多如果不同心协力就无法解决的障碍……。?\r\n" + text);
     } else {
         cm.sendYesNo("#e<Boss - " + PQLog[0] + ">#n\r\n\r\n你现在确定放弃任务,从这里出去?\r\n");
     }
@@ -66,15 +66,12 @@ function action(mode, type, selection) {
                 cm.sendYesNo("你并没有组队，请创建组建一个队伍在来吧。");
             } else if (!cm.isLeader()) { // 判断组队队长
                 cm.sendOk("请让你们的组队长和我对话。");
-            } else if (!cm.allMembersHere()) {
-                cm.sendOk("你的组队部分成员不在当前地图,请召集他们过来后在尝试。"); //判断组队成员是否在一张地图..
             } else if (!cm.isAllPartyMembersAllowedLevel(minLevel[chs], maxLevel[chs])) {
                 cm.sendNext("组队成员等级 " + minLevel[chs] + " 以上 " + maxLevel[chs] + " 以下才可以入场。");
             } else if (!cm.isAllPartyMembersAllowedPQ(PQLog[chs], maxenter[chs])) {
                 cm.sendNext("你的队员#r#e \"" + cm.getNotAllowedPQMemberName(PQLog[chs], maxenter[chs]) + "\" #k#n次数已经达到上限了。");
-            } else if (!cm.isAllPartyMembersNotCoolDown(questID, 1000 * 60 * 90)) {//判断组队成员是否l冷却..
-                cm.sendOk("你的队员#r#e \"" + cm.getIsInCoolDownMemberName(questID, 1000 * 60 * 90) + "\" #k#n目前处于等待重置时间状态。");
-                cm.dispose();
+            } else if (!cm.allMembersHere()) {
+                cm.sendOk("你的组队部分成员不在当前地图,请召集他们过来后在尝试。"); //判断组队成员是否在一张地图..
             } else {
                 var em = cm.getEventManager(PQname[chs]);
                 if (em == null || open == false) {
@@ -82,8 +79,8 @@ function action(mode, type, selection) {
                 } else {
                     var prop = em.getProperty("state");
                     if (prop == null || prop.equals("0")) {
-                        em.startInstance(cm.getParty(), cm.getMap(), 255, questID);
-                        //cm.gainMembersPQ(PQLog[chs], 1);
+                        em.startInstance(cm.getParty(), cm.getMap(), 255);
+                        cm.gainMembersPQ(PQLog[chs], 1);
                     } else {
                         cm.sendOk("已经有队伍在进行了,请换其他频道尝试。");
                     }

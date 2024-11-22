@@ -1,3 +1,12 @@
-/bin/*
-/.idea/*
-/out/*
+.gitignore
+.vscode/*
+out/*
+/logs/*
+/dist/
+/.vscode/
+/img/
+/logs/
+/out/
+/**/bin/
+/**/obj/
+/**/.vs/

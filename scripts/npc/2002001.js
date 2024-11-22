@@ -1,48 +1,107 @@
-/* Nana(0)
-	Fame Seller
-	by çˆ±ä¸Šå†’é™©å²›
-*/
+var itemList = new Array(5010000, 2022468, 5010002, 2022468, 2022468, 2022468, 2022468, 5121008, 5121009, 5121010, 5010038, 5010039, 2022468, 5010041, 2022468, 5010043, 2022468, 1702100, 2022468, 5120012, 2022468, 5121007, 2022468, 5010050, 2022468, 5120014, 5010054, 5010052, 5010053, 2022468, 2022468, 5010051, 1702209, 2022468, 2022468, 5150028, 1702210, 1702166, 2022468, 1702166, 2022468, 2022468, 1452062, 1492030, 2022468, 2022468, 1472077, 1482029, 2022468, 1462056, 2022468, 1322065, 1442071, 5021012, 2022468, 5021013, 5021014, 1432050, 2022468, 2022468, 2022468, 2022468, 2022468, 2022468, 1402053, 1422039, 2022468, 2022468, 5021010, 2022468, 5120005, 2022468, 2022468, 5021011, 2022468, 2022468, 1412035, 1382062, 2022468, 2022468, 2022468, 2022468, 1372046, 1332081, 2022468, 2022468, 5160011, 2022468, 2022468, 1332032, 5120002, 2022468, 1052078, 1051131, 5120006, 2022468, 1051049, 1050119, 2022468, 1702088, 2022468, 1050019, 2022468, 2022468, 5160012, 2022468, 5160000, 2022468, 2022468, 5160013, 2022468, 5160003, 2022468, 5160004, 5160002, 1000026, 2022468, 1001036, 1002714, 1002876, 5110000, 5110000, 2022468, 5110000, 1002871, 1002872, 2022468, 2022468, 1002873, 1002874, 2022468, 1002720, 2022468, 2022465, 2022468, 2022466, 2022467, 2022468, 5021000, 2022468, 5160001, 5160005, 2022436, 2022437, 2022468, 2022438, 5010035, 5010034, 5160007, 5160006, 2022468, 2022468, 5010027, 5010021, 5010021, 5010022, 2022468, 5160010, 5010023, 5160009, 5010024, 5160008, 5010025, 2022119, 2022468, 2022122, 1302105, 1312039, 1002368, 2022428, 5160014, 5021015, 5010033, 5110000, 2022468, 2022468, 2022468);
+var randNum = Math.floor(Math.random()*(itemList.length));
+var randItem = itemList[randNum];
+var status = -1;
 
-var wui = 0;
-var price = 500000;
-var fame = 1
-var qty;
-
-
-function start() {
-	status = -1;
-	action(1, 0, 0);
-}
 function action(mode, type, selection) {
-	if (mode == 1)
-		status++;
-	else 
+    if (mode == 1) {
+	status++;
+    } else {
+	if (status == 0) {
+	    cm.dispose();
+		return;
+	}
+	status--;
+    }
+    switch(cm.getPlayer().getMapId()) {
+	case 104040000:
+		cm.saveLocation("CHRISTMAS");
+		cm.warp(889100100);
 		cm.dispose();
-if (status == 0 && mode == 1) {
-cm.sendYesNo("#dä½ éœ€è¦æ¢äººæ°”å—ï¼Ÿæˆ‘å¯ä»¥ç»™ä½ åŠ ï¼Œä¸è¿‡è¦#r50W#dä¸€ç‚¹ï¼Œå“ˆå“ˆï¼ #fUI/UIWindow.img/QuestIcon/6/0# ");
-}
-else if (status == 1 && mode == 1) {
-		var prompt = "#bä½ æƒ³æ¢å¤šå°‘äººæ°”?";
-		cm.sendGetNumber(prompt,1,1,100)
-}
-else if (status == 2 && mode == 1) {
-qty = selection;
-cm.sendYesNo("#bä½ å°†èŠ±è´¹#r"+qty*price+"#bé‡‘å¸å…‘æ¢#r"+qty+"#bç‚¹äººæ°”,ä½ ç¡®å®šè¦å…‘æ¢ï¼Ÿ");
-}
-else if (status == 3 && mode == 1) {
-if (cm.getMeso() >= price) 
-{
-	cm.gainFame(+fame*qty);
-	cm.gainMeso(-price*qty);
-	var say = "#bæˆåŠŸå…‘æ¢ " +qty+ "ç‚¹äººæ°”?";
-	cm.sendOk(say);
-	cm.dispose();
-	} else {
-			cm.sendOk("å¯¹ä¸èµ·ï¼Œä½ é‡‘å¸ä¸è¶³.");
+	    break;
+	case 889100100:
+    	if (status == 0) {
+	        cm.sendSimple("°²°² ÌıËµÑ©ÈË±»Ñ©¾«ÁéÖĞ³öÁË Çë¸÷Î»Ç¿´óµÄÖĞÂ·±£»¤Ñ©ÈË#b\r\n\r\n#L0#±£»¤Ñ©ÈË - ¼òµ¥ (µÈ¼¶ 10 ÒÔÉÏ 30µÈÒÔÏÂ)#l\r\n#L1#±£»¤Ñ©ÈË - ÖĞµÈ (µÈ¼¶ 30 ÒÔÉÏ 70µÈÒÔÏÂ)#l\r\n#L2#±£»¤Ñ©ÈË - À§ÄÑ (µÈ¼¶ 70 ÒÔÉÏ)#l");
+    	} else if (status == 1) {
+                var level = cm.getPlayerStat("LVL");
+	        if (selection == 0 && level <= 10 || level <= 30) {
+		    cm.warp(889100001,0); //exit map lobby
+		    cm.dispose();
+		} else if (selection == 1 && level <= 30 || level <= 200) {
+		    cm.warp(889100011,0); //exit map lobby
+		    cm.dispose();
+		} else if (selection == 2 && level >= 70) {
+		    cm.warp(889100021,0); //exit map lobby
+		    cm.dispose();
+                } else {
+		    cm.sendOk("ÄãµÄµÈ¼¶²»¹»»òÊÇ³¬¹ı");
+		    cm.dispose();
+                }
+        }
+	    break;
+	case 889100001:
+	case 889100011:
+	case 889100021:
+    	    if (status == 0) {
+	        cm.sendSimple("ÓÂÊ¿°²°²°¢!#b\r\n\r\n#L0#ÎÒµÄ¾ŞĞÍÄ§°ô´øºÃÁË ÎÒÒªÇ°Íù±£»¤Ñ©ÈË#l");
+    	    } else if (status == 1) {
+			var s = ((cm.getMapId() % 100) / 10) | 0;
+   		    var em = cm.getEventManager("Christmas");
+    		    if (em == null) {
+			cm.sendOk("Please try again later.");
 			cm.dispose();
+			return;
+    		    }
+		    if (cm.getPlayer().getParty() == null || !cm.isLeader()) {
+			cm.sendOk("Çë¶Ó³¤À´ÕÒÎÒ¶Ô»°");
+		    } else {
+			var party = cm.getPlayer().getParty().getMembers();
+			var mapId = cm.getPlayer().getMapId();
+			var next = true;
+			var size = 0;
+			var it = party.iterator();
+			while (it.hasNext()) {
+				var cPlayer = it.next();
+				var ccPlayer = cm.getPlayer().getMap().getCharacterById(cPlayer.getId());
+				if (ccPlayer == null || ccPlayer.getLevel() < (s == 0 ? 10 : (s == 1 ? 30 : 70))) {
+					next = false;
+					break;
+				}
+				size++;
+			}	
+			if (next && size >= 4) {
+		    		if (em.getInstance("Christmas" + s) == null) {
+					em.startInstance_Party("" + s, cm.getPlayer());
+		    		} else {
+					cm.sendOk("ÇëÈ·ÈÏÄãµÄÆäËû¶ÓÔ±ÓĞÃ»ÓĞÔÚÕâ±ß");
+		    		}
+			} else {
+				cm.sendOk("±ØĞëÒªËÄÈË(º¬)ÒÔÉÏ");
+			}
+		    }
+	        cm.dispose();
+            }
+	    break;
+	case 889100001:
+	case 889100011:
+	case 889100021:
+		if (cm.getPlayer().getEventInstance() == null) {
+			cm.sendOk("ÖĞÂ·×îºóÏ£Íû °İÍĞÄãÃÇÁË!");
+		} else {
+			if (!cm.getPlayer().getEventInstance().getProperty("stage").equals("1")) {
+				cm.sendOk("ÖĞÂ·×îºóÏ£Íû °İÍĞÄãÃÇÁË!");
+			} else if (cm.getPlayer().getMap().countMonsterById(9400319) > 0 || cm.getPlayer().getMap().countMonsterById(9400320) > 0 || cm.getPlayer().getMap().countMonsterById(9400321) > 0) {
+				cm.sendOk("ÖĞÂ·×îºóÏ£Íû °İÍĞÄãÃÇÁË!");
+			} else {
+                        	cm.showEffect(false, "quest/party/clear");
+                        	cm.playSound(false, "Party1/Clear");
+				var s = ((cm.getMapId() % 100) / 10) | 0;
+				cm.warp(cm.getMapId() + 1);
+                        	cm.gainItem(randItem, 1);
+				cm.gainExp((s == 0 ? 2500 : (s == 1 ? 7500 : 20000)));
+			}
+		}
+		cm.dispose();
+		break;
+    }
 }
-}
-else
-	cm.dispose();
-}
-

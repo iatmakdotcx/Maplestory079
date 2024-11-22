@@ -27,5 +27,5 @@
 */
 
 function act(){
-	rm.dropItems(false);
+	rm.dropItems();
 }

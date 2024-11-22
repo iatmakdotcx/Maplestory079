@@ -1,22 +1,33 @@
-importPackage(net.sf.cherry.server.maps);
+importPackage(Packages.server.maps);
+
+var MapleJob = Packages.client.MapleJob
+
 
 var status = 0;
 
 var maps = Array(
-Array(500000000,3000,2900),
-Array(702000000,3000,2900),
-Array(800000000,3000,2900),
-Array(550000000,3000,2900)
+Array(500000000,3000,2700),
+Array(702000000,3000,2700),
+Array(600000000,3000,2700),
+Array(540000000,3000,2700),
+Array(800000000,3000,2700),
+Array(701000000,3000,2700),
+Array(702100000,3000,2700),
+Array(550000000,3000,2700)
 );
 var selectedMap = -1;
 var cost = 0;
+var isBEGINNER = 0
 
 function start() {
+	isBEGINNER = cm.getJob().equals(MapleJob.初心者.getId())
+	
 	status = -1;
 	action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
+
 	if (mode == -1) {
 		cm.dispose();
 	} else {
@@ -30,17 +41,17 @@ function action(mode, type, selection) {
 		status--;
 	if (cm.getChar().getMapId() != 500000000 && cm.getChar().getMapId() != 702000000 && cm.getChar().getMapId() != 800000000 && cm.getChar().getMapId() != 600000000 && cm.getChar().getMapId() != 540000000 && cm.getChar().getMapId() != 550000000 && cm.getChar().getMapId() != 541000000) {
 		if (status == 0) {
-			if (cm.getJob().equals(net.sf.cherry.client.MapleJob.BEGINNER)) {
+			if (isBEGINNER) {
 				cm.sendNext("为了从繁忙的日常中解脱，去享受一趟旅游怎么样？不仅可以体验新颖的异国文化，还能学到不少东西的机会！我们冒险岛旅游公司为您准备了，丰富有趣的#b世界旅游#k套餐。谁说环游世界很贵？请放一万个心。我们的#b冒险岛世界旅游套餐#k只需要#b2900金币#k就可以享受全程。");
 			} else {
 				cm.sendNext("为了从繁忙的日常中解脱，去享受一趟旅游怎么样？不仅可以体验新颖的异国文化，还能学到不少东西的机会！我们冒险岛旅游公司为您准备了，丰富有趣的#b世界旅游#k套餐。谁说环游世界很贵？请放一万个心。我们的#b冒险岛世界旅游套餐#k只需要#b3000金币#k就可以享受全程。");
 			}
 		} else if (status == 1) {
-			cm.sendSimple("现在就可以去往 #b泰国的水上市场,少林寺,日本古代神社#k游览一番。在各旅游地我都会为大家提供满意热诚的服务。那么请准备好，新手可以9折优惠。\r\n#b#L0#查看旅游线路.#k#l");
+			cm.sendSimple("现在就可以去往 #b泰国的水上市场,少林寺,日本古代神社...#k游览一番。在各旅游地我都会为大家提供满意热诚的服务。那么请准备好，新手可以9折优惠。\r\n#b#L0#查看旅游线路.#k#l");
 		} else if (status == 2) {
 			if (selection == 0) {
 				var selStr = "请在下面的旅游线路中选择你要去的地方#b";
-				if (cm.getJob().equals(net.sf.cherry.client.MapleJob.BEGINNER)) {
+				if (isBEGINNER) {
 					for (var i = 0; i < maps.length; i++) {
 						selStr += "\r\n#L" + i + "##m" + maps[i][0] + "# ("+maps[i][2]+"金币)#l";
 					}
@@ -53,7 +64,7 @@ function action(mode, type, selection) {
 			}
 		} else if (status == 3) {
 			selectedMap = selection;
-			if (cm.getJob().equals(net.sf.cherry.client.MapleJob.BEGINNER)) {
+			if (isBEGINNER) {
 				cost = maps[selectedMap][2];
 			} else {
 				cost = maps[selectedMap][1];
@@ -68,7 +79,8 @@ function action(mode, type, selection) {
 				cm.warp(maps[selectedMap][0], 0);
 				cm.dispose();
 			}
-		}	
+		}
+		
 	} else if (cm.getChar().getMapId() == 500000000 || cm.getChar().getMapId() == 702000000 || cm.getChar().getMapId() == 800000000 || cm.getChar().getMapId() == 600000000 || cm.getChar().getMapId() == 540000000 || cm.getChar().getMapId() == 550000000 || cm.getChar().getMapId() == 551000000 || cm.getChar().getMapId() == 541000000 || cm.getChar().getMapId() == 220000000 || cm.getChar().getMapId() == 240000000) {
 		if (status == 0) {
 			cm.sendSimple ("世界旅游怎么样？很有趣吧。\r\n#L0##b返回：#m" + cm.getChar().getSavedLocation(SavedLocationType.WORLDTOUR) + "# #k#l\r\n#L1##b继续观光#k#l");

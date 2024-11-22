@@ -1,8 +1,9 @@
-/*
-	NPC Name: 		Kimu
-	Description: 		Quest - Cygnus tutorial helper
-*/
-
+/* ==================
+ ½Å±¾ÀàĞÍ:  ÈÎÎñ	    
+ ½Å±¾°æÈ¨£ºÓÎÏ·ºĞÍÅ¶Ó
+ ÁªÏµ¿Û¿Û£º297870163    609654666
+ =====================
+ */
 var status = -1;
 
 function start(mode, type, selection) {
@@ -10,20 +11,20 @@ function start(mode, type, selection) {
         status++;
     } else {
         if (status == 3) {
-            qm.sendNext("æˆ‘ä¸€ç›´åœ¨è¿™é‡Œï¼Œå¦‚æœä½ æ”¹å˜æ³¨æ„ï¼Œå¯ä»¥å†æ¬¡æ¥æ‰¾æˆ‘ã€‚");
+            qm.sendNext("ÎÒÒ»Ö±ÔÚÕâÀï£¬Èç¹ûÄã¸Ä±ä×¢Òâ£¬¿ÉÒÔÔÙ´ÎÀ´ÕÒÎÒ¡£");
             qm.safeDispose();
             return;
         }
         status--;
     }
     if (status == 0) {
-        qm.sendNext("æ¬¢è¿æ¥åˆ°åœ£åœ°ï¼ä½ æ˜¯è°ï¼Ÿ å™¢ï¼Œä½ æ˜¯ #b#h0##kï¼ å¾ˆé«˜å…´è§åˆ°ä½ ï¼ æˆ‘åœ¨è¿™é‡Œç­‰ä½ å¥½ä¹…äº†ï¼Œ ä½ å°†æˆä¸ºä¸€ä¸ªå†’é™©å²›éª‘å£«ï¼Œ å¯¹å—ï¼Ÿ æˆ‘çš„åå­—æ˜¯ #p1102004#ã€‚");
+        qm.sendNext("»¶Ó­À´µ½Ê¥µØ£¡ÄãÊÇË­£¿ àŞ£¬ÄãÊÇ #b#h0##k£¡ ºÜ¸ßĞË¼ûµ½Äã£¡ ÎÒÔÚÕâÀïµÈÄãºÃ¾ÃÁË£¬ Äã½«³ÉÎªÒ»¸öÃ°ÏÕµºÆïÊ¿£¬ ¶ÔÂğ£¿ ÎÒµÄÃû×ÖÊÇ #p1102004#¡£");
     } else if (status == 1) {
-        qm.sendNextPrev("å¦‚æœä½ æƒ³æˆä¸ºå†’é™©å²›éª‘å£«å›¢ä¸­çš„ä¸€å‘˜ï¼Œä½ å¯ä»¥æ‰¾æˆ‘æ—è¾¹çš„é‚£ä½å…ˆç”Ÿï¼Œä»–å¯ä»¥å¸®åŠ©ä½ æˆä¸ºå†’é™©å²›éª‘å£«å›¢ä¸­çš„ä¸€å‘˜ã€‚");
+        qm.sendNextPrev("Èç¹ûÄãÏë³ÉÎªÃ°ÏÕµºÆïÊ¿ÍÅÖĞµÄÒ»Ô±£¬Äã¿ÉÒÔÕÒÎÒÅÔ±ßµÄÄÇÎ»ÏÈÉú£¬Ëû¿ÉÒÔ°ïÖúÄã³ÉÎªÃ°ÏÕµºÆïÊ¿ÍÅÖĞµÄÒ»Ô±¡£");
     } else if (status == 2) {
-        qm.sendNextPrev("å™¢ï¼Œæˆ‘æé†’ä½ ä¸€ä¸‹ï¼Œè¿™ä¸ªæ˜¯ä¸€é¡¹ä»»åŠ¡ã€‚ä½ å¯èƒ½å¶å°”å¯ä»¥æ³¨æ„åˆ°ï¼ŒNPCå¤´é¡¶ä¸Šå¶å°”ä¼šæœ‰ç¯æ³¡ï¼Œé‚£ç§°ä¹‹ä¸º#bä»»åŠ¡ï¼ˆQUESTï¼‰#kã€‚å®Œæˆä»»åŠ¡ä½ å°†å¯ä»¥å¾—åˆ°å¾ˆå¤šä¸°å¯Œçš„å¥–åŠ±ï¼");
+        qm.sendNextPrev("àŞ£¬ÎÒÌáĞÑÄãÒ»ÏÂ£¬Õâ¸öÊÇÒ»ÏîÈÎÎñ¡£Äã¿ÉÄÜÅ¼¶û¿ÉÒÔ×¢Òâµ½£¬NPCÍ·¶¥ÉÏÅ¼¶û»áÓĞµÆÅİ£¬ÄÇ³ÆÖ®Îª#bÈÎÎñ£¨QUEST£©#k¡£Íê³ÉÈÎÎñÄã½«¿ÉÒÔµÃµ½ºÜ¶à·á¸»µÄ½±Àø£¡");
     } else if (status == 3) {
-        qm.sendAcceptDecline("ä½ æ„¿æ„è§è§ #b#p1102005##kå—ï¼Ÿ ä½ æƒ³çŸ¥é“æ€ä¹ˆæ‰“çŒå—ï¼Ÿä½ å¯ä»¥æ‰¾åˆ° #p1102005# æ¥æ•™ä½ æ€ä¹ˆæ‰“çŒï¼");
+        qm.askAcceptDecline("ÄãÔ¸Òâ¼û¼û #b#p1102005##kÂğ£¿ ÄãÏëÖªµÀÔõÃ´´òÁÔÂğ£¿Äã¿ÉÒÔÕÒµ½ #p1102005# À´½ÌÄãÔõÃ´´òÁÔ£¡");
     } else if (status == 4) {
         qm.forceStartQuest();
         qm.summonMsg(2);
@@ -38,13 +39,13 @@ function end(mode, type, selection) {
         status--;
     }
     if (status == 0) {
-        qm.sendNext("Are you the Noblesse my brother #p1102004# sent? Nice to meet you! I''m #p1102005#. I'll give you the reward #p1102004# asked me to give you. Remember, you can check your Inventory by pressing the #bI key#k. Red potions help you recover HP, and blue ones help recover MP. It's a good idea to learn how to use them beforehand so you''ll be ready with them when you're in danger. \r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#i2000020# 5 #t2000020# \r\n#i2000021# 5 #t2000021# 5 \r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 15 exp");
+ qm.sendNext("ÄãÊÇ¹ó×å?? ÎÒ¸ç¸ç #p1102004# ÅÉÀ´µÄ? ºÜ¸ßĞËÈÏÊ¶Äã! ÎÒÊÇ #p1102005#. ÎÒ½«ËÍÄã #p1102004# . Çë¼ÇµÃ£¬Äã¿ÉÒÔ°´ÄãµÄµÀ¾ßÀ¸ #bI ¼ü#k. ºìÒ©Ë®ÄÜ°ïÖúÄã»Ö¸´HPÀ¶É«Ò©Ë®ÄÜ°ïÖúÄã»Ö¸´MP£¬ÕâÊÇÒ»¸öºÃÖ÷ÒâÑ§Ï°ÈçºÎÊ¹ÓÃËüÃÇÄÜÈÃÄãÊÂÏÈ³ä·ÖÁË½âµ±Äã´¦ÓÚÎ£ÏÕÖ®ÖĞÊ¹ÓÃ¡£. \r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#i2000020# 5 #t2000020# \r\n#i2000021# 5 #t2000021# 5 \r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 15 ¾­ÑéÖµ");
     } else if (status == 1) {
-        qm.gainItem(2000020, 5);
-        qm.gainItem(2000021, 5);
-        qm.completeQuest();
+	qm.gainItem(2000020, 5);
+	qm.gainItem(2000021, 5);
+        qm.forceCompleteQuest();
         qm.gainExp(15);
-        qm.summonMsg(3);
+    //    qm.summonMsg(3);
         qm.dispose();
     }
 }

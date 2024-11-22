@@ -1,4 +1,10 @@
-var status = -1;
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+ var status = -1;
 //TEMPORARY QUEST NOW SKIPPING
 //this quest is AFTER SHEDDING 2
 function start(mode, type, selection) {
@@ -8,6 +14,6 @@ function start(mode, type, selection) {
 }
 
 function end(mode, type, selection) {
-	qm.completeQuest();
+	qm.forceCompleteQuest();
 	qm.dispose();
 }

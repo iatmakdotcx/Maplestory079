@@ -1,58 +1,120 @@
 /*
-	This file is part of the cherry Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-					   Matthias Butz <matze@cherry.de>
-					   Jan Christian Meyer <vimes@cherry.de>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation version 3 as published by
-    the Free Software Foundation. You may not use, modify or distribute
-    this program under any other version of the GNU Affero General Public
-    License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-/* Shane
-	who is not the shane who is not the house
-	not that this shane is a house
-	1032004
-*/
-
-importPackage(net.sf.cherry.client);
+ 
+ ¹­¼ıÊÖ×ªÖ°½Ì¹Ù
+ */
 
 var status = 0;
-var zones = 0;
-var selectedMap = -1;
+var jobId;
+var jobName;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (status >= 0 && mode == 0) {
-			cm.dispose();
-			return;
-		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			cm.sendYesNo("è½¬èŒè¯·å»å„å¤§åŸå¸‚æ‰¾[è˜‘è‡åšå£«]è¿›è¡Œè½¬èŒï¼");
-		} else if (status == 1) {
-			cm.dispose();
-		}
-	}
-}	
+  if (mode == 0 && status == 2) {
+    cm.sendOk("ÇëÖØÊÔ.");
+    cm.dispose();
+    return;
+  }
+  if (cm.ÅĞ¶Ï±³°üÆäËûÀ¸().isFull()) {
+    cm.sendNext("ÆäËûÀ¸±ØĞëÓĞÒ»¸ö¿ÕÎ»¡£");
+    cm.¶Ô»°½áÊø();
+    return;
+  }
+  if (mode == 1) status++;
+  else status--;
+  if (status == 0) {
+    if (cm.getJob() == 0) {
+      if (cm.getPlayer().getLevel() >= 10) {
+        cm.ÊÇ·ñËµÃ÷ÎÄ×Ö("ÄãÏëÒª³ÉÎªÒ»Î»#b¹­¼ıÊÖ#kÂğ£¿");
+      } else {
+        cm.ËµÃ÷ÎÄ×Ö("µÈ¼¶²»¹»£¬ĞèÒª´ïµ½ #b10#k ¼¶¡£");
+        cm.dispose();
+      }
+    } else {
+      if (cm.getPlayer().getLevel() >= 30 && cm.getJob() == 300) {
+        if (cm.haveItem(4031012, 1)) {
+          if (cm.haveItem(4031012, 1)) {
+            status = 20;
+            cm.ÊÇ·ñËµÃ÷ÎÄ×Ö("ÎÒ¿´µ½ÄãÍê³ÉÁË²âÊÔ¡£");
+          } else {
+            if (!cm.haveItem(4031010)) {
+              cm.gainItem(4031010, 1);
+            }
+            cm.sendOk("ÇëÈ¥ÕÒ #r¹­¼ıÊÖ×ªÖ°½Ì¹Ù#k.");
+            cm.dispose();
+          }
+        } else {
+          status = 10;
+          cm.ÊÇ·ñËµÃ÷ÎÄ×Ö("Äã×¼±¸ºÃÁËÂğ£¬×ßÏò¸ü¼ÓÇ¿´óµÄµÀÂ·£¿");
+        }
+      } else if (
+        (cm.getPlayer().getLevel() >= 70 && cm.getJob() == 310) ||
+        cm.getJob() == 320
+      ) {
+        if (cm.getBossRank7("Èı×ªÈÎÎñ1", 2) > 0) {
+          if (cm.haveItem(4031059, 1)) {
+            cm.gainItem(4031057, 1);
+            cm.gainItem(4031059, -1);
+            //²»´«ËÍ¹ıÈ¥
+            //cm.warp(211000001, 0);
+            cm.setBossRank7("Èı×ªÈÎÎñ", 2, -cm.getBossRank7("Èı×ªÈÎÎñ", 2));
+            cm.sendOk("ÄãÍê³ÉÁËÒ»¸ö¿¼Ñé£¬ÏÖÔÚÈ¥ÕÒ³¤ÀÏ¹«¹İÕÒ#bÀÙÄİ#k¡£");
+          } else {
+            cm.setBossRank7("Èı×ªÈÎÎñ", 2, 1);
+            cm.sendOk(
+              "    hi, #b#h0##k£¬ÕæÃ»Ïëµ½ÄãÏÖÔÚ±äµÃÈç´ËÇ¿´ó£¬ÎÒĞèÒªÒ»¸ö #b#z4031059##k. ¿ìÈ¥ÕÒ#rÃÔ¹¬ É­ÁÖÃÔ¹¬V Òì½çÖ®ÃÅ#kÄÃ¸øÎÒ°É¡£"
+            );
+          }
+        } else {
+          cm.sendOk("ÄãËÆºõ¿ÉÒÔ¸ü¼ÓÇ¿´ó¡£");
+        }
+        cm.dispose();
+      } else {
+        cm.sendOk("ÄãºÃ,ÎÒÊÇ¹­¼ıÊÖ×ªÖ°¹Ù¡£");
+        cm.dispose();
+      }
+    }
+  } else if (status == 1) {
+    if (cm.getJob() == 0) {
+      cm.changeJob(300);
+      cm.resetStats(4, 25, 4, 4);
+    }
+    cm.forceCompleteQuest(6700);
+    cm.gainItem(1452002, 1);
+    cm.gainItem(2060000, 1000);
+    cm.sendOk("×ªÖ°³É¹¦ ! ");
+    cm.dispose();
+  } else if (status == 11) {
+    cm.sendNextPrev("µã»÷ÏÂÒ»²½½ÓÊÜÈÎÎñ#k.");
+  } else if (status == 12) {
+    cm.askAcceptDecline("µ«ÊÇÎÒ±ØĞëÏÈ²âÊÔÄã,Äã×¼±¸ºÃÁËÂğ ?");
+  } else if (status == 13) {
+    cm.gainItem(4031010, 1);
+    //²»´«ËÍ¹ıÈ¥
+    //cm.warp(106010000);
+    cm.sendOk("ÇëÈ¥ÕÒ #b¹­¼ıÊÖ×ªÖ°½Ì¹Ù#k£¬Ëû»á°ïÖúÄãµÄ¡£");
+    cm.dispose();
+  } else if (status == 21) {
+    cm.sendSimple(
+      "Ñ¡ÔñÒ»ÌõÄãµÄµÀÂ·°É;\r\n\r\n#b\r\n#L0#ÁÔÈË#l\r\n#L1#åó¹­ÊÖ#l#k"
+    );
+  } else if (status == 22) {
+    var jobName;
+    if (selection == 0) {
+      jobName = "ÁÔÈË";
+      job = 310;
+    } else if (selection == 1) {
+      jobName = "åó¹­ÊÖ";
+      job = 320;
+    }
+    cm.sendYesNo("ÄãÕæµÄÒª³ÉÎªÒ»Î» #r" + jobName + "#k ?");
+  } else if (status == 23) {
+    cm.changeJob(job);
+    cm.gainItem(4031012, -1);
+    cm.sendOk("×ªÖ°³É¹¦ ! ");
+    cm.dispose();
+  }
+}

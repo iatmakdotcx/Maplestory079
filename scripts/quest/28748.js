@@ -44,7 +44,7 @@ if (status == 0) {
 	qm.sendNextPrev("Hmm, your theory is both ludicrous and implausible, but it's the best we've got! At least we know the people are still alive.");
 	} else if (status == 4) {
 	qm.gainExp(2000000);
-	qm.completeQuest(28748);
+	qm.forceCompleteQuest(28748);
 	qm.dispose();
     }
 }

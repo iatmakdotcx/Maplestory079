@@ -18,13 +18,13 @@ function start(mode, type, selection) {
     } else if (status == 1) {
         if (qm.hasSkill(60000222)) { //60000222 - 钢铁之墙 - 具备钢铁意志的狂龙战士获得额外体力。
             qm.sendLinkSkillWindow(60000222);
-            qm.completeQuest();
+            qm.forceCompleteQuest();
         }
         qm.dispose();
     }
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }

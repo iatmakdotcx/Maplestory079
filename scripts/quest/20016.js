@@ -1,8 +1,9 @@
-/*
-	NPC Name: 		Nineheart
-	Description: 		Quest - Do you know the black Magician?
-*/
-
+/* ==================
+ ½Å±¾ÀàĞÍ:  ÈÎÎñ	    
+ ½Å±¾°æÈ¨£ºÓÎÏ·ºĞÍÅ¶Ó
+ ÁªÏµ¿Û¿Û£º297870163    609654666
+ =====================
+ */
 var status = -1;
 
 function start(mode, type, selection) {
@@ -10,42 +11,42 @@ function start(mode, type, selection) {
         status++;
     } else {
         if (status == 8) {
-            qm.sendNext("å™¢ï¼Œä½ è¿˜æœ‰ä»€ä¹ˆé—®é¢˜å—ï¼Ÿå¦‚æœä½ è¦è·Ÿæˆ‘å¯¹è¯ï¼Œè¯·é‡æ–°æ‰“å¼€ç•Œé¢ã€‚");
+            qm.sendNext("àŞ£¬Äã»¹ÓĞÊ²Ã´ÎÊÌâÂğ£¿Èç¹ûÄãÒª¸úÎÒ¶Ô»°£¬ÇëÖØĞÂ´ò¿ª½çÃæ¡£");
             qm.safeDispose();
             return;
         }
         status--;
     }
     if (status == 0) {
-        qm.sendNext("Hello, #h0#. Welcome to #p1101000# Knights. My name is #p1101002# and I am currently serving as the young Empress's Tactician. We'd better get acquainted since we'll be seeing a lot of each other. Haha!");
+        qm.sendNext("ÄãºÃ, #h0#. »¶Ó­À´µ½ #p1101000# ÆïÊ¿¡£ ÎÒµÄÃû×ÖÊÇ #p1101002#ÎÒÄ¿Ç°×÷ÎªÄêÇáµÄ»ÊºóÌì³É¡£ÎÒÃÇ×îºÃ½áÊ¶£¬ÒòÎªÎÒÃÇ»á¿´µ½ºÜ¶à¶Ô·½¡£¹ş¹ş!");
     } else if (status == 1) {
-        qm.sendNextPrev("I'm sure you have a lot of questions since everything happened so quickly. I'll explain it all, one by one, from where you are to what you're here to do.");
+        qm.sendNextPrev("ÎÒ¸Ò¿Ï¶¨£¬ÄãÓĞºÜ¶àµÄÎÊÌâ£¬ÒòÎªÒ»ÇĞ¶¼·¢ÉúµÃÌ«¿ìÁË¡£ÎÒÒ»¸ö½âÊÍÕâÒ»ÇĞ£¬Ò»£¬´ÓÄãÔÚÄÄÀïµ½ÄãÕâÀï×ö.");
     } else if (status == 2) {
-        qm.sendNextPrev("This island is called Erev. Thanks to the Empress's magic, this island usually floats around like a boat in the sky and patrols around Maple World. Right now, however, we've stopped here for a reason.");
+        qm.sendNextPrev("Õâ¸öµº±»³ÆÎªÊ¥µØ¡£ÓÉÓÚÄ§Å®µÄÄ§·¨£¬Õâ¸öĞ¡µºÆ¯¸¡Æ½Ê±ÖÜÎ§ÏñÔÚÌì¿ÕÖĞÑ²ÂßµÄÃ°ÏÕµºÊÀ½ç´¬¡£ÑÛÏÂ£¬µ«ÊÇ£¬ÎÒÃÇÔÚÕâÀïÒÑ¾­Í£ÁËµÄÔ­Òò.");
     } else if (status == 3) {
-        qm.sendNextPrev("The young Empress is the ruler of Maple World. What? This is the first time you've heard of her? Ah, yes. Well, she's the ruler of Maple World but she doesn't like to control it. She watches from afar to make sure that all is well. Well, at least that's her usual role.");
+        qm.sendNextPrev("ÕâÎ»ÄêÇáµÄÄ§Å®ÊÇ·ãÊ÷ÊÀ½çµÄÍ³ÖÎÕß¡£ Ê²Ã´£¿ÕâÊÇÄãÌıËµ¹ıËıµÄµÚÒ»´Î£¿ ÊÇ°¡¡£àÅ£¬Ëı·ãÊÀ½çµÄÍ³ÖÎÕß£¬µ«Ëı²»Ï²»¶À´¿ØÖÆËü¡£ËıÔ¶µÀ¶øÀ´µÄÊÖ±í£¬ÒÔÈ·±£Ò»ÇĞ¶¼ºÜºÃ¡£ºÃ°É£¬ÖÁÉÙÕâÊÇËıÒ»¹áµÄ×÷ÓÃ.");
     } else if (status == 4) {
-        qm.sendNextPrev("But that's not the case right now. We've been finding signs all over Maple World that foreshadow the revival of the Black Mage. We can't have the Black Mage come back to terrorize Maple World as he has in the past!");
+        qm.sendNextPrev("µ«ÊÂÊµ²¢·ÇÈç´ËÏÖÔÚ¡£ÎÒÃÇÒ»Ö±ÔÚÑ°ÕÒ±é²¼ÊÀ½ç·ã¼£ÏóÔ¤Ê¾ºÚ·¨Ê¦µÄ¸´ĞË¡£ÎÒÃÇ²»ÄÜÈÃºÚ·¨Ê¦»ØÀ´¿ÖÏÅ·ãÒ¶ÊÀ½ç£¬ÒòÎªËûÔÚ¹ıÈ¥!");
     } else if (status == 5) {
-        qm.sendNextPrev("But that was ages ago and people today don''t realize how scary the Black Mage is. We've all become spoiled by the peaceful Maple World we enjoy today and forgotten how chaotic and frightening Maple World once was. If we don't do something, the Black Mage will once again rule Maple World!");
+        qm.sendNextPrev("²»¹ıÄÇÊÇºÜ¾ÃºÜ¾ÃÒÔÇ°£¬ÈËÃÇ½ñÌì²»ÒªÎªÊµÏÖºÚ·¨Ê¦ÓĞ¶àÏÅÈËµÄ¡£ÎÒÃÇÒÑ¾­Í¨¹ıºÍÆ½·ãÊÀ½çËùÓĞ³ÉÎª±»³è»µÁËÎÒÃÇ½ñÌìĞÀÉÍºÍ±»ÒÅÍüµÄ»ìÂÒºÍ¿ÉÅÂµÄ·ãÒ¶ÊÀ½çÔø¾­ÊÇÔõÃ´»ØÊÂ¡£Èç¹ûÎÒÃÇ²»×öĞ©Ê²Ã´£¬ºÚ·¨Ê¦½«ÔÙ´ÎÍ³ÖÎÊÀ½ç·ã!");
     } else if (status == 6) {
-        qm.sendNextPrev("This is why the young Empress has decided to take matters into her own hands. She''s forming a knighthood of brave Maplers to defeat the Black Mage once and for all. You know what you need to do, right? I''m sure you have an idea since you, yourself, signed up to be a Knight.");
+        qm.sendNextPrev("Õâ¾ÍÊÇÎªÊ²Ã´ÄêÇáµÄÄ§Å®ÒÑ¾­¾ö¶¨²ÉÈ¡ÊÂÌ¬ÈëËı×Ô¼ºµÄÊÖ¡£ËıµÄÓÂ¸ÒĞÎ³ÉµÄÃ°ÏÕµº¾ôÎ»»÷°ÜºÚ·¨Ê¦Ò»ÀÍÓÀÒİ¡£ÄãÖªµÀÄãĞèÒª×öµÄ£¬ÕıÈ·µÄÄØ£¿ÎÒ¸Ò±£Ö¤ÄãÓĞÒ»¸öÏë·¨£¬ÒòÎªÄã£¬Äã×Ô¼º£¬×¢²á³ÉÎªÒ»¸öÆïÊ¿.");
     } else if (status == 7) {
-        qm.sendNextPrev("We have to get stronger so we can defeat the Black Mage if he revives. Our primary goal is to prevent him from destroying Maple World, and you will play a prominent role in that.");
+        qm.sendNextPrev("ÎÒÃÇ±ØĞë±äµÃ¸ü¼ÓÇ¿×³£¬ËùÒÔÎÒÃÇ¿ÉÒÔ´ò°ÜºÚ·¨Ê¦£¬Èç¹ûËû¸´»î¡£ÎÒÃÇµÄÊ×ÒªÄ¿±êÊÇ·ÀÖ¹ËûÆÆ»µ·ãÊÀ½ç£¬Äã½«ÔÚ·¢»ÓÍ»³öµÄ×÷ÓÃ.");
     } else if (status == 8) {
-        qm.sendAcceptDecline("That concludes my explanation. Have I answered all your questions? \r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#fUI/UIWindow.img/QuestIcon/8/0# 380 exp");
+        qm.askAcceptDecline("Õâ¾ÍÊÇÎÒµÄ½âÊÍ¡£ ÎÒ»Ø´ğÁËÄãµÄËùÓĞÎÊÌâ? \r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#fUI/UIWindow.img/QuestIcon/8/0# 380 ¾­Ñé");
     } else if (status == 9) {
         if (qm.getQuestStatus(20016) == 0) {
-            qm.gainExp(380);
-            qm.completeQuest();
+            qm.gainExp(1000);
+            qm.forceCompleteQuest();
         }
-        qm.sendNext("I'm glad you're clear about our current situation, but you know, at your current level, you're not even strong enough to face the Black Mage's minions, let alone the Black Mage himself. Not even his minions' minions, as a matter of fact. How will you protect Maple World at your current level?");
+        qm.sendNext("ÎÒºÜ¸ßĞËÄãÇå³şÎÒÃÇÄ¿Ç°µÄÇé¿ö£¬µ«ÄãÖªµÀ£¬ÔÚµ±Ç°µÄË®Æ½£¬ÄãÉõÖÁ»¹Ã»ÓĞÇ¿´óµ½×ãÒÔÃæ¶ÔºÚ·¨Ê¦µÄ×¦ÑÀ£¬¸ü²»ÓÃËµºÚÄ§µ¼Ê¿±¾ÈË¡£ÉõÖÁÃ»ÓĞËûµÄ×¦ÑÀ¡°µÄ×¦ÑÀ£¬×÷ÎªÒ»¸öÊÂÊµÎÊÌâ¡£Äã½«ÈçºÎ±£»¤·ãÊ÷ÊÀ½çÔÚÄãÄ¿Ç°µÄË®Æ½?");
     } else if (status == 10) {
-        qm.sendNextPrev("Although you've been accepted into the knighthood, you cannot be recognized as a knight yet. You are not an Official Knight because you're not even a Knight-in-Training. If you remain at your current level, you'll be nothing more than the handyman of #p1101000# Knights.");
+        qm.sendNextPrev("ËäÈ»ÄãÒÑ¾­±»½ÓÄÉ½øÈë¾ôÎ»£¬ÄãÄ¿Ç°»¹²»ÄÜÈ·ÈÏÎªÆïÊ¿¡£ÒòÎªÄãÉõÖÁÃ»ÓĞÒ»¸öÆïÊ¿ÔÚÑµÁ·£¬ÄãÊÇ²»ÊÇÒ»¸öÕıÊ½µÄÆïÊ¿¡£Èç¹ûÄãÁôÔÚÄãÄ¿Ç°µÄË®Æ½£¬Äã»áÎŞ·Ç¾ÍÊÇÇÚÔÓ¹¤¸ü¶à #p1101000# ÆïÊ¿.");
     } else if (status == 11) {
-        qm.sendNextPrev("But no one starts as a strong Knight on day one. The Empress didn''t want someone strong. She wanted someone with courage whom she could develop into a strong Knight through rigorous training. So, you should first become a Knight-in-Training. We'll talk about your missions when you get to that point.");
+        qm.sendNextPrev("µ«ÊÇ£¬Ã»ÓĞÈË¿ªÊ¼×÷ÎªÒ»ÌìÒ»¸öÇ¿´óµÄÆïÊ¿¡£»Êºódidn''tÏ£Íû±ğÈËÇ¿¡£ËıÏ£ÍûÓĞÈËÓĞÓÂÆøµÄÈË£¬Ëı¿ÉÒÔ·¢Õ¹³É¾­ÑÏ¸ñÅàÑµºÜÇ¿µÄÆïÊ¿¡£ËùÒÔ£¬ÄãÊ×ÏÈÓ¦¸Ã³ÉÎªÒ»¸öÆïÊ¿ÔÚÑµÁ·¡£ÎÒÃÇ½«Ì¸ÂÛÄãµÄÈÎÎñ£¬µ±Äãµ½ÕâÒ»µã.");
     } else if (status == 12) {
-        qm.sendPrev("Take the portal on the left to reach the Training Forest. There, you will find #p1102000#, the Training Instructor, who will teach you how to become stronger. I don''t want to find you wandering around aimlessly until you reach Lv. 10, you hear?");
+        qm.sendPrev("×ß×ó±ßµÄÃÅµ½´ïÑµÁ·É­ÁÖ¡£ÔÚÄÇÀï£¬Äã»á·¢ÏÖ#p1102000#ÖĞ£¬ÅàÑµ½²Ê¦£¬Ë­½ÌÄãÈçºÎ±äµÃ¸üÇ¿¡£ÎÒ²»ÏëÒªÕÒµ½ÄãËÄ´¦ÓÎµ´ÂşÎŞÄ¿µÄ£¬Ö±µ½Äã´ïµ½ 10¼¶£¬ÄãÌıµ½?");
         qm.safeDispose();
     }
 }

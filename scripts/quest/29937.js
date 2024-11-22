@@ -1,21 +1,24 @@
-/*
-	任务: 秘密团体临时成员
-	描述: 按照留下的人偶的指示，通过了秘密团体加入测试，成为了#b秘密团体临时成员#k。
-*/
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+ 
 var status = -1;
 
 function start(mode, type, selection) {
-    if (qm.getPlayer().getLevel() >= 10 && (qm.getPlayer().getJob() / 100) | 0 == 22) {
-        qm.forceStartQuest();
-        qm.completeQuest();
-    }
-    qm.dispose();
+	if (qm.getPlayer().getLevel() >= 10 && (qm.getPlayer().getJob() / 100) | 0 == 22) {
+		qm.forceStartQuest();
+		qm.forceCompleteQuest();
+	}
+	qm.dispose();
 }
 
 function end(mode, type, selection) {
-    if (qm.getPlayer().getLevel() >= 10 && (qm.getPlayer().getJob() / 100) | 0 == 22) {
-        qm.forceStartQuest();
-        qm.completeQuest();
-    }
-    qm.dispose();
+	if (qm.getPlayer().getLevel() >= 10 && (qm.getPlayer().getJob() / 100) | 0 == 22) {
+		qm.forceStartQuest();
+		qm.forceCompleteQuest();
+	}
+	qm.dispose();
 }

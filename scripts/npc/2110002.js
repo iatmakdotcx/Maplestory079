@@ -1,8 +1,8 @@
 /*
-	This file is part of the cherry Maple Story Server
+	This file is part of the OdinMS Maple Story Server
     Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-                       Matthias Butz <matze@cherry.de>
-                       Jan Christian Meyer <vimes@cherry.de>
+                       Matthias Butz <matze@odinms.de>
+                       Jan Christian Meyer <vimes@odinms.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License version 3
@@ -27,27 +27,8 @@
  * 
  * Kerning City Party Quest NPC 
 */
-var status=0;
 			
 function start() {
-    status = -1;
-    action(1, 0, 0);
-}
-
-function action(mode, type, selection) {
-    if (mode == -1) {
-        cm.dispose();
-    } else {
-        if (mode == 0 && status == 0)
-            cm.dispose();
-        if (mode == 1)
-            status++;
-        else
-            status--;
-        if (status == 0){
-            cm.showEffect("quest/party/clear");
-//            cm.sendOk("The previous coder is now shamed with this message.");
-            cm.dispose();
-        }
-    }
+    cm.showEffect("quest/party/clear");
+    cm.dispose();
 }

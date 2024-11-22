@@ -57,7 +57,7 @@ function end(mode, type, selection) {
 //            qm.gainItem(4000364,-50);
             qm.sendPlayerToNpc("...??!");
         } else if (status == 2) {
-            qm.completeQuest();
+            qm.forceCompleteQuest();
             qm.dispose();
         } 
     }

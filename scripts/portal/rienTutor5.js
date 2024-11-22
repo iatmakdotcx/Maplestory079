@@ -1,5 +1,3 @@
 function enter(pi) {
-	pi.tutorialSpeechBubble("好了战神，再往那边走一点就有城镇了，我有事先走了！以后的路要靠你自己了！");
-	pi.blockPortal();
-	return true;
+    pi.summonMsg("只是多一點點，你會到達鎮。我將頭以上那裡第一次，因為我也有一些事情要打理。有沒有必要急於，狂狼勇士。我會看到你在那裡。")
 }

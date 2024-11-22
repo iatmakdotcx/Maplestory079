@@ -1,5 +1,10 @@
+var returnmap;
+
 function enter(pi) {
-  //  pi.playPortalSE();
-    pi.warp(pi.getSavedLocation("FISHING"), 0);
-    pi.clearSavedLocation("FISHING");
+	returnmap = pi.getSavedLocation("FISHING");
+	if (returnmap == -1) {
+		returnmap = 100000000;
+	}
+	pi.warp(returnmap)
+	return true;
 }

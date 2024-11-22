@@ -1,4 +1,4 @@
-?/*
+﻿﻿/*
  Made by Pungin
  */
         var status = -1;
@@ -45,7 +45,7 @@ function start(mode, type, selection) {
             itemId = 2028314;
         }
         if (!qm.canHold(itemId)) {
-            qm.topMsg("消耗栏位不足。请空出 1格以上的空位。");
+            qm.topMsg("消耗欄位不足。請空出 1格以上的空位。");
             qm.dispose();
             return;
         }

@@ -18,13 +18,13 @@ function start(mode, type, selection) {
     } else if (status == 1) {
         if (qm.hasSkill(60011219)) { //60011219 - 灵魂契约 - 通过和爱丝卡达的契约，攻击力瞬间到达最大。
             qm.sendLinkSkillWindow(60011219);
-            qm.completeQuest();
+            qm.forceCompleteQuest();
         }
         qm.dispose();
     }
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }

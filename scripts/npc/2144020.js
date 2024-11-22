@@ -1,4 +1,3 @@
-importPackage(Packages.tools.packet);
 var chat = -1;
 var yesno = false;
 

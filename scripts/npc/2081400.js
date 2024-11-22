@@ -1,103 +1,71 @@
-/* Author: Xterminator
-	NPC Name: 		Hellin
-	Map(s): 		Leafre: Forest of the Priest (240010501)
-	Description: 		Thief 4th Job Advancement
-*/
+/*  NPC : 海伦
+	盗贼 4转 任务脚本
+	地图代码 (240010501)
+ */
 
-function start() {
-	status = -1;
-	action(1, 0, 0);
-}
+var status = -1;
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
+    if (mode == 1) {
+	status++;
+    } else {
+	status--;
+    }
+
+    if (status == 0) {
+	if (!(cm.getJob() == 411 || cm.getJob() == 421 || cm.getJob() == 433)) {
+	    cm.sendOk("为什么你要见我?还有你想要问我关于什么事情?");
+	    cm.dispose();
+	} else if (cm.getPlayer().getLevel() < 120) {
+	    cm.sendOk("你等级尚未达到120级.");
+	    cm.dispose();
+	    return;
 	} else {
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			if (cm.getJob().getId() == 411 || cm.getJob().getId() == 421) {
-				if (cm.getPlayer().getLevel() >= 120) {
-					if (cm.getQuestStatus(6934).equals(net.sf.cherry.client.MapleQuestStatus.Status.COMPLETED)) {
-						if (cm.getJob().getId() == 411) {
-							cm.sendSimple("You're qualified to be a true thief. \r\nDo you wish to make your job advancement now?\r\n#b#L0# I want to advance into a Night Lord.#l\r\n#b#L1# Let me think for a while.#l");
-						} else if (cm.getJob().getId() == 421) {
-							cm.sendSimple("You're qualified to be a true thief. \r\nDo you wish to make your job advancement now?\r\n#b#L0# I want to advance into a Shadower.#l\r\n#b#L1# Let me think for a while.#l");
-						}
-					} else {
-						cm.sendOk("You're not ready to make the 4th job advancement. When you're ready, talk to me.");
-						cm.dispose();
-					}
-				} else {
-					cm.sendOk("You're still weak to go to the thief extreme road. If you get stronger, come back to me.");
-					cm.dispose();
-				}
-			} else if (cm.getJob().getId() == 412 || cm.getJob().getId() == 422) {
-				if (cm.getJob().getId() == 412) {
-					cm.sendOk("You became the best thief, the position of #bNight Lord#k. Stronger power means more responsibility. Hope you get over all the tests you will have in future.");
-				} else if (cm.getJob().getId() == 422) {
-					cm.sendOk("You became the best thief, the position of #bShadower#k. Stronger power means more responsibility. Hope you get over all the tests you will have in future.");
-				}
-				cm.dispose();
-			} else {
-				cm.sendOk("Why do you want to see me? There is nothing you want to ask me.");
-				cm.dispose();
-			}
-		} else if (status == 1) {
-			if (selection == 0) {
-				nPSP = (cm.getPlayer().getLevel() - 120) * 3;
-				if (cm.getPlayer().getRemainingSp() > nPSP) {
-					cm.sendNext("Hmm...You have too many #bSP#k. You can't make the 4th job advancement with too many SP left.");
-					cm.dispose();
-				} else {
-					if (!cm.canHold(2280003)) {
-						cm.sendNext("You can't proceed as you don't have an empty slot in your inventory. Please clear your inventory and try again.");
-						cm.dispose();
-					} else {
-						cm.gainItem(2280003, 1);
-						var statup = new java.util.ArrayList();
-						cm.getPlayer().setRemainingAp(cm.getPlayer().getRemainingAp() + 5);
-						statup.add(new net.sf.cherry.tools.Pair(net.sf.cherry.client.MapleStat.AVAILABLEAP, java.lang.Integer.valueOf(cm.getPlayer().getRemainingAp())));
-						cm.getC().getSession().write(net.sf.cherry.tools.MaplePacketCreator.updatePlayerStats(statup));
-						if (cm.getJob().getId() == 411) {
-							cm.changeJob(net.sf.cherry.client.MapleJob.NIGHTLORD);
-							cm.teachSkill(4121006, 0, 10);
-							cm.teachSkill(4120002, 0, 10);
-							cm.teachSkill(4120005, 0, 10);
-							status = 2;
-							cm.sendNext("You became the best thief #bNight Lord#k. Night Lord is good at using #bShadow Sifter#k to avoid enemy's attack and #bNinja Ambush#k to call hidden colleagues. It attacks the blind side of enemy.");
-						} else if (cm.getJob().getId() == 421) {
-							cm.changeJob(net.sf.cherry.client.MapleJob.SHADOWER);
-							cm.teachSkill(4220002, 0, 10);
-							cm.teachSkill(4220005, 0, 10);
-							cm.teachSkill(4221007, 0, 10);
-							status = 2;
-							cm.sendNext("You became the best thief #bShadower#k. Shadower is good at using #bShadow Sifter#k to avoid enemy's attack and #bNinja Ambush#k to call hidden colleagues. It attacks the blind side of enemy.");
-						}
-					}
-				}
-			} else {
-				cm.sendNext("You don't have to hesitate.... Whenever you decide, talk to me. If you're ready, I'll let you make the 4th job advancement.");
-				cm.dispose();
-			}
-		} else if (status == 2) {
-			if (cm.getJob().getId() == 412) {
-				cm.sendNext("You became the best thief #bNight Lord#k. Night Lord is good at using #bFake#k to avoid enemy's attack and #bNinja Ambush#k to call hidden colleagues. It attacks the blind side of enemy.");
-			} else if (cm.getJob().getId() == 422) {
-				cm.sendNext("You became the best thief #bShadower#k. Night Lord is good at using #bFake#k to avoid enemy's attack and #bNinja Ambush#k to call hidden colleagues. It attacks the blind side of enemy.");
-			}
-		} else if (status == 3) {
-			if (cm.getJob().getId() == 412) {
-				cm.sendNextPrev("This is not all about Night Lord. Night Lord is good at fast war. It can throw many stars at one time and may beat off plenty of enemies at once.");
-			} else if (cm.getJob().getId() == 422) {
-				cm.sendNextPrev("This is not all about Shadower. Shadower is good at sudden attack. It can attack enemies before they notice and even beat them locked in the darkness.");
-			}
-		} else if (status == 4) {
-			cm.sendPrev("Don't forget that it all depends on how much you train.");
-		} else if (status == 5) {
-			cm.dispose();
-		}
+		if (cm.getJob() == 411){
+		    cm.sendSimple("恭喜你有资格4转.请问你想4转吗?\r\n#b#L0#我想成为隐士#l");
+		} else if (cm.getJob() == 421){
+		    cm.sendSimple("恭喜你有资格4转.请问你想4转吗?\r\n#b#L0#我想成为侠盗#l");
+	    } else {
+		cm.sendOk("好吧,假如你想要4转.请麻烦再来找我");
+		cm.safeDispose();
+		return;
+	    }
 	}
+    } else if (status == 1) {
+	if (selection == 1) {
+		cm.sendOk("好吧,假如你想要4转.请麻烦再来找我");
+	    cm.dispose();
+	    return;
+	} else {
+	    if (cm.canHold(2280003)) {
+		cm.gainItem(2280003, 1);
+
+		if (cm.getJob() == 411) {
+		    cm.changeJob(412);
+		    cm.teachSkill(4120002,0,10);
+		    cm.teachSkill(4121006,0,10);
+		    cm.teachSkill(4120005,0,10);
+			//cm.gainItem(4031348, -1);
+		    cm.sendNext("恭喜你转职为 #b隐士#k.");
+			cm.worldMessage(6,"恭喜玩家：["+cm.getName()+"]完成最终转职成为隐士！！ 恭喜玩家：["+cm.getName()+"]完成最终转职成为隐士！！");
+		} else if (cm.getJob() == 421) {
+		    cm.changeJob(422);
+		    cm.teachSkill(4220002,0,10);
+		    cm.teachSkill(4221007,0,10);
+		    cm.teachSkill(4220005,0,10);
+			//cm.gainItem(4031348, -1);
+		    cm.sendNext("恭喜你转职为 #b侠盗#k.");
+			cm.worldMessage(6,"恭喜玩家：["+cm.getName()+"]完成最终转职成为侠盗！！ 恭喜玩家：["+cm.getName()+"]完成最终转职成为侠盗！！");
+	    } else {
+		cm.sendOk("你没有空的栏位,请清空再来尝试一次!");
+		cm.safeDispose();
+		return;
+	    }
+	}
+	}
+    } else if (status == 2) {
+	cm.sendNextPrev("不要忘记了这一切都取决于你强大了多少.");
+    } else if (status == 3) {
+	cm.dispose();
+    }
 }

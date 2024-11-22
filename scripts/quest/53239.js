@@ -47,7 +47,7 @@ function end(mode, type, selection) {
         } else if (status == 4) {
             qm.sendNext("No day roi #z1492142##i1492142#, that tuyet phai khong haha. Day, toi tang cau day.");
         } else if (status == 5) {
-            qm.completeQuest();
+            qm.forceCompleteQuest();
             qm.changeJob(571);
             qm.gainItem(1492142,1);
             qm.dispose();

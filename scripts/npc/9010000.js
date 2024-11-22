@@ -1,30 +1,4 @@
-/*
-	This file is part of the cherry Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-                       Matthias Butz <matze@cherry.de>
-                       Jan Christian Meyer <vimes@cherry.de>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License version 3
-    as published by the Free Software Foundation. You may not use, modify
-    or distribute this program under any other version of the
-    GNU Affero General Public License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-/**
--- Odin JavaScript --------------------------------------------------------------------------------
-	Maple Admin
--- By --------------------------------------------------------------------------------------------------
-	xQuasar
-**/
 
 var status = 0;
 
@@ -37,21 +11,21 @@ function action(mode, type, selection) {
 	if (mode == -1) {
 		cm.dispose();
 	} else if (status == -1) {
-		if (!(cm.getJob().equals(net.sf.cherry.client.MapleJob.PALADIN) ||
-					cm.getJob().equals(net.sf.cherry.client.MapleJob.HERO) ||
-					cm.getJob().equals(net.sf.cherry.client.MapleJob.DARKKNIGHT) ||
-					cm.getJob().equals(net.sf.cherry.client.MapleJob.FP_ARCHMAGE) ||
-					cm.getJob().equals(net.sf.cherry.client.MapleJob.IL_ARCHMAGE) ||
-					cm.getJob().equals(net.sf.cherry.client.MapleJob.BISHOP) ||
-					cm.getJob().equals(net.sf.cherry.client.MapleJob.BOWMASTER) ||
-					cm.getJob().equals(net.sf.cherry.client.MapleJob.CROSSBOWMASTER) ||
-					cm.getJob().equals(net.sf.cherry.client.MapleJob.NIGHTLORD) ||
-					cm.getJob().equals(net.sf.cherry.client.MapleJob.SHADOWER) ||
-					cm.getJob().equals(net.sf.cherry.client.MapleJob.CORSAIR) ||
-					cm.getJob().equals(net.sf.cherry.client.MapleJob.BUCCANEER))) {
+		if (!(cm.getJob().equals(Packages.client.MapleJob.圣骑士) ||
+					cm.getJob().equals(Packages.client.MapleJob.英雄) ||
+					cm.getJob().equals(Packages.client.MapleJob.黑骑士) ||
+					cm.getJob().equals(Packages.client.MapleJob.大魔导士_火毒) ||
+					cm.getJob().equals(Packages.client.MapleJob.大魔导士_冰雷) ||
+					cm.getJob().equals(Packages.client.MapleJob.主教) ||
+					cm.getJob().equals(Packages.client.MapleJob.神射手) ||
+					cm.getJob().equals(Packages.client.MapleJob.箭神) ||
+					cm.getJob().equals(Packages.client.MapleJob.夜使者) ||
+					cm.getJob().equals(Packages.client.MapleJob.暗影神偷) ||
+					cm.getJob().equals(Packages.client.MapleJob.枪神) ||
+					cm.getJob().equals(Packages.client.MapleJob.拳霸))) {
 			cm.sendOk("怎么了？冒险还算顺利吧。四转后来见我。我会帮助你。");
 			cm.dispose();
-		} else if (cm.getQuestStatus(999950).equals(net.sf.cherry.client.MapleQuestStatus.Status.COMPLETED)) {
+		} else if (cm.getQuestStatus(999950).equals(MapleQuestStatus.Status.COMPLETED)) {
 			cm.sendOk("怎么了？你四转的技能全部都完成了？");
 			cm.dispose();
 		} else {

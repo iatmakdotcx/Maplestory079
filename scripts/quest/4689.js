@@ -1,7 +1,9 @@
-/*
-	NPC Name: 		Dida
-	Description: 		Quest - Attack! Maverick Platoon of Robots
-*/
+/* ==================
+ ½Å±¾ÀàĞÍ:  ÈÎÎñ	    
+ ½Å±¾°æÈ¨£ºÓÎÏ·ºĞÍÅ¶Ó
+ ÁªÏµ¿Û¿Û£º297870163    609654666
+ =====================
+ */
 var status = -1;
 
 function start(mode, type, selection) {
@@ -12,7 +14,7 @@ function start(mode, type, selection) {
             status++;
         }
         if (status == 0) {
-            qm.sendNext("åœ¨è¿™é‡Œå¾ˆå±é™©ï¼å¦‚æœä½ æ‰“ç®—æŒ‘æˆ˜å®ƒï¼Œä½ éœ€è¦æ›´å¤šçš„ç»„é˜Ÿå‘˜ï¼Œä½ æƒ³åšä»€ä¹ˆä¹ˆï¼Ÿæƒ³è¿›å»å—ï¼Ÿï¼Ÿ");
+            qm.sendNext("ÔÚÕâÀïºÜÎ£ÏÕ£¡Èç¹ûÄã´òËãÌôÕ½Ëü£¬ÄãĞèÒª¸ü¶àµÄ×é¶ÓÔ±£¬ÄãÏë×öÊ²Ã´Ã´£¿Ïë½øÈ¥Âğ£¿£¿");
         } else if (status == 1) {
             qm.warp(802000309, 0);
             //qm.forceStartQuest();

@@ -31,50 +31,50 @@ if (mode == -1) {
 	else
 	    status--;
 	if (status == 0) {
-	    qm.sendNext("Welcome back. Did the girls in Ellinia help you?",4);
+	    qm.sendNextS("Welcome back. Did the girls in Ellinia help you?",4);
 	} else if (status == 1) {
-	    qm.sendNextPrev("(You show them Dr. Betty's device.)",2);
+	    qm.sendNextPrevS("(You show them Dr. Betty's device.)",2);
 	} else if (status == 2) {
-	   	qm.sendNextPrev("Are you suggesting we befoul our forest with this filthy, foul item from the corrupted human civilization? Never!",4,1500002);
+	   	qm.sendNextPrevS("Are you suggesting we befoul our forest with this filthy, foul item from the corrupted human civilization? Never!",4,1500002);
 	} else if (status == 3) {
-	    qm.sendNextPrev("There's no other option at this point, Faculty Head Kalayan.",4,1500009);
+	    qm.sendNextPrevS("There's no other option at this point, Faculty Head Kalayan.",4,1500009);
 	} else if (status == 4) {
-	    qm.sendNextPrev("Rowen is right. We have to find those children!",4,1500008);
+	    qm.sendNextPrevS("Rowen is right. We have to find those children!",4,1500008);
 	} else if (status == 5) {
-	    qm.sendNextPrev("I cannot say that I am fond of the idea, but we have no other options.",4);
+	    qm.sendNextPrevS("I cannot say that I am fond of the idea, but we have no other options.",4);
 	} else if (status == 6) {
-	    qm.sendNextPrev("Fine. But this is on YOUR wings if it pollutes our forest...",4,1500002);
+	    qm.sendNextPrevS("Fine. But this is on YOUR wings if it pollutes our forest...",4,1500002);
 	} else if (status == 7) {
-	    qm.sendNextPrev("Everyone, please stay quiet for a minute. I'm going to turn it on.",4,1500000);
+	    qm.sendNextPrevS("Everyone, please stay quiet for a minute. I'm going to turn it on.",4,1500000);
 	} else if (status == 8) {
-	    qm.introEnableUI(1);
-		qm.introDisableUI(true);
-		qm.sendNext("......",4,1500000);
+	    qm.EnableUI(1);
+		qm.DisableUI(true);
+		qm.sendNextS("......",4,1500000);
 	} else if (status == 9) {
-        qm.sendNext("Wow, I can hear the whole forest!",4,1500000);
+        qm.sendNextS("Wow, I can hear the whole forest!",4,1500000);
 		qm.topMsg("*Chirp*");
 	} else if (status == 10) {
-	    qm.sendNext("???",4,1500000); 
+	    qm.sendNextS("???",4,1500000); 
 		qm.topMsg("*Hoot*");
     } else if (status == 11) {
-	    qm.sendNext("What's wrong with this thing? Why is it only recording useless noises?",4,1500002);
+	    qm.sendNextS("What's wrong with this thing? Why is it only recording useless noises?",4,1500002);
 	} else if (status == 12) {
-	    qm.sendNextPrev("Shh... Be quiet.",4,1500009);
+	    qm.sendNextPrevS("Shh... Be quiet.",4,1500009);
 		qm.topMsg("P-p-p-p-please help us... Boo hoo...");
 	} else if (status == 13) {
-	    qm.sendNext("That voice!",4);
+	    qm.sendNextS("That voice!",4);
 	} else if (status == 14) {
-	    qm.sendNextPrev("It's coming from out back!",4,1500000); 
+	    qm.sendNextPrevS("It's coming from out back!",4,1500000); 
 	} else if (status == 15) {
-	    qm.sendNext("Be patient, children! I will save you right now!",4,1500002);
+	    qm.sendNextS("Be patient, children! I will save you right now!",4,1500002);
 	} else if (status == 16) {
-	    qm.sendNextPrev("Arwen, we should help.",4,1500009);
+	    qm.sendNextPrevS("Arwen, we should help.",4,1500009);
 	} else if (status == 17) {
-	    qm.sendNext("Everyone, please wait!",4);
+	    qm.sendNextS("Everyone, please wait!",4);
 	} else if (status == 18) {
-	    qm.introEnableUI(0);
-		qm.introDisableUI(false);
-	    qm.completeQuest();
+	    qm.EnableUI(0);
+		qm.DisableUI(false);
+	    qm.forceCompleteQuest();
 	    qm.dispose();		
 	}
   }

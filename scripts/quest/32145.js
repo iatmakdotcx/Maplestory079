@@ -37,11 +37,11 @@ function end(mode, type, selection) {
     if (status == 0) {
 	    qm.sendNext("Are you the one I invited to help with the ruckus at the Ellinel Fairy Academy?");
     } else if (status == 1) {
-	    qm.sendNextPrev("Um, of course?",15);
+	    qm.sendNextPrevS("Um, of course?",15);
 	} else if (status == 2) {	
 	    qm.sendNextPrev("You don't look as strong as I'd hoped. But, you're famous, so i'll leave it to you.");
 	} else if (status == 3) {
-	    qm.completeQuest();
+	    qm.forceCompleteQuest();
 		qm.dispose(); 
   } 
  }

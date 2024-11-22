@@ -1,78 +1,141 @@
 /*
-	äº²äº²å˜´å†’é™©ä¸“ç”¨è„šæœ¬
+ ÉÙÁÖÑıÉ® -- Èë¿ÚNPC
+ */
 
-	å°‘æ—å¦–åƒ§ -- å…¥å£NPC
-	
-	by-- èŠ¯ç¢ç‹å­
-		
-	QQ:7851103
-
-*/
-importPackage(net.sf.cherry.server.maps); 
-importPackage(net.sf.cherry.net.channel); 
-importPackage(net.sf.cherry.tools);
-importPackage(net.sf.cherry.server.life);
-importPackage(java.awt);
-
-var status = 0;
-
-function start() 
-	{
-	status = -1;
-	action(1, 0, 0);
-	}
-
-function action(mode, type, selection)
-{
-	var nextmap = cm.getC().getChannelServer().getMapFactory().getMap(702060000);
-	if (mode == -1)
-	{
-		cm.dispose();
-	}
-	else if (mode == 0)
-	{
-		cm.sendOk("å¥½çš„å¦‚æœè¦æŒ‘æˆ˜#bå¦–åƒ§#kéšæ—¶æ¥æ‰¾æˆ‘.");
-		cm.dispose();
-	} 
-	else 
-	{
-	if (mode == 1)
-	status++;
-	else
-	status--;
-		
-	if (status == 0)
-	{	if (cm.getC().getChannel() != 2){
-			cm.sendOk("   å°‘æ—å¦–åƒ§çš„æŒ‘æˆ˜åªèƒ½åœ¨ #r2#k é¢‘é“è¿›è¡Œ!");
-			cm.dispose();
-		}else if (nextmap.mobCount() > 0 && nextmap.playerCount() > 0){
-			cm.sendOk("æœ‰äººæ­£åœ¨æŒ‘æˆ˜..");
-			cm.dispose();
-      		}else{
-			cm.sendYesNo("ä½ æ˜¯å¦è¦æŒ‘æˆ˜#bå¦–åƒ§#kå‘¢?");
-		}
-	}
-	else if (status == 1) 
-	{ 	
-		var party = cm.getPlayer().getParty();		
-		if (party == null || party.getLeader().getId() != cm.getPlayer().getId()) {
-                    cm.sendOk("ä½ ä¸æ˜¯é˜Ÿé•¿ã€‚è¯·ä½ ä»¬é˜Ÿé•¿æ¥è¯´è¯å§ï¼");
-                    cm.dispose();
-                }else if(cm.getBossLog("shaoling") >= 3) {
-	            cm.sendOk("æ‚¨å¥½,ç³»ç»Ÿé™å®šæ¯å¤©åªèƒ½æŒ‘æˆ˜ä¸‰æ¬¡,å¦‚æœå¼ºè¡Œè¿›å…¥,ä¼šè¢«ç³»ç»Ÿå¼¹å›æ¥çš„!");
-                    cm.dispose();
-		}else if(party.getMembers().size() < 3) {
-	            cm.sendOk("éœ€è¦ 3 äººä»¥ä¸Šçš„ç»„é˜Ÿæ‰èƒ½è¿›å…¥ï¼!");
-                    cm.dispose();
-		}else{			
-	         	cm.getPlayer().getMap().killAllmonster();
-			nextmap.resetReactors();
-	    		nextmap.killAllMonsters();
-			nextmap.clearMapTimer();			
-			nextmap.setOnUserEnter("shaoling");
-			cm.warpParty(702060000);
-			cm.dispose();
-		}
-	}
+var shaoling = 2;
+function start() {
+    status = -1;
+    action(1, 0, 0);
 }
+
+
+function action(mode, type, selection) {
+    if (mode == -1) {
+        cm.dispose();
+    } else {
+        if (status >= 0 && mode == 0) {
+            cm.dispose();
+            return;
+        }
+		if (cm.getPlayer().getClient().getChannel() == 6) {
+			cm.sendOk("ÑıÉ®Ö»ÓĞÔÚÆµµÀ #r6#k ¿ÉÒÔÌôÕ½");
+			cm.dispose();
+			return;
+	    }
+        if (mode == 1)
+            status++;
+        else
+            status--;
+        if (status == 0) {
+            cm.sendSimple("#bÇ×°®µÄ #k#h  ##e\r\n#bÊÇ·ñÒªÌôÕ½ÎäÁêÑıÉ®¸±±¾£¿#k \r\n\r\n\r\n  #L0##rÎÒÒªÌôÕ½ÎäÁêÑıÉ®#k#l\r\n\r\n\r\n ");//#L0##rÎÒÒªÌôÕ½ÎäÁêÑıÉ®#k#l
+        } else if (status == 1) {
+            if (selection == 0) {
+                var pt = cm.getPlayer().getParty();
+                if ( cm.getQuestStatus(8534) != 0 ) {
+                    cm.sendOk("ÑıÉ®ÔİÊ±¹Ø±ÕÎ¬ĞŞ£¡");
+                    cm.dispose();
+                } else if (!ÅĞ¶ÏÍÅ¶ÓÃ¿ÈÕa('shaoling', 2)) {
+                    cm.sendOk("Ã¿ÌìÖ»ÄÜ´ò2´ÎÑıÉ®£¡");
+                    cm.dispose();
+                } else if (cm.getParty() == null) {
+                    cm.sendOk("Çë×é¶ÓÔÙÀ´ÕÒÎÒ....");
+                    cm.dispose();
+                } else if (!cm.isLeader()) {
+                    cm.sendOk("Çë½ĞÄãµÄ¶Ó³¤À´ÕÒÎÒ!");
+                    cm.dispose();
+                } else if (pt.getMembers().size() < 1) {
+                    cm.sendOk("ĞèÒª 1 ÈËÒÔÉÏµÄ×é¶Ó²ÅÄÜ½øÈë£¡!");
+                    cm.dispose();
+                } else {
+                    var party = cm.getParty().getMembers();
+                    var mapId = cm.getMapId();
+                    var next = true;
+                    var levelValid = 0;
+                    var inMap = 0;
+
+                    var it = party.iterator();
+                    while (it.hasNext()) {
+                        var cPlayer = it.next();
+                        if (cPlayer.getLevel() >= 129 || cPlayer.getJobId() == 000) {
+                            levelValid += 1;
+                        } else {
+                            next = false;
+                        }
+                        if (cPlayer.getMapid() == mapId) {
+                            inMap += (cPlayer.getJobId() == 900 ? 3 : 1);
+                        }
+                    }
+                    if ( inMap < 1) {
+                        next = false;
+                    }
+                    if (next) {
+                        var em = cm.getEventManager("shaoling");
+                        if (em == null) {
+                            cm.sendOk("µ±Ç°¸±±¾ÓĞÎÊÌâ£¬ÇëÁªÂç¹ÜÀíÔ±....");
+                        } else {
+                            var prop = em.getProperty("state");
+                            if (prop.equals("0") || prop == null) {
+                                em.startInstance(cm.getParty(), cm.getMap());
+								var map = cm.getMap(702060000);
+								map.clearOwnerList();
+								map.addOwner(cm.getParty());
+								map.¸øÊ±ÖÓ(15, true, true);
+                                ¸øÍÅ¶ÓÃ¿ÈÕa("shaoling");
+                                cm.dispose();
+                                return;
+                            } else {
+                                cm.sendOk("ÀïÃæÒÑ¾­ÓĞÈËÔÚÌôÕ½ÁË£¬Äã¿ÉÒÔÅÅ¶ÓµÈºòÒ»ÏÂ¡£...");
+                            }
+                        }
+                    } else {
+                        cm.sendOk("µÈ¼¶ÉĞÎ´´ïµ½ #r130#k");
+                    }
+                }
+                cm.dispose();
+            }
+        }
+    }
+}
+
+function ¸øÍÅ¶ÓÃ¿ÈÕa(name){
+	if(cm.getPlayer().getParty() != null && cm.getPlayer().getParty().getMembers().size() > 1){
+		var chrs = cm.getPlayer().getParty().getMembers();
+		var it = chrs.iterator();
+		while(it.hasNext()){
+			var chr = it.next();
+			var curChar = cm.getPlayer().getMap().getCharacterById(chr.getId());
+			if (curChar != null) {
+				curChar.setBossLoga(name);
+			}
+		}
+	}else{
+		cm.setBossLoga(name);
+	}
+	
+}
+
+function ÅĞ¶ÏÍÅ¶ÓÃ¿ÈÕa(name, count){
+	var a = false;
+	var c = 0;
+	if(cm.getPlayer().getParty() == null){
+		return cm.getBossLoga(name) < count;
+	}else{
+		var chrs = cm.getPlayer().getParty().getMembers();
+		var it = chrs.iterator();
+		while(it.hasNext()){
+			var chr = it.next();
+			var curChar = cm.getPlayer().getMap().getCharacterById(chr.getId());
+			if (curChar != null) {
+				c = curChar.getBossLoga(name);
+				if (c < count) {
+					a = true;
+				} else {
+					a = false;
+					return a;
+				}
+			}
+		}
+		return a;
+	}
+	
 }

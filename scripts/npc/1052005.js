@@ -49,7 +49,7 @@ function action(mode, type, selection) {
 			status--;
 		if (status == 0) {
 			cm.sendSimple("你好,我是差不多医生!如果你有#b射手村整形手术普通会员卡#k,你就放心的让我为你进行整形手术吧,我会让你满意的.那么你要做什么？\r\n\#L2##b进行整形手术#k(使用#b射手村整形手术普通会员卡#k)随机#l");
-			} else if (status == 1) {
+		} else if (status == 1) {
 			if (selection == 1) {
 				cm.dispose();
 			} else if (selection == 2) {

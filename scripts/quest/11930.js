@@ -1,5 +1,8 @@
-/**
- *	[é¬¼èŠ‚]ä¸ç»™ç³–æœï¼Œä»–ä»¬å°±ä¼šæ£è›‹ï½ï¼
+/* ==================
+ ½Å±¾ÀàĞÍ:  ÈÎÎñ	    
+ ½Å±¾°æÈ¨£ºÓÎÏ·ºĞÍÅ¶Ó
+ ÁªÏµ¿Û¿Û£º297870163    609654666
+ =====================
  */
 
 var status = -1;
@@ -10,6 +13,6 @@ function start(mode, type, selection) {
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }

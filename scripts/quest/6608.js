@@ -18,13 +18,13 @@ function start(mode, type, selection) {
     } else if (status == 1) {
         if (qm.hasSkill(20040218)) { //20040218 - 穿透 - 用穿透一切阻碍的光之力量，无视敌人的部分防御力。
             qm.sendLinkSkillWindow(20040218);
-            qm.completeQuest();
+            qm.forceCompleteQuest();
         }
         qm.dispose();
     }
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }

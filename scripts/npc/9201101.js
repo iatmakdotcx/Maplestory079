@@ -1,61 +1,34 @@
-/*
-	This file is part of the cherry Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-                       Matthias Butz <matze@cherry.de>
-                       Jan Christian Meyer <vimes@cherry.de>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License version 3
-    as published by the Free Software Foundation. You may not use, modify
-    or distribute this program under any other version of the
-    GNU Affero General Public License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-/**
--- Odin JavaScript --------------------------------------------------------------------------------
-	T-1337 - NLC -> Kerning City warper
--- By ---------------------------------------------------------------------------------------------
-	xQuasar
----------------------------------------------------------------------------------------------------
-**/
-
-var cost = 6000;
+var items = [[2022338, 100000], [2022339, 900000], [2022340, 3600000], [2022341, 900000], [2022342, 2500000], [2022345, 1600000], [2022179, 4900000]];
+var buy = false;
+var sel;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+    var selStr = "So, what do you want?\r\n\r\n#b";
+    for (var i = 0; i < items.length; i++) {
+        selStr += "#L" + i + "##v" + items[i][0] + "##t" + items[i][0] + "#\r\n";
+    }
+    cm.sendSimple(selStr);
 }
 
 function action(mode, type, selection) {
-	if(mode == -1) {
-		cm.dispose();
-	} else {
-		if(mode == 1) {
-			status++;
-		}
-		if(mode == 0) {
-			cm.sendOk("You must have some business to take care of here, right? Bzzzt.");
-			cm.dispose();
-			return;
-		}
-		if(status == 0) {
-			cm.sendYesNo("Bzzzt. I can take you to #bKerning City#k instantly. It'll still cost you #b"+cost+" mesos#k. Are you sure you want to go to #bKerning City#k?");
-		} else if(status == 1) {
-			if(cm.getMeso() >= cost) {
-				cm.warp(103000100,0);
-				cm.gainMeso(-cost);
-			} else {
-				cm.sendOk("Are you sure you have #b"+cost+" mesos#k?");
-			}
-			cm.dispose();
-		}
-	}
+    if (mode != 1) {
+        cm.dispose();
+        return;
+    }
+    if (!buy) {
+        sel = selection;
+        cm.sendGetNumber("Are you sure you want to make a #b#v" + items[selection][0] + "##t" + items[selection][0] + "##k? The following items and materials will be required...\r\n\r\n" + items[selection][1] + " mesos", 1, 1, 200);
+        buy = true;
+    } else {
+        if (!cm.canHold(items[sel][0], items[sel][1])) {
+            cm.sendOk("Please make more space.");
+            cm.dispose();
+            return;
+        }
+        cm.gainMeso(-(items[sel][1] * selection));
+        cm.gainItem(items[sel][0], selection);
+        cm.sendOk("There, all done! That was quick, wasn't it? If you need any more items, I'll be waiting here.");
+        cm.dispose();
+        return;
+    }
 }

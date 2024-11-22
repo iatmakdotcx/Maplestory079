@@ -19,34 +19,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* Equip fixer o.o
-*/
-
-var status = 0;
-
 function start() {
-	status = -1;
-	action(1, 0, 0);
+	cm.sendNext("Sup. Easter is over, but I still don't like it one bit, and now the people are aware of my plans. That's alright, though; my gang will do our best to bring it down next year, too. I'll be counting on you to help us take away more Easter Eggs from others. Peace..");
+	cm.dispose();
 }
-
-function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (mode == 0 && status == 0) {
-			cm.dispose();
-			return;
-		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			cm.sendYesNo("Please make sure your equip inventory can hold all of your currently equipped items. Are you ready?");
-		} else if (status == 1) {
-			cm.unequipEverything();
-			cm.sendOk("Alright, we're done.");
-			cm.dispose();
-		}
-	}
-}	

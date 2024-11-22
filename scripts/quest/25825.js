@@ -17,7 +17,7 @@ function start(mode, type, selection) {
         status--;
     }
     if (status == 0) {
-        qm.sendAcceptDeclineNoESC("由于修炼和练习的结果，和#p3000018#的灵魂的联系越来越紧密了。心里既感到高兴，又有一丝不安。是否要进行爆莉萌天使2转？");
+        qm.askAcceptDeclineNoESC("由于修炼和练习的结果，和#p3000018#的灵魂的联系越来越紧密了。心里既感到高兴，又有一丝不安。是否要进行爆莉萌天使2转？");
     } else if (status == 1) {
         if (qm.getJob() == 6500) {
             qm.changeJob(6510);
@@ -25,7 +25,7 @@ function start(mode, type, selection) {
         if (!qm.haveItem(1142496, 1)) {
             qm.gainItem(1142496, 1);
         }
-        qm.completeQuest();
+        qm.forceCompleteQuest();
         qm.dispose();
     }
 }

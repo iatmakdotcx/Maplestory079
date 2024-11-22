@@ -22,7 +22,7 @@ function start(mode, type, selection) {
 	    qm.sendSimple("#fUI/UIWindow2.img/QuestIcon/4/0#\r\n#i1002877##bCow Mask x1#k\r\n#i1052179##bCow Costume x1#k\r\n\r\nEnjoy your gifts!");
 	} else if (status == 5) {
 		qm.forceStartQuest();
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 		qm.gainItem(1002877, 1);
 		qm.gainItem(1052179, 1);
 		qm.gainItem(4310101, 2);

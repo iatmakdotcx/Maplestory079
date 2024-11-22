@@ -19,7 +19,7 @@ function action(mode, type, selection) {
                 return;
             }
             if (cm.getParty().getMembers().size() < 3 && !cm.getPlayer().isGM()) {
-                cm.sendOk("You cannot fight yourself! Gather at least three party members.");
+                cm.sendOk("You cannot fight yourself! Gather at least three 队员.");
                 cm.dispose();
                 return;
             }

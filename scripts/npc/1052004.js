@@ -40,7 +40,7 @@ function action(mode, type, selection){
 						facenew.push(fface[i] + cm.getChar().getFace() % 1000 - (cm.getChar().getFace() % 100));
 					}
 				}
-				cm.sendStyle("我可以改变你的脸型,让它比现在看起来漂亮. 你为什么不试着改变它下? 如果你有#b射手村整形手术高级会员卡#k,我将会帮你改变你的脸型,那么选择一个你想要的新脸型吧!", facenew,5152001);
+				cm.sendStyle("我可以改变你的脸型,让它比现在看起来漂亮. 你为什么不试着改变它下? 如果你有#b射手村整形手术高级会员卡#k,我将会帮你改变你的脸型,那么选择一个你想要的新脸型吧!",5152001, facenew);
 			}else if(selection == 1){
 				beauty = 1;
 				if (cm.getChar().getGender() == 0) {
@@ -50,7 +50,7 @@ function action(mode, type, selection){
 				}
 				colors = Array();
 				colors = Array(current, current + 100, current + 200, current + 300, current + 400, current + 500, current + 600, current + 700, current + 800);
-				cm.sendStyle("请选择你喜欢的颜色.", colors,5152001);
+				cm.sendStyle("请选择你喜欢的颜色.",5152001, colors);
 			}
 		}else if (status == 2){			
 			cm.dispose();

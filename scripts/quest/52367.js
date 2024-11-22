@@ -50,25 +50,25 @@ function end(mode, type, selection) {
 	if(qm.getPlayer().getLevel() <= 30) {
 	qm.gainExp(15000 * 2);
 	qm.gainItem(5252017, 1);
-	qm.completeQuest();
+	qm.forceCompleteQuest();
 	qm.dispose();
 	}
 	if(qm.getPlayer().getLevel() <= 70 && qm.getPlayer().getLevel() > 30) {
 	qm.gainExp(30000 * 2);
 	qm.gainItem(5252017, 1);
-	qm.completeQuest();
+	qm.forceCompleteQuest();
 	qm.dispose();
 	}
 	if(qm.getPlayer().getLevel() <= 120 && qm.getPlayer().getLevel() > 70) {
 	qm.gainExp(60000 * 2);
 	qm.gainItem(5252017, 1);
-	qm.completeQuest();
+	qm.forceCompleteQuest();
 	qm.dispose();
 	}
 	if(qm.getPlayer().getLevel() <= 200 && qm.getPlayer().getLevel() > 120) {
 	qm.gainExp(120000 * 2);
 	qm.gainItem(5252017, 1);
-	qm.completeQuest();
+	qm.forceCompleteQuest();
 	qm.dispose();
 	}
 	qm.dispose();

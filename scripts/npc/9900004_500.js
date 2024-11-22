@@ -1,85 +1,96 @@
-var icon = "#fUI/UIToolTip.img/Item/Equip/Star/Star#";
-var icon2 = "#fUI/Basic.img/BtMin2/normal/0#";
-var typed = 1;
-var cost = 5;
-var itemid = 0;
-var paynx = 20;
-var equip = null;
-var btnOk = "#fUI/CashShop.img/CSCoupon/BtOK/normal/0#";
-var btnOk_disabled = "#fUI/CashShop.img/CSCoupon/BtOK/disabled/0#";
-var isUpgrade = false;
-var dropGrade = 0;
-var successRate = 0;
-var position = -1;
+/*
+ 
+ ½Å±¾£º·ÉÌìÖí-ÉäÊÖ´å
+ ¶ÔÓ¦µÄµ°£º4170000
+ */
+var ³ÇÕò = "ÉäÊÖ´å";
+var status = 1;
+//ÎïÆ·ID£¬³é½±¸ÅÂÊ£¬ÎïÆ·ÊıÁ¿£¬(0/²»¹ã²¥£¬1¹ã²¥)
+var itemList = Array(
+  //-----ÒÎ×Ó-----
+  Array(1402214, 100, 1, 1),
+  Array(1432182, 100, 1, 1),
+  Array(1452220, 100, 1, 1),
+  Array(1462208, 100, 1, 1),
+  Array(1472230, 200, 1, 1), //
+  Array(1482183, 100, 1, 1), //
+  Array(1492194, 200, 1, 1), //
+  Array(1342087, 200, 1, 1), //
+  Array(1332242, 300, 1, 1), //
+  Array(1382226, 300, 1, 1), //
+  Array(1422156, 100, 1, 1)
+);
+
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (status == 0 && mode == 0) {
-		cm.dispose();
-		return;
-	}
-	if (mode == 1) {
-		status++;
-	} else {
-		status--;
-	}
-	if (status == 0) {
-		var text = "ä½ è¦å°†æœ‰æœŸé™çš„ç¥çº§è§‰é†’ç¿…è†€è¿›è¡Œæ°¸ä¹…å¼ºåŒ–å—â€¦â€¦\r\n#b";
-		//text += "#L1##ræ—¶è£…å‡æ˜Ÿç³»ç»Ÿç®€ä»‹#l#b\r\n\r\n";
-		text += "#L2#" + icon2 + " æ˜¯çš„ï¼Œå¿«æŠŠä»–å˜ä¸ºæ°¸ä¹…#l\r\n";
-		//text += "#L3#" + icon2 + " é¢†å–æ¯æ—¥æ˜Ÿçº§ç¦åˆ©#l\r\n";
-		//text+="#L3#"+icon2+" ç‚¹å·è§‰é†’æ—¶è£… #rx"+cost[1]+"/æ¬¡#b#l\r\n";
-		//text+="#L4#"+icon2+" å†¬å­£é™é‡å¸è§‰é†’æ—¶è£… #rx"+cost[2]+"/æ¬¡#l\r\n";
-		//text+="#L5#"+icon2+" ä¸€é”®ç¥çº§è§‰é†’ #r#l\r\n";
-		cm.sendSimple(text);
-	} else if (status == 1) {
-		if (selection == 2) {
-			position = -1;
-			isUpgrade = false;
-			inventoryType = 1;
-			var list = cm.getInventory(inventoryType).list();
-			var itemList = list.iterator();
-			text = "#eè¯·é€‰æ‹©ç¿…è†€#n\r\n\r\n#b";
-			var indexof = 1;
-			newItemList = Array();
-			while (itemList.hasNext()) {
-				var item = itemList.next();
-				if (item.getItemId() != 1102310)
-					continue;
-				newItemList[item.getPosition()] = item.getItemId();
-			}
-			for (var key in newItemList) {
-				text += "#L" + key + "##v" + newItemList[key] + "#";
-				if (indexof > 1 && indexof % 5 == 0) {
-					text += "\r\n";
-				}
-				indexof++;
-			}
-			cm.sendSimple(text);
-		}
-	} else if (status == 2) {
-		if (position == -1)
-			position = selection;
-		if (position != -1) {
-			if (cm.getTotalRMB()>=500) {
-				equip = cm.getInventory(1).getItem(position);
-				var ii = cm.getItemInfo();
-				var toDrop = equip.copy();
-				toDrop.setExpiration(-1);
-				cm.removeItem(position, 1, 1);
-				cm.addFromDrop(cm.getC(), toDrop, false);
-				cm.worldMessageItem("[ç¿…è†€è¿›é˜¶] : " + "ç©å®¶[" + cm.getPlayer().getName() + "]å°† ç¥çº§è§‰é†’<"+cm.getItemName(1102310)+"> è¿›é˜¶ä¸º æ°¸ä¹…", toDrop);
-				cm.sendOk("è¿›é˜¶æˆåŠŸï¼");
-				cm.dispose();
-			} else {
-				cm.sendOk("å……å€¼ç´¯è®¡ä¸è¶³500ï¼Œæ— æ³•è¿›é˜¶");
-				cm.dispose();
-			}
-		}
-	} else if (status == 2) {
-
-	}
+  if (mode == 1) {
+    status++;
+  } else {
+    if (status == 0) {
+      cm.sendOk("ÄãÃ»ÓĞ " + cm.ÏÔÊ¾ÎïÆ·(4310022) + " £¿");
+      cm.dispose();
+    }
+    status--;
+  }
+  if (status == 0) {
+    if (cm.haveItem(4310022, 66)) {
+      var str1 = "";
+      for (var i = 0; i < itemList.length; i++) {
+        str1 += "#v" + itemList[i][0] + "#";
+      }
+      cm.sendYesNo(
+        "ÎÒÊÇ#bºìÉ«ÎäÆ÷³é½±#kNPC£¬ÄãºÃ #b#h ##k ¸øÎÒ " +
+          cm.ÏÔÊ¾ÎïÆ·(4310022) +
+          " ¾Í¿ÉÒÔ³é½±ÁË¡£\r\n\r\n#v1402214# #v1432182# #v1452220# #v1462208# #v1472230# #v1482183# #v1492194# #v1342087# #v1332242# #v1382226# #v1422156#"
+      );
+    } else {
+      var str1 = "\r\n";
+      for (var i = 0; i < itemList.length; i++) {
+        str1 += "#v" + itemList[i][0] + "#";
+      }
+      cm.sendOk(
+        "ÎÒÊÇ#bºìÉ«ÎäÆ÷³é½±#kNPC£¬ÄãÃ»ÓĞ " +
+          cm.ÏÔÊ¾ÎïÆ·(4310022) +
+          " ! µÈÄãÓĞÁËÔÚÀ´ÕÒÎÒ°Ñ¡£\r\n\r\n#v1402214# #v1432182# #v1452220# #v1462208# #v1472230# #v1482183# #v1492194# #v1342087# #v1332242# #v1382226# #v1422156#"
+      );
+      cm.safeDispose();
+    }
+  } else if (status == 1) {
+    var chance = Math.floor(Math.random() * +100);
+    var finalitem = Array();
+    for (var i = 0; i < itemList.length; i++) {
+      if (itemList[i][1] >= chance) {
+        finalitem.push(itemList[i]);
+      }
+    }
+    if (finalitem.length != 0) {
+      if (finalitem.length == 0) {
+        return 1;
+      }
+      var item;
+      var random = new java.util.Random();
+      var finalchance = random.nextInt(finalitem.length);
+      var itemId = finalitem[finalchance][0];
+      var quantity = finalitem[finalchance][2];
+      var notice = finalitem[finalchance][3];
+      item = cm.gainGachaponItem(itemId, quantity, "ºìÉ«ÎäÆ÷³é½±", notice);
+      if (item != -1) {
+        cm.gainItem(4310022, -66);
+        cm.sendOk("Äã»ñµÃÁË " + cm.ÏÔÊ¾ÎïÆ·(item) + " x #b" + quantity + "#k");
+      } else {
+        cm.sendOk(
+          "ÇëÄãÈ·ÈÏÔÚ±³°üµÄ×°±¸£¬ÏûºÄ£¬ÆäËû´°¿ÚÖĞÊÇ·ñÓĞÒ»¸ñÒÔÉÏµÄ¿Õ¼ä¡£"
+        );
+      }
+      cm.safeDispose();
+    } else {
+      cm.sendOk("½ñÌìµÄÔËÆø¿ÉÕæ²î£¬Ê²Ã´¶¼Ã»ÓĞÄÃµ½¡£");
+      cm.safeDispose();
+    }
+    cm.safeDispose();
+  }
 }

@@ -31,7 +31,7 @@ function end(mode, type, selection) {
 	    status--;
 
 	if (status == 0) {
-	    qm.completeQuest();
+	    qm.forceCompleteQuest();
             qm.changeJob(431);
             qm.dispose();
         }

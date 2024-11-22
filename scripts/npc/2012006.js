@@ -1,55 +1,28 @@
 /*
--- MrCoffee JavaScript --
-        NPC脚本 
--------------------------
-   MrCoffee MapleStory
------ Version Info ------
-     Version - 1.0.0 
--------------------------
-*/
-
-importPackage(net.sf.MrCoffee.client);
-
-var mapid = new Array(200000110,200000120,200000130,200000140,200000150);
-var platform = new Array("魔法密林","玩具城","神木村","武陵","阿里安特");
-var flight = new Array("ship","ship","ship","Hak","Geenie");
-var menu;
-var select;
+ 
+ */
+var status = -1;
+var sel;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  cm.sendNext("�������Ƿ��мǵù���Ʊ?");
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if(mode == 0 && status == 0) {
-			cm.dispose();
-			return;
-		}
-		if(mode == 0) {
-			cm.sendOk("请仔细选择好你要去的站台，再跟我讲。");
-			cm.dispose();
-			return;
-		}
-		if(mode == 1)
-			status++;
-		else
-			status--;
-		if(status == 0) {
-			menu = "天空之城来往航班纵横交错，请选择一个可以带你到目的地的站台。请放心，即使你选择错了，还可以回来跟我说，我将带你到正确的站台等待航班。请在下面选择你要去的站台。";
-			for(var i=0; i < platform.length; i++) {
-				menu += "\r\n#L"+i+"##b开往 "+platform[i]+"#k#l";
-			}
-			cm.sendSimple(menu);
-		} else if(status == 1) {
-			select = selection;
-			cm.sendYesNo("即使你选择错了站台，你还可以回到这里来跟我说，现在你将要移动到开往 #b "+flight[select]+"  "+platform[select]+" #k的站台？");
-		} else if(status == 2) {
-			cm.warp(mapid[select]);
-			cm.dispose();
-		}
-	}
+  if (mode < 1) {
+    cm.dispose();
+    return;
+  }
+  status++;
+  if (status == 0)
+    cm.sendSimple(
+      "������Ҫȥ�ĸ�վ̨��#b\r\n\r\n#L0#ȥħ��ɭ��#l\r\n#L1#ȥ��߳�#l\r\n#L2#ȥ��ľ��#l\r\n#L3#ȥ�һ��ɾ�#l\r\n#L4#ȥ��ϣɳĮ#l\r\n#L5#ȥҮ�׸�#l"
+    );
+  else if (status == 1) {
+    sel = selection;
+    cm.sendNext("�ҽ����㵽 #m" + (200000110 + sel * 10) + "#");
+  } else if (status == 2) {
+    cm.warp(200000110 + sel * 10);
+    cm.dispose();
+  }
 }

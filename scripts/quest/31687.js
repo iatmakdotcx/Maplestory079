@@ -11,7 +11,7 @@ function start(mode, type, selection) {
 	 else
 	    status--;
 	if (status == 0) {   	
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 		qm.dispose();
 	}
 }

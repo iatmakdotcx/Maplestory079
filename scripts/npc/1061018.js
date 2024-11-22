@@ -1,11 +1,14 @@
-
+/*
+ 
+蝙蝠怪系列
+ */
 function start() {
-    cm.sendYesNo("浣犳兂鏀惧純浠诲姟,浠庤繖閲屽嚭鍘诲悧?");
+  cm.sendYesNo("你确定要离开这个地图嘛？？");
 }
 
 function action(mode, type, selection) {
-    if (mode == 1) {
-	cm.warp(105100100);
-    }
-    cm.dispose();
+  if (mode == 1) {
+    cm.warp(105100100, 5);
+  }
+  cm.dispose();
 }

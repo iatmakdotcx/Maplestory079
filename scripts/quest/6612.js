@@ -18,13 +18,13 @@ function start(mode, type, selection) {
     } else if (status == 1) {
         if (qm.hasSkill(30010241)) { //30010241 - 野性狂怒 - 由于愤怒，伤害增加。
             qm.sendLinkSkillWindow(30010241);
-            qm.completeQuest();
+            qm.forceCompleteQuest();
         }
         qm.dispose();
     }
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }

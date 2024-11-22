@@ -1,16 +1,18 @@
-/*
-	任务: 变了的森林
-	描述: 去见见圣地森林中的桉吧。
-*/
-var status = -1;
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+ var status = -1;
 
 function start(mode, type, selection) {
-    qm.sendNext("你过来点，我就在你的后面。");
-    qm.completeQuest();
-    qm.dispose();
+	qm.sendNext("谢谢你。");
+	qm.forceCompleteQuest();
+	qm.dispose();
 }
 function end(mode, type, selection) {
-    qm.sendNext("你过来点，我就在你的后面。");
-    qm.completeQuest();
-    qm.dispose();
+	qm.sendNext("谢谢你。");
+	qm.forceCompleteQuest();
+	qm.dispose();
 }

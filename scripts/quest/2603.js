@@ -4,7 +4,7 @@ function start(mode, type, selection) {
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.spawnNpcForPlayer(1057001, -900, 152);
     qm.dispose();
 }

@@ -1,74 +1,56 @@
-/*
-	This file is part of the cherry Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-                       Matthias Butz <matze@cherry.de>
-                       Jan Christian Meyer <vimes@cherry.de>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License version 3
-    as published by the Free Software Foundation. You may not use, modify
-    or distribute this program under any other version of the
-    GNU Affero General Public License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    
-*/
-
 /* Ms. Tan 
 	Henesys Skin Change.
 */
 var status = 0;
-var price = 1000000;
-var skin = Array(1, 2, 3, 4, 9, 10);
+var skin = Array(0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11);
+var ct = -1;
+var selectedColor = -1;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+    status = -1;
+    action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (mode == 0 && status == 0) {
+    if (mode == 0) {
+        cm.dispose();
+        return;
+    } else {
+        status++;
+    }
+    if (status == 0) {
+        cm.sendNext("ÄãºÃ£¡»¶Ó­¹âÁÙÉäÊÖ´å»¤·ôÖÐÐÄ¡£ÄãÏë»ñµÃºÍÎÒÒ»Ñù½¡¿µ½ô±ÁµÄÆ¤·ôÂð£¿Ö»ÒªÓÐ#v5153000##b»áÔ±¿¨#kµÄ»°£¬ÎÒ¾Í¿ÉÒÔ°´ÕÕÄãµÄÒªÇóÎªÄã»¤ÀíÆ¤·ô¡£ÄãÏë³¢ÊÔÒ»ÏÂÂð£¿");
+    } else if (status == 1) {
+        cm.sendStyle("ÓÃÎÒÃÇ»¤·ôÖÐÐÄ¿ª·ÅµÄ»úÐµ£¬¿ÉÒÔ²é¿´»¤·ôºóµÄÐ§¹û¡£ÄãÏëÒªÊ²Ã´ÑùµÄÆ¤·ôÄØ£¿ÇëÌôÑ¡Ò»ÏÂ¡«", 5153000, skin);
+    } else if (status == 2) {
+        if (cm.setAvatar(5153000, skin[selection]) == 1) {
+            cm.sendOk("Íê³ÉÁË,ÈÃÅóÓÑÃÇÔÞÌ¾ÄãµÄÐÂ·ôÉ«°É!");
 			cm.dispose();
-			return;
+        } else {
+            //cm.sendOk("àÅ¡­¡­ÄãºÃÏñÃ»ÓÐ»¤·ôÈ¯°¡¡£¶Ô²»Æð£¬Ã»ÓÐ»¤·ôÈ¯µÄ»°£¬ÎÒ¾Í²»ÄÜ°ïÄã»¤ÀíÆ¤·ô¡£");			
+			cm.sendYesNo("ÄúÃ»ÓÐ#v"+5153000+"#¡£ÊÇ·ñÏëÏûºÄ480µÖÓÃÈ¯»òÉÌ³ÇµãÈ¯Ö±½ÓÊ¹ÓÃ£¿");
+			selectedColor = selection
+        }
+    }else if (status == 3) {
+		ct = -1
+		if (cm.getChar().getCSPoints(2) >= 480)
+		{
+			ct = 2;
 		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			cm.sendSimple("æ¬¢è¿Žå…‰ä¸´ï¼æ¬¢è¿Žæ¥åˆ°æˆ‘ä»¬å°„æ‰‹æ‘æŠ¤è‚¤ä¸­å¿ƒã€‚ä½ æ˜¯ä¸æ˜¯å¸Œæœ›æ‹¥æœ‰åƒæˆ‘ä¸€æ ·å¥åº·ã€ç¾Žä¸½çš„è‚Œè‚¤å‘¢ï¼Ÿå¦‚æžœä½ æœ‰#b#t5153000##kæˆ‘ä»¬å¯ä»¥ä¸ºä½ ç²¾å¿ƒæŠ¤ç†è‚Œè‚¤ã€‚è¯·ç›¸ä¿¡æˆ‘ä»¬çš„èƒ½åŠ›ï¼Œæ€Žä¹ˆæ ·è¦ä¸è¦è¯•ä¸€è¯•ï¼Ÿ\r\n\#L2##bæ”¹å˜è‚¤è‰²#k(ä½¿ç”¨#bå°„æ‰‹æ‘æŠ¤è‚¤ä¼šå‘˜å¡#k)#l");
-		} else if (status == 1) {
-			if (selection == 1) {
-				cm.dispose();
-			} else if (selection == 2) {
-				cm.sendStyle("ç”¨æˆ‘ä»¬ç‰¹æ®Šå¼€å‘çš„æœºå™¨å¯æŸ¥çœ‹æŠ¤è‚¤åŽçš„æ•ˆæžœå™¢ï¼Œæƒ³æ¢æˆä»€ä¹ˆæ ·çš„çš®è‚¤å‘¢ï¼Ÿè¯·é€‰æ‹©ï½ž~", skin, 5153000);
-			}
-		} else if (status == 2) {
-			cm.dispose();
-			if (cm.isCash()) {
-                            if (cm.getPlayer().getCSPoints(1)>=480) {
-                                  cm.getPlayer().modifyCSPoints(1,-480);
-				  cm.setSkin(skin[selection]);
-				  cm.sendOk("å®Œæˆäº†,è®©æœ‹å‹ä»¬èµžå¹ä½ çš„æ–°è‚¤è‰²å§!");
-			    } else {
-				  cm.sendOk("çœ‹èµ·æ¥ä½ å¹¶æ²¡æœ‰æˆ‘ä»¬çš„ä¼šå‘˜å¡,æˆ‘ææ€•ä¸èƒ½ç»™ä½ æŠ¤è‚¤,æˆ‘å¾ˆæŠ±æ­‰.è¯·ä½ å…ˆè´­ä¹°å§.");
-			    }
-                        } else if (cm.haveItem(5153000) == true) {
-				cm.gainItem(5153000, -1);
-				cm.setSkin(skin[selection]);
-				cm.sendOk("å®Œæˆäº†,è®©æœ‹å‹ä»¬èµžå¹ä½ çš„æ–°è‚¤è‰²å§!");
-			} else {
-				cm.sendOk("çœ‹èµ·æ¥ä½ å¹¶æ²¡æœ‰æˆ‘ä»¬çš„ä¼šå‘˜å¡,æˆ‘ææ€•ä¸èƒ½ç»™ä½ æŠ¤è‚¤,æˆ‘å¾ˆæŠ±æ­‰.è¯·ä½ å…ˆè´­ä¹°å§.");
-			}
+		else if (cm.getChar().getCSPoints(1) >= 480)
+		{
+			ct = 1;
+		}
+		
+		if (ct != -1) {
+			cm.gainNX(ct, -480);
+			cm.gainItem(5153000, 1);
+			status = 1;
+			action(mode, type, selectedColor);
+		} else 
+		{
+			cm.sendOk("ÄãµÄµÖÓÃÈ¯ºÃÏñ²»¹»°¡£¡");
+			cm.safeDispose();
 		}
 	}
 }

@@ -18,7 +18,7 @@ function start(mode, type, selection) {
 	    qm.sendPrevOk("Talk to me if you want to know more about the things you can do for me.");	
 	} else if (status == 3) {	   
 		qm.forceStartQuest();
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 		qm.dispose();
 	}
 }

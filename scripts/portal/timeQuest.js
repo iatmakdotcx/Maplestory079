@@ -1,84 +1,117 @@
-//修正 
+﻿/*
+ All Time Temple portal
+ */
 
-function enter(pi) { 
-    var map = pi.getPlayer().getMapId(); 
-    var tomapifdone = 0; 
-    var tomap = 0; 
-    var quest = 0; 
+var quest;
+var tomap;
+var uncompletedmap;
 
-    if (map == 270010100) { 
-        quest = 3501; 
-        tomapifdone = 270010110; 
-        tomap = 270010000; 
-    } else if (map == 270010200) { 
-        quest = 3502; 
-        tomapifdone = 270010210; 
-        tomap = 270010110; 
-    } else if (map == 270010300){ 
-        quest = 3503; 
-        tomapifdone = 270010310; 
-        tomap = 270010210; 
-    } else if (map == 270010400){ 
-        quest = 3504; 
-        tomapifdone = 270010410; 
-        tomap = 270010310; 
-    } else if (map == 270010500){ 
-        quest = 3507; 
-        tomapifdone = 270020000; 
-        tomap = 270010410; 
-    } else if (map == 270020100){ 
-        quest = 3508; 
-        tomapifdone = 270020110; 
-        tomap = 270020000; 
-    } else if (map == 270020200){ 
-        quest = 3509; 
-        tomapifdone = 270020210; 
-        tomap = 270020110; 
-    } else if (map == 270020300){ 
-        quest = 3510; 
-        tomapifdone = 270020310; 
-        tomap = 270020210; 
-    } else if (map == 270020400){ 
-        quest = 3511; 
-        tomapifdone = 270020410; 
-        tomap = 270020310; 
-    } else if (map == 270020500){ 
-        quest = 3514; 
-        tomapifdone = 270030000; 
-        tomap = 270020410; 
-    } else if (map == 270030100){ 
-        quest = 3515; 
-        tomapifdone = 270030110; 
-        tomap = 270030100; 
-    } else if (map == 270030200){ 
-        quest = 3516; 
-        tomapifdone = 270030210; 
-        tomap = 270030210; 
-    } else if (map == 270030300){ 
-        quest = 3517; 
-        tomapifdone = 270030310; 
-        tomap = 270030310; 
-    } else if (map == 270030400){ 
-        quest = 3518; 
-        tomapifdone = 270030410; 
-        tomap = 270030410; 
-    } else if (map == 270030500){ 
-        quest = 3521; 
-        tomapifdone = 270040000; 
-        tomap = 270030410; 
-    } else if (map == 270040000){ 
-        quest = 3522; 
-        tomapifdone = 270040100; 
-        tomap = 270040000;  
-    } 
+function enter(pi) {
+    switch (pi.getMapId()) {
 
-    // warp 
-    // if (pi.getQuestStatus(quest) == org.character.MapleQuestStatus.Status.COMPLETED) { 
-        pi.warp(tomapifdone,0); 
-        return true; 
-    // } else { 
-    //     pi.warp(tomap,0); 
-    //     pi.getPlayer().dropMessage("由于没有得到许可，被送到原来的地方。。"); 
-    //    return true; 
-    // } 
-}  
+        // Green area
+        case 270010100:
+            quest = 3501;
+            tomap = 270010110;
+            uncompletedmap = 270010000;
+            break;
+        case 270010200:
+            quest = 3502;
+            tomap = 270010210;
+            uncompletedmap = 270010110;
+            break;
+        case 270010300:
+            quest = 3503;
+            tomap = 270010310;
+            uncompletedmap = 270010210;
+            break;
+        case 270010400:
+            quest = 3504;
+            tomap = 270010410;
+            uncompletedmap = 270010310;
+            break;
+        case 270010500:
+            quest = 3507;
+            tomap = 270020000;
+            uncompletedmap = 270010410;
+            break;
+
+            // Blue area
+        case 270020100:
+            quest = 3508;
+            tomap = 270020110;
+            uncompletedmap = 270020000;
+            break;
+        case 270020200:
+            quest = 3509;
+            tomap = 270020210;
+            uncompletedmap = 270020110;
+            break;
+        case 270020300:
+            quest = 3510;
+            tomap = 270020310;
+            uncompletedmap = 270020210;
+            break;
+        case 270020400:
+            quest = 3511;
+            tomap = 270020410;
+            uncompletedmap = 270020310;
+            break;
+        case 270020500:
+            quest = 3514;
+            tomap = 270030000;
+            uncompletedmap = 270020410;
+            break;
+
+            // Red zone
+        case 270030100:
+            quest = 3515;
+            tomap = 270030110;
+            uncompletedmap = 270030000;
+            break;
+        case 270030200:
+            quest = 3516;
+            tomap = 270030210;
+            uncompletedmap = 270030110;
+            break;
+        case 270030300:
+            quest = 3517;
+            tomap = 270030310;
+            uncompletedmap = 270030210;
+            break;
+        case 270030400:
+            quest = 3518;
+            tomap = 270030410;
+            uncompletedmap = 270030310;
+            break;
+        case 270030500:
+            quest = 3521;
+            tomap = 270040000;
+            uncompletedmap = 270030410;
+            break;
+
+        case 270040000:
+            if (pi.haveItem(4032002)) {
+                pi.playPortalSE();
+                pi.warp(270040100, "out00");
+                //pi.gainItem(4032002, -1);
+                pi.playerMessage("移动到时间神殿内部。");
+                return true;
+            } else {
+                pi.playerMessage("有一股力量阻止着。");
+                return false;
+            }
+            break;
+        default:
+            return false;
+    }
+    if (pi.getQuestStatus(quest) == 2) {
+        pi.playPortalSE();
+        pi.warp(tomap, "out00");
+    } else {
+        pi.playPortalSE();
+        pi.warp(uncompletedmap, 0);
+        pi.playerMessage("有一股力量阻止着。");
+    }
+    return true;
+}

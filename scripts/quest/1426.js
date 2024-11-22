@@ -43,7 +43,7 @@ function end(mode, type, selection) {
 				qm.sendOk("恭喜!你现在是一名火枪手了!");
 				qm.changeJob(520);
 				//qm.gainSp(3);
-				qm.completeQuest();
+				qm.forceCompleteQuest();
 			} else {
 				qm.sendNext("请确认你装备栏有一格空间。");
 			}

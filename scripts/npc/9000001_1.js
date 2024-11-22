@@ -29,7 +29,7 @@ function action(mode, type, selection) {
 		else
 			status--;
 		if (status == 0) {	
-			cm.sendNext("浣犲ソ, 鎴戞槸#p" + cm.getNpc() + "#k, 浣犳兂鍙傚姞杩戞湡镄勬椿锷ㄥ悧锛?);
+			cm.sendNext("浣犲�? 鎴戞�?p" + cm.getNpc() + "#k, 浣犳兂鍙傚姞杩戞湡鐨勬椿鍔ㄥ悧锛�?);
 		} else if (status == 1) {	
 			cm.sendSimple("Huh? What kind of an event? Well, that's...\r\n#L0##e1.#n#b What kind of an event is it?#k#l\r\n#L1##e2.#n#b Explain the event game to me.#k#l\r\n#L2##e3.#n#b Alright, let's go!#k#l\r\n#L3##e4.#n#bPlease exchance Certificate of straight Win to reward item.#k#l");
 		} else if (status == 2) {

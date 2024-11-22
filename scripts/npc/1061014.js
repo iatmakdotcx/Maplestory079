@@ -1,25 +1,85 @@
-importPackage(net.sf.cherry.client);
+/*
+ *
+ *  ´Ë½Å±¾ÓÉÃ°ÏÕµºÖÆ×÷Íê³É
+ * 
+ *
+ */
+var ÌôÕ½´ÎÊı = 1;
 
 var status = 0;
-var job;
 
-function start() {
+function start() 
+	{
 	status = -1;
 	action(1, 0, 0);
-}
+	}
 
-function action(mode, type, selection) {
-	if (mode == -1) {
+function action(mode, type, selection)
+{
+	var nextmap = cm.getC().getChannelServer().getMapFactory().getMap(105100300);
+	if (mode == -1)
+	{
 		cm.dispose();
-	} else {
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			cm.sendOk("åœ¨å½“å‰æ‰€åœ¨çš„é¢‘é“ä¸­å¯ä»¥å‚åŠ #bç®€å•æ¨¡å¼è™è æ€ªè¿œå¾é˜Ÿ#kã€‚å¦‚æœæƒ³å‚åŠ å…¶ä»–æ¨¡å¼ï¼Œè¯·ç§»åŠ¨åˆ°ç›¸åº”çš„é¢‘é“ã€‚\r\n#b#i3994115#å…¶ä»–é¢‘é“/50ï½70çº§/3ï½6äºº\r\n#b#i3994116#5é¢‘é“ã€10é¢‘é“/50çº§ä»¥ä¸Š/6ï½15äºº\r\n#b#i3994117#å›°éš¾æ¨¡å¼å¼€æ”¾åœ¨2é¢‘é“/120çº§ä»¥ä¸Š/15ï½30äºº\r\n#b#i3994118#æ­¤æ¨¡å¼ç”±ç®¡ç†å‘˜å¼€æ”¾/180çº§ä»¥ä¸Š/20ï½35äºº");
+	}
+	else if (mode == 0)
+	{
+		cm.sendOk("ºÃµÄÈç¹ûÒªÌôÕ½ËæÊ±À´ÕÒÎÒ.");
+		cm.dispose();
+	} 
+	else 
+	{
+	if (mode == 1)
+	status++;
+	else
+	status--;
+		
+	if (status == 0)
+	{	
+			if (cm.getPlayerCount(105100300) > 1){
+	            cm.sendOk("ÒÑ¾­ÓĞÈËÌôÕ½ÄãÎŞ·¨½øÈë£¡");
+                    cm.dispose();
+			}else{
+				cm.sendYesNo("ÌôÕ½ÒªÇó50¼¶ÒÔÉÏ£¬Ã¿¸öÕËºÅÃ¿ÌìÓĞ" + ÌôÕ½´ÎÊı + "´Î»ú»á£¬ÌôÕ½¾ŞÄ§òùòğ£¡");
+			}
+		//}
+	}
+	else if (status == 1) 
+	{ 	
+		var party = cm.getPlayer().getParty();		
+		if (party == null || party.getLeader().getId() != cm.getPlayer().getId()) {
+                    cm.sendOk("Äã²»ÊÇ¶Ó³¤¡£ÇëÄãÃÇ¶Ó³¤À´Ëµ»°°É£¡");
+                    cm.dispose();
+
+			}else if(cm.getBossLoga("jumo01") >= ÌôÕ½´ÎÊı) {
+	            cm.sendOk("ÄúÕËºÅ½ñÌìµÄÌôÕ½´ÎÊıÒÑ¾­ÓÃÍêÁË£¬ÇëÃ÷ÌìÔÙÀ´°É..");
+                    cm.dispose();
+
+		}else if(party.getMembers().size() < 1) {
+	            cm.sendOk("ĞèÒª 1 ÈËÒÔÉÏµÄ×é¶Ó²ÅÄÜ½øÈë£¡!");
+                    cm.dispose();
+
+ 
+		}else{
+if(cm.getMonsterCount(105100300) <= 100){
+		
+
+	
+}			 cm.setBossLoga('jumo01');
+			nextmap.resetReactors();			
+			cm.getEventManager("BossBalrog").startInstance(cm.getParty(),cm.getMap());
+                          //cm.spawnMobOnMap(8230043,1,78,5,350050300);
+                          //cm.spawnMobOnMap(8240096,1,-118,60,350051250);
+                          //cm.spawnMobOnMap(8240096,1,279,190,350051250);
+                          //cm.spawnMobOnMap(8240096,1,579,362,350051250);
+                          //cm.spawnMobOnMap(8240096,1,906,456,350051250);
+                          //cm.spawnMobOnMap(8240096,1,1281,456,350051250);
+
+                                //cm.gainItem(4000313, -1);
+                                cm.warpParty(105100300);
+                               cm.È«·şÀ®°È(6, "[" + cm.getPlayer().getName() + "]´øÁì¶ÓÎéÌôÕ½ÃÔ¹¬Éî´¦-¾ŞÄ§òùòğ¹Ö£¡~");
+                                //cm.setmoneyb(-100);
 			cm.dispose();
-			return;
 		}
 	}
-}	
+}
+}

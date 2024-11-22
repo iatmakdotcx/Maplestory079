@@ -1,19 +1,21 @@
-/*
-	ä»»åŠ¡: ä¸ç®¡å¤šå°‘æ¬¡éƒ½å¾—äº‰å–ï¼
-	æè¿°: æˆ‘ä»é‡åŠ›ç½‘é©¾é©¶å‘˜â€¦â€¦ä½äº2102å¹´å•†ä¸šåŒºçš„#p9120033#å¤„ï¼Œè·å¾—äº†è®¨ä¼#o9400295#çš„ä»»åŠ¡ï¼Œä»–è¯´é‡åŠ›ç½‘ä½¿ç”¨çš„é©±åŠ¨ç»„ä»¶ç›®å‰å‡ºç°åœ¨#o9400295#çš„å‘¨å›´ï¼Œæœ‰äº†å®ƒå°±å¯ä»¥å¼ºåŒ–#o9400295#æ²¡æ—¶é—´äº†ï¼Œå¦‚æœä¸å°½å¿«åœ°æ‰“å€’#o9400295#çš„è¯â€¦ï¼
-*/
+/* ==================
+ ½Å±¾ÀàĞÍ:  ÈÎÎñ	    
+ ½Å±¾°æÈ¨£ºÓÎÏ·ºĞÍÅ¶Ó
+ ÁªÏµ¿Û¿Û£º297870163    609654666
+ =====================
+ */
 var status = -1;
 
 function start(mode, type, selection) {
     if (mode == 1) {
         status++;
     } else {
-        qm.sendNext("...What is it? Ah, I see that he's coming really close!");
+        qm.sendNext("...ËüÊÇÊ²Ã´£¿°¡£¬ÎÒ¿´µ½ËûµÄµ½À´·Ç³£½Ó½ü!");
         qm.dispose();
         return;
     }
     if (status == 0) {
-        qm.sendAcceptDecline("Watch out, because he seems... much more powerful than before. Do not underestimate him!");
+        qm.askAcceptDecline("µ±ĞÄ£¬ÒòÎªËûËÆºõ......±ÈÒÔÇ°¸ü¼ÓÇ¿´ó¡£²»ÒªµÍ¹ÀËû!");
     } else if (status == 1) {
         qm.forceStartQuest();
         qm.dispose();
@@ -21,6 +23,6 @@ function start(mode, type, selection) {
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }

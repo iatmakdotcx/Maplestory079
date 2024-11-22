@@ -30,7 +30,7 @@ if (mode == -1) {
 	    status--;
 	if (status == 0) {
 	  qm.sendNext("Good luck on your rewards! Wish me luck on the inventory I have to do now.");
-	  qm.completeQuest();
+	  qm.forceCompleteQuest();
 	  qm.dispose();		
 	}
   }

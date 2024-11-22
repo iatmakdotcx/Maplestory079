@@ -61,7 +61,7 @@ function end(mode, type, selection) {
 				}
 				qm.sendNext("你已经成功4转了, 恭喜你！");
 				//qm.gainSp(2);//1 is auto so it only gets 3 i think?
-				qm.completeQuest();
+				qm.forceCompleteQuest();
 				qm.dispose();
 			}
 		} else {

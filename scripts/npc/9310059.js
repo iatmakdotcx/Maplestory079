@@ -1,218 +1,325 @@
-/*
-	Mady By Coffee
-	Powered By XXMS
-	Warp NPC
-*/
-var bossmaps = Array( 
-                                                                                Array(100000005,1000000,"è˜‘è‡ç‹"),													        Array(105070002,1000000,"åƒµå°¸è˜‘è‡ç‹"), 
-										Array(105090900,1000000,"è¢«è¯…å’’çš„å¯ºé™¢"),     
-										Array(105090900,1000000,"è“è˜‘è‡ç‹"), 
-										Array(230040420,1000000,"çš®äºšå¥´æ–¯æ´ç©´"), 
-										Array(211042300,1000000,"æ‰æ˜†å…¥å£"), 
-										Array(220080000,1000000,"æ—¶é—´å¡”çš„æœ¬æº"), 
-										Array(240020402,1000000,"å–·ç«é¾™æ –æ¯åœ°"), 
-										Array(240020101,1000000,"æ ¼ç‘èŠ¬å¤šæ£®æ—"),   
-										Array(270050000,1000000,"ç¥çš„é»„æ˜:æ‰“PBçš„"),
-										Array(551030100,1000000,"é˜´æ£®ä¸–ç•Œå…¥å£:æ‰“ç†Šå’Œç‹®å­"),
-										Array(541020700,1000000,"å…‹é›·å¡å°”çš„é—è¿¹I:æ ‘ç²¾ç‹"),
-										Array(240040700,1000000,"ç”Ÿå‘½ä¹‹ç©´å…¥å£:æš—é»‘é¾™ç‹"),
-										Array(702070400,1000000,"è—ç»é˜ä¸ƒå±‚:å°‘æ—å¦–åƒ§")
-										);
-var monstermaps = Array(
-                                                                                Array(100040001,0,"å—éƒ¨æ£®æ—è®­ç»ƒåœºâ… 8çº§-15çº§"),
-										Array(101010100,0,"å¤§æœ¨æ—â… 8çº§-15çº§"), 
-										Array(104040000,0,"å°„æ‰‹è®­ç»ƒåœº 1çº§-15çº§"), 
-										Array(103000101,0,"åœ°é“ä¸€å·çº¿<ç¬¬1åœ°åŒº> 20çº§-30çº§"), 
-										Array(103000105,0,"åœ°é“ä¸€å·çº¿<ç¬¬4åœ°åŒº> 50çº§-70çº§"), 
-										Array(101030110,0,"ç¬¬1å†›è¥"), 
-										Array(106000002,0,"å±é™©çš„å³¡è°·â…¡"), 
-										Array(101030103,0,"é—è¿¹å‘æ˜åœ°â…¢"), 
-										Array(101040001,0,"é‡çŒªçš„é¢†åœŸ 20çº§-35çº§"), 
-										Array(101040003,0,"é’¢ä¹‹é»‘æ€ªä¹‹åœ°"), 
-										Array(101030001,0,"é‡çŒªçš„é¢†åœŸâ…¡"), 
-										Array(104010001,0,"çŒªçš„æµ·å²¸ 10çº§-20çº§"), 
-										Array(105070001,0,"èš‚èšå¹¿åœº 20çº§-40çº§"), 
-										Array(105090300,0,"é¾™ç©´"), 
-										Array(105040306,0,"å·¨äººä¹‹æ— 60çº§-80çº§"), 
-										Array(230020000,0,"ä¸œæµ·å‰è·¯"), 
-										Array(230010400,0,"è¥¿æµ·å‰è·¯"), 
-										Array(211041400,0,"æ­»äº¡ä¹‹æ—â…£"), 
-										Array(222010000,0,"ä¹Œå±±å…¥å£"),
-										Array(220070301,0,"æ—¶é—´åœæ­¢ä¹‹é—´"), 
-										Array(220070201,0,"æ¶ˆå¤±çš„æ—¶é—´"), 
-										Array(220050300,0,"æ—¶é—´é€šé“"), 
-										Array(220010500,0,"éœ²å°å¤§å… 40çº§-70çº§"), 
-										Array(250020000,0,"åˆçº§ä¿®ç‚¼åœº 50çº§-60çº§"), 
-										Array(251010000,0,"åå¹´è¯è‰åœ°"), 
-										Array(200040000,0,"äº‘å½©å…¬å›­â…¢"), 
-										Array(200010301,0,"é»‘æš—åº­é™¢â… "), 
-										Array(240020100,0,"ç«ç„°æ­»äº¡æˆ˜åœº 100çº§-120çº§"), 
-										Array(240040500,0,"é¾™ä¹‹å·¢ç©´å…¥å£"), 
-										Array(240040000,0,"é¾™çš„å³¡è°·"), 
-										Array(600020300,0,"ç‹¼è››æ´ç©´"),
+load("nashorn:mozilla_compat.js");
+portPackage(Packages.tools);
 
-        Array(541020000,0,"ä¹Œé²åº„å›­"), 
-										Array(800020130,0,"å¤§ä½›çš„é‚‚é€…")
-										); 
-var townmaps = Array(
-										Array(910000000,0,"è‡ªç”±å¸‚åœº"),
-                                                                                Array(809030000,0,"è±†è±†å±‹-æŠ½å¥–"),
-
-        Array(100000104,0,"å°„æ‰‹æ‘ç¾å‘åº—"),
-
-        Array(140000000,0,"é‡Œæ©"),
-                                                                                Array(106020000,0,"è˜‘è‡åŸå ¡"),
-										Array(104000000,0,"æ˜ç æ¸¯"), 
-										Array(100000000,0,"å°„æ‰‹æ‘"), 
-										Array(101000000,0,"é­”æ³•å¯†æ—"), 
-										Array(102000000,0,"å‹‡å£«éƒ¨è½"), 
-										Array(103000000,0,"åºŸå¼ƒéƒ½å¸‚"), 
-										Array(120000000,0,"è¯ºç‰¹å‹’æ–¯å·ç å¤´"),
-										Array(741000208,0,"é’“é±¼åœº æ— èŠç©ç©"),
-										Array(105040300,0,"æ—ä¸­ä¹‹åŸ"), 
-										Array(200000000,0,"å¤©ç©ºä¹‹åŸ"),
-										Array(211000000,0,"å†°å³°é›ªåŸŸ"), 
-										Array(230000000,0,"æ°´ä¸‹ä¸–ç•Œ"),  
-										Array(222000000,0,"ç«¥è¯æ‘"), 
-										Array(220000000,0,"ç©å…·åŸ"),
-										Array(701000000,0,"ä¸œæ–¹ç¥å·"),
-										Array(250000000,0,"æ­¦é™µ"), 
-										Array(702000000,0,"å°‘æ—å¯º"), 
-										Array(500000000,0,"æ³°å›½"),
-										Array(260000000,0,"æ²™æ¼ ä¹‹åŸ"), 
-										Array(600000000,0,"æ–°å¶åŸ"), 
-										Array(240000000,0,"ç¥æœ¨æ‘"), 
-										Array(261000000,0,"é©¬åŠ æäºš"), 
-										Array(221000000,0,"åœ°çƒé˜²å¾¡æœ¬éƒ¨"), 
-										Array(251000000,0,"ç™¾è‰å ‚"),
-										Array(701000200,0,"ä¸Šæµ·è±«å›­"),
-										Array(550000000,0,"å‰éš†å¤§éƒ½å¸‚"),
-										Array(130000000,0,"åœ£åœ°"),  
-										Array(801000000,0,"æ˜­å’Œæ‘"), 
-										Array(540010000,0,"æ–°åŠ å¡æœºåœº"),
-										Array(541000000,0,"æ–°åŠ å¡ç å¤´"),
-										Array(300000000,0,"è‰¾æ—æ£®æ—"), 
-										Array(270000100,0,"æ—¶é—´ç¥æ®¿"), 
-										Array(702100000,0,"è—ç»é˜"), 
-										Array(970000000,0,"å„å¤§åŸå¸‚æ¬£èµ"), 
-										Array(800000000,0,"å¤ä»£ç¥ç¤¾") 
-
-							);
-var chosenMap = -1;
-var monsters = 0;
-var towns = 0;
-var bosses = 0;
-
-importPackage(net.sf.odinms.client);
+var chance = Math.floor(Math.random() * 10 + 1);
+var luk = 0;
+var status = 0;
+var display;
+var jilv;
+var needap = 0
+var beilv = 0.02;   //¸±×°±¸ÊôĞÔÏà¼ÓºóÏà³ËµÄ±¶ÂÊ
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+    status = -1;
+    action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-            if (mode == -1) {
+    if (cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1) == null) {
+        // item1.setUniqueId(1);
+        cm.sendOk("Èç¹ûÄãÓĞ¿ªÆôÁËĞÇ¼¶µÄ×°±¸£¬Çë°Ñ×°±¸·ÅÔÚ×°±¸À¸µÚÒ»¸ñ£¡");
+        cm.dispose();
+    } else if (cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).getItemId() == 1702118) {
+        cm.sendOk("ÉñÆ÷ÎŞ·¨Ç¿»¯¡£ÇëÊ¹ÓÃ#bÉñÆ÷½ø½×¹¦ÄÜ#k¡£");
+        cm.dispose();
+    } else if (cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).getItemId() == 1702119) {
+        cm.sendOk("ÉñÆ÷ÎŞ·¨Ç¿»¯¡£ÇëÊ¹ÓÃ#bÉñÆ÷½ø½×¹¦ÄÜ#k¡£");
+        cm.dispose();
+    } else if (cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).getItemId() == 1702120) {
+        cm.sendOk("ÉñÆ÷ÎŞ·¨Ç¿»¯¡£ÇëÊ¹ÓÃ#bÉñÆ÷½ø½×¹¦ÄÜ#k¡£");
+        cm.dispose();
+   
+    } else {
+        var item1 = cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).copy();
+        var itemId1 = cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).getItemId();
+        var ÎäÆ÷µÈ¼¶1 = 0;//item1.getLevel() * 2
+        var ÎäÆ÷µÈ¼¶ÉÏÏŞ = item1.getUpgradeSlots();
+        var Ã°ÏÕ±Ò = 1000;
+        var needmon = Ã°ÏÕ±Ò;  //ÏûºÄÃ°ÏÕ±Ò
+        if (mode == -1) {
+            cm.dispose();
+        } else {
+            if (mode == 0) {
                 cm.dispose();
+                return;
             }
-            else {
-                if (status >= 3 && mode == 0) {
-			cm.sendOk("ä¸‹æ¬¡å†è§!.");
-			cm.dispose();
-			return;                    
-                }
-                if (mode == 1) {
-			status++;
-		}
-		else {
-			status--;
-		}
-               if (status == 0) {
-                        cm.sendNext("#rHi,æˆ‘æ˜¯ä¸–ç•Œä¼ é€å‘˜!");                  
-                }
-               if (status == 1) {
-                   cm.sendSimple("#r#fUI/UIWindow.img/QuestIcon/3/0#\r\n#L0#ä¸–ç•Œä¼ é€#l\r\n#L1#æŠ±æ­‰,æˆ‘èµ°é”™äº†#l");
-               }
-               else if (status == 2) {
-                   if (selection == 0) {
-                       cm.sendSimple("#r#fUI/UIWindow.img/QuestIcon/3/0#\r\n#L0#åŸé•‡åœ°å›¾#l\r\n#L1#ç»ƒçº§åœ°å›¾#l\r\n#L2#BOSSåœ°å›¾#l");
-                   }
-                   else if (selection == 1) {
-                       cm.dispose();
-                   }
-               }
-               else if (status == 3) {
-                   if (selection == 0) {
-                        var selStr = "é€‰æ‹©ä½ çš„ç›®çš„åœ°å§.#b";
-			for (var i = 0; i < townmaps.length; i++) {
-				selStr += "\r\n#L" + i + "#" + townmaps[i][2] + "";
-			}
-                        cm.sendSimple(selStr);
-                        towns = 1;
-                   }
-                   if (selection == 1) {
-                       var selStr = "é€‰æ‹©ä½ çš„ç›®çš„åœ°å§.#b";
-                       for (var i = 0; i < monstermaps.length; i++) {
-				selStr += "\r\n#L" + i + "#" + monstermaps[i][2] + "";
-                       }
-                       cm.sendSimple(selStr);
-                       monsters = 1;
-                   }
-                   if (selection == 2) {
-                       var selStr = "é€‰æ‹©ä½ çš„ç›®çš„åœ°å§.#b";
-                       for (var i = 0; i < bossmaps.length; i++) {
-				selStr += "\r\n#L" + i + "#" + bossmaps[i][2] + "";
-                       }
-                       cm.sendSimple(selStr);
-                       bosses = 1;
-                   }
-               }
-            else if (status == 4) {
-                if (towns == 1) {
-                cm.sendYesNo("ä½ ç¡®å®šè¦å» " + townmaps[selection][2] + "? ä»·æ ¼:#r"+townmaps[selection][1]+"#ké‡‘å¸");
-		chosenMap = selection;
-                towns = 2;
-                }
-                else if (monsters == 1) {
-                cm.sendYesNo("ä½ ç¡®å®šè¦å» " + monstermaps[selection][2] + "? ä»·æ ¼:#r"+monstermaps[selection][1]+"#ké‡‘å¸");
-                chosenMap = selection;
-                monsters = 2;
-                }
-                else if (bosses == 1) {
-                cm.sendYesNo("ä½ ç¡®å®šè¦å» " + bossmaps[selection][2] + "? ä»·æ ¼:#r"+bossmaps[selection][1]+"#ké‡‘å¸");
-                chosenMap = selection;
-                bosses = 2;
-                }
-            }
-            else if (status == 5) {
-                if (towns == 2) {
-                	if(cm.getMeso()>=townmaps[chosenMap][1]){
-                		cm.warp(townmaps[chosenMap][0], 0);
-                		cm.gainMeso(-townmaps[chosenMap][1]);
-				
-                	}else{
-                		cm.sendOk("ä½ æ²¡æœ‰è¶³å¤Ÿçš„é‡‘å¸å“¦!");
-                	}
+            if (mode == 1)
+                status++;
+            if (status == 0) {
+                cm.sendNext("Ìı¡­¡­ÕâÊÇÒ»ÖÖĞÂµÄÊ±´ú£¬×°±¸ÆäÊµÓµÓĞÎŞ¾¡µÄÁ¦Á¿£¬¿ÉÒÔ¾õĞÑ³öĞÇ¼¶µÄ³¬¼¶ÊôĞÔ¡£");
+            } else if (status == 1) {
+                if (cm.getMeso() < needmon) {
+                    cm.sendOk("#bÎäÆ÷Ç¿»¯ĞèÒª#r" + needmon + "Ã°ÏÕ±Ò#k#b,ÄãÃ»ÓĞÕâÃ´¶àÃ°ÏÕ±Ò£¡#k");
+                    cm.dispose();
+                } else if (cm.getChar().getLevel() < 12) {
+                    cm.sendOk("#b#Ê®¶ş¼¶²Å¿ÉÒÔÊ¹ÓÃÕâ¸ö¹¦ÄÜ!#k");
+                    cm.dispose();
+
+                } else if (cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).getUniqueId() > 0) {
+                    cm.sendOk("ÏÖ½ğ×°±¸ÎŞ·¨Ç¿»¯¡£");
+                    cm.dispose();
+                    
+                //      <--------------ÅĞ¶ÏÎäÆ÷ÊÇ·ñÒ»ÖÂ1-3¸ñ------------->
+                
+                } else if (cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).getItemId()) {
+                    
+                    //      <-------------ÅĞ¶Ï±³°üµÚÒ»¸ñ²»Îª¿Õ--------------->
+                
+                    if (cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1) != null) {
+                        var item1 = cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).copy();
+                        var itemId1 = cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).getItemId();
+                        var newstr = (item1.getStr()) * beilv;
+                        var newdex = Math.floor((item1.getDex()) * beilv);
+                        var newint = Math.floor((item1.getInt()) * beilv);
+                        var newluk = Math.floor((item1.getLuk()) * beilv);
+                        var newspeed = Math.floor((item1.getSpeed()) * beilv);
+                        var newwatk = Math.floor((item1.getWatk()) * beilv);
+                        var newmatk = Math.floor((item1.getMatk()) * beilv);
+                        var newwdef = Math.floor((item1.getWdef()) * beilv);
+                        var newmdef = Math.floor((item1.getMdef()) * beilv);
+                        var newacc = Math.floor((item1.getAcc()) * beilv);
+                        var newavoid = Math.floor((item1.getAvoid()) * beilv);
+                        var sumstr = Math.floor(item1.getStr());
+                        var sumdex = Math.floor(item1.getDex());
+                        var sumint = Math.floor(item1.getInt());
+                        var sumluk = Math.floor(item1.getLuk());
+                        var sumspeed = Math.floor(item1.getSpeed());
+                        var sumwatk = Math.floor(item1.getWatk());
+                        var summatk = Math.floor(item1.getMatk());
+                        var sumwdef = Math.floor(item1.getWdef());
+                        var summdef = Math.floor(item1.getMdef());
+                        var sumacc = Math.floor(item1.getAcc());
+                        var sumavoid = Math.floor(item1.getAvoid() + newavoid);
+                        var mek = "";
+                        if (item1.getStr() != 0) {
+                            mek += "\r\n     >> Á¦Á¿:" + item1.getStr();
+                        }
+                        if (item1.getDex() != 0) {
+                            mek += "\r\n     >> Ãô½İ:" + item1.getDex();
+                        }
+                        if (item1.getInt() != 0) {
+                            mek += "\r\n     >> ÖÇÁ¦:" + item1.getInt();
+                        }
+                        if (item1.getLuk() != 0) {
+                            mek += "\r\n     >> ÔËÆø:" + item1.getLuk();
+                        }
+                        if (item1.getSpeed() != 0) {
+                            mek += "\r\n     >> ÒÆ¶¯ËÙ¶È:+" + item1.getSpeed();
+                        }
+                        if (item1.getAcc() != 0) {
+                            mek += "\r\n     >> ÃüÖĞÂÊ:" + item1.getAcc();
+                        }
+                        if (item1.getAvoid() != 0) {
+                            mek += "\r\n     >> »Ø±ÜÂÊ:" + item1.getAvoid();
+                        }
+                        if (item1.getWatk() != 0) {
+                            mek += "\r\n     >> ÎïÀí¹¥»÷Á¦:" + item1.getWatk();
+                        }
+                        if (item1.getMatk() != 0) {
+                            mek += "\r\n     >> Ä§·¨¹¥»÷Á¦:" + item1.getMatk();
+                        }
+                        if (item1.getWdef() != 0) {
+                            mek += "\r\n     >> ÎïÀí·ÀÓùÁ¦:" + item1.getWdef();
+                        }
+                        if (item1.getStr() != 0) {
+                            mek += "\r\nÄ§·¨·ÀÓùÁ¦:" + item1.getMdef();
+                        }
+                        var pai = "";
+                        if (newstr >= 1) {
+                            pai += "\r\n     >> Á¦Á¿Ôö¼Ó:" + newstr;
+                        }
+                        if (newdex >= 1) {
+                            pai += "\r\n     >> Ãô½İÔö¼Ó:" + newdex;
+                        }
+                        if (newint >= 1) {
+                            pai += "\r\n     >> ÖÇÁ¦Ôö¼Ó:" + newint;
+                        }
+                        if (newluk >= 1) {
+                            pai += "\r\n     >> ÔËÆøÔö¼Ó:" + newluk;
+                        }
+                        if (newspeed >= 1) {
+                            pai += "\r\n     >> ÒÆ¶¯ËÙ¶ÈÔö¼Ó:" + newspeed;
+                        }
+                        if (newacc >= 1) {
+                            pai += "\r\n     >> ÃüÖĞÂÊÔö¼Ó:" + newacc;
+                        }
+                        if (newavoid >= 1) {
+                            pai += "\r\n     >> »Ø±ÜÂÊÔö¼Ó:" + newavoid;
+                        }
+                        if (newwatk >= 1) {
+                            pai += "\r\n     >> ÎïÀí¹¥»÷Á¦Ôö¼Ó:" + newwatk;
+                        }
+                        if (newmatk >= 1) {
+                            pai += "\r\n     >> Ä§·¨¹¥»÷Á¦Ôö¼Ó:" + newwatk;
+                        }
+                        if (newwdef >= 1) {
+                            pai += "\r\n     >> ÎïÀí·ÀÓùÁ¦Ôö¼Ó:" + newwdef;
+                        }
+                        if (newmdef >= 1) {
+                            pai += "\r\n     >> Ä§·¨·ÀÓùÁ¦Ôö¼Ó:" + newmdef;
+                        }
+                        var paiid = "";
+                        if (sumstr >= 1) {
+                            paiid += "\r\n     >> Á¦Á¿:" + sumstr;
+                        }
+                        if (sumdex >= 1) {
+                            paiid += "\r\n     >> Ãô½İ:" + sumdex;
+                        }
+                        if (sumint >= 1) {
+                            paiid += "\r\n     >> ÖÇÁ¦:" + sumint;
+                        }
+                        if (sumluk >= 1) {
+                            paiid += "\r\n     >> ÔËÆø:" + sumluk;
+                        }
+                        if (sumspeed >= 1) {
+                            paiid += "\r\n     >> ÒÆ¶¯ËÙ¶È:" + sumspeed;
+                        }
+                        if (sumacc >= 1) {
+                            paiid += "\r\n     >> ÃüÖĞÂÊ:" + sumacc;
+                        }
+                        if (sumavoid >= 1) {
+                            paiid += "\r\n     >> »Ø±ÜÂÊ:" + sumavoid;
+                        }
+                        if (sumwatk >= 1) {
+                            paiid += "\r\n     >> ÎïÀí¹¥»÷Á¦:" + sumwatk;
+                        }
+                        if (summatk >= 1) {
+                            paiid += "\r\n     >> Ä§·¨¹¥»÷Á¦:" + summatk;
+                        }
+                        if (sumwdef >= 1) {
+                            paiid += "\r\n     >> ÎïÀí·ÀÓùÁ¦:" + sumwdef;
+                        }
+                        if (summdef >= 1) {
+                            paiid += "\r\n     >> Ä§·¨·ÀÓùÁ¦:" + summdef;
+                        }
+
+                        var add = "#rÇ¿»¯Ç°ÊôĞÔ£º#k" + mek;
+
+                        add += "\r\n#rÇ¿»¯Ôö¼ÓÊôĞÔ£º¹¥»÷Á¦(1~×°±¸×·¼ÓµÈ¼¶)#k\r\n#gËæ»úÔö¼Ó¶îÍâ×¿Ô½ÊôĞÔÖµ 1-Ëæ»úÖµ";
+
+                        add += "\r\n#rÇ¿»¯ºó×ÛºÏÊôĞÔ£º#k" + paiid;
+                        cm.sendNext("#bÄúµ±Ç°×°±¸#v" + itemId1 + "#µÄ×·¼Ó´ÎÊıÎª£º#k#r(" + item1.getLevel() + "´Î)#k\r\n#bµã»÷ÏÂÒ»Ïî,¿ªÊ¼¼¤¶¯ÈËĞÄµÄ×·¼ÓÊôĞÔ£¡#k\r\n\r\n" + add);
+                        if (item1.getUniqueId() == 0)
+                            item1.setUniqueId(1);
+
+                    } else if (cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1) == null) {
+
+                        if (item1.getUniqueId() == 0)
+                            item1.setUniqueId(1);
+                        cm.sendOk("Çë½«ÒªÇ¿»¯µÄÎäÆ÷·ÅÔÚµÚÒ»¸ñ²ÅÄÜ½øĞĞ!");
+                        cm.dispose();
+                    }
+                } else {
+                    cm.sendOk("Ç¿»¯Ìõ¼ş£ºĞèÒª2¼şÏàÍ¬×°±¸Ç¿»¯µÚÒ»¸ñ×°±¸£¡\r\n#e#rÇ¿»¯µÄ×°±¸£º#v"+cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).getItemId()+"#\r\n#dµÚ¶ş¸ñ×°±¸£º#v"+cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(2).getItemId()+"#\r\nµÚÈı¸ñ×°±¸£º#v"+cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(3).getItemId()+"#\r\n\r\n#bÇëÈ·±£ÄãµÄ×°±¸ÊÇ·ñÕıÈ·£¡");
                     cm.dispose();
                 }
-                else if (monsters == 2) {
-                    if(cm.getMeso()>=monstermaps[chosenMap][1]){
-                		cm.warp(monstermaps[chosenMap][0], 0);
-                		cm.gainMeso(-monstermaps[chosenMap][1]);
-                	}else{
-                		cm.sendOk("ä½ æ²¡æœ‰è¶³å¤Ÿçš„é‡‘å¸å“¦!");
-                	}
-                    cm.dispose();
-                }
-                else if (bosses == 2) {
-                    if(cm.getMeso()>=bossmaps[chosenMap][1]){
-                		cm.warp(bossmaps[chosenMap][0], 0);
-                		cm.gainMeso(-bossmaps[chosenMap][1]);				
-                	}else{
-                		cm.sendOk("ä½ æ²¡æœ‰è¶³å¤Ÿçš„é‡‘å¸å“¦!");
-                	}
+            } else if (status == 2) {
+                var random = (Math.random()*2)+1;//×·¼ÓÂÊ
+                var random2 = (Math.random()*10)+1;//×·¼Ó¶îÍâÊôĞÔÂÊ
+                var itemId1 = cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).getItemId();
+                var item = cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).copy();
+                if (item.getLevel() <= 5) {
+                    
+                    var itemId1 = cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).getItemId();
+                    var item1 = cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).copy();
+                    var itemId1 = cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).getItemId();
+                    var zhuijia = (Math.random()*item1.getLevel())+1;
+                    var newstr = (item1.getStr()) * beilv;
+
+
+                    var newdex = (item1.getDex()) * beilv;
+                    var newint = (item1.getInt()) * beilv;
+                    var newluk = (item1.getLuk()) * beilv;
+                    var newspeed = (item1.getSpeed()) * beilv;
+                    var newwatk = (item1.getWatk()) * beilv;
+                    var newmatk = (item1.getMatk()) * beilv;
+                    var newwdef = (item1.getWdef()) * beilv;
+                    var newmdef = (item1.getMdef()) * beilv;
+                    var newacc = (item1.getAcc()) * beilv;
+                    var newavoid = (item1.getAvoid()) * beilv;
+                    var sumstr = item1.getStr() + newstr;
+                    var sumdex = item1.getDex() + newdex;
+                    var sumint = item1.getInt() + newint;
+                    var sumluk = item1.getLuk() + newluk;
+                    var sumspeed = item1.getSpeed() + newspeed;
+                    var sumwatk = item1.getWatk() + newwatk;
+                    var summatk = item1.getMatk() + newmatk;
+                    var sumwdef = item1.getWdef() + newwdef;
+                    var summdef = item1.getMdef() + newmdef;
+                    var sumacc = item1.getAcc() + newacc;
+                    var sumavoid = item1.getAvoid() + newavoid;
+                    var item = cm.getChar().getInventory(MapleInventoryType.EQUIP).getItem(1).copy();
+                    /* item.setStr(sumstr + 0.4); // STR     
+                 item.setDex(sumdex + 0.4); // DEX     
+                 item.setInt(sumint + 0.4); // INT 
+                 item.setLuk(sumluk + 0.4); // INT       
+                 item.setWatk(sumwatk); //WATK    
+                 item.setMatk(summatk); //MATK    
+                 item.setWdef(sumwdef); //WDEF    
+                 item.setMdef(summdef); //MDEF    
+                 item.setAcc(sumacc); // ACC     
+                 item.setAvoid(sumavoid); // AVOID 
+                 item.setSpeed(item.getSpeed() + 1); // SPEED 
+                 item.setJump(item.getJump() + 1); // Jump
+                 item.setLevel((item.getLevel() + 1));*/
+                    //<----É¾³ı±³°ü2¸ö×°±¸---->
+                    //                    cm.getChar().getInventory(MapleInventoryType.EQUIP).removeItem(2);
+                    //                    cm.getChar().getInventory(MapleInventoryType.EQUIP).removeItem(3);
+                    //<----×·¼ÓÊ§°ÜÂÊÉèÖÃ---->
+                    if(random >= 1 && random < 2){
+                     //   cm.getC().getChannelServer().getWorldInterface().broadcastMessage(null, net.sf.cherry.tools.MaplePacketCreator.getItemMegas(cm.getC().getChannel(), cm.getPlayer().getName() + " : " + " +" + (item1.getLevel()) + " ×·¼ÓÊ§°Ü!", item, true).getBytes());
+                        cm.sendOk("#rÎäÆ÷#v" + itemId1 + "#×·¼ÓÊ§°Ü£¡£¡£¡");
+                     //   cm.Ë¢ĞÂ×´Ì¬(); 
+                        cm.dispose();
+                    //<----×·¼Ó³É¹¦ÂÊÉèÖÃ---->
+                    }else if(random >=2){
+                        if(item.getLevel() == 1){
+                            item.setOwner("¡ï¡î¡î¡î¡î");
+                        }else if(item.getLevel() == 2){
+                            item.setOwner("¡ï¡ï¡î¡î¡î");
+                        }else if(item.getLevel() == 3){
+                            item.setOwner("¡ï¡ï¡ï¡î¡î");
+                        }else if(item.getLevel() ==4){
+                            item.setOwner("¡ï¡ï¡ï¡ï¡î");
+                        }else if(item.getLevel() ==5){
+                            item.setOwner("¡ï¡ï¡ï¡ï¡ï");
+                        }
+                        if(random2 >= 1 && random2 < 2){
+                            item.setStr(item.getStr()+random); // STR    
+                        }else if(random2 >= 2 && random2 < 3){
+                            item.setDex(item.getDex()+random); // DEX     
+                        }else if(random2 >= 3 && random2 < 4){     
+                            item.setInt(item.getInt()+random); // INT 
+                        }else if(random2 >= 4 && random2 < 5){
+                            item.setLuk(item.getLuk()+random); // INT 
+                        }else if(random2 >= 6 && random2 < 7){
+                            item.setWatk(item.getWatk()+random); //WATK 
+                        }else if(random2 >= 7 && random2 < 8){
+                            item.setMatk(item.getMatk()+random); //MATK  
+                        }else if(random2 >= 8 && random2 < 9){
+                            item.setWdef(item.getWdef()+random); //WDEF  
+                        }else if(random2 >= 9 && random2 < 10){
+                            item.setMdef(item.getMdef()+random); //MDEF    
+                        }else if(random2 >= 10 && random2 < 11){
+                            item.setAcc(item.getAcc()+random); // ACC     
+                        }
+                        item.setLevel(item1.getLevel()+1);
+                        item.setWatk(item.getWatk()+zhuijia);
+                        MapleInventoryManipulator.removeFromSlot(cm.getC(), MapleInventoryType.EQUIP, 1, 1, true);
+                        MapleInventoryManipulator.addFromDrop(cm.getChar().getClient(), item, "Edit by Kevin");
+                        cm.sendOk("#r¹§Ï²Äú£¬ÎäÆ÷#v" + itemId1 + "#³É¹¦\r\n³É¹¦×·¼ÓĞÇ¼¶!#k");
+                     //   cm.getC().getChannelServer().getWorldInterface().broadcastMessage(null, net.sf.cherry.tools.MaplePacketCreator.getItemMegas(cm.getC().getChannel(), cm.getPlayer().getName() + " : " + " +" + (item1.getLevel() + 1) + " ×·¼ÓĞÇ¼¶³É¹¦!", item, true).getBytes());
+                        var statup = new java.util.ArrayList();
+                        cm.gainMeso(-Ã°ÏÕ±Ò);
+                        statup.add(new Pair(MapleStat.AVAILABLEAP, java.lang.Integer.valueOf(cm.getChar().getRemainingAp())));
+                        cm.Ë¢ĞÂ×´Ì¬();
+                        cm.dispose();
+                    }
+                }else{
+                    cm.sendOk("¸Ã×°±¸ÒÑ¾­ÎŞ·¨×·¼Ó¡£");
                     cm.dispose();
                 }
             }
-              
-            }
+        }
+    }
 }

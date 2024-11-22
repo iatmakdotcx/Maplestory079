@@ -1,5 +1,8 @@
 
-function action(mode, type, selection) {
-    cm.sendOk ("æ°´æ™¶çš„ç§˜å¯†æˆ‘ä¸èƒ½è½»æ˜“å‘Šè¯‰åˆ«äººã€‚");
-    cm.safeDispose()
+
+function action(mode, type, selection)
+ {
+   cm.sendOk("´«ËÍµ½ÔúÀ¥±»ÎÒ¸ÉµôÁË");
+   //cm.warpParty(280030000);//922011100×îºóÁìÈ¡½±ÀøµÄµØ·½
+   cm.dispose();
 }

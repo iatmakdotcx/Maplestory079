@@ -1,16 +1,16 @@
 /*
-	鏄庢槦鏄熺悆镊嫊閲嶈ō浠诲嫏
+	鏄庢槦鏄熺悆鑷嫊閲嶈ō浠诲嫏
 */
 
 var status = -1;
 
 function start(mode, type, selection) {
     qm.forceStartQuest();
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }

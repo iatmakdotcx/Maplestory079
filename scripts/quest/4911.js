@@ -1,35 +1,41 @@
-var status = -1;
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+ var status = -1;
 
 function start(mode, type, selection) {
-    qm.completeQuest(4900);
-    qm.completeQuest(4901);
-    qm.completeQuest(4902);
-    qm.completeQuest(4903);
-    qm.completeQuest(4904);
-    qm.completeQuest(4905);
-    qm.completeQuest(4906);
-    qm.completeQuest(4907);
-    qm.completeQuest(4908);
-    qm.completeQuest(4909);
-    qm.completeQuest(4910);
-    qm.completeQuest(4911);
-    qm.gainExp(333 * 12);
-    qm.dispose();
+	qm.forceCompleteQuest(4900);
+	qm.forceCompleteQuest(4901);
+	qm.forceCompleteQuest(4902);
+	qm.forceCompleteQuest(4903);
+	qm.forceCompleteQuest(4904);
+	qm.forceCompleteQuest(4905);
+	qm.forceCompleteQuest(4906);
+	qm.forceCompleteQuest(4907);
+	qm.forceCompleteQuest(4908);
+	qm.forceCompleteQuest(4909);
+	qm.forceCompleteQuest(4910);
+	qm.forceCompleteQuest(4911);
+	qm.gainExp(333 * 12);
+	qm.dispose();
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest(4900);
-    qm.completeQuest(4901);
-    qm.completeQuest(4902);
-    qm.completeQuest(4903);
-    qm.completeQuest(4904);
-    qm.completeQuest(4905);
-    qm.completeQuest(4906);
-    qm.completeQuest(4907);
-    qm.completeQuest(4908);
-    qm.completeQuest(4909);
-    qm.completeQuest(4910);
-    qm.completeQuest(4911);
-    qm.gainExp(333 * 12);
-    qm.dispose();
+	qm.forceCompleteQuest(4900);
+	qm.forceCompleteQuest(4901);
+	qm.forceCompleteQuest(4902);
+	qm.forceCompleteQuest(4903);
+	qm.forceCompleteQuest(4904);
+	qm.forceCompleteQuest(4905);
+	qm.forceCompleteQuest(4906);
+	qm.forceCompleteQuest(4907);
+	qm.forceCompleteQuest(4908);
+	qm.forceCompleteQuest(4909);
+	qm.forceCompleteQuest(4910);
+	qm.forceCompleteQuest(4911);
+	qm.gainExp(333 * 12);
+	qm.dispose();
 }

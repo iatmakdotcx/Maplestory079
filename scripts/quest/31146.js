@@ -1,16 +1,18 @@
-/*
-	任务: 拯救南哈特
-	描述: 阿勒斯决定救出南哈特。去见见长老阿勒斯吧。
-*/
-var status = -1;
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+ var status = -1;
 
 function start(mode, type, selection) {
-    qm.sendNext("Thank you so much.");
-    qm.completeQuest();
-    qm.dispose();
+	qm.sendNext("谢谢你。");
+	qm.forceCompleteQuest();
+	qm.dispose();
 }
 function end(mode, type, selection) {
-    qm.sendNext("Thank you so much.");
-    qm.completeQuest();
-    qm.dispose();
+	qm.sendNext("谢谢你。");
+	qm.forceCompleteQuest();
+	qm.dispose();
 }

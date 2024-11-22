@@ -1,14 +1,26 @@
-/*
-	任务: 邂逅 ～再生～
-	描述: 这是……这是最后的战斗…！我终于打倒了#o9400289#。可惜，异次元已经开始和逆奥之城空间进行融合…！…这样下去的话，就像阿卡夏的诅咒所说的，逆奥之城最后终将毁灭！
-*/
-
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+ 
 var status = -1;
 
 function start(mode, type, selection) {
-    qm.completeQuest();
-    qm.dispose();
+	if (qm.canHold(1142243,1) && qm.getPlayer().getLevel() >= 10 && ((qm.getPlayer().getJob() / 1000) | 0) == 3) {
+		qm.forceStartQuest();
+		qm.forceCompleteQuest();
+		qm.gainItem(1142243,1);
+	}
+	qm.dispose();
 }
 
 function end(mode, type, selection) {
+	if (qm.canHold(1142243,1) && qm.getPlayer().getLevel() >= 10 && ((qm.getPlayer().getJob() / 1000) | 0) == 3) {
+		qm.forceStartQuest();
+		qm.forceCompleteQuest();
+		qm.gainItem(1142243,1);
+	}
+	qm.dispose();
 }

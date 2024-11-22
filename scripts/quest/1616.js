@@ -5,6 +5,6 @@ function start(mode, type, selection) {
 
 function end(mode, type, selection) {
     qm.warp(931050500, 0);
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }

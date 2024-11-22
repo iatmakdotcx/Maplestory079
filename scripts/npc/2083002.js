@@ -1,29 +1,17 @@
- var status;
- function start() {
- 	status = -1;
- 	action(1, 0, 0);
- }
- 
- function action(mode, type, selection) {
- 	if (mode == -1) {
- 		cm.dispose();
- 	} else {
- 		if (mode == 0 && status == 0) {
- 			cm.dispose();
- 			return;
- 		}
- 		if (mode == 1)
- 			status++;
- 		else
- 			status--;
- 		if (status == 0) {
-			
-			cm.sendYesNo("æ‚¨ç¡®å®šè¦å‡ºå»å—?" );
-			
-		}
-		if (status == 1) {			
-			cm.warp(240040700);			
-			cm.dispose();
+/* Amon
+ * Last Mission : dragon's Altar (280030000)
+ */
+
+function start() {
+	cm.sendYesNo("ÄãÏëÒªÀë¿ªÕâÀïµ½ÍâÃæÈ¥Âğ£¿");
+}
+
+function action(mode, type, selection) {
+	if (mode == 1) {
+		cm.warp(240040700);
+		if (cm.getPlayerCount(240060200) == 1) {
+			cm.getMap(211042300).resetReactors();
 		}
 	}
+	cm.dispose();
 }

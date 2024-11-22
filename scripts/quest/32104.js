@@ -36,7 +36,7 @@ if (mode == -1) {
 		qm.removeAll(4033825);
 		qm.warp(101070010,0);
 		qm.gainExp(4748);
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 	    qm.dispose();		
 	}
   }

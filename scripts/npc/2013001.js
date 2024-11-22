@@ -1,98 +1,219 @@
-var status = 0;
-var beauty = 0;
-var haircolor = Array();
-var skin = Array(0, 1, 2, 3, 4,6,7,8,9,10,11);
-var hair = Array(31000, 31010, 31020, 31030, 31040, 31050, 31060, 31070, 31080, 31090, 31100, 31110, 31120, 31130, 31140, 31150, 31160, 31170, 31180, 31190, 31200, 31210, 31220, 31230, 31240, 31250, 31260, 31270, 31280, 31290, 31300, 31310, 31320, 31330, 31340, 31350,31400, 31410, 31420, 31430, 31440, 31450, 31460, 31470, 31480, 31490, 31510, 31520, 31530, 31540, 31550, 31560, 31610, 31620, 31630, 31640, 31650, 31670, 31680, 31690, 31700, 31710, 31720, 31730, 31740,31750,31760,31770,31780,31790,31800,31810,31820,31830,31840,31850,31860,31870,31880,31890,31910,31920,31930,31940,31950);
-var hairnew = Array();
-var face = Array(21000, 21001, 21002, 21003, 21004, 21005, 21006, 21007, 21008, 21009, 21010, 21011, 21012, 21013, 21014, 21016, 21017, 21018, 21019, 21020,21021, 21022, 21023, 21024, 21025, 21026, 21027);
-var facenew = Array();
-var colors = Array();
-
-function start() {
-	status = -1;
-	action(1, 0, 0);
-}
+/*
+ ZEVMS冒险岛(079)游戏服务端
+ 脚本：女神塔关卡
+ */
 
 function action(mode, type, selection) {
-	if (mode == -1) {
+    if (cm.getPlayer().getMapId() == 920011200) {
+        for (var i = 4001044; i < 4001064; i++) {
+            cm.removeAll(i);
+        }
+        cm.warp(200080101);
+        cm.dispose();
+        return;
+    }
+    var em = cm.getEventManager("OrbisPQ");
+    if (em == null) {
+        cm.sendOk("脚本出错，请联系管理员。");
+        cm.dispose();
+        return;
+    }
+    if (!cm.isLeader()) {
+        cm.sendOk("我只能跟你的队长说话。");
+        cm.dispose();
+        return;
+    }
+    switch (cm.getPlayer().getMapId()) {
+        //第一关，雅典娜的禁地
+        case 920010000:
+            clear();
+            cm.warpParty(920010000, 2);
+            break;
+            //雅典娜的禁地<中央塔>
+        case 920010100:
+	   if (!cm.haveItem(4001055)) {
+		}else {
+        cm.sendOk("你已经完成了此任务,请把生命草放在女神雕像中间,唤醒女神完成任务。");
 		cm.dispose();
-	} else {
-		if (mode == 0 && status == 0) {
+		return;
+		}
+        if (em.getProperty("stage").equals("6")) {
+        if (em.getProperty("finished").equals("0")) {
+			cm.sendOk("谢谢你救了我们，请您找女神说话。");
+            cm.warpParty(920010800); //GARDEN.  
+        } else {
+            cm.sendOk("谢谢你救了我们，请您找女神说话。");
 			cm.dispose();
-			return;
-		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			if(false) {
-				cm.sendOk("你不是 GM!");
-				cm.dispose();
-			} else {
-				if(cm.getChar().getGender() == 1) {
-					cm.sendSimple("#b因为无加薪，所以你房小```?#k#r\r\n#L0#皮肤#l\r\n#L1#头发#l\r\n#L2#头发颜色#l\r\n#L3#眼睛#l\r\n#L4#眼睛颜色#l#k");
-				}else {
-					cm.sendOk("你不是女生!");
-					cm.dispose();
-				}
-			}
-		} else if (status == 1) {
-			if (selection == 0) {
-				beauty = 1;
-				cm.sendStyle("选择你喜欢的样式吧", skin);
-			} else if (selection == 1) {
-				beauty = 2;
-				hairnew = Array();
-				for(var i = 0; i < hair.length; i++) {
-					hairnew.push(hair[i] + parseInt(cm.getChar().getHair()
- % 10));
-				}
-				cm.sendStyle("选择你喜欢的样式吧?", hairnew);
-			} else if (selection == 2) {
-				beauty = 3;
-				haircolor = Array();
-				var current = parseInt(cm.getChar().getHair()
-/10)*10;
-				for(var i = 0; i < 8; i++) {
-					haircolor.push(current + i);
-				}
-				cm.sendStyle("选择你喜欢的样式吧?", haircolor);
-			} else if (selection == 3) {
-				beauty = 4;
-				facenew = Array();
-				for(var i = 0; i < face.length; i++) {
-					facenew.push(face[i] + cm.getChar().getFace()
- % 1000 - (cm.getChar().getFace()
- % 100));
-				}
-				cm.sendStyle("选择你喜欢的样式吧?", facenew);
-			} else if (selection == 4) {
-				beauty = 5;
-				var current = cm.getChar().getFace()
- % 100 + 21000;
-				colors = Array();
-				colors = Array(current , current + 100, current + 200, current + 300, current +400, current + 500, current + 600, current + 700);
-				cm.sendStyle("选择你喜欢的样式吧?", colors);
-			}
-		}
-		else if (status == 2){
-			cm.dispose();
-			if (beauty == 1){
-				cm.setSkin(skin[selection]);
-			}
-			if (beauty == 2){
-				cm.setHair(hairnew[selection]);
-			}
-			if (beauty == 3){
-				cm.setHair(haircolor[selection]);
-			}
-			if (beauty == 4){
-				cm.setFace(facenew[selection]);
-			}
-			if (beauty == 5){
-				cm.setFace(colors[selection]);
-			}
-		}
-	}
+        }
+		
+        } else {
+        cm.sendOk("请收集六个女神雕像的碎片在缝补女神雕像，然后来找我谈话将带你前往最后一关寻找生命草。");
+		cm.dispose();
+        }
+        break;
+            //雅典娜的禁地<散布路>第一个碎片
+        case 920010200:
+            if (!cm.haveItem(4001050, 30)) {
+                cm.sendOk("我需要 #v4001050# #b#t4001050# #kx #b30 #k个，目前有 #b#c4001050# 个#k。");
+                cm.dispose();
+            } else {
+                cm.removeAll(4001050);
+                cm.gainItem(4001044, 1);
+                cm.givePartyExp(9000);
+                clear();
+            }
+            break;
+            //雅典娜的禁地<仓库>第二个碎片
+        case 920010300:
+            if (!cm.haveItem(4001051, 15)) {
+                cm.sendOk("我需要 #v4001051# #b#t4001051# #kx #b15 #k个，目前有 #b#c4001051# 个#k。");
+                cm.dispose();
+            } else {
+                cm.removeAll(4001051);
+                cm.gainItem(4001045, 1);
+                cm.givePartyExp(12000);
+                clear();
+            }
+            break;
+            //雅典娜的禁地<休息室>第三个碎片
+        case 920010400:
+            if (em.getProperty("stage3").equals("0")) {
+                cm.sendOk("请找到今天对应的唱片，放在播放器中：  \r\n#v4001056#星期日    #v4001057#星期一  #v4001058#星期二  #v4001059#星期三  \r\n#v4001060#星期四    #v4001061#星期五  #v4001062#星期六\r\n");
+            } else if (em.getProperty("stage3").equals("1")) {
+                if (cm.canHold(4001046, 1)) {
+                    cm.gainItem(4001046, 1);
+                    cm.givePartyExp(7500);
+                    clear();
+                    em.setProperty("stage3", "2");
+                } else {
+                    cm.sendOk("请清出一些空间。");
+                }
+            } else {
+                cm.sendOk("谢谢你了。");
+            }
+            break;
+            //雅典娜的禁地<封印之室>第四个碎片
+        case 920010500:
+            if (em.getProperty("stage4").equals("0")) {
+                var players = Array();
+                var total = 0;
+                for (var i = 0; i < 0; i++) {
+                    var z = cm.getMap().getNumPlayersInArea(i);
+                    players.push(z);
+                    total += z;
+                }
+                if (total < 0) {
+                    cm.sendOk("需要 #b3#k 个玩家站在平台上。");
+                    cm.dispose();
+                } else {
+                    var num_correct = 0;
+                    for (var i = 0; i < 0; i++) {
+                        if (em.getProperty("stage4_" + i).equals("" + players[i])) {
+                            num_correct++;
+                        }
+                    }
+                    if (num_correct == 0) {
+                        if (cm.canHold(4001047, 1)) {
+                            clear();
+                            cm.gainItem(4001047, 1);
+                            cm.givePartyExp(10000);
+                            em.setProperty("stage4", "1");
+                        } else {
+                            cm.sendOk("请清出一些空间。");
+                        }
+                    } else {
+                        cm.showEffect(true, "quest/party/wrong_kor");
+                        cm.playSound(true, "Party1/Failed");
+                        if (num_correct > 0) {
+                            cm.sendOk("一个平台是正确的。");
+                            cm.dispose();
+                        } else {
+                            cm.sendOk("所有平台都是错的。");
+                            cm.dispose();
+                        }
+                    }
+                }
+            } else {
+                cm.sendOk("这么门已经开了！");
+                cm.dispose();
+            }
+            cm.dispose();
+            break;
+            //雅典娜的禁地<大厅>第五个碎片
+        case 920010600:
+            if (!cm.haveItem(4001052, 40)) {
+                cm.sendOk("我需要#b#t4001052# 40个#k，目前有#c4001052#个。");
+                cm.dispose();
+            } else {
+                cm.removeAll(4001052);
+                cm.gainItem(4001048, 1);
+                clear();
+            }
+            break;
+            //雅典娜的禁地<向上通道>第六个碎片
+        case 920010700:
+            if (em.getProperty("stage6").equals("0")) {
+                var react = Array();
+                var total = 0;
+                for (var i = 0; i < 0; i++) {
+                    if (cm.getMap().getReactorByName("" + (i + 1)).getState() > 0) {
+                        react.push("1");
+                        total += 1;
+                    } else {
+                        react.push("0");
+                    }
+                }
+                if (total != 0) {
+                    cm.sendOk("需要有两个人在顶部回答题目。");
+                    cm.dispose();
+                } else {
+                    var num_correct = 0;
+                    for (var i = 0; i < 0; i++) {
+                        if (em.getProperty("stage62_" + i).equals("" + react[i])) {
+                            num_correct++;
+                        }
+                    }
+                    if (num_correct == 0) {
+                        if (cm.canHold(4001049, 1)) {
+                            clear();
+                            cm.gainItem(4001049, 1);
+                            cm.givePartyExp(10000);
+                            em.setProperty("stage6", "1");
+                        } else {
+                            cm.sendOk("请清出一些空间。");
+                            cm.dispose();
+                        }
+                    } else {
+                        cm.showEffect(true, "quest/party/wrong_kor");
+                        cm.playSound(true, "Party1/Failed");
+                        if (num_correct >= 0) {
+                            cm.sendOk("一个杠杆是正确的。");
+                            cm.dispose();
+                        } else {
+                            cm.sendOk("两个杠杆都是错误的。");
+                            cm.dispose();
+                        }
+                    }
+                }
+            } else {
+                cm.sendOk("谢谢你。");
+            }
+            break;
+			//雅典娜的禁地<庄园>BOSS
+        case 920010800:
+            cm.warpParty(920010100);
+            break;
+        case 920010900:
+            cm.sendNext("这是塔的监狱。你可能会发现一些好吃的东西在这里，但除此之外，我不认为我们有什么在这里件。");
+            break;
+        case 920011000:
+            cm.sendNext("这是隐藏的房间塔。你可能会发现一些好吃的东西在这里，但除此之外，我不认为我们有什么在这里件。");
+            break;
+    }
+    cm.dispose();
+}
+
+function clear() {
+    cm.showEffect(true, "quest/party/clear");
+    cm.playSound(true, "Party1/Clear");
 }

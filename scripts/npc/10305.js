@@ -1,9 +1,18 @@
-/* RED 1st impact
-    Vasily
-    Made by Daenerys
-*/
+/* ==================
+ 脚本类型: NPC	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+var status = -1;
 
 function action(mode, type, selection) {
-	    cm.sendNext("你还没有做好出航的准备啊。");
+    if (mode == 1)
+	status++;
+    else
+	status--;
+    if (status == 0) {
+	    cm.sendNext("The ship isn't ready to set sail yet.");
 		cm.dispose();
+    }
 }

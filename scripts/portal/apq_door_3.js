@@ -19,9 +19,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-importPackage(net.sf.cherry.server.maps);
-importPackage(net.sf.cherry.net.channel);
-importPackage(net.sf.cherry.tools);
+importPackage(org.rise.server.maps);
+importPackage(org.rise.net.channel);
+importPackage(org.rise.tools);
 
 /*
 Amoria: 2nd stage to 3rd stage portal
@@ -29,13 +29,14 @@ Amoria: 2nd stage to 3rd stage portal
 
 function enter(pi) {
 	var nextMap = 670010400;
-	var eim = pi.getPlayer().getEventInstance()
+	var eim = pi.getPlayer().getEventInstance();
 	var target = eim.getMapInstance(nextMap);
 	var targetPortal = target.getPortal("st00");
 	// only let people through if the eim is ready
 	var avail = eim.getProperty("2stageclear");
 	if (avail == null) {
-		pi.getPlayer().getClient().getSession().write(MaplePacketCreator.serverNotice(6, "门当前是关闭的"));
+		// do nothing; send message to player
+		pi.getClient().getSession().write(MaplePacketCreator.serverNotice(6, "这门关上了."));
 		return false;	}
 	else {
 		pi.getPlayer().changeMap(target, targetPortal);

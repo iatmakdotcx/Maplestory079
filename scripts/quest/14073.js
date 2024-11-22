@@ -18,7 +18,7 @@ function start(mode, type, selection) {
 	} else if (status == 1) {
 	    qm.sendOk("All right, the whole fan thing sort of backfired and now all my plants are dead. But here's the thing. I was using BLUE fans. That's the color of cold! I figured it alllll out this time... PINK fans. So hot, so warm! And maybe electric ones because my arms are all burny now. Go get me #b30 #e#t3994855#s#k#n from #rmonsters around your level#k, and my apartment will finally be too hot to sleep in!");
 	    qm.forceStartQuest();
-	    qm.completeQuest();
+	    qm.forceCompleteQuest();
 	    qm.dispose();
 	}
 }

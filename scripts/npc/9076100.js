@@ -1,466 +1,119 @@
+
 var status = 0;
-var fstype = 0;
-var price = 100000000; //砸卷价格
-var types = new Array("装备栏", "消耗栏", "任务栏", "杂物栏", "现金栏");
-var chance3 = (Math.floor(Math.random() * 8) + 1);
+var minLevel = 30;
+var maxLevel = 250;
+var minPlayers = 1; //3
+var maxPlayers = 6;
+var open = true;//open or not
+var PQLog = '月妙的年糕';
+var maxenter = 3;
 
 function start() {
     status = -1;
     action(1, 0, 0);
 }
-
 function action(mode, type, selection) {
-    if (mode == -1) {
+    if (status >= 1 && mode == 0) {
+        //cm.sendOk("Ask your friends to join your party. You can use the Party Search funtion (hotkey O) to find a party anywhere, anytime."); // gms has spelling mistakes.. 
         cm.dispose();
-    } else {
+        return;
+    }
+    if (mode == 0 && status == 0) {
+        cm.dispose();
+        return;
+    }
+    if (mode == 1)
+        status++;
+    else
+        status--;
+
+    if (status == 0) {
+        cm.sendSimple("#e<组队任务: 月妙的年糕>#n \r\n 你好, 我是达尔利! 你去过迎月花山丘吗? 那里可是个美丽的地方. 直到怪物进来....? \r\n #b#L1# 进入迎月花山丘.#l \r\n #b#L4# 我要兑换年糕帽子.#l \r\n #L3# 告诉我关于迎月花丘的信息.#l \r\n #L5# 我想知道今天剩余的挑战次数?#l");
+    } else if (status == 1) {
+        if (selection == 1 && cm.getPlayer().getMapId() != 933000000) {
+            cm.saveLocation("MULUNG_TC");
+            cm.warp(933000000, 0);
+            cm.dispose();
+        } else if (selection == 1) {
+            if (cm.getParty() == null) { // No Party
+                cm.sendOk("你没有创建组队,无法入场。");
+                cm.dispose();
+            } else if (!cm.isLeader()) { // Not Party Leader
+                cm.sendOk("请你们团队的队长和我对话。");
+                cm.dispose();
+            } else if (!cm.isAllPartyMembersAllowedLevel(minLevel, maxLevel)) {
+                cm.sendOk("在你或者队员中存在" + minLevel + "级以下，" + maxLevel + "级以上的角色。请注意等级限制。");
+                cm.dispose();
+            } else if (!cm.isAllPartyMembersAllowedPQ(PQLog, maxenter)) {
+                cm.sendOk("你的队员#r#e \"" + cm.getNotAllowedPQMemberName(PQLog, maxenter) + "\" #k#n次数已经达到上限了。");
+                cm.dispose();
+            } else if (!cm.allMembersHere()) {
+                cm.sendOk("你的组队部分成员不在当前地图,请召集他们过来后在尝试。");
+                cm.dispose();
+            } else {
+                var party = cm.getParty().getMembers();
+                var next = true;
+                if (!cm.isAdmin() && (party.size() > maxPlayers || party.size() < minPlayers)) {
+                    next = false;
+                }
+                if (next) {
+                    var em = cm.getEventManager("HenesysPQ");
+                    if (em == null || open == false) {
+                        cm.sendSimple("当前组队任务未加载,请报告管理员.");
+                    } else {
+                        var prop = em.getProperty("state");
+                        if (prop == null || prop.equals("0")) {
+                            em.startInstance(cm.getParty(), cm.getMap(), 70);
+                        } else {
+                            cm.sendSimple("月妙的年糕里面已经有人了，请稍等！或者更换频道!"); // may not be a gms copy.. dont have 6 computers to test party inside and party to enter : (
+                        }
+                        cm.removeAll(4001453);
+                        cm.setPQLog(PQLog);
+                    }
+                    cm.dispose();
+                } else {
+                    cm.sendYesNo("你需要有一个 " + minPlayers + " - " + maxPlayers + " 人的队伍.并且等级在" + minLevel + "~" + maxLevel + "范围,\r\n那么请让你的组队长和我对话吧!");
+                    cm.dispose();
+                }
+            }
+        } else if (selection == 3) {
+            cm.sendOk("#e <组队任务: 月妙的年糕>#n \r\n 一个神秘的Moon Bunny，只出现在 #b#m910010000##k 在满月. #b#p1012112##k of #b#m100000200##k 是找Maplers找 #rMoon Bunny的Rice Cake#k 对于 #b#p1012114##k. 如果你想见到月亮兔，在指定地点种植植物樱草种子，并发出满月. 保护月亮兔子从野生动物到所有# R10年糕# K了.\r\n #e - 等级:#n 10 以上 #r （推荐等级：10 - 20）#k \r\n #e - Time Limit:#n 10 min \r\n #e - 10分钟时间限制：#n 3 to 6 \r\n #e - 奖励:#n #i1003266:# 年糕礼帽 #b \r\n(通过给予保守党100 Rice Cakes获得)#k \r\n #e - Items:#n #i1002798:# My Head顶上的年糕 #b \r\n(通过给予保守党10年糕).");
+            cm.dispose();
+        } else if (selection == 4) {
+            cm.sendOk("哟! 你带来月妙制作的年糕给我呀? 好的,我给你准备了一些特殊的礼物. 那么你想给我多少年糕呢?#b\r\n#L10#月妙的年糕 x10 - 头顶年糕#l\r\n#L11#月妙的年糕 x100 - 飘在头顶的石头");
+        } else if (selection == 5) {
+            var pqtry = maxenter - cm.getPQLog(PQLog);
+            cm.sendOk("今天剩余挑战次数是" + pqtry + "次.");
+            cm.dispose();
+        }
+    } else if (status == 2) {
+        if (selection == 10) {
+            if (!cm.canHold(1002798, 1)) {
+                cm.sendOk("请整理你的背包空间.");
+            } else if (cm.haveItem(4001101, 10)) {
+                cm.gainItem(1002798, 1);
+                cm.gainItem(4001101, -10);
+                cm.sendOk("已经兑换好叻!");
+                cm.dispose();
+            } else {
+                cm.sendOk("你需要更多的年糕.");
+                cm.dispose();
+            }
+        } else if (selection == 11) {
+            if (!cm.canHold(1003266, 1)) {
+                cm.sendOk("请整理你的背包空间.");
+            } else if (cm.haveItem(4001101, 100)) {
+                cm.gainItem(1003266, 1);
+                cm.gainItem(4001101, -100);
+                cm.sendOk("已经兑换好叻!");
+                cm.dispose();
+            } else {
+                cm.sendOk("你需要更多的年糕");
+                cm.dispose();
+            }
+        }
         if (mode == 0) {
             cm.dispose();
-            return;
-        }
-        if (mode == 1) status++;
-        if (status == 0) {
-            cm.sendSimple("你好伟大的#b#h ##k，我是本服管理装备的NPC，你通过任务，副本，打怪获得特殊物品，都可以在我这里来提升一下装备哟，#r需要注意一点是，清理的装备是不能找回的，为避免给你带来不必要的麻烦，所以请谨慎使用#k\r\n#L0##b<适合普通玩家>#z4310000#增加装备砸卷次数#l\r\n#L2##e#r<土豪首选>#b(黄金枫叶增加装备砸卷次数)#b#l\r\n#L4##e#r<还未开放>#b(兔兔币提升属性)#b#l\r\n#L105##e#r<还未开放>属性置换(新)#b#l\r\n#L1##e#r<慎重>#b清空背包垃圾(选择性删除)#b#l\r\n");
-        } else if (status == 1) {
-            if (selection == 0) { //绝对音感
-                fstype = 1;
-                cm.sendNext("你目前选择的是#r增加装备砸卷次数#k\r\n这项功能目前需要手续费用1E冒险币+2个绝对音感\r\n#r注意：50%机率成功#k,当然失败会返回你一半的手续费费用\r\n#r提示#k：#b#z4310000##k可通过市场#g微微#k兑换获得");
-            } else if (selection == 1) {
-                fstype = 2;
-                cm.sendSimple("目前只受理#r装备栏#k和#r现金栏#k两个栏位的清理工作，主要考虑到部份玩家提出的无法清理点装的问题，没有地方放，#r如果你不想要某个装备，请选择后，在删除~是不是很方便？注意，此处清理为不可恢复性清理，所以在准备清理前一定看清楚了.\r\n#b#L1#我要考虑清理装备栏某一个装备#l\r\n#L2#我要考虑清理现金栏某一个装备#l");
-            } else if (selection == 2) { //黄金枫叶
-                fstype = 3;
-                cm.sendNext("你目前选择的是#r增加装备砸卷次数#k\r\n这项功能目前需要手续费用1E冒险币+1个黄金枫叶\r\n#r注意：50%机率成功#k,当然失败会返回你一半的手续费费用\r\n#r提示#k：#b黄金枫叶#k可通过#g超级转生#k获得,每转生一次可获得1个黄金枫叶");
-            } else if (selection == 3) { //彩色枫叶
-                fstype = 4;
-                cm.sendNext("你目前选择的是#r随即增加装备全属性(10~20)#k\r\n这项功能目前需要手续费用1E冒险币+50个彩色枫叶\r\n#b注意：50%机率成功#k,当然失败会返回你一半的手续费费用\r\n什么是随即增加全属性呢？就是选择要加的装备后，会随即给这装备加全属性随机一项(10~20)，全凭人品哟\r\n#r提示#k：#b彩色枫叶#k可通过击杀#g怪物#k掉落");
-            } else if (selection == 4) { //兔兔币
-                fstype = 5;
-                cm.sendNext("你目前选择的是#r随即增加装备全属性(20~50)#k\r\n这项功能目前需要手续费用2000兔兔币\r\n#b注意,这是100%机率成功哟#k,当然就不用担心失败啦~\r\n什么是随即增加全属性呢？就是选择要加的装备后，会随即给这装备加全属性随机一项(20~50)，全凭人品哟");
-            } else if (selection == 5) { //狼人脚趾
-                fstype = 6;
-                cm.sendNext("你目前选择的是#r随即增加装备全属性(10~20)#k\r\n这项功能目前需要手续费用1E冒险币+100个白狼人脚趾\r\n#b注意：50%机率成功#k,当然失败会返回你一半的手续费费用\r\n什么是随即增加全属性呢？就是选择要加的装备后，会随即给这装备加全属性随机一项(10~20)，全凭人品哟\r\n#r提示#k：#b白狼人脚趾#k可通过击杀#g白狼人#k掉落");
-            } else if (selection == 6) {
-                cm.dispose();
-                cm.openNpc(9900000, 1);
-            } else if (selection == 105) {
-                cm.dispose();
-                cm.openNpc(9900000, 3);
-            } else if (selection == 245) {
-                cm.dispose();
-                cm.openNpc(9310072,2);//删除装备
-            } else if (selection == 7) { //装备属性置换
-                fstype = 7;
-                cm.sendNext("你目前选择的是#r装备属性置换#k\r\n这项功能目前需要手续费用#e#r8888兔兔币#b#l\r\n#b注意,这是100%机率成功哟#k,当然就不用担心失败啦~\r\n什么是装备属性置换呢？\r\n就是把#e#r装备栏的第一格的放你不想要的属性装备\r\n第二格放你需要带的装备#k\r\n第一格的装备就会消失!属性会移到第二格子装备上\r\n\r\n#e#r本服暂不支持脸饰 徽章 草莓护肩 和商城点卷装备 消失不负责#b#l");
-            }
-        } else if (status == 2) {
-            if (fstype == 1) { //绝对音感
-                fstype = 13;
-                var ii = Packages.server.MapleItemInformationProvider.getInstance();
-                var item = cm.getInventory(1).getItem(1);
-                var statup = new java.util.ArrayList();
-                if (item == null) {
-                    cm.sendOk("对不起,你装备栏第一格没有装备!");
-                    cm.dispose();
-                } else if (ii.isCash(item.getItemId()) == true) {
-                    cm.sendOk("商城点卷物品暂不支持.");
-                    cm.dispose();
-                } else {
-                    cm.sendNext("请把装装备放在装备窗口的第一格，否则你将不能成功.\r\n请确认一下你要砸的装备是：#v" + item.getItemId() + "##z" + item.getItemId() + "#吗？");
-                }
-            }
-            if (fstype == 2) { //清理装备
-                if (selection == 1) {
-                    var it;
-                    var texts = "#r---------------请选择您要清理的装备----------------#b\r\n";
-                    var inv = cm.getInventory(1);
-                    for (var i = 1; i <= 96; i++) {
-                        it = inv.getItem(i);
-                        if (it != null) {
-                            texts += "#L" + i + "#装备图片:#v" + it.getItemId() + "# 装备名称及属性:#g#z" + it.getItemId() + "##l#b\r\n"
-                        }
-                    }
-                    fstype = 101;
-                    cm.sendSimpleS(texts, 2);
-                } else if (selection == 2) {
-                    var it;
-                    var texts = "#r---------------请选择您要清理的装备----------------#b\r\n";
-                    var inv = cm.getInventory(5);
-                    for (var i = 1; i <= 96; i++) {
-                        it = inv.getItem(i);
-                        if (it != null) {
-                            texts += "#L" + i + "#装备图片:#v" + it.getItemId() + "# 装备名称及属性:#g#z" + it.getItemId() + "##l#b\r\n"
-                        }
-                    }
-                    fstype = 102;
-                    cm.sendSimpleS(texts, 2);
-                }
-            }
-            if (fstype == 3) { //黄金枫叶
-                fstype = 14;
-                var ii = Packages.server.MapleItemInformationProvider.getInstance();
-                var item = cm.getInventory(1).getItem(1);
-                var statup = new java.util.ArrayList();
-                if (item == null) {
-                    cm.sendOk("对不起,你装备栏第一格没有装备!");
-                    cm.dispose();
-                } else if (ii.isCash(item.getItemId()) == true) {
-                    cm.sendOk("商城点卷物品暂不支持.");
-                    cm.dispose();
-                } else {
-                    cm.sendNext("请把装装备放在装备窗口的第一格，否则你将不能成功.\r\n请确认一下你要砸的装备是：#v" + item.getItemId() + "##z" + item.getItemId() + "#吗？");
-                }
-            }
-            if (fstype == 4) { //彩色枫叶
-                fstype = 15;
-                var ii = Packages.server.MapleItemInformationProvider.getInstance();
-                var item = cm.getInventory(1).getItem(1);
-                var statup = new java.util.ArrayList();
-                if (item == null) {
-                    cm.sendOk("对不起,你装备栏第一格没有装备!");
-                    cm.dispose();
-                } else if (ii.isCash(item.getItemId()) == true) {
-                    cm.sendOk("商城点卷物品暂不支持.");
-                    cm.dispose();
-                } else {
-                    cm.sendNext("请把装装备放在装备窗口的第一格，否则你将不能成功.\r\n请确认一下你要砸的装备是：#v" + item.getItemId() + "##z" + item.getItemId() + "#吗？");
-                }
-            }
-            if (fstype == 5) { //兔兔币
-                fstype = 16;
-                var ii = Packages.server.MapleItemInformationProvider.getInstance();
-                var item = cm.getInventory(1).getItem(1);
-                var statup = new java.util.ArrayList();
-                if (item == null) {
-                    cm.sendOk("对不起,你装备栏第一格没有装备!");
-                    cm.dispose();
-                } else if (ii.isCash(item.getItemId()) == true) {
-                    cm.sendOk("商城点卷物品暂不支持.");
-                    cm.dispose();
-                } else {
-                    cm.sendNext("请把装装备放在装备窗口的第一格，否则你将不能成功.\r\n请确认一下你要砸的装备是：#v" + item.getItemId() + "##z" + item.getItemId() + "#吗？");
-                }
-            }
-            if (fstype == 6) { //脚趾
-                fstype = 17;
-                var ii = Packages.server.MapleItemInformationProvider.getInstance();
-                var item = cm.getInventory(1).getItem(1);
-                var statup = new java.util.ArrayList();
-                if (item == null) {
-                    cm.sendOk("对不起,你装备栏第一格没有装备!");
-                    cm.dispose();
-                } else if (ii.isCash(item.getItemId()) == true) {
-                    cm.sendOk("商城点卷物品暂不支持.");
-                    cm.dispose();
-                } else {
-                    cm.sendNext("请把装装备放在装备窗口的第一格，否则你将不能成功.\r\n请确认一下你要砸的装备是：#v" + item.getItemId() + "##z" + item.getItemId() + "#吗？");
-                }
-            }
-            if (fstype == 7) { //属性置换
-                fstype = 18;
-                var ii = Packages.server.MapleItemInformationProvider.getInstance();
-                var item = cm.getInventory(1).getItem(1);
-                var item2 = cm.getInventory(1).getItem(2);
-                var statup = new java.util.ArrayList();
-                if (item == null) {
-                    cm.sendOk("对不起,你装备栏第一格没有装备!");
-                    cm.dispose();
-                } else if (item2 == null) {
-                    cm.sendOk("对不起,你装备栏第二格没有装备!");
-                    cm.dispose();
-                } else if (cm.getSpace(1) < 2) {  
-                   cm.sendOk("#r - 属性置换 >> #k\r\n\r\n属性置换失败，您的装备栏小于2个。");  
-                    cm.dispose(); 
-                } else if (ii.isCash(item.getItemId()) == true) {
-                    cm.sendOk("暂不支持商城物品.");
-                    cm.dispose();           
-                } else {
-                    cm.sendNext("你确认你是要把#r#z" + item.getItemId() + "##k的属性替换到#b#z" + item2.getItemId() + "##k上面吗,替换成功后#r#z" + item.getItemId() + "##k将消失.");
-                }
-            }
-        } else if (status == 3) {
-            if (fstype == 13) {
-                if (cm.getMeso() < price || cm.haveItem(4310000, 2) == false) {
-                    cm.sendOk("对不起,你没有足够的冒险币,或者是没有足够的#z4310000#");
-                    cm.dispose();
-                    return;
-                }
-                var chance = Math.floor(Math.random() * 2);
-                if (chance == 1) {
-                    var item = cm.getChar().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).getItem(1).copy();
-                    var statup = new java.util.ArrayList();
-                    item.setUpgradeSlots((item.getUpgradeSlots() + 1));
-                    Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                    Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                    cm.gainMeso(-price);
-                    cm.gainItem(4310000, -2);
-                    cm.sendOk("恭喜你成功拉，快快看你的包裹吧！");
-                    cm.worldMessage("[武器升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用绝对音感为武器提升了1次砸卷次数");
-                    cm.dispose();
-                } else {
-                    cm.gainMeso(-price / 2);
-                    cm.gainItem(4310000, -2);
-                    cm.sendOk("真遗憾，升级失败");
-                }
-                cm.dispose();
-                return;
-            }
-            if (fstype == 14) {
-                if (cm.getMeso() < price || cm.haveItem(4000313, 1) == false) {
-                    cm.sendOk("对不起,你没有足够的冒险币,或者是没有足够的#z4000313#");
-                    cm.dispose();
-                    return;
-                }
-                var chance = Math.floor(Math.random() * 2);
-                if (chance == 1) {
-                    var item = cm.getChar().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).getItem(1).copy();
-                    var statup = new java.util.ArrayList();
-                    item.setUpgradeSlots((item.getUpgradeSlots() + 1));
-                    Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                    Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                    cm.gainMeso(-price);
-                    cm.gainItem(4000313, -1);
-                    cm.sendOk("恭喜你成功拉，快快看你的包裹吧！");
-                    cm.worldMessage("[武器升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用黄金枫叶为武器提升了1次砸卷次数");
-                    cm.dispose();
-                } else {
-                    cm.gainMeso(-price / 2);
-                    cm.gainItem(4000313, -1);
-                    cm.sendOk("真遗憾，升级失败");
-                }
-                cm.dispose();
-                return;
-            }
-            if (fstype == 15) {
-                if (cm.getMeso() < price || cm.haveItem(4032733, 50) == false) {
-                    cm.sendOk("对不起,你没有足够的冒险币,或者是没有足够的#z4032733#");
-                    cm.dispose();
-                    return;
-                }
-                var chance1 = Math.floor(Math.random() * 2);
-                if (chance1 == 1) {
-                    var item = cm.getChar().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).getItem(1).copy();
-                    var ii = Packages.server.MapleItemInformationProvider.getInstance();
-                    var chance = Math.floor(Math.random() * 100);
-                    var lvsj = Math.floor(Math.random() * 10) + 10;
-                    cm.gainMeso(-price);
-                    cm.gainItem(4032733, -50);
-                    if (chance <= 5) { //watk
-                        item.setWatk(item.getWatk() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k攻击.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用彩虹枫叶提升了武器的攻击");
-                    } else if (chance > 2 && chance <= 6) { //matk
-                        item.setMatk(item.getMatk() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k魔攻.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用彩虹枫叶提升了武器的魔法攻击");
-                    } else if (chance > 20 && chance <= 40) { //str
-                        item.setStr(item.getStr() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k力量.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用彩虹枫叶提升了武器的力量");
-                    } else if (chance > 40 && chance <= 60) { //dex
-                        item.setDex(item.getDex() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k敏捷.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用彩虹枫叶提升了武器的敏捷");
-                    } else if (chance > 60 && chance <= 80) { //luk
-                        item.setInt(item.getInt() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k智力.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用彩虹枫叶提升了武器的智力");
-                    } else if (chance > 80) { //int
-                        item.setLuk(item.getLuk() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k运气.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用彩虹枫叶提升了武器的运气");
-                    }
-                } else {
-                    cm.gainMeso(-price / 2);
-                    cm.gainItem(4032733, -25);
-                    cm.sendOk("真遗憾，升级失败");
-                }
-                cm.dispose();
-                return;
-            }
-            if (fstype == 17) {
-                if (cm.getMeso() < price || cm.haveItem(4000054, 100) == false) {
-                    cm.sendOk("对不起,你没有足够的冒险币,或者是没有足够的#z4000054#");
-                    cm.dispose();
-                    return;
-                }
-                var chance1 = Math.floor(Math.random() * 2);
-                if (chance1 == 1) {
-                    var item = cm.getChar().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).getItem(1).copy();
-                    var ii = Packages.server.MapleItemInformationProvider.getInstance();
-                    var chance = Math.floor(Math.random() * 100);
-                    var lvsj = Math.floor(Math.random() * 10) + 10;
-                    cm.gainMeso(-price);
-                    cm.gainItem(4000054, -100);
-                    if (chance <= 5) { //watk
-                        item.setWatk(item.getWatk() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k攻击.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用白狼人脚趾提升了武器的攻击");
-                    } else if (chance > 2 && chance <= 4) { //matk
-                        item.setMatk(item.getMatk() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k魔攻.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用白狼人脚趾提升了武器的魔法攻击");
-                    } else if (chance > 5 && chance <= 10) { //str
-                        item.setStr(item.getStr() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k力量.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用白狼人脚趾提升了武器的力量");
-                    } else if (chance > 11 && chance <= 20) { //dex
-                        item.setDex(item.getDex() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k敏捷.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用白狼人脚趾提升了武器的敏捷");
-                    } else if (chance > 21 && chance <= 50) { //luk
-                        item.setInt(item.getInt() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k智力.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用白狼人脚趾提升了武器的智力");
-                    } else if (chance > 81) { //int
-                        item.setLuk(item.getLuk() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k运气.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用白狼人脚趾提升了武器的运气");
-					} else if (chance > 51 && chance <= 70) { //Hp
-                        item.setHp(item.getHp() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#khp.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用白狼人脚趾提升了武器的Hp");
-				    } else if (chance > 71 && chance <= 80) { //Mp
-                        item.setMp(item.getMp() * 1 + lvsj);
-                        Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                        Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                        cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#kMP.");
-                        cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用白狼人脚趾提升了武器的MP");
-                    }
-                } else {
-                    cm.gainMeso(-price / 2);
-                    cm.gainItem(4000054, -50);
-                    cm.sendOk("真遗憾，升级失败");
-                }
-                cm.dispose();
-                return;
-            }
-            if (fstype == 16) {
-                if (cm.getHyPay(1) < 2000) {
-                    cm.sendOk("对不起,你没有足够的兔兔币");
-                    cm.dispose();
-                    return;
-                }
-                var item = cm.getChar().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).getItem(1).copy();
-                var ii = Packages.server.MapleItemInformationProvider.getInstance();
-                var chance = Math.floor(Math.random() * 100);
-                var lvsj = Math.floor(Math.random() * 30) + 50;
-                cm.addHyPay(2000,true);
-                if (chance <= 5) { //watk
-                    item.setWatk(item.getWatk() * 1 + lvsj);
-                    Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                    Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                    cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k攻击.");
-                    cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用兔兔币叶提升了武器" + lvsj + "攻击.");
-                } else if (chance > 5 && chance <= 20) { //matk
-                    item.setMatk(item.getMatk() * 1 + lvsj);
-                    Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                    Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                    cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k魔攻.");
-                    cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用兔兔币叶提升了武器" + lvsj + "魔法攻击");
-                } else if (chance > 20 && chance <= 40) { //str
-                    item.setStr(item.getStr() * 1 + lvsj);
-                    Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                    Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                    cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k力量.");
-                    cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用兔兔币叶提升了武器" + lvsj + "力量");
-                } else if (chance > 40 && chance <= 60) { //dex
-                    item.setDex(item.getDex() * 1 + lvsj);
-                    Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                    Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                    cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k敏捷.");
-                    cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用兔兔币叶提升了武器" + lvsj + "敏捷");
-                } else if (chance > 60 && chance <= 80) { //luk
-                    item.setInt(item.getInt() * 1 + lvsj);
-                    Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                    Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                    cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k智力.");
-                    cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用兔兔币叶提升了武器" + lvsj + "智力");
-                } else if (chance > 80) { //int
-                    item.setLuk(item.getLuk() * 1 + lvsj);
-                    Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                    Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item, false);
-                    cm.sendOk("恭喜，成功给装备增加了:#r" + lvsj + "#k运气.");
-                    cm.worldMessage("[装备升级]：恭喜[" + cm.getChar().getName() + "]在市场幽灵战士处，使用兔兔币叶提升了武器" + lvsj + "运气");
-                }
-                cm.dispose();
-                return;
-            }
-            if (fstype == 18) {
-                if (cm.getHyPay(1) < 15888) {
-                    cm.sendOk("对不起,你没有足够的兔兔币");
-                    cm.dispose();
-                    return;
-                }
-                cm.addHyPay(15888,true);
-                var item = cm.getChar().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).getItem(1).copy(); //获取第一格的装备
-                var item2 = cm.getChar().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).getItem(2).copy(); //获取第二格的装备
-                item2.setStr(item.getStr());
-                item2.setDex(item.getDex());
-                item2.setInt(item.getInt());
-                item2.setLuk(item.getLuk());
-                item2.setHp(item.getHp());
-                item2.setMp(item.getMp());
-                item2.setWatk(item.getWatk());
-                item2.setMatk(item.getMatk());
-                item2.setWdef(item.getWdef());
-                item2.setMdef(item.getMdef());
-                item2.setAcc(item.getAcc());
-                item2.setAvoid(item.getAvoid());
-                item2.setHands(item.getHands());
-                item2.setSpeed(item.getSpeed());
-                item2.setJump(item.getJump());
-                item2.setPotential1(item.getPotential1());
-                item2.setPotential2(item.getPotential2());
-                item2.setPotential3(item.getPotential3());
-                item2.setPotential4(item.getPotential4());
-                item2.setPotential5(item.getPotential5());
-                item2.setSocket1(item.getSocket1());
-                item2.setSocket2(item.getSocket2());
-                item2.setSocket3(item.getSocket3());
-                Packages.server.MapleInventoryManipulator.addFromDrop(cm.getC(), item2, false);
-		cm.getPlayer().getInventory(type).addItem(item2);
-                Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 1, 1, false);
-                Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, 2, 1, false);
-                cm.sendOk("恭喜,属性置换成功.快看看你的包袱吧！");
-                cm.worldMessage("[属性置换]：恭喜[" + cm.getChar().getName() + "]在市场成功使用了属性置换功能.");
-                cm.dispose();
-            }
-            if (fstype == 101) {
-                Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.EQUIP, selection, 1, true);
-                cm.sendOk("恭喜,此道具已被清除.");
-                cm.dispose();
-            }
-            if (fstype == 102) {
-                Packages.server.MapleInventoryManipulator.removeFromSlot(cm.getC(), Packages.client.inventory.MapleInventoryType.CASH, selection, 1, true);
-                cm.sendOk("恭喜,此道具已被清除.");
-                cm.dispose();
-            }
         }
     }
-	    }
+}

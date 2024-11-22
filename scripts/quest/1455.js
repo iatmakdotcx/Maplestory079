@@ -59,7 +59,7 @@ function end(mode, type, selection) {
 				}
 				qm.sendNext("你已经成功4转了, 恭喜你！");
 				//qm.gainSp(2);
-				qm.completeQuest();
+				qm.forceCompleteQuest();
 				qm.dispose();
 			}
 		} else {

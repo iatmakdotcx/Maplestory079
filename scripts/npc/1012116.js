@@ -1,5 +1,7 @@
-
+/*
+ 
+ */
 function action(mode, type, selection) {
-    cm.sendNext("It looks like there's nothing suspecious in the area.");
-    cm.safeDispose();
+  cm.sendNext("它看起来像有什么可疑的地方。");
+  cm.safeDispose();
 }

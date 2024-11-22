@@ -28,6 +28,7 @@
                     <vector name="lt" x="-400" y="-350"/>
                     <vector name="rb" x="400" y="250"/>
                     <int name="prop" value="100"/>
+					<int name="hp" value="250"/>
                 </imgdir>
             </imgdir>
             <imgdir name="effect">

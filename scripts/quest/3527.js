@@ -1,18 +1,40 @@
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
 var status = -1;
 
 function start(mode, type, selection) {
-	if (mode == -1) {
-		qm.dispose();
-	} else {
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			qm.sendAcceptDecline("啊，原来是你。没想到很久之后还能看到你。我很高兴看到曾经是青涩的新手的你成为了出色的海盗。看到很久不见但还记得我的你，我的心里充满了温暖。你是在寻找遗忘的记忆吗？想起来那已经是很久很久以前的事了，事隔多年，真是让人怀念啊。这样吧。你再去#b旁观者#k吧。相信他会帮助你。那么再见……");
-		} else if (status == 1) {
-			qm.completeQuest();
-			qm.dispose();
-		}
+    if (mode == -1) {
+	qm.dispose();
+    } else {
+	if (mode == 1)
+	    status++;
+	else
+	    status--;
+	if (status == 0) {
+	    qm.sendNext("哦，我的天哪，你从我们第一次见面后就成长了！ 你失去了你的回忆？ 我会照顾的.");
+	    qm.forceCompleteQuest();
+	    qm.forceCompleteQuest(3507);
+	    qm.dispose();
 	}
+    //	qm.forceStartQuest();
+    }
+}
+
+function end(mode, type, selection) {
+    if (mode == -1) {
+	qm.dispose();
+    } else {
+	if (mode == 1)
+	    status++;
+	else
+	    status--;
+	if (status == 0) {
+	    qm.sendNextPrev("测试");
+	    qm.dispose();
+	}
+    }
 }

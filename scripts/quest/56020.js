@@ -1,5 +1,8 @@
-/**
- *	20Á∫ßÂ•ñÂä±
+/* ==================
+ Ω≈±æ¿‡–Õ:  »ŒŒÒ	    
+ Ω≈±æ∞Ê»®£∫”Œœ∑∫–Õ≈∂”
+ ¡™œµø€ø€£∫297870163    609654666
+ =====================
  */
 var status = -1;
 
@@ -9,9 +12,9 @@ function start(mode, type, selection) {
         if (qm.isQuestFinished(56020)) {
             qm.dispose();
         } else {
-            qm.sendOk("ÊÅ≠Âñú! ‰Ω†Ëé∑Âæó‰∫Ü#v2022457# x 100„ÄÇ");
+            qm.sendOk("πßœ≤! ƒ„ªÒµ√¡À#v2022457# x 100°£");
             qm.gainItem(2022457, 100);
-            qm.completeQuest();
+            qm.forceCompleteQuest();
             qm.dispose();
         }
     }

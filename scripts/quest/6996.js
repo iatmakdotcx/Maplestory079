@@ -52,7 +52,7 @@ if (mode == -1) {
 	} else if (status == 4) {
 	    qm.sendNextPrev("Now you can challenge Crumbling Zakum whenever you'd like. Just take this, and let me know when you want to fight.");
 	} else if (status == 5) {
-	  qm.completeQuest();
+	  qm.forceCompleteQuest();
 	  qm.dispose();		
 	}
   }

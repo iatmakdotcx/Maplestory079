@@ -19,7 +19,7 @@ function start(mode, type, selection) {
 	    qm.sendNext("Click on the #e#b#fEffect/BasicEff.img/MainNotice/Achieve/Default/0#Trophy Icon#k#n on the left side of your screen to check your Achievements!");
 	} else if (status == 2) {
         qm.forceStartQuest();
-		qm.completeQuest();
+		qm.forceCompleteQuest();
         qm.dispose();
     }
 }

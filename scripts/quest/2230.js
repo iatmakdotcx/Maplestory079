@@ -1,10 +1,16 @@
-var status = -1;
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+ var status = -1;
 
 function start(mode, type, selection) {
 }
 function end(mode, type, selection) {
-	qm.sendNext("Snail Roon is no longer available.");
-	qm.completeQuest();
+	qm.sendNext("Snail Roon不再可用.");
+	qm.forceCompleteQuest();
 	qm.dispose();
 /*	if (mode == -1) {
 		qm.dispose();
@@ -27,11 +33,11 @@ function end(mode, type, selection) {
 		} else if (status == 5) {
 			qm.sendYesNo("Now do you understand? Every action comes with consequences, and pets are no exception. The egg of the snail shall hatch soon.");
 		} else if (status == 6) {
-			qm.gainPet(5000054, "Snail Roon", 1, 0, 100, 18000, 0); // rune snail * 1
+			qm.gainPet(5000054, "Snail Roon", 1, 0, 100, 18000); // rune snail * 1
 			if (qm.haveItem(4032086,1)) {
 				qm.gainItem(4032086, -1); // Mysterious Egg * -1
 			}
-			qm.completeQuest();
+			qm.forceCompleteQuest();
 			qm.sendNext("This snail will only be alive for #b5 hours#k. Shower it with love. Your love will be reciprocated in the end.");
 			qm.dispose();
 		}

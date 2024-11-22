@@ -22,7 +22,7 @@ function start(mode, type, selection) {
         }
 
 	if (status == 2) {
-	    qm.completeQuest();
+	    qm.forceCompleteQuest();
             qm.dispose();
         }
     }
@@ -30,6 +30,6 @@ function start(mode, type, selection) {
 }
 
 function end(mode, type, selection) {
-qm.completeQuest();
+qm.forceCompleteQuest();
 qm.dispose();
 }

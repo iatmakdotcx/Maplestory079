@@ -1,29 +1,57 @@
-/* RED 1st impact
-    Monster Park Shuttle
-    Made by Daenerys
+/* Author: Xterminator
+	NPC Name: 		Pison
+	Map(s): 		Victoria Road : Lith Harbor (104000000)
+	Description: 		Florina Beach Tour Guide
 */
-
-var status = 0;
-var m;
-
-function start() {
-    if (cm.getMapId() == 951000000) {
-        cm.sendYesNo("ä½ å¥½ã€‚æ€ªç‰©å…¬å›­å®¢è½¦ç«­è¯šä¸ºå¤§å®¶æä¾›æœ€å¥½çš„æœåŠ¡ã€‚ä½ æƒ³å›åˆ°åŸæ¥çš„æ‘é‡Œå»å—ï¼Ÿ");
-        m = 1;
-        return;
-    }
-    cm.sendYesNo("äº²çˆ±çš„é¡¾å®¢ï¼Œä½ æƒ³åˆ°å……æ»¡äº†æ¬¢ä¹çš„ä¼‘å½¼å¾·è”“çš„æ€ªç‰©å…¬å›­å»å—ï¼Ÿ");
-}
+var status = -1;
 
 function action(mode, type, selection) {
     if (mode == 1) {
-        if (m == 1) {
-            cm.warp(cm.getSavedLocation("MULUNG_TC"));
-			cm.clearSavedLocation("MULUNG_TC");
-        } else {
-            cm.saveReturnLocation("MULUNG_TC");
-            cm.warp(951000000);
-        }
+	status++;
+    } else {
+	if (status <= 1) {
+	    cm.sendNext("ĞèÒªÈ¥ÔÙÀ´ÕÒÎÒ°É!");
+	    cm.dispose();
+	    return;
+	}
+	status--;
     }
-    cm.dispose();
+    if (status == 0) {
+    cm.sendSimple("ÄãÈ·¶¨ÓĞÊÂÒª»ØÈ¥ÁËÂğ? ÄÇÎÒÂíÉÏËÍÄã¹ıÈ¥..\r\n\r\n#L0##b ×ÔÓÉÊĞ³¡");
+    } else if (status == 1) {
+	if (selection == 0) {
+	    cm.sendYesNo("ÄãÈ·¶¨ÒªÈ¥Òª»ØÈ¥ÁËÂğ?");
+	} else if (selection == 1) {
+	    status = 2;
+	    cm.sendYesNo("¶ºÎÒÍæÄØ#k?");
+	} else if (selection == 2) {
+	    status = 4;
+	    cm.sendNext("ÄãÒ»¶¨ºÃÆæÊ²Ã´ÊÇ #bVIP µ½»Æ½ğº£Ì²µÄÆ±#k. ¹ş¹ş£¬ÕâÊÇ·Ç³£¿ÉÒÔÀí½âµÄ¡£¹ó±öÃÅÆ±µ½¸¥ÂåÀïÄÉº£Ì²ÊÇÒ»¸öÏîÄ¿ÔÚÄÄÀï£¬Ö»ÒªÄãÔÚÉíÉÏ£¬Äã¿ÉÒÔÓÃ×Ô¼ºµÄ·½Ê½À´¸¥ÂåÀïÄÉº£Ì²Ãâ·Ñ¡£ÄÇ¾ÍÊÇ£¬¼´Ê¹ÎÒÃÇ²»µÃ²»ÂòÕâĞ©£¬µ«²»ĞÒµÄÊÇÎÒÔÚÎÒµÄ±¦¹óµÄÊî¼ÙÊ§È¥ÁËÒ»¸öÀ×¼¸ÖÜÇ°ÕâÑùÒ»¸öÄÑµÃµÄµÀ¾ß.");
+	}
+    } else if (status == 2) {
+	if (cm.getMeso() < 1500) {
+	    cm.sendNext("ÄãÃ»ÓĞ×ã¹»µÄ½ğ±Ò¹ö°É!");
+	    cm.dispose();
+	} else {
+	    cm.gainMeso(-1500);
+	    cm.saveLocation("FLORINA");
+	    cm.warp(910000000, 0);
+	    cm.dispose();
+	}
+    } else if (status == 3) {
+	if (cm.haveItem(4031134)) {
+	    cm.saveLocation("FLORINA");
+	    cm.warp(110000000, 0);
+	    cm.dispose();
+	} else {
+	    cm.sendNext("ÄãÈ·¶¨ÄãÓĞ#bVIP µ½»Æ½ğº£Ì²µÄÆ±#k. Âğ? È·ÈÏÒ»ÏÂºÃÂğ....");
+	    cm.dispose();
+	}
+    } else if (status == 4) {
+	cm.sendNext("ÄãÒ»¶¨ºÃÆæÉñÃ´ÊÇ #bVIP µ½»Æ½ğº£Ì²µÄÆ±#k. ¹ş¹ş£¬ÕâÊÇ·Ç³£¿ÉÒÔÀí½âµÄ¡£¹ó±öÃÅÆ±µ½¸¥ÂåÀïÄÉº£Ì²ÊÇÒ»¸öÏîÄ¿ÔÚÄÄÀï£¬Ö»ÒªÄãÔÚÉíÉÏ£¬Äã¿ÉÒÔÓÃ×Ô¼ºµÄ·½Ê½À´¸¥ÂåÀïÄÉº£Ì²Ãâ·Ñ¡£ÄÇ¾ÍÊÇ£¬¼´Ê¹ÎÒÃÇ²»µÃ²»ÂòÕâĞ©£¬µ«²»ĞÒµÄÊÇÎÒÔÚÎÒµÄ±¦¹óµÄÊî¼ÙÊ§È¥ÁËÒ»¸öÀ×¼¸ÖÜÇ°ÕâÑùÒ»¸öÄÑµÃµÄÏîÄ¿.");
+    } else if (status == 5) {
+	cm.sendNextPrev("ÎÒ»ØÀ´Ã»ÓĞËü£¬ÎÒ¾Í¾õµÃ¿ÉÅÂÃ»ÓĞËü¡£Ï£ÍûÓĞÈË°ÑËü¼ñÆğÀ´£¬²¢°ÑËü°²È«µÄµØ·½¡£ÎŞÂÛÈçºÎ£¬ÕâÊÇÎÒµÄ¹ÊÊÂ£¬Ë­ÖªµÀ£¬Äã¿ÉÒÔ°ÑËü¼ñÆğÀ´£¬²¢°ÑËüÓÃºÃ¡£Èç¹ûÄúÓĞÈÎºÎÎÊÌâ£¬ÇëËæÊ±ÎÊ¡£");
+    } else if (status == 6) {
+	cm.dispose();
+    }
 }

@@ -1,34 +1,10 @@
-/*
-	This file is part of the cherry Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-                       Matthias Butz <matze@cherry.de>
-                       Jan Christian Meyer <vimes@cherry.de>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License version 3
-    as published by the Free Software Foundation. You may not use, modify
-    or distribute this program under any other version of the
-    GNU Affero General Public License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-/**
--- Odin JavaScript --------------------------------------------------------------------------------
-	El Nath Magic Spot - Orbis Tower <20th Floor>(200080200)
--- By ---------------------------------------------------------------------------------------------
-	Unknown
--- Version Info -----------------------------------------------------------------------------------
-	1.1 - Official Text and Method [Information]
-	1.0 - First Version by Unknown
----------------------------------------------------------------------------------------------------
-**/
+/* ==================
+ ½Å±¾ÀàĞÍ: NPC	    
+ ½Å±¾°æÈ¨£ºÓÎÏ·ºĞÍÅ¶Ó
+ ÁªÏµ¿Û¿Û£º297870163    609654666
+ =====================
+ */
+var status = 0;
 
 function start() {
 	status = -1;
@@ -36,21 +12,88 @@ function start() {
 }
 
 function action(mode, type, selection) {
-	if (mode == 0) {
+	if (mode == -1) {
 		cm.dispose();
-		return;
-	}
-	status++;
-	if (status == 0) {
-		    if (cm.getLevel() > 19 ) {  
-			cm.sendYesNo("å¼‚ç•Œé‡Œå°˜å°åƒå¹´çš„é­”ç‹é—¨é›†åˆåœ¨ä¸€èµ·ï¼Œç”¨å®ƒä»¬é‚ªæ¶çš„é­”æ³•ï¼Œä¾µèš€å…‰æ˜çš„ç»“ç•Œï¼Œå‹‡å£«ä»¬å¿…é¡»åœ¨ä»–ä»¬ï¼Œå†²ç ´ç»“ç•Œä¹‹å‰æ¶ˆç­ä»–ä»¬ã€‚ä½ æ„¿æ„å»å¸®æˆ‘æ¶ˆç­å³å°†å†²ç ´ç»“ç•Œçš„é­”ç‹å—ã€‚\r\n#då‰©ä½™:#r" + cm.getzb() + "å…ƒå®");
-		} else {
-			cm.sendOk("æŒ‘æˆ˜ç»¯çº¢éª‘å£«å›¢éœ€è¦120çº§ä»¥ä¸Šã€‚ç»¯çº¢éª‘å£«å›¢çˆ†ç»¯çº¢è£…å¤‡ï¼Œå’Œå¿…æˆå·è½´ï¼Œä¸€äº›ç¨€æœ‰çš„ç‰©å“ï¼Œ");
-			cm.dispose();
+	} else {
+		if (mode == 1)
+			status++;
+		else
+			status--;
+		if (status == 0) {
+		map = cm.getPlayer().getMap();
+		if ((cm.haveItem(4031059))) {
+			cm.sendNext("ÄãÃ²ËÆÒÑ¾­ÓĞÁË#t4031059#¡£¡£");
+		cm.dispose();
+		
 		}
-	}
-	if (status == 1) {
-			cm.warp(803001200,0);
-			cm.dispose();
-	}
-}
+		}
+	if (cm.getMapId() == 105070001) { //Õ½Ê¿
+	if ((!cm.getPlayerCount(108010301) <= 0)) {
+		cm.sendNext("ÀïÃæÓĞÈË");
+		cm.dispose();
+      } else if ((cm.getJob()==110 || cm.getJob()==120 || cm.getJob()==130)) {
+		cm.getMap(108010301).resetFully();
+		cm.removeAll(4031059);
+        cm.warp(108010301, 0);
+		cm.getPlayer().startMapTimeLimitTask(1200, map);
+		cm.dispose();
+		}else{
+		cm.sendNext("ÄãÕÒ´íÃÅÁË°É!");
+		cm.dispose();
+		}
+} else 	if (cm.getMapId() == 100040106) { //·¨Ê¦
+	if ((!cm.getPlayerCount(108010201) <= 0)) {
+		cm.sendNext("ÀïÃæÓĞÈË");
+		cm.dispose();
+      } else if ((cm.getJob()==210 || cm.getJob()==220 || cm.getJob()==230)) {
+		cm.getMap(108010201).resetFully();
+		cm.removeAll(4031059);
+        cm.warp(108010201, 0);
+		cm.getPlayer().startMapTimeLimitTask(1200, map);
+		cm.dispose();
+		}else{
+		cm.sendNext("ÄãÕÒ´íÃÅÁË°É!");
+		cm.dispose();
+		}
+} else 	if (cm.getMapId() == 105040305) { //ÉäÊÖ
+	if ((!cm.getPlayerCount(108010101) <= 0)) {
+		cm.sendNext("ÀïÃæÓĞÈË");
+		cm.dispose();
+      } else if ((cm.getJob()==310 || cm.getJob()==320)) {
+		cm.getMap(108010101).resetFully();
+		cm.removeAll(4031059);
+        cm.warp(108010101, 0);
+		cm.getPlayer().startMapTimeLimitTask(1200, map);
+		cm.dispose();
+		}else{
+		cm.sendNext("ÄãÕÒ´íÃÅÁË°É!");
+		cm.dispose();
+		}
+} else 	if (cm.getMapId() == 107000402) { //·ÉÏÀ
+    if ((!cm.getPlayerCount(108010401) <= 0)) {
+		cm.sendNext("ÀïÃæÓĞÈË");
+		cm.dispose();
+      } else if ((cm.getJob()==410 || cm.getJob()==420)) {
+		cm.getMap(108010401).resetFully();
+		cm.removeAll(4031059);
+        cm.warp(108010401, 0);
+		cm.getPlayer().startMapTimeLimitTask(1200, map);
+		cm.dispose();
+		}else{
+		cm.sendNext("ÄãÕÒ´íÃÅÁË°É!");
+		cm.dispose();
+		}
+} else 	if (cm.getMapId() == 105070200) { //º£µÁ
+	if ((!cm.getPlayerCount(108010501) <= 0)) {
+		cm.sendNext("ÀïÃæÓĞÈË");
+		cm.dispose();
+      } else if ((cm.getJob()==510 || cm.getJob()==520)) {
+		cm.getMap(108010501).resetFully();
+		cm.removeAll(4031059);
+        cm.warp(108010501, 0);
+		cm.getPlayer().startMapTimeLimitTask(1200, map);
+		cm.dispose();
+		}else{
+		cm.sendNext("ÄãÕÒ´íÃÅÁË°É!");
+		cm.dispose();
+		}}}}

@@ -22,7 +22,7 @@ function start(mode, type, selection) {
 	    qm.sendPrev("#fUI/UIWindow2.img/QuestIcon/4/0#\r\n#i3994650##bBoo Buddy Candy x1#k\r\n\r\nThanks for listening! Here's some candy #bfor your friends#k.\r\nHappy Halloween!");
 	} else if (status == 5) {
 		qm.forceStartQuest();
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 		qm.gainItem(3994650, 1);
 		qm.dispose();
 	}

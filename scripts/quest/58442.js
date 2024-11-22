@@ -1,4 +1,4 @@
-?/*
+﻿﻿/*
  Made by Pungin
  */
 var status = -1;
@@ -11,13 +11,13 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendNextNew("那个…有可以吃的吗？真的好饿…", 0x20, 1);
+        qm.sendNextSNew("那個…有可以吃的嗎？真的好餓…", 0x13, 1);
     } else if (status == 1) {
-        qm.sendNextPrevNew("现在我也没有什麽能吃的东西耶…等我一下喔. 我去找找看有没有可以吃的东西。", 0x38, 1);
+        qm.sendNextPrevSNew("現在我也沒有什麼能吃的東西耶…等我一下喔. 我去找找看有沒有可以吃的東西。", 0x38, 1);
     } else if (status == 2) {
-        qm.sendNextPrevNew("真的吗…？谢谢！ ", 0x20, 1);
+        qm.sendNextPrevSNew("真的嗎…？謝謝！ ", 0x13, 1);
     } else if (status == 3) {
-        qm.sendNextPrevNew("(在这里不管多努力，还是很难找到ㄧ些食物. 是不是要回到枫之谷看看呢? 去找 K 获得ㄧ些建议吧。)", 0x38, 1);
+        qm.sendNextPrevSNew("(在這裡不管多努力，還是很難找到ㄧ些食物. 是不是要回到楓之谷看看呢? 去找 K 獲得ㄧ些建議吧。)", 0x38, 1);
     } else if (status == 4) {
         qm.forceStartQuest();
         qm.dispose();
@@ -34,17 +34,17 @@ function end(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendNextNew("怎麽了呢？", 0x20, 1);
+        qm.sendNextSNew("怎麼了呢？", 0x13, 1);
     } else if (status == 1) {
-        qm.sendNextPrevNew("K！异世界的村民在饥饿中. 不能这样下去. 把枫之谷世界的食粮搬到异世界如何?", 0x38, 1);
+        qm.sendNextPrevSNew("K！異世界的村民在飢餓中. 不能這樣下去. 把楓之谷世界的食糧搬到異世界如何?", 0x38, 1);
     } else if (status == 2) {
-        qm.sendNextPrevNew("把枫之谷世界的物品搬到异世界? 从其他时空搬移东西，还真是第一次听到的事情。 ", 0x20, 1);
+        qm.sendNextPrevSNew("把楓之谷世界的物品搬到異世界? 從其他時空搬移東西，還真是第一次聽到的事情。 ", 0x13, 1);
     } else if (status == 3) {
-        qm.sendNextPrevNew("不管如何必须要的事情。", 0x38, 1);
+        qm.sendNextPrevSNew("不管如何必須要的事情。", 0x38, 1);
     } else if (status == 4) {
-        qm.sendNextPrevNew("没有办法了…会帮忙把枫之谷的食粮移动到异世界。", 0x20, 1);
+        qm.sendNextPrevSNew("沒有辦法了…會幫忙把楓之谷的食糧移動到異世界。", 0x13, 1);
     } else if (status == 5) {
-        qm.completeQuest();
+        qm.forceCompleteQuest();
         qm.dispose();
     } else {
         qm.dispose();

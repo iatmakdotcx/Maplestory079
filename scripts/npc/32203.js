@@ -35,7 +35,7 @@ function start(mode, type, selection) {
 		qm.gainExp(20);
 		qm.dispose();
      } else if (selection == 1) {
-		qm.sendNextS("好吧，那么我现在立刻送你去彩虹村。",1);
+		qm.sendNextS("好吧，那么我现在立刻送你去淘居村。",1);
 		}
 	} else if (status == 9) {
         if (sel == 1) {
@@ -45,7 +45,7 @@ function start(mode, type, selection) {
 		}
     } else if (status == 10) {
         if (sel == 1) {
-		qm.sendNextS("你到了彩虹村的话，别忘了去见见#b路卡斯#k村长!他会给你一些建议，让你能刚好地去适应新世界。",1);
+		qm.sendNextS("你到了淘居村的话，别忘了去见见#b路卡斯#k村长!他会给你一些建议，让你能刚好地去适应新世界。",1);
 	   }
     } else if (status == 11) {
         if (sel == 1) {

@@ -25,7 +25,7 @@ function start(mode, type, selection) {
         if (!qm.haveItem(1142485, 1)) {
             qm.gainItem(1142485, 1);
         }
-        qm.completeQuest();
+        qm.forceCompleteQuest();
         qm.dispose();
     }
 }

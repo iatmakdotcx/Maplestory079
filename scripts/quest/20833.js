@@ -1,4 +1,4 @@
-/* Cygnus revamp
+﻿/* Cygnus revamp
 	Noblesse tutorial
 	Tiny Bird
     Made by Daenerys
@@ -13,19 +13,18 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendNext("(哔哩哩哩…哔哔…)");
+        qm.sendNext("(嗶哩哩哩…嗶嗶…)");
     } else if (status == 1) {
-        qm.sendNextPrev("嗯？这鸟是从哪里忽然跑出来的？");
+        qm.sendNextPrevS("嗯？這鳥是從哪裡忽然跑出來的？");
     } else if (status == 2) {
-        qm.sendNext("(哔哩哩。哔哔， 哔哩哩哩…)");
+        qm.sendNext("(嗶哩哩。嗶嗶， 嗶哩哩哩…)");
     } else if (status == 3) {
-        qm.sendNextPrev("难道我有听得懂小鸟说话的能力吗？！好像在叫我跟着他走…等待真是无聊，在奇加回来前稍微跟去看看吧？");
+        qm.sendNextPrevS("難道我有聽得懂小鳥說話的能力嗎？！好像在叫我跟著他走…等待真是無聊，在奇加回來前稍微跟去看看吧？");
     } else if (status == 4) {
         qm.forceStartQuest();
-		qm.completeQuest();
+	qm.forceCompleteQuest();
         qm.removeNpc(130030105, 1102113);
         qm.warp(130030104);
-		
         qm.dispose();
     } else {
         qm.dispose();
@@ -33,6 +32,6 @@ function start(mode, type, selection) {
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }

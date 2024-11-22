@@ -1,52 +1,36 @@
-var a = 0;
-var text;
-var selects; //记录玩家的选项
-var buynum = 0;
-var itemlist = Array(
-Array(2430249, 300),//木飞机3天使用券
-Array(2430259, 300),//蝙蝠魔骑宠卷
-Array(2430260, 300),//花蘑菇骑宠卷
-Array(2430261, 300),//超能套装骑宠卷
-Array(2430262, 300),//雄狮骑宠卷
-Array(2430265, 300),//骑士团战车骑宠卷
-Array(2430266, 300),//走路鸡骑宠卷
-Array(2430271, 300),//猫头鹰骑宠卷
-Array(2430578, 300),//直升机3天使用券
-Array(2430579, 300),//GO兔冒险3天使用券
-Array(2430580, 300),//熊猫3天使用券
-Array(2430583, 300),// 天马3天使用券
-Array(2430582, 300),//透明蝙蝠怪3天使用券
-//Array(2430586, 300),//骑士团战车3天使用券
-Array(2430587, 300),//妮娜的魔法阵3天使用券
-Array(2430588, 300),//拿破仑的白马3天使用券
-Array(2430589, 300),//魔法扫帚3天使用券
-Array(2430590, 300),//梦魇3天使用券
-//Array(2430591, 300),//猫头鹰3天使用券
-Array(2430592, 300),//莱格斯的豺犬3天使用券
-Array(2430593, 300),///警车3天使用券
-Array(2430594, 300),//筋斗云3天使用券
-Array(2430595, 300),//玩具坦克3天使用券
-Array(2430596, 300),///钢铁变形侠3天使用券
-Array(2430597, 300), //飞船3天使用券
-//Array(2430598, 300), //超能套装3天使用券
-Array(2430599, 300), //蝙蝠怪3天使用券
-Array(2430600, 300), ///暗光龙3天使用券
-Array(2430601, 300),//圣兽提拉奥斯3天使用券
-Array(2430602, 300)//暴风摩托3天使用券
-//Array(2290886, 200), 
-//Array(2290887, 200), 
-//Array(2290468, 200), 
-//Array(2290571, 200),
-//Array(2290914, 200),
-//Array(2290723, 200),
-//Array(2290889, 200),
-//Array(2290602, 200),
-//Array(2291137, 200),
-//Array(2290724, 200)
-);
+/*
+ * 菜菜制作 奇幻冒险岛工作室所有
+ * 联系QQ：537050710
+ * 欢迎定制各种脚本
+ * 打蚊子副本
+ */
+
+var status = 0;
+var minLevel = 150;
+var maxLevel = 300;
+var minPartySize = 1;
+var maxPartySize = 1;
+var maxPlay = 1;
+var ItemArray = Array(
+        Array(3015090, 1, 1, 100),
+		Array(4001839, 1000, -1, 200),
+        Array(5062009, 100, -1, 2000),
+		Array(2049124, 1, -1, 1000),
+        Array(1004422, 1, -1, 8000),
+		Array(1004423, 1, -1, 8000),
+		Array(1004424, 1, -1, 8000),
+		Array(1004425, 1, -1, 8000),
+		Array(1004426, 1, -1, 8000),
+		Array(1102775, 1, -1, 8000),
+		Array(1102794, 1, -1, 8000),
+		Array(1102795, 1, -1, 8000),
+		Array(1102796, 1, -1, 8000),
+		Array(1102797, 1, -1, 8000)
+        );//道具id，个数，剩余天数，所需积分
+var itemid, leftday, quantity, needpoints;
 
 function start() {
-    a = -1;
+    status = -1;
     action(1, 0, 0);
 }
 
@@ -54,37 +38,190 @@ function action(mode, type, selection) {
     if (mode == -1) {
         cm.dispose();
     } else {
-        if (mode == 1)
-            a++;
-        else
-            a--;
-        if (a == -1) {
+        if (mode == 0 && status == 0) {
             cm.dispose();
-        } else if (a == 0) {
-			text = "#h0#,您可以在这里兑换#e#b本服可爱骑宠哦#n#k,请选择你想要兑换的物品\r\n#e#r注意背包是否有空格 \r\n#r#e注意背包是否有空格#k#n\r\n#b";
-			for (var i=0; i<itemlist.length; i++) {
-				text += "#L" + i + "##i" + itemlist[i] + ":##t" + itemlist[i] + "# 需要  x  #r"+itemlist[i][1]+"#b#v4000645##l\r\n";
-				if (i != 0 && (i+1) % 5 == 0) {
-					text += "\r\n";
-				}
-			}
-            cm.sendSimple(text);
-        } else if (a == 1) {
-			selects = selection;
-            cm.sendGetNumber("请输入你请你输入想要购买的数量\r\n\r\n#r1个需要" + itemlist[selects][1] + "个#b#v4000645##l#k", 0, 0, 999999);
-        } else if (a == 2) {
-            buynum = selection;
-            cm.sendNext("你想购买" + buynum + "个#r#i" + itemlist[selects][0] + "##k？\r\n你将使用掉" + (buynum * itemlist[selects][1]) + "变异的漂漂猪脖子肉#v4000645##l。");
-        } else if (a == 3) {
-            if (cm.haveItem(4000645,buynum * itemlist[selects][1])) {
-                cm.gainItem(4000645, -buynum * itemlist[selects][1]);
-                cm.gainItem(itemlist[selects][0], buynum);
-                cm.sendOk("购买成功了！");
+            return;
+        }
+        if (mode == 1)
+            status++;
+        else
+            status--;
+        if (status == 0) {
+            cm.sendSimple("#e#r[●ω●提示]：#n#b怎么办？最近蚊子越来越泛滥了。冒险家们，你们可以帮我消灭蚊子吗？\r\n\r\n\t\t\t\t#e<消灭蚊子>#n\r\n\r\n#d   帮我消灭蚊子的话，达到一定数量我就会把我珍贵的东西送给你！冒险家们？怎么样？可以帮帮我吗？\r\n\r\n#b#L0#协同组队帮忙消灭蚊子！#l\r\n#L1##r查看我一共消灭了多少蚊子，并兑换礼品。#l#b\r\n#L2#我想了解一下怎么打蚊子。#l\r\n#L3#我想花费10000点券重置挑战次数。#l")
+        } else if (status == 1) {
+            if (selection == 0) {
+                if (cm.getBossLog("消灭蚊子") >= maxPlay) {
+                    cm.sendOk("今天你已经参与了" + maxPlay + "次，不能再帮我打了，怕你太累了！请明天赶早~");
+                    cm.dispose();
+                    return;
+                }
+                if (cm.getParty() == null) { // 没有组队
+                    cm.sendOk("消灭蚊子也是需要队长的啊~\r\n请队长跟我说话。");
+                    cm.dispose();
+                } else if (!cm.isLeader()) { // 不是队长
+                    cm.sendOk("请叫队长和我谈话。");
+                    cm.dispose();
+                } else {
+                    var party = cm.getParty().getMembers();
+                    var mapId = cm.getPlayer().getMapId();
+                    var next = true;
+                    var levelValid = 0;
+                    var inMap = 0;
+                    var it = party.iterator();
+                    var idx = Array();
+                    while (it.hasNext()) {
+                        var cPlayer = it.next();
+                        if ((cPlayer.getLevel() >= minLevel) && (cPlayer.getLevel() <= maxLevel)) {
+                            levelValid += 1;
+                        } else {
+                            next = false;
+                        }
+                        if (cPlayer.getMapid() == mapId) {
+                            inMap += 1;
+                        }
+                        idx.push(cPlayer.getId());
+                    }
+                    if (getBossLog(idx) >= maxPlay) {
+                        cm.sendOk("队伍中有玩家已经参与过该副本" + maxPlay + "次，无法再进入，请踢出该玩家。");
+                        cm.dispose();
+                        return;
+                    }
+                    if (party.size() < minPartySize || party.size() > maxPartySize || inMap < minPartySize) {
+                        next = false;
+                    }
+                    if (next) {
+                        var em = cm.getEventManager("Wenzi");
+                        if (em == null) {
+                            cm.sendOk("目前正在整理该副本。等待开放。。");
+                        } else {
+                            if (cm.getPlayerCount(350033000) == 0) {
+                                em.startInstance(cm.getParty(), cm.getMap());
+                                cm.setPartyBossLog("消灭蚊子");
+                                cm.worldSpouseMessage(0x25, cm.getChar().getName() + "   带领他的队伍进入了去消灭蚊子了，大家也快点帮管理员消灭蚊子吧！？");
+                                cm.dispose();
+                                return;
+                            } else {
+                                cm.sendOk("目前该频道已经有人在挑战，请换个频道重新进入。");
+                                cm.dispose();
+                            }
+                        }
+                        cm.dispose();
+                    } else {
+                        cm.sendOk("请确认你的组队员：\r\n\r\n#b1、组队员必须要" + minPartySize + "人以上，" + maxPartySize + "人以下。\r\n2、组队员等级必须要在" + minLevel + "级以上。\r\n\r\n（#r如果仍然错误, 重新下线,再登陆 或者请重新组队。#k#b）");
+                        cm.dispose();
+                    }
+                } //判断组队
+            }
+            else if (selection == 2) {
+                cm.sendOk("进入副本前，请确认你的组队员：\r\n\r\n#b1、组队员必须要" + minPartySize + "人以上，" + maxPartySize + "人以下。\r\n2、组队员等级必须要在" + minLevel + "级以上。\r\n\r\n（#r如果仍然错误, 重新下线,再登陆 或者请重新组队。#k#b）");
                 cm.dispose();
+            } else if (selection == 3) {
+                if (cm.getPlayer().getCSPoints(1) >= 10000) {
+                    cm.gainNX(1, -10000);
+                    cm.resetBossLog("消灭蚊子");
+                    cm.sendOk("重置成功！");
+                    cm.dispose();
+                } else {
+                    cm.sendOk("你的点卷不够，无法重置。");
+                    cm.dispose();
+                }
+            } else if (selection == 1) {//查看我打了多少蚊子，兑换礼品
+                var text = "你现在一共消灭了" + getEventTimes(2, cm.getPlayer().getId()) + "蚊子。\r\n可用兑换积分为：" + getEventPoints(2, cm.getPlayer().getId()) + "\r\n#b"
+                for (var i = 0; i < ItemArray.length; i++) {
+                    if (ItemArray[i][2] <= 0) {
+                        text += "#L" + i + "# #i" + ItemArray[i][0] + "# 时限： 永久  ★ 积分：(" + ItemArray[i][3] + ")\r\n"
+                    } else {
+                        text += "#L" + i + "# #i" + ItemArray[i][0] + "# 时限：" + ItemArray[i][2] + "天  ★ 积分：(" + ItemArray[i][3] + ")\r\n"
+                    }
+                }
+                cm.sendSimple(text);
+            }
+        } else if (status == 2) {
+            itemid = ItemArray[selection][0];
+            leftday = ItemArray[selection][2];
+            quantity = ItemArray[selection][1];
+            needpoints = ItemArray[selection][3];
+            if (leftday <= 0) {
+                cm.sendYesNo("你想使用" + needpoints + "积分来兑换#i" + itemid + "# #b#t" + itemid + "##k 吗？\r\n 使用期限：#b永久#k。");
+				cm.dispose();
             } else {
-                cm.sendOk("对不起，你没有足够的变异的漂漂猪脖子肉#v4000645##l。");
+                cm.sendYesNo("你想使用" + needpoints + "积分来兑换#i" + itemid + "# #b#t" + itemid + "##k 吗？ \r\n使用期限：#b" + leftday + "天#k。");
+				cm.dispose();
+            }
+        } else if (status == 3) {
+            if (cm.getSpace(1) < 2 && cm.getSpace(2) < 2 && cm.getSpace(3) < 2 && cm.getSpace(4) < 2 && cm.getSpace(5) < 2) {
+                cm.sendOk("请确保您所有的背包栏都有2个以上的空格。");
                 cm.dispose();
+                return;
+            }
+            if (getEventPoints(2, cm.getPlayer().getId()) >= needpoints) {
+                setEventPoints(2, cm.getPlayer().getId(), -needpoints);
+                if (leftday <= 0) {
+                    cm.gainItem(itemid, quantity);
+                } else {
+                    cm.gainItemPeriod(itemid, quantity, leftday);
+                }
+                status = -1;
+                cm.sendOk("兑换成功了！");
+            } else {
+                status = -1;
+                cm.sendOk("对不起，你没有足够的积分兑换。");
             }
         }
-    }//mode
-}//f
+    }
+}
+
+
+function getBossLog(idx) {
+    var idStr = "";
+    for (var key in idx) {
+        if (key == 0)
+            idStr += idx[key];
+        else
+            idStr += "," + idx[key];
+    }
+    bosslogSql = cm.sql_Select("SELECT max(count) as maxcount FROM bosslog where bossid = '消灭蚊子' and characterid in (" + idStr + ") and to_days(time) = to_days(now());")
+    if (bosslogSql.length > 0) {
+        return bosslogSql[0].get("maxcount") * 1;
+    }
+    return 0;
+}
+
+
+function getEventTimes(Eventid, charid) {//通过eventid来得到参与这个活动的次数
+    var i = 0;
+    var Times = cm.sql_Select("SELECT * FROM EventTimes where eventid = ? and cid = ?", Eventid, charid)
+    if (Times.length > 0) {
+        i = Times.get(0).get("times");//得到次数
+    }
+    return parseInt(i);
+}
+
+function getEventPoints(Eventid, charid) {//通过eventid来得到参与这个活动的点数
+    var i = 0;
+    var Times = cm.sql_Select("SELECT * FROM EventTimes where eventid = ? and cid = ?", Eventid, charid)
+    if (Times.length > 0) {
+        i = Times.get(0).get("points");//得到点数
+    }
+    return parseInt(i);
+}
+
+function setEventPoints(Eventid, charid, points) {//通过eventid来给予参与这个活动的点数
+    var Times = cm.sql_Select("SELECT * FROM EventTimes where eventid = ? and cid = ?", Eventid, charid)
+    var i = Times.length
+    if (i == 0) {//insert
+        cm.sql_Insert("INSERT INTO EventTimes VALUES(?,?,?,?,?,?,?)", null, Eventid, cm.getPlayer().getId(), cm.getPlayer().getName(), points, this.getEventTimes(1, charid), null); // 载入数据
+    } else {//update
+        cm.sql_Update("update EventTimes set points = points + ? where eventid = ? and cid = ?", points, Eventid, charid);//更新为已使用
+    }
+}
+
+function setEventTimes(Eventid, charid, times) {//通过eventid来设置参与这个活动的次数
+    var Times = cm.sql_Select("SELECT * FROM EventTimes where eventid = ? and cid = ?", Eventid, charid); // 查询数据
+    var i = Times.length;
+    if (i == 0) {//insert
+        cm.sql_Insert("INSERT INTO EventTimes VALUES(?,?,?,?,?,?,?)", null, Eventid, cm.getPlayer().getId(), cm.getPlayer.getName(), this.getEventPoints(2, charid), times, null); // 载入数据
+    } else {//update
+        cm.sql_Update("update EventTimes set times = times + ? where eventid = ? and cid = ?", times, Eventid, charid);//更新为已使用
+    }
+}

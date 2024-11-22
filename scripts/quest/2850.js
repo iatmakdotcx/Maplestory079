@@ -37,7 +37,7 @@ function end(mode, type, selection) {
 	} else if (status == 2) {	
 		qm.warp(103000003);
 		qm.gainExp(1242);
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 		qm.dispose(); 
   } 
  }

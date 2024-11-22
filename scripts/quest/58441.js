@@ -1,4 +1,4 @@
-?/*
+﻿﻿/*
  Made by Pungin
  */
         var status = -1;
@@ -8,7 +8,7 @@ function start(mode, type, selection) {
         status++;
     } else {
         if (status == 0) {
-            qm.sendOkSNew("喔不…也许会真的哭出来…", 0x38, 1);
+            qm.sendOkSNew("喔不…也許會真的哭出來…", 0x38, 1);
             qm.dispose();
             return;
         }
@@ -16,16 +16,16 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendYesNoSNew("果然大家的表情都很沉闷…那个孩子现在也是快要哭出来的表情…要去跟他说说话吗？", 0x38, 1);
+        qm.sendYesNoSNew("果然大家的表情都很沉悶…那個孩子現在也是快要哭出來的表情…要去跟他說說話嗎？", 0x38, 1);
     } else if (status == 1) {
-        qm.sendNextNew("你还好吗？一个人吗？", 0x38, 1);
+        qm.sendNextSNew("你還好嗎？一個人嗎？", 0x38, 1);
     } else if (status == 2) {
-        qm.sendNextPrevNew("妈妈为了我去找食物了…因为肚子饿无法使出力量…", 0x20, 1);
+        qm.sendNextPrevSNew("媽媽為了我去找食物了…因為肚子餓無法使出力量…", 0x13, 1);
     } else if (status == 3) {
-        qm.sendNextPrevNew("...\r\n#b(真是让人难过…没有我能帮忙的事情吗？)", 0x38, 1);
+        qm.sendNextPrevSNew("...\r\n#b(真是讓人難過…沒有我能幫忙的事情嗎？)", 0x38, 1);
     } else if (status == 4) {
         qm.gainExp(1000);
-        qm.completeQuest();
+        qm.forceCompleteQuest();
         qm.dispose();
     } else {
         qm.dispose();

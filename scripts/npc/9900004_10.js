@@ -1,73 +1,84 @@
-/* ç»ç‰ˆæŠµç”¨å·å•†åº— è„¸é¥°*/
+/*
+ ±ã½İ¹¦ÄÜ
+ */
 
-var status = -1;
-var itemList = Array(
-Array(2432223, 50000),
-Array(5750001, 20000),
-Array(1662002, 100000),
-
-Array(1662003, 100000),
-Array(1662041, 100000),
-Array(1662039, 200000),
-Array(1662035, 200000),
-Array(1662036, 200000),
-Array(1662032, 250000),
-Array(1662033, 350000),
-Array(1662034, 350000),
-Array(1672039, 400000),
-Array(1662054, 500000),
-Array(1672067, 500000)
-);
-var selectedItem = -1;
-var selectedCost = -1;
+var status;
+var text;
+var selstatus = -1;
+var itemList = new Array();
+var inventoryType;
+var deleteSlot;
+var deleteQuantity;
 
 function start() {
+    status = -1;
     action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-    if (mode == 1) {
-        status++;
-    } else {
-        if (status >= 0) {
-            cm.dispose();
-            return;
-        }
-        status--;
-    }
-    if (status == 0) {
-        var selStr = "#fUI/UIWindow2.img/Quest/quest_info/summary_icon/summary#\r\n#fUI/UIWindow2.img/QuestAlarm/BtQ/normal/0#äº²çˆ±çš„#r#h ##kæ‚¨å¥½ï¼Œè¯·é€‰æ‹©æ‚¨å¸Œæœ›è´­ä¹°çš„é“å…·ï¼š";
-        for (var i = 0; i < itemList.length; i++) {
-            selStr += "\r\n#L" + i + "##i" + itemList[i][0] + ":# #b#t" + itemList[i][0] + "##k   #r" + itemList[i][1]  + "#kæŠµç”¨å·#l";
-        }
-        cm.sendSimple(selStr);
-    } else if (status == 1) {
-        var item = itemList[selection];
-        if (item != null) {
-            selectedItem = item[0];
-            selectedCost = item[1];
-            cm.sendYesNo("æ‚¨æ˜¯å¦è´­ä¹°#i" + selectedItem + ":# #b#t" + selectedItem + "##k éœ€è¦ #r" + selectedCost + "#k æŠµç”¨å·ï¼Ÿ");
-        } else {
-            cm.sendOk("å‡ºç°é”™è¯¯...");
-            cm.dispose();
-        }
-    } else if (status == 2) {
-        if (selectedCost <= 0 || selectedItem <= 0) {
-            cm.sendOk("è´­ä¹°é“å…·å‡ºç°é”™è¯¯...");
-            cm.dispose();
-            return;
-        }
-        if (cm.getPlayer().getCSPoints(2) >= selectedCost) {
-            var gachaponItem = cm.gainGachaponItem(selectedItem, 1, "æŠµç”¨å·å•†åº—", 3, true);
-            if (gachaponItem != -1) {
-                cm.gainNX(2, - selectedCost );
-                cm.sendOk("æ­å–œæ‚¨æˆåŠŸè´­ä¹°#i" + selectedItem + ":# #b#t" + selectedItem + "##kã€‚");
-            } else {
-                cm.sendOk("è´­ä¹°å¤±è´¥ï¼Œè¯·æ‚¨ç¡®è®¤åœ¨èƒŒåŒ…æ‰€æœ‰æ ç›®çª—å£ä¸­æ˜¯å¦æœ‰ä¸€æ ¼ä»¥ä¸Šçš„ç©ºé—´ã€‚");
-            }
-        } else {
-            cm.sendOk("æ‚¨æ²¡æœ‰é‚£ä¹ˆå¤šæŠµç”¨å·ã€‚\r\n\r\nè´­ä¹°#i" + selectedItem + ":# #b#t" + selectedItem + "##k éœ€è¦ #r" + selectedCost + "#k æŠµç”¨å·ã€‚");
-        }
+    if (mode <= 0) {
         cm.dispose();
+        return;
+    } else {
+        if (mode == 1) {
+            status++;
+        } else {
+            status--;
+        }
+
+        if (status == 0) {
+            text = "#e- ±ã½İ¹¦ÄÜ -#n\r\n\r\n#b";
+            text += "#L0##e#d»ØÊÕ°ü¹üÄÚÖ¸¶¨µÀ¾ß#l\r\n";
+            text += "\r\n\r\n\r\n\r\n";
+            cm.sendSimple(text);
+        } else {
+            if (selstatus == -1) {
+                selstatus = selection;
+            }
+            switch (selstatus) {
+                case 0:
+                    deleteItemBySlot(selection);
+                    break;
+                case 1:
+                    cm.openNpc(cm.getNpc(), 501);
+            }
+        }
+    }
+}
+
+function deleteItemBySlot(selection) {
+    if (status == 1) {
+        text = "#e- ÇëÑ¡ÔñÒª»ØÊÕµÄµÀ¾ßÀàĞÍ -#n\r\n#d#e";
+        text += "\t#L1#×°±¸À¸#l\r\n";
+        text += "\t#L2#ÏûºÄÀ¸#l\r\n";
+        text += "\t#L4#ÆäËüÀ¸#l\r\n";
+        text += "\t#L3#ÉèÖÃÀ¸#l\r\n";
+        text += "\t#L5#ÌØÊâÀ¸#l\r\n";
+        cm.sendSimple(text);
+    } else if (status == 2) {
+        inventoryType = selection;
+        itemList = cm.getInventory(inventoryType).list().iterator();
+        text = "#e- ÇëÑ¡ÔñÒª»ØÊÕµÄµÀ¾ß -#n\r\n\r\n#b";
+        var indexof = 1;
+        while (itemList.hasNext()) {
+            var item = itemList.next();
+            text += "#L" + item.getPosition() + "##v" + item.getItemId() + "#";
+            if (indexof > 1 && indexof % 5 == 0) {
+                text += "\r\n";
+            }
+            indexof++;
+        }
+        cm.sendSimple(text);
+    } else if (status == 3) {
+        var item = cm.getInventory(inventoryType).getItem(selection);
+        deleteSlot = selection;
+        deleteQuantity = item.getQuantity();
+        text = "#eÈ·¶¨Òª»ØÊÕ#r#v" + item.getItemId() + "##z" + item.getItemId() + "# " + deleteQuantity + "¸ö #kÂğ£¿";
+        cm.sendNextPrev(text);
+    } else if (status == 4) {
+        cm.removeSlot(inventoryType, deleteSlot, deleteQuantity);
+        cm.sendOk("»ØÊÕ³É¹¦£¬×£ÄãÓÎÏ·Óä¿ì~");
+        status = 0;
+		cm.dispose();
     }
 }

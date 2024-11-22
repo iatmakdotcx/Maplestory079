@@ -30,7 +30,7 @@ if (mode == -1) {
 	    qm.sendNextPrev("To tell you the truth, it's REALLY hard to renovate an entire castle with a few people. I was hoping you might swing by and help us out.");
 	} else if (status == 2) {
 	    qm.sendPrev("#fUI/UIWindow2.img/QuestIcon/4/0#\r\n#i2431132##bHalloween Mask Fragment x1#k\r\n#i3994650##bBoo Buddy Candy x1#k\r\n\r\nThis is your Maple Castle welcoming gift. Enjoy!");
-	    qm.completeQuest();
+	    qm.forceCompleteQuest();
 	    qm.gainItem(2431132, 1);
 		qm.gainItem(3994650, 1);
 	    qm.dispose();		

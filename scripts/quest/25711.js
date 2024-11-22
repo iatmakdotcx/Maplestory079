@@ -25,7 +25,7 @@ function start(mode, type, selection) {
         if (!qm.haveItem(1142486, 1)) {
             qm.gainItem(1142486, 1);
         }
-	qm.completeQuest();
+	qm.forceCompleteQuest();
         qm.sendPlayerOk("成功了！现在你可以变身为狂龙战士的最终面貌。同时还可以使用更强力多样的攻击技能。");
         qm.dispose();
     }

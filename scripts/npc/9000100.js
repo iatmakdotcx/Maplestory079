@@ -37,17 +37,17 @@ function action(mode, type, selection) {
         if (status == -1) {
             cm.dispose();
         } else if (status == 0) {
-            var jukebox = "想听点音乐放松一下吗?\r\n#n#d那么快选择您想点播的音乐吧。\r\n";
+            var jukebox = "想听点音乐放松一下吗?\r\n#n#d那么快选择您想点播的音乐吧。500W一首 全服收听\r\n";
             for (var i = 0; i < music.length; i++)
                 jukebox += "\r\n#L" + i + "# " + music[i] + "#l";
             cm.sendSimple(jukebox);
 
 
         } else if (status == 1) {
-            if (cm.getMeso() > 500000) {
-                cm.gainMeso(-500000);
+            if (cm.getMeso() > 5000000) {
+                cm.gainMeso(-5000000);
                 cm.changeMusic(music[selection]);
-                cm.worldMessage("音乐点播 :玩家 " + cm.getChar().getName() + "  花费了50万,点播了一首歌曲。大家也去听听吧！");
+                cm.getMap().startMapEffect("音乐点播 :土豪玩家 " + cm.getChar().getName() + "  花费了500万,点播了一首歌曲。大家也去听听吧！", 5121027);
                 cm.sendOk("点播成功,祝您游戏愉快。");
             } else {
                 cm.sendOk("每次点播歌曲需要50万金币,你没有足够的金币。");

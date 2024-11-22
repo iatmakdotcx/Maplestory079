@@ -1,58 +1,78 @@
-importPackage(net.sf.cherry.client);
-importPackage(net.sf.cherry.scripting.npc);
-
-var status = -1;
+/* ==================
+ ½Å±¾ÀàĞÍ:  ÈÎÎñ	    
+ ½Å±¾°æÈ¨£ºÓÎÏ·ºĞÍÅ¶Ó
+ ÁªÏµ¿Û¿Û£º297870163    609654666
+ =====================
+ */
+ var status = -1;
 
 function start(mode, type, selection) {
-    	if (mode == -1) {
-	qm.sendNext("*Sob* Aran has declined my request!");
-        qm.dispose();
+    if (mode == 1) {
+	status++;
     } else {
-        if (mode == 1)
-            status++;
-        else
-            status--;
-		if (status == 0)
-			qm.sendAcceptDecline("å—¯å—¯â€¦â€¦å“æ­»æˆ‘äº†â€¦â€¦å¿«ï¼Œå¸¦æˆ‘åˆ°èµ«ä¸½å¨œé‚£è¾¹å»ï¼");
-		else if (status == 1) {
-			qm.startQuest();
-			qm.warp(914000300);
-			qm.dispose();
-		}
+	if (status == 0) {
+	    qm.sendNext("²»£¡ ¿ñÀÇÓÂÊ¿¾Ü¾øÁË£¡");
+	    qm.dispose();
+	    return;
 	}
+	status--;
+    }
+    if (status == 0) {
+	qm.askAcceptDecline("...²îµã±»ÏÅËÀ...¿ì£¡¿ìµã´øÎÒÈ¥ÕÒºÕÀöÄÈ´óÈË£¡");
+    } else if (status == 1) {
+	if (qm.getQuestStatus(21001) == 0) {
+	    qm.gainItem(4001271, 1);
+	    qm.forceStartQuest(21001, null);
+	}
+	qm.warp(914000300, 0);
+	qm.dispose();
+    }
 }
 
 function end(mode, type, selection) {
-	if (mode == -1) {
-	qm.sendNext("å­©å­æ€ä¹ˆæ ·ï¼Ÿè¯·ç»™æˆ‘çš„å­©å­ã€‚");
-        qm.dispose();
+    if (mode == 1) {
+	status++;
     } else {
-        if (mode == 1)
-            status++;
-        else
-            status--;
-		if (status == 0)
-			qm.sendYesNo("å‘µå‘µï¼Œå¹³å®‰å›æ¥äº†ï¼Ÿå­©å­å‘¢ï¼Ÿå­©å­ä¹Ÿå¸¦å›æ¥äº†å—ï¼Ÿ");
-		else if (status == 1) {
-			qm.gainItem(4001271, -1);
-			qm.completeQuest();
-			qm.sendNext("å¤ªå¥½äº†â€¦â€¦çœŸæ˜¯å¤ªå¥½äº†ã€‚", 9);
-		} else if (status == 2)
-			qm.sendNextPrev("èµ¶å¿«ä¸Šèˆ¹ï¼å·²ç»æ²¡æ—¶é—´äº†ï¼", 3);
-		else if (status == 3)
-			qm.sendNextPrev("æ²¡é”™ã€‚ç°åœ¨ä¸æ˜¯æ„Ÿä¼¤çš„æ—¶å€™ã€‚é»‘é­”æ³•å¸ˆçš„æ°”æ¯è¶Šæ¥è¶Šè¿‘ï¼ä¼¼ä¹ä»–ä»¬å·²ç»å¯Ÿè§‰æ–¹èˆŸçš„ä½ç½®ï¼Œå¾—èµ¶ç´§å¯èˆªï¼Œä¸ç„¶å°±æ¥ä¸åŠäº†ï¼", 9);
-		else if (status == 4)
-			qm.sendNextPrev("ç«‹åˆ»å‡ºå‘ï¼", 3);
-		else if (status == 5)
-			qm.sendNextPrev("æˆ˜ç¥ï¼è¯·ä½ ä¹Ÿä¸Šèˆ¹å§ï¼æˆ‘ä»¬ç†è§£ä½ æ¸´æœ›æˆ˜æ–—çš„å¿ƒæƒ…â€¦â€¦ä¸è¿‡ï¼Œç°åœ¨å·²ç»æ™šäº†ï¼æˆ˜æ–—å°±äº¤ç»™ä½ çš„é‚£äº›åŒä¼´å§ï¼Œå’Œæˆ‘ä»¬ä¸€èµ·å»é‡‘é“¶å²›å§ï¼", 9);
-		else if (status == 6)
-			qm.sendNextPrev("ä¸è¡Œï¼", 3);
-		else if (status == 7) {
-			qm.sendNextPrev("èµ«ä¸½å¨œï¼Œä½ å…ˆå‡ºå‘å»é‡‘é“¶å²›ã€‚ä¸€å®šè¦æ´»ç€ï¼Œæˆ‘ä»¬ä¸€å®šä¼šå†è§çš„ã€‚æˆ‘è¦å’ŒåŒä¼´ä»¬ä¸€èµ·åŒé»‘é­”æ³•å¸ˆæˆ˜æ–—ï¼", 3);
-		} else if (status == 8) {
-			qm.clearAranPolearm();
-			qm.warp(914090010); // Initialize Aran Tutorial Scenes
-			qm.dispose();
-		}
+	if (status == 0) {
+	    qm.sendNext("º¢×ÓÄØ£¿ ÌÈÈôÄú¾ÈÁËÄÇĞ©º¢×Ó£¬¾Í¿ìµãÈÃËûÃÇÉÏÀ´°É£¡");
+	    qm.dispose();
+	    return;
+	} else if (status == 8) { // watching the introduction
+	    if (qm.haveItem(4001271)) {
+		qm.gainItem(4001271, -1);
+	    }
+	    //qm.MovieClipIntroUI(true);
+	    qm.forceCompleteQuest();
+	    qm.warp(914090010, 0);
+	    qm.dispose();
+	    return;
 	}
+	status--;
+    }
+    if (status == 0) {
+	qm.sendYesNo("°¡°¡£¬ÄúÆ½°²ÎŞÊÂ¹éÀ´ÁË£¡ º¢×ÓÄØ£¿Äú°ÑÄÇĞ©º¢×Ó´ø»ØÀ´ÁËÂğ£¿");
+    } else if (status == 1) {
+	qm.sendNext("ÕæÊÇÌ«ºÃÁË... ÕæÊÇÌ«ºÃÁË.....");
+    } else if (status == 2) {
+	qm.sendNextPrevS("¿ìµã×øÉÏ·ÉĞĞ´¬°É£¡Ã»Ê±¼äÁË¡£", 3);
+    } else if (status == 3) {
+	qm.sendNextPrev("¶Ô£¬¶ÔÁË£¡ÏÖÔÚ²»ÊÇÌ¸ÕâĞ©ÊÂÇéµÄÊ±»ú¡£ºÚÄ§·¨Ê¦µÄÆøÏ¢ÒÑ¾­ÂıÂıµØ¿¿½üÁË£¡ºÃÏñÒÑ¾­²ì¾õ·½ÖÛµÄÎ»ÖÃÁË£¡²»¸Ï¿ì³ö·¢µÄ»°£¬¾Í»á±»´ş¸öÕı×Å¡£");
+    } else if (status == 4) {
+	qm.sendNextPrevS("Á¢¿Ì³ö·¢£¡", 3);
+    } else if (status == 5) {
+	qm.sendNextPrev("¿ñÀÇÓÂÊ¿£¡ÄãÒ²×øÉÏ·½ÖÛ°É£¡ÎÒËäÈ»ÁË½âÄúÏë»ğŞÕµ½×îºóÒ»¿ÌµÄĞÄÇé...¿ÉÊÇÒÑ¾­Ì«³ÙÁË£¡´òÕÌÕâ¸öÈÎÎñ¾Í½»¸øÄúµÄÍ¬°é£¬¸úÎÒÃÇÒ»ÆğÇ°ÍùÎ¬¶àÀûÑÇµº°É£¡");
+    } else if (status == 6) {
+	qm.sendNextPrevS("¾ø¶Ô²»ĞĞ£¡", 3);
+    } else if (status == 7) {
+	qm.sendNextPrevS("ºÕÀöÄÈ£¬ÄúÏÈÈ¥Î¬¶àÀûÑÇµº°É£¡ÎÒ¾ø¶Ô²»»áËÀĞÄµÄ£¬ÎÒÃÇºó»áÓĞÆÚ¡£ÎÒÒªºÍÍ¬°éÃÇÒ»ÆğÈ¥¶Ô¸¶ºÚÄ§·¨Ê¦£¡", 3);
+    } else if (status == 8) {
+	qm.sendYesNo("ÇëÎÊÄúÏëÌø¹ı¶¯»­Âğ£¿");
+    } else if (status == 9) { // Not watching
+	if (qm.haveItem(4001271)) {
+	    qm.gainItem(4001271, -1);
+	}
+	qm.forceCompleteQuest();
+	qm.warp(914090010, 0);
+	qm.dispose();
+    }
 }

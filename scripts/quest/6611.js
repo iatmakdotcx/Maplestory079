@@ -18,13 +18,13 @@ function start(mode, type, selection) {
     } else if (status == 1) {
         if (qm.hasSkill(30020233)) { //30020233 - 混合逻辑 - 采用混合逻辑设计，所有能力值永久提高。
             qm.sendLinkSkillWindow(30020233);
-            qm.completeQuest();
+            qm.forceCompleteQuest();
         }
         qm.dispose();
     }
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }

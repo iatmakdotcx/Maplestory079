@@ -35,9 +35,9 @@ if (mode == -1) {
 	    qm.sendNextPrev("Let's investigate the third floor! Maybe we'll find something else.\r\n\r\n(#bTalk to #e#p1500000##k#n on the 3rd floor of Ellinel Fairy Academy.)");
 	} else if (status == 2) {
 		qm.removeAll(4033828);
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 		qm.forceStartQuest(32113);
-		qm.completeQuest(32113);
+		qm.forceCompleteQuest(32113);
 	    qm.dispose();		
 	}
   }

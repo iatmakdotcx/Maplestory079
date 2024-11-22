@@ -18,7 +18,7 @@ function start(mode, type, selection) {
 	} else if (status == 1) {
 	    qm.sendOk("Click on the #e#b#fEffect/BasicEff.img/MainNotice/Achieve/Default/0#Trophy Icon#k#n on the left side of your screen to check your Achievements!");
         qm.forceStartQuest();
-	    qm.completeQuest();
+	    qm.forceCompleteQuest();
 	    qm.dispose();
 	}
 }

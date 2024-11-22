@@ -1,5 +1,5 @@
 /*
- æš´å› 
+ ±©¾ı 
  */
 
 
@@ -15,26 +15,20 @@ function action(mode, type, selection) {
         cm.dispose();
         return;
     }
-    if (mode == 1){
+    if (mode == 1) {
         status++;
-    }else{
+    } else {
         status--;
-	}
+    }
     if (status == 0) {
-           // if (cm.getPlayer().getMapId() == 401060100) { //ä¼ é€
-                cm.sendSimple("#e<Boss - æš´å›>#n\r\nä½ ç°åœ¨ç¡®å®šæ”¾å¼ƒä»»åŠ¡,ä»è¿™é‡Œå‡ºå»?\r\n#L2##bæ˜¯çš„,ç°åœ¨å°±å‡ºå»#l");
-           // } 
+        if (cm.getPlayer().getMapId() == 401060100 || cm.getPlayer().getMapId() == 401060200 || cm.getPlayer().getMapId() == 401060300) { //´«ËÍ
+            cm.sendSimple("#e<Boss - ±©¾ı>#n\r\nÄãÏÖÔÚÈ·¶¨·ÅÆúÈÎÎñ,´ÓÕâÀï³öÈ¥?\r\n#L2##bÊÇµÄ,ÏÖÔÚ¾Í³öÈ¥#l");
+        }
     } else if (status == 1) {
-	if (selection == 2) {
+        if (selection == 2) {
             cm.warp(401060000, 0);
         }
-	cm.dispose();
-
-
-
-
-
-
+        cm.dispose();
     } else if (mode == 0) {
         cm.dispose();
     }

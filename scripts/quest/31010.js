@@ -1,16 +1,18 @@
-/*
-	任务: 调查角斗场
-	描述: 知己知彼，才能百战百胜。去调查一下BOSS薛西斯的根据地角斗场吧。
-*/
-var status = -1;
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+ var status = -1;
 
 function start(mode, type, selection) {
-    qm.sendNext("Thank you so much.");
-    qm.completeQuest();
-    qm.dispose();
+	qm.sendNext("谢谢你。");
+	qm.forceCompleteQuest();
+	qm.dispose();
 }
 function end(mode, type, selection) {
-    qm.sendNext("Thank you so much.");
-    qm.completeQuest();
-    qm.dispose();
+	qm.sendNext("谢谢你。");
+	qm.forceCompleteQuest();
+	qm.dispose();
 }

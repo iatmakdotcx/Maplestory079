@@ -19,7 +19,7 @@ function start(mode, type, selection) {
 	    qm.sendYesNo("Do you want to learn more about the new Explorer basics? I've got time.\r\n#r(Click Yes to move to the tutorial.)#k");
 	} else if (status == 2) {
         qm.forceStartQuest();
-	    qm.completeQuest();
+	    qm.forceCompleteQuest();
 	    qm.dispose();
 	}
 }

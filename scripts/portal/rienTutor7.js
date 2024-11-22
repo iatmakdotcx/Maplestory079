@@ -1,10 +1,8 @@
 function enter(pi) {
-	if (!pi.isQuestFinished(21014))
-	{
-	  pi.playerMessage("要不先去村庄里看看！");
-	  return false;
-	}else{
-	  pi.warp(140010100, 2);
-	  return true;
-	}
+    if (pi.getQuestStatus(21014) == 2 || pi.getPlayer().getJob() != 2000) {
+	pi.playPortalSE();
+	pi.warp(140010100, 2);
+    } else {
+	pi.playerMessage(5, "里恩村在右边. 前往里恩村找利琳.");
+    }
 }

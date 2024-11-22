@@ -28,6 +28,6 @@ function start(mode, type, selection) {
 }
 
 function end(mode, type, selection) {
-	qm.completeQuest();
+	qm.forceCompleteQuest();
 	qm.dispose();
 }

@@ -1,6 +1,8 @@
-/*
- * Cygnus 2nd Job advancement - Proof of test
- * Soul
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
  */
 
 var status = -1;
@@ -12,7 +14,7 @@ function start(mode, type, selection) {
 function end(mode, type, selection) {
     if (mode == 0) {
 	if (status == 0) {
-	    qm.sendNext("I guess you are not ready to tackle on the responsibilities of an official knight.");
+	    qm.sendNext("我猜你还没准备好。");
 	    qm.dispose();
 	    return;
 	} else if (status >= 2) {
@@ -25,30 +27,29 @@ function end(mode, type, selection) {
 	status++;
     }
     if (status == 0) {
-		qm.sendYesNo("You've saved Erev. Do you want to become a Captain Knight?");
+		qm.sendYesNo("你存在皇家骑士团，那么你想成为一名骑士的其中一员？？");
     } else if (status == 1) {
-	if (!qm.canHold(1142069,1)) {
-	    qm.sendOk("Please make space.");
-	    qm.dispose();
-	    return;
-	}
-	    qm.completeQuest();
+	    qm.forceCompleteQuest();
 	    if (qm.getJob() == 1111) {
-		qm.changeJob(1112);
+		//qm.changeJob(1112);
+		qm.teachSkill(10001005,1,1,-1);//英雄回声
 	    } else if (qm.getJob() == 1211) {
-		qm.changeJob(1212);
+		//qm.changeJob(1212);
+		qm.teachSkill(10001005,1,1,-1);//英雄回声
 	    } else if (qm.getJob() == 1311) {
-		qm.changeJob(1312);
+		//qm.changeJob(1312);
+		qm.teachSkill(10001005,1,1,-1);//英雄回声
 	    } else if (qm.getJob() == 1411) {
-		qm.changeJob(1412);
+		//qm.changeJob(1412);
+		qm.teachSkill(10001005,1,1,-1);//英雄回声
 	    } else if (qm.getJob() == 1511) {
-		qm.changeJob(1512);
+		//qm.changeJob(1512);
+		qm.teachSkill(10001005,1,1,-1);//英雄回声
 	    }
-	    qm.teachSkill(10001005,1,0); //Echo
-	    qm.gainItem(1142069,1);
-	    qm.sendNext("You are now an official knight of the Knights of Cygnus.");
+	    qm.sendNext("你现在皇家骑士团的骑士的其中一员,获得了#r英雄回声#k技能。");
+		qm.dispose();
     } else if (status == 3) {
-	qm.sendPrev("Now that you are officially a Knight of cygnus, act like one so you will keep Goodness's name up high.");
+	qm.sendPrev("现在回去找女皇吧。");
 	qm.dispose();
     }
 }

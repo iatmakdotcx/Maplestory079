@@ -1,22 +1,24 @@
-/*
-	任务: 冒险骑士团的继承人
-	描述: 冒险骑士团的继承人终极冒险家诞生了。
-	需要: 1142257 - 冒险骑士继承者
-*/
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+ 
 var status = -1;
 
 function start(mode, type, selection) {
-    if (qm.haveItem(1142257, 1) && qm.getPlayer().getLevel() >= 10) {
-        qm.forceStartQuest();
-        qm.completeQuest();
-    }
-    qm.dispose();
+	if (qm.haveItem(1142257,1) && qm.getPlayer().getLevel() >= 10) {
+		qm.forceStartQuest();
+		qm.forceCompleteQuest();
+	}
+	qm.dispose();
 }
 
 function end(mode, type, selection) {
-    if (qm.haveItem(1142257, 1) && qm.getPlayer().getLevel() >= 10) {
-        qm.forceStartQuest();
-        qm.completeQuest();
-    }
-    qm.dispose();
+	if (qm.haveItem(1142257,1) && qm.getPlayer().getLevel() >= 10) {
+		qm.forceStartQuest();
+		qm.forceCompleteQuest();
+	}
+	qm.dispose();
 }

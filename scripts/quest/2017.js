@@ -29,5 +29,5 @@
 
 function start(mode, type, selection) {
 
-	qm.completeQuest();
+	qm.forceCompleteQuest();
 }

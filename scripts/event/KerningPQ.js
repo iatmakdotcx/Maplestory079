@@ -1,188 +1,104 @@
-// Significant maps
-// 103000000 - Kerning City
-// 103000800 - 1st Stage - next00
-// ... (1-3 = 2nd-4th stage) 
-// 103000804 - Last Stage
-// 103000805 - Bonus
-// 103000890 - Exit
-// Significant items
-// 4001008 - Pass
-// 4001007 - Coupon
-// Significant monsters
-// 9300000 - Jr. Necki
-// 9300001 - Ligator
-// 9300002 - Curse Eye
-// 9300003 - King Slime
-// Significant NPCs
-// 9020000 - Lakelis
-// 9020001 - Cloto
-// 9020002 - Nella
-// map effects
-// Map/Obj/Effect/quest/gate/3 - warp activation glow
-// quest/party/clear - CLEAR text
-// quest/party/wrong - WRONG text
-// Party1/Clear - clear sound
-// Party1/Failed - wrong sound
-/* INSERT monsterdrops (monsterid,itemid,chance) VALUES (9300001,4001007,5);
-INSERT monsterdrops (monsterid,itemid,chance) VALUES (9300000,4001008,1);
-INSERT monsterdrops (monsterid,itemid,chance) VALUES (9300002,4001008,1);
-INSERT monsterdrops (monsterid,itemid,chance) VALUES (9300003,4001008,1); */
-
-importPackage(net.sf.cherry.net.world);
-
-var exitMap;
-var instanceId;
-var minPlayers = 3;
+/*
+ZEVMS冒险岛(079)游戏服务端
+废弃都市副本事件
+小z 71447500
+*/
 
 function init() {
-	instanceId = 1;
+    em.setProperty("state", "0");
 }
 
 function monsterValue(eim, mobId) {
-	return 1;
+    return 1;
 }
 
 function setup() {
-	exitMap = em.getChannelServer().getMapFactory().getMap(103000890); // <exit>
-	var instanceName = "KerningPQ" + instanceId;
-
-	var eim = em.newInstance(instanceName);
-	
-	var mf = eim.getMapFactory();
-	
-	instanceId++;
-	
-	mf.getMap(103000800).getPortal("next00").setScriptName("kpq1");
-
-	var eventTime = 30 * (1000 * 1) * 60;
-	em.schedule("timeOut", eventTime);
-	eim.startEventTimer(eventTime);
-	
-	return eim;
+    em.setProperty("state", "1");
+    var eim = em.newInstance("KerningPQ");
+    var map = eim.setInstanceMap(103000800);
+    map.resetFully();
+    map.getPortal("next00").setScriptName("kpq1");
+    map = eim.setInstanceMap(103000801);
+    map.resetFully();
+    map = eim.setInstanceMap(103000802);
+    map.resetFully();
+    map = eim.setInstanceMap(103000803);
+    map.resetFully();
+    map = eim.setInstanceMap(103000804);
+    map.resetFully();
+    map = eim.setInstanceMap(103000805);
+    eim.startEventTimer(1000000);
+    return eim;
 }
 
 function playerEntry(eim, player) {
-	var map = eim.getMapInstance(103000800);
-	player.changeMap(map, map.getPortal(0));
-	
-	//TODO: hold time across map changes
-	player.getClient().getSession().write(net.sf.cherry.tools.MaplePacketCreator.getClock(1800));
+    var map = eim.getMapFactory().getMap(103000800);
+    player.changeMap(map, map.getPortal(0));
+    player.tryPartyQuest(1201);
 }
 
-function playerDead(eim, player) {
+function playerDead(eim, player) {}
+
+function changedMap(eim, player, mapid) {
+    switch (mapid) {
+        case 103000800: 
+        case 103000801: 
+        case 103000802: 
+        case 103000803: 
+        case 103000804: 
+        case 103000805: 
+            return;
+    }
+    eim.unregisterPlayer(player);
+
+    if (eim.disposeIfPlayerBelow(0, 0)) {
+        em.setProperty("state", "0");
+    }
 }
 
-function playerRevive(eim, player) {
-	if (eim.isLeader(player)) { //check for party leader
-		//boot whole party and end
-		var party = eim.getPlayers();
-		for (var i = 0; i < party.size(); i++) {
-			playerExit(eim, party.get(i));
-		}
-		eim.dispose();
-	}
-	else { //boot dead player
-		// If only 2 players are left, uncompletable:
-		var party = eim.getPlayers();
-		if (party.size() <= minPlayers) {
-			for (var i = 0; i < party.size(); i++) {
-				playerExit(eim,party.get(i));
-			}
-			eim.dispose();
-		}
-		else
-			playerExit(eim, player);
-	}
-}
 
 function playerDisconnected(eim, player) {
-	if (eim.isLeader(player)) { //check for party leader
-		//boot whole party and end
-		var party = eim.getPlayers();
-		for (var i = 0; i < party.size(); i++) {
-			if (party.get(i).equals(player)) {
-				removePlayer(eim, player);
-			}			
-			else {
-				playerExit(eim, party.get(i));
-			}
-		}
-		eim.dispose();
-	}
-	else { //boot d/ced player
-		// If only 2 players are left, uncompletable:
-		var party = eim.getPlayers();
-		if (party.size() < minPlayers) {
-			for (var i = 0; i < party.size(); i++) {
-				playerExit(eim,party.get(i));
-			}
-			eim.dispose();
-		}
-		else
-			playerExit(eim, player);
-	}
+    return -2;
 }
 
-function leftParty(eim, player) {			
-	// If only 2 players are left, uncompletable:
-	var party = eim.getPlayers();
-	if (party.size() <= minPlayers) {
-		for (var i = 0; i < party.size(); i++) {
-			playerExit(eim,party.get(i));
-		}
-		eim.dispose();
-	}
-	else
-		playerExit(eim, player);
+function leftParty(eim, player) {
+    if (eim.disposeIfPlayerBelow(3, 103000890)) {
+        em.setProperty("started", "false");
+    } else {
+        playerExit(eim, player);
+    }
 }
 
 function disbandParty(eim) {
-	//boot whole party and end
-	var party = eim.getPlayers();
-	for (var i = 0; i < party.size(); i++) {
-		playerExit(eim, party.get(i));
-	}
-	eim.dispose();
+    eim.disposeIfPlayerBelow(100, 103000890);
+    em.setProperty("state", "0");
 }
 
 function playerExit(eim, player) {
-	eim.unregisterPlayer(player);
-	player.changeMap(exitMap, exitMap.getPortal(0));
-}
-
-//for offline players
-function removePlayer(eim, player) {
-	eim.unregisterPlayer(player);
-	player.getMap().removePlayer(player);
-	player.setMap(exitMap);
+    eim.unregisterPlayer(player);
+    var exit = eim.getMapFactory().getMap(103000890);
+    player.changeMap(exit, exit.getPortal(0));
 }
 
 function clearPQ(eim) {
-	//KPQ does nothing special with winners
-	var party = eim.getPlayers();
-	for (var i = 0; i < party.size(); i++) {
-		playerExit(eim, party.get(i));
-	}
-	eim.dispose();
+    eim.disposeIfPlayerBelow(100, 103000890);
+    em.setProperty("state", "0");
 }
 
-function allMonstersDead(eim) {
-        //do nothing; KPQ has nothing to do with monster killing
+function scheduledTimeout(eim) {
+    var players = eim.getPlayers();
+    var exit = eim.getMapFactory().getMap(103000890);
+    for (var i = 0; i < players.size(); i++) {
+        var player = players.get(i);
+        eim.unregisterPlayer(player);
+        player.changeMap(exit, exit.getPortal(0));
+    }
+
 }
 
-function cancelSchedule() {
-}
 
-function timeOut() {
-	var iter = em.getInstances().iterator();
-	while (iter.hasNext()) {
-		var eim = iter.next();
-		if (eim.getPlayerCount() > 0) {
-			var pIter = eim.getPlayers().iterator();
-			while (pIter.hasNext()) {
-				playerExit(eim, pIter.next());
-			}
-		}
-		eim.dispose();
-	}
-}
+function allMonstersDead(eim) {}
+
+function cancelSchedule() {}
+
+function playerRevive(eim, player) {}

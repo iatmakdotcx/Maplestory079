@@ -1,72 +1,61 @@
+﻿/*
+ ZEVMS冒险岛(079)游戏服务端
+ 脚本：装备租赁-大姐大
+ */
+
+//租凭的道具
+var weapon = [1302064, 1402039, 1322054, 1422029, 1432040, 1442051, 1372034, 1382039, 1452045, 1462040, 1472055, 1332055];
+//装备租赁券
+var req = [
+    [5220007, 1]
+];
+var sels;
+var status = -1;
+
 function start() {
-status = -1;
-
-action(1, 0, 0);
+    action(1, 0, 0);
 }
+
 function action(mode, type, selection) {
-            if (mode == -1) {
-                cm.dispose();
-            }
-            else {
-                if (status >= 0 && mode == 0) {
-                
-   cm.sendOk("感谢你的光临！");
-   cm.dispose();
-   return;                    
-                }
-                if (mode == 1) {
-   status++;
-  }
-  else {
-   status--;
-  }
-          if (status == 0) {
-   cm.sendSimple("#e您好，欢迎来到#r冒险岛的世界#k，我是自动售货员:\r\n\r\n  #d剩余G币:#r" + cm.getzb() + "点    \r\n#g#L0#G币充值帮助#l #k\r\n\r\n #L1#现金玩具#l \r\n #L2#现金椅子#l\r\n #L3#消耗物品");
+    if (mode == 1) {
+        status++;
+    } else if (mode == 0) {
+        status--;
+    } else {
+        cm.dispose();
+        return;
+    }
+    if (status == 0) {
+        var msg = "   小伙子你好啊，我是大姐大，你是要找我租凭装备吗？使用 #b#t5220007##k 可以在我这里租凭道具 #b1#k 天哦。\r\n";
+        for (var i = 0; i < weapon.length; i++) {
+            msg += "     #b#L" + i + "#";
+            msg += "#i" + weapon[i] + "# #t" + weapon[i] + "##l\r\n";
+        }
+        cm.sendSimple("" + msg + "");
     } else if (status == 1) {
-           if (selection == 0) {
-      cm.sendOk("#ewww.jqmxd.cn");
+        sels = selection;
+        if (!cm.canHold(weapon[sels])) {
+            cm.sendNext("#r背包空间不足");
             cm.dispose();
-    }else if  (selection == 1) {
-           cm.openNpc(1300001);
-    }else if  (selection == 2) {
-           if(cm.getzb() >= 20) {
-           cm.setzb(-20);
-           cm.openNpc(1300000);
-
+            return;
+        }
+        for (var i = 0; i < req.length; i++) {
+            if (!cm.haveItem(req[i][0], req[i][1])) {
+                cm.sendNext("#b身上没有#r#i" + req[i][0] + "#  #t" + req[i][0] + "# x " + req[i][1] + "");
+                cm.dispose();
+                return;
+            }
+        }
+        cm.sendYesNo("是否要租凭道具 #b#v" + weapon[sels] + "#  #t" + weapon[sels] + "# ? \r\n");
+    } else if (status == 2) {
+        for (var i = 0; i < req.length; i++) {
+            cm.gainItem(req[i][0], -req[i][1]);
+        }
+        cm.给物品(weapon[sels], 1,24);
+        cm.sendNext("#b成功租凭道具  #b#v" + weapon[sels] + "#  #t" + weapon[sels] + "# ?");
+        cm.dispose();
     } else {
-           cm.sendOk("#e您的余额已不足！请及时充值！"); 
-           cm.dispose(); 
+        cm.sendNext("#r发生错误: mode : " + mode + " status : " + status);
+        cm.dispose();
+    }
 }
-       }else if  (selection == 3) {
-           if(cm.getzb() >= 30) {
-           cm.setzb(-30);
-           cm.openNpc(1300005); 
-
-    } else {
-           cm.sendOk("#e您的余额已不足！请及时充值！"); 
-           cm.dispose(); 
-}
-       }else if  (selection == 4) {
-           if(cm.getzb() >= 40) {
-           cm.setzb(-40);
-           cm.openNpc(9030100); 
-    } else {
-           cm.sendOk("#e您的余额已不足！请及时充值！"); 
-           cm.dispose(); 
-
-}
-       }else if  (selection == 5) {
-           if(cm.getzb() >= 40) {
-           cm.setzb(-40);
-           cm.openNpc(9030100); 
-    } else {
-           cm.sendOk("#e您的余额已不足！请及时充值！"); 
-           cm.dispose(); 
-
-}
-}      
-}
-}
-}
-
-

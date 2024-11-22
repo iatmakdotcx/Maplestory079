@@ -18,13 +18,13 @@ function start(mode, type, selection) {
     } else if (status == 1) {
         if (qm.hasSkill(50001214)) { //50001214 - 光之守护 - 受到光之守护，在一定时间内即使受到敌人攻击，也不会被击退。
             qm.sendLinkSkillWindow(50001214);
-            qm.completeQuest();
+            qm.forceCompleteQuest();
         }
         qm.dispose();
     }
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }

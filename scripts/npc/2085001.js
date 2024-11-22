@@ -37,7 +37,7 @@ function start() {
             }
         }
     } else {
-        cm.sendOk("Make sure all 2+ party members are in this map and level 120+ and have Soaring skill.");
+        cm.sendOk("Make sure all 2+ 队员 are in this map and level 120+ and have Soaring skill.");
     }
     cm.dispose();
 }

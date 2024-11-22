@@ -28,6 +28,6 @@
  */
 
 function act(){
-        rm.mapMessage("一道光，光中隐隐若现。出现了某个人。");
+        rm.mapMessage("A bright flash of light, then someone familiar appears in front of the blocked gate.");
         rm.spawnNpc(9040003);
 }

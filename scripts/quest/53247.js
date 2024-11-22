@@ -17,7 +17,7 @@ function end(mode, type, selection) {
 	qm.sendPlayerToNpc("#b(I've got the Master Key. What am I waiting for?! I should get back to #eBurke.)");
     } else if (status == 2) {
 	qm.warp(552000022);
-	qm.completeQuest(53247);
+	qm.forceCompleteQuest(53247);
 	qm.dispose();
     }
 }

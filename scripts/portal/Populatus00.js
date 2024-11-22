@@ -1,51 +1,45 @@
-
-/* 
-    闹钟脚本 
-   亲亲嘴冒险  芯碎王子 修改。。
-    非同意内禁止转载 
-*/ 
-
-importPackage(net.sf.cherry.server.maps); 
-importPackage(net.sf.cherry.net.channel); 
-importPackage(net.sf.cherry.tools); 
-
-function enter(pi) { 
- var nextMap = 220080001; 
- var Populatus00Map = pi.getC().getChannelServer().getMapFactory().getMap(220080001); 
- var mapobjects = Populatus00Map.getMapObjects(); 
- var boss = null; 
- var player = null; 
- var iter = mapobjects.iterator(); 
- while (iter.hasNext()) { 
-   o = iter.next(); 
-   if (o.getType() == MapleMapObjectType.MONSTER){ 
-    boss = o; 
-   } 
-   if (o.getType() == MapleMapObjectType.PLAYER){ 
-    player = o; 
-   } 
-  } 
-
- if (pi.getBossLog('Populatus00')>=5) { 
-  sendMessage(pi,"每天只能挑战5次！"); 
-  return false;
-  }
-  
-if(player != null && boss != null){
-	sendMessage(pi,"对抗闹钟还在进行中。。。"); 
-  	return false; }
-
-
- if (Populatus00Map.getCharacters().isEmpty() && pi.getBossLog('Populatus00') < 5) { 
-  Populatus00Map.resetReactors(); 
- } 
-  pi.getC().getChannelServer().getMapFactory().getMap(220080001).clearMapTimer(); 
-  pi.getC().getChannelServer().getMapFactory().getMap(220080001).killAllMonsters(); 
-  pi.setBossLog('Populatus00'); 
-  pi.warp(220080001);  
-  return true; 
-   
-} 
-function sendMessage(pi,message) { 
- pi.getPlayer().getClient().getSession().write(MaplePacketCreator.serverNotice(5, message)); 
-} 
+﻿var pop = 5;
+function enter(pi) {
+    if (pi.getPlayer().getClient().getChannel() != 1 && pi.getPlayer().getClient().getChannel() != 2) {
+        pi.playerMessage(5, "帕普拉图斯只能在頻道 1 和 2 能挑战。");
+        return false;
+    }
+    if (pi.haveItem(4031870)) {
+        pi.warp(922020300, 0);
+        return true;
+    }
+    if (!pi.haveItem(4031172)) {
+        pi.playerMessage(5, "不明的力量无法进入，需要有玩具奖牌。");
+        return false;
+    } else {
+		//pi.getPlayer().removeAll(4031172);
+	}
+	if (pi.getBossLog("闹钟") >= 10  && !pi.getPlayer().isGM()) {
+		pi.playerMessage(5, "一天只能打10次帕普拉图斯。");
+		return false;
+	}
+    if (pi.getPlayerCount(220080001) <= 0) { 
+        var papuMap = pi.getMap(220080001);
+        papuMap.resetFully();
+		pi.setBossLog("闹钟");
+        pi.playPortalSE();
+        pi.warp(220080001, "st00");
+		papuMap.startEventTimer(120, true, true);
+		papuMap.clearOwnerList();
+		papuMap.addOwner(pi.getPlayer().getId());
+        return true;
+    } else {
+        if (pi.getMap(220080001).getSpeedRunStart() == 0 && (pi.getMonsterCount(220080001) <= 0 || pi.getMap(220080001).isDisconnected(pi.getPlayer().getId()))) {
+			pi.setBossLog("闹钟");
+            pi.playPortalSE();
+            pi.warp(220080001, "st00");
+			var papuMap = pi.getMap(220080001);
+			papuMap.startEventTimer(map.获得剩余时钟时间()/60/1000, true, true);
+			papuMap.addOwner(pi.getPlayer().getId());
+            return true;
+        } else {
+            pi.playerMessage(5, "里面的战斗已经开始，请稍后再尝试。");
+            return false;
+        }
+    }
+}

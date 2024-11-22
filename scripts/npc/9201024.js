@@ -1,45 +1,55 @@
-/**
- *9201024 - Nana(E)
- *@author Jvlaple
- */
- 
+/*
+	NPC Name: 		Hera
+	Map(s): 		Towns
+	Description: 		Wedding Village Entrance
+*/
+
+var status = -1;
+
 function start() {
-	status = -1;
-	action(1, 0, 0);
+    cm.sendSimple("Hello there~  How can I help you with on this lovely day in Maple World? \n\r #b#L0# I would like to go to Wedding village.#l \n\r #L1# I am married and I want my Chair of Love!!! #l");
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (mode == 0 && status == 0) {
-			cm.dispose();
-			return;
-		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (cm.getPlayer().getMarriageQuestLevel() == 1 || cm.getPlayer().getMarriageQuestLevel() == 52) {
-			if (!cm.haveItem(4003005, 20)) {
-				if (status == 0) {
-					cm.sendNext("Hey, you look like you need proofs of love? I can get them for you.");
-				} else if (status == 1) {
-					cm.sendNext("All you have to do is bring me 20 #bSoft Feathers#k.");
-					cm.dispose();
-				}
-			} else {
-				if (status == 0) {
-					cm.sendNext("Wow, you were quick! Heres the proof of love...");
-					cm.gainItem(4003005, -20)
-					cm.gainItem(4031368, 1);
-					cm.dispose();
-				}
-			}
+    if (mode == 1) {
+        status++;
+    } else if (status == 1 && mode == 0) {
+        cm.sendOk("Are you really going to miss this incredible chance? It is a very beautiful place to be. Probably you have yet to meet someone you love? Exactly it is. If you are falling in love with someone then it is impossible to ignore this lovely news.");
+        cm.dispose();
+        return;
+    } else {
+        cm.dispose();
+        return;
+    }
+    if (status == 0) {
+        switch (selection) {
+            case 0:
+                cm.sendNext("Oh! What a wonderful day! The world is so beautiful~! The world seems to be full of love, isn't it? I can feel the spirit of love filling up the wedding village even from here~!");
+                break;
+            case 1:
+	        var marr = cm.getQuestRecord(160001);
+	        var data = marr.getCustomData();
+	        if (data == null) {
+		    marr.setCustomData("0");
+	            data = "0";
+	        }
+		if (cm.getPlayer().getMarriageId() <= 0 || !data.equals("3")) {
+                    cm.sendOk("I am truly sorry my dear.  This Chair of Love is a special gift designed only for the married ones.  You might want to get married first.");
+		} else if (cm.canHold(cm.isGMS() ? 3012015 : 3012000,1) && !cm.haveItem(cm.isGMS() ? 3012015 : 3012000,1)) {
+		    cm.gainItem(cm.isGMS() ? 3012015 : 3012000,1);
 		} else {
-			cm.sendNext("Nice to meet you! I am Nana the Fairy from Amoria. I am waiting for you to prove your devotion to your loved one by obtaining a Proof of Love! To start, you'll have to venture to Amoria to find my good friend, Moony the Ringmaker. Even if you are not interested in marriage yet, Amoria is open for everyone! Go visit Thomas Swift at Henesys to head to Amoria. If you are interested in weddings, be sure to speak with Ames the Wise once you get there!");
-			cm.dispose();
+		    cm.sendOk("Please make space or you already have this chair.");
 		}
-	}
+                cm.dispose();
+                break;
+        }
+    } else if (status == 1) {
+        cm.sendYesNo("Have you ever been to the wedding village? It is an amazing place where the love is overloading. Loving couple can get married there, How romantic it is? If you want to be there, I'll show you the way.");
+    } else if (status == 2) {
+        cm.sendNext("You made a right decision! You can feel the spirit of love at the wedding village to the fullest. When you want to come back, your destination will be here so don't worry about it.");
+    } else if (status == 3) {
+        cm.saveLocation("AMORIA");
+        cm.warp(680000000, 0);
+        cm.dispose();
+    }
 }
-					

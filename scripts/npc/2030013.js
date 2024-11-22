@@ -1,27 +1,540 @@
+/*
+	NPC Name: 		Adobis
+	Map(s): 		El Nath : Entrance to Zakum Altar
+	Description: 		Zakum battle starter
+*/
+var status = 0;
+var cishuxianzhi = 5;//ÏŞÖÆ´ÎÊı
+var ÊÇ·ñ¿ª·Å = true;
+var ÖØ·µ´ÎÊı = 3;
+
 function start() {
-    cm.sendSimple ("æ‚¨æƒ³è¦æŒ‘æˆ˜æ‰æ˜†å—ã€‚æƒ³å¥½äº†ï¼Œè¯·å‘Šè¯‰æˆ‘ã€‚\r\n#k#e#L0#æŒ‘æˆ˜æ‰æ˜† \r\n#L1#ä¸å»äº†ï¼Œæˆ‘å®³æ€•#k \r\n")
-    }
+    status =0;
+    action(1, 0, 0);
+}
 
 function action(mode, type, selection) {
-        cm.dispose();
+	
+    if (cm.getPlayer().getMapId() == 211042200) {
+        if (selection < 100) {
+            cm.sendSimple("#r#L100#ÔúÀ¥#l\r\n#L101#½ø½×ÔúÀ¥#l");
+        } else {
+            if (selection == 100) {
+                cm.warp(211042300,0);
+            } else if (selection == 101) {
+                cm.warp(211042301,0);
+            }
+            cm.dispose();
+        }
+        return;
+    } else if (cm.getPlayer().getMapId() == 211042401) {
+		if(!ÊÇ·ñ¿ª·Å){
+			cm.sendOk("½ø½×ÔúÀ¥ĞèÒªµ÷Õû£¬Ôİ²»¿ª·Å£¡");
+			cm.dispose();
+			return;
+		}
+        switch (status) {
+            case 0:
+                if (cm.getPlayer().getLevel() < 140) {
+                    cm.sendOk("ÄãµÄµÈ¼¶±ØĞë´ïµ½140¼¶ÒÔÉÏ.");
+                    cm.dispose();
+                    return;
+                }
+				
+/*                 if (cm.getPlayer().getClient().getChannel() != 2 && cm.getPlayer().getClient().getChannel() != 3) {
+                    cm.sendOk("»ìÂÒÔúÀ¥Ö»ÄÜÊÔÍ¼ÔÚÆµµÀ£¨2£©£¨3£©ÌôÕ½.");
+                    cm.dispose();
+                    return;
+                } */
+                var em = cm.getEventManager("ChaosZakum");
 
-    switch(selection){
-        case 0: 
-            if (cm.getLevel() < 120 ) {  
-            cm.sendOk("æœ¬åœ°å›¾é™åˆ¶ç­‰çº§120çº§ã€‚æ‚¨çš„èƒ½åŠ›æ²¡æœ‰èµ„æ ¼æŒ‘æˆ˜æ‰å›°");
-           } else if (cm.getBossLog('zakum') >= 10) {
-            cm.sendOk("æŠ±æ­‰ä½ åªèƒ½å‚åŠ 10æ¬¡");
-	    cm.dispose();
-           }else{
-        	cm.setBossLog('zakum');
-        	cm.warp(280030000, 0);
-		cm.serverNotice("ã€æŒ‘æˆ˜æ‰æ˜†ã€ï¼šã€"+ cm.getChar().getName() +"ã€‘éå¸¸å‡¶æ‚çš„æ‹¿ç€è‹è‡æ’å»æŒ‘æˆ˜æ‰æ˜†å»äº†");  
-		cm.dispose();
-	      }   
-	 break;
-	 case 1:
- 	      	cm.sendOk("å‘µå‘µ!åŸæ¥ä½ åªæ˜¯ä¸ªèƒ†å°é¬¼");  
-		cm.dispose();
-		 
+                if (em == null) {
+                    cm.sendOk("ÊÂ¼ş»¹Ã»ÓĞ¿ªÊ¼£¬ÇëÁªÏµ¹ÜÀí.");
+                    cm.safeDispose();
+                    return;
+                }
+                var prop = em.getProperty("state");
+                var marr = cm.getQuestRecord(160102);
+                var data = marr.getCustomData();
+                if (data == null) {
+                    marr.setCustomData("0");
+                    data = "0";
+                }
+                var time = parseInt(data);
+                if (prop == null || prop.equals("0")) {
+                    var squadAvailability = cm.getSquadAvailability("ChaosZak");
+                    if (squadAvailability == -1) {
+                        status = 1;
+                        cm.sendYesNo("ÄãÓĞĞËÈ¤³ÉÎªÔ¶Õ÷¶ÓµÄ¶Ó³¤Âğ£¿");
+
+                    } else if (squadAvailability == 1) {
+                        // -1 = Cancelled, 0 = not, 1 = true
+                        var type = cm.isSquadLeader("ChaosZak");
+                        if (type == -1) {
+                            cm.sendOk("Ô¶Õ÷¶ÓÒÑ¾­½áÊø£¬ÇëÖØĞÂ×¢²á.");
+                            cm.safeDispose();
+                        } else if (type == 0) {
+                            var memberType = cm.isSquadMember("ChaosZak");
+                            if (memberType == 2) {
+                                cm.sendOk("Äã±»½ûÖ¹²Î¼ÓÔ¶Õ÷¶Ó.");
+                                cm.safeDispose();
+                            } else if (memberType == 1) {
+                                status = 5;
+                                cm.sendSimple("ÄãÏë×öÊ²Ã´? \r\n#b#L0#¼ì²é³ÉÔ±#l \r\n#b#L1#¼ÓÈëÔ¶Õ÷¶Ó#l \r\n#b#L2#ÍË³öĞ¡¶Ó#l");
+                            } else if (memberType == -1) {
+                                cm.sendOk("¶ÓÎéÒÑ¾­½áÊø£¬ÇëÖØĞÂ×¢²á.");
+                                cm.safeDispose();
+                            } else {
+                                status = 5;
+                                cm.sendSimple("ÄãÏë×öÊ²Ã´? \r\n#b#L0#¼ì²é³ÉÔ±#l \r\n#b#L1#¼ÓÈë¶ÓÎé#l \r\n#b#L2#ÍË³öĞ¡¶Ó#l");
+                            }
+                        } else { // Is leader
+                            status = 10;
+                            cm.sendSimple("ÄãÏë×öÊ²Ã´? \r\n#b#L0#¼ì²é³ÉÔ±#l \r\n#b#L1#É¾³ı³ÉÔ±#l \r\n#b#L2#±à¼­ÏŞÖÆÁĞ±í#l \r\n#r#L3#½øÈëµØÍ¼#l");
+                        // TODO viewing!
+                        }
+                    } else {
+                        var eim = cm.getDisconnected("ChaosZakum");
+                        if (eim == null) {
+                            var squd = cm.getSquad("ChaosZak");
+                            if (squd != null) {
+                                cm.sendYesNo("¶ÓÎéµÄ¶Ô¿¹½ø½×ÔúÀ¥µÄÕ½¶·ÒÑ¾­¿ªÊ¼ÁË.\r\n" + squd.getNextPlayer());
+                                status = 3;
+                            } else {
+                                cm.sendOk("¶ÓÎéµÄ¶Ô¿¹½ø½×ÔúÀ¥µÄÕ½¶·ÒÑ¾­¿ªÊ¼ÁË.");
+                                cm.safeDispose();
+                            }
+                        } else {
+                            cm.sendYesNo("°¡£¬Äã»ØÀ´ÁË¡£ÄãÔ¸Òâ¼ÓÈëÄãµÄ¶ÓÎéÔÚÕ½¶·ÖĞÂğ?");
+                            status = 2;
+                        }
+                    }
+                } else {
+                    var eim = cm.getDisconnected("ChaosZakum");
+                    if (eim == null) {
+                        var squd = cm.getSquad("ChaosZak");
+                        if (squd != null) {
+                            cm.sendYesNo("¶ÓÎéµÄ¶Ô¿¹½ø½×ÔúÀ¥µÄÕ½¶·ÒÑ¾­¿ªÊ¼ÁË.\r\n" + squd.getNextPlayer());
+                            status = 3;
+                        } else {
+                            cm.sendOk("¶ÓÎéµÄ¶Ô¿¹½ø½×ÔúÀ¥µÄÕ½¶·ÒÑ¾­¿ªÊ¼ÁË.");
+                            cm.safeDispose();
+                        }
+                    } else {
+                        cm.sendYesNo("°¡£¬Äã»ØÀ´ÁË¡£ÄãÔ¸Òâ¼ÓÈëÄãµÄ¶ÓÎéÔÚÕ½¶·ÖĞÂğ?");
+                        status = 2;
+                    }
+                }
+                break;
+            case 1:
+                if (mode == 1) {
+					if(cm.getMap(280030000).getCharactersSize() > 0){
+						cm.sendOk("ÀïÃæÒÑ¾­ÓĞÈËÁË~.");
+						cm.dispose();
+						return
+						
+					}
+                    var cishu = cm.getBossLog("Chaoszhakun");
+                    if(cishu >= cishuxianzhi){
+						cm.sendOk("±§Ç¸£¬Äã½ñÈÕÒÑ²Î¼Ó¹ı "  + cishu + " ´ÎÔúÀ¥Ô¶Õ÷£¬µ±ÈÕµÄBOSS´ÎÊıÒÑ´ïµ½ÉÏÏŞ¡£");
+					}else{
+						if (cm.registerSquad("ChaosZak", 5, " ÒÑ±»ÈÎÃüÎªÍÅ³¤¡£Èç¹ûÄãÏë¼ÓÈëÇëÔÚÊ±¼ä¶ÎÄÚ¿ªÆôÔ¶Õ÷¶Ó.")) {
+							cm.sendOk("ÄãÒÑ¾­±»ÈÎÃüÎª¶ÓÎéµÄÁìĞä¡£ÔÚ½ÓÏÂÀ´µÄ5·ÖÖÓ£¬Äã¿ÉÒÔ¼ÓÈëÔ¶Õ÷¶ÓµÄ³ÉÔ±.");
+							cm.worldMessage( "[BOSS¹«¸æ] " + cm.getPlayer().getName() + " ÔÚ " + cm.getChannel() + " ÆµµÀ´´½¨ÁË½ø½×ÔúÀ¥Ô¶Õ÷¶Ó£¬Çë¸÷Î»Íæ¼Ò¾¡¿ì±¸ºÃµ¯Ò©£¬À´ÌÖ·¥½ø½×ÔúÀ¥°É£¡");
+						} else {
+							cm.sendOk("Ìí¼ÓÄãµÄĞ¡¶ÓÊ±·¢ÉúÁËÒ»¸ö´íÎó.");
+						}	
+					}
+					
+					
+                } else {
+                    cm.sendOk("Èç¹ûÄãÏë³ÉÎªÔ¶Õ÷¶ÓµÄÁì¶ÓµÄ»°£¬¸úÎÒÌ¸Ì¸.")
+                }
+                cm.safeDispose();
+                break;
+            case 2:
+                //BOSSÖØ·µ
+				if(cm.getBossLog("½ø½×ÔúÀ¥ÖØ·µ") >= ÖØ·µ´ÎÊı){
+					cm.sendOk("±§Ç¸£¬Ã¿¸öBOSSÒ»Ìì×î¶àÖ»ÄÜÖØ·µ" + ÖØ·µ´ÎÊı + "´Î¡£")
+				}else{
+					if (!cm.reAdd("ChaosZakum", "ChaosZak")) {
+						cm.sendOk("Îó²î¡­ÇëÔÙÊÔÒ»´Î.");
+					}else{
+						cm.setBossLoga("½ø½×ÔúÀ¥ÖØ·µ");
+					}
+				}
+                
+				// cm.sendOk("±§Ç¸£¬BOSSÖØ·µ¹¦ÄÜ´¦ÓÚ¹Ø±Õ×´Ì¬¡£")
+                cm.dispose();
+                break;
+            case 3:
+            /*     if (mode == 1) {
+					var party = cm.×é¶Ó³ÉÔ±();
+			//cm.getPlayer().dropMessage(5, "¶ÓÎéÓĞ"+cm.×é¶ÓÈËÊı()+"ÈË");
+			cm.dispose();
+            for (var i = 0; i < cm.×é¶ÓÈËÊı(); i++) {
+			//cm.getPlayer().dropMessage(5, "ËùÔÚµØÍ¼´úÂë"+party.get(i).getMapid());
+			cm.dispose();
+            if (party.get(i).getMapid() == 280030000){//ÅĞ¶Ï¶Ó³¤ÔÚ²»ÔÚÕâ¸öµØÍ¼,¿ÉÒÔÖØ·µµÄµØÍ¼
+            cm.flytoID(party.get(i).getId());
+			cm.dispose();
+			return;
+                } } } */
+				cm.dispose();
+                break;
+            case 5:
+                if (selection == 0) {
+                    if (!cm.getSquadList("ChaosZak", 0)) {
+                        cm.sendOk("ÓÉÓÚÎ´ÖªµÄ´íÎó£¬¶Ô¶ÓÎéµÄÒªÇó±»¾Ü¾øÁË.");
+                        cm.safeDispose();
+                    } else {
+                        cm.dispose();
+                    }
+                } else if (selection == 1) { // join
+					var cishu = cm.getBossLog("ChaosZakum");
+                    if(cishu >= cishuxianzhi){
+						cm.sendOk("±§Ç¸£¬Äã½ñÈÕÒÑ²Î¼Ó¹ı "  + cishu + " ´Î½ø½×ÔúÀ¥Ô¶Õ÷£¬µ±ÈÕµÄBOSS´ÎÊıÒÑ´ïµ½ÉÏÏŞ¡£");
+						cm.safeDispose();
+					}else{
+						var ba = cm.addMember("ChaosZak", true);
+						if (ba == 2) {
+							cm.sendOk("¶ÓÎéÄ¿Ç°ÒÑÂú£¬ÇëÉÔºóÔÙÊÔ¡£");
+							cm.safeDispose();
+						} else if (ba == 1) {
+							cm.sendOk("ÄãÒÑ¾­³É¹¦¼ÓÈëÁË¶ÓÎé");
+							cm.worldMessage( "[BOSS¹«¸æ] Íæ¼Ò " + cm.getPlayer().getName() + " ¼ÓÈëÁË " + cm.getChannel() + "ÆµµÀµÄ½ø½×ÔúÀ¥ÌÖ·¥Ô¶Õ÷¶Ó¡£");
+							cm.safeDispose();
+						} else {
+							cm.sendOk("ÄãÒÑ¾­ÊÇ¶ÓÎéµÄÒ»²¿·ÖÁË.");
+							cm.safeDispose();
+						}
+					}
+                    
+                } else {// withdraw
+                    var baa = cm.addMember("ChaosZak", false);
+                    if (baa == 1) {
+                        cm.sendOk("ÄãÒÑ¾­ÍË³öÁË¶ÓÎéµÄ³É¹¦");
+                        cm.safeDispose();
+                    } else {
+                        cm.sendOk("Äã²»ÊÇ¶ÓÎéµÄÒ»²¿·Ö.");
+                        cm.safeDispose();
+                    }
+                }
+                break;
+            case 10:
+                if (selection == 0) {
+                    if (!cm.getSquadList("ChaosZak", 0)) {
+                        cm.sendOk("ÓÉÓÚÎ´ÖªµÄ´íÎó£¬¶Ô¶ÓÎéµÄÒªÇó±»¾Ü¾øÁË.");
+                    }
+                    cm.safeDispose();
+                } else if (selection == 1) {
+                    status = 11;
+                    if (!cm.getSquadList("ChaosZak", 1)) {
+                        cm.sendOk("ÓÉÓÚÎ´ÖªµÄ´íÎó£¬¶Ô¶ÓÎéµÄÒªÇó±»¾Ü¾øÁË.");
+                        cm.safeDispose();
+                    }
+
+                } else if (selection == 2) {
+                    status = 12;
+                    if (!cm.getSquadList("ChaosZak", 2)) {
+                        cm.sendOk("ÓÉÓÚÎ´ÖªµÄ´íÎó£¬¶Ô¶ÓÎéµÄÒªÇó±»¾Ü¾øÁË.");
+                        cm.safeDispose();
+                    }
+
+                } else if (selection == 3) { // get insode
+                    if (cm.getSquad("ChaosZak") != null) {
+                        var dd = cm.getEventManager("ChaosZakum");
+                        dd.startInstance(cm.getSquad("ChaosZak"), cm.getMap(), 160102);
+						if(cm.getPlayer().getMapId() == 280030002){
+							//cm.getMap().clearOwnerList();
+							//cm.getMap().addAllOwnerHere();
+							//cm.getMap().¸øÊ±ÖÓ(360, true, true);
+							cm.worldMessage( "[BOSS¹«¸æ] " + cm.getChannel() + " ÆµµÀµÄÔ¶Õ÷¶Ó³¤ÒÑ¾­Èë³¡£¬½ø½×ÔúÀ¥µÄÌÖ·¥¼´½«¿ªÊ¼£¬Çë¼ÓÈëÔ¶Õ÷¶ÓÎéµÄÍæ¼Ò¾¡¿ìÈë³¡£¡");
+							//¸øÍÅ¶ÓÃ¿ÈÕa("ChaosZakum");//¸øÍÅ¶Ó´ÎÊı
+							¸øµØÍ¼Ã¿ÈÕa(cm.getPlayer().getMap(), "ChaosZakum"
+							);
+						}
+                        cm.dispose();
+                    } else {
+                        cm.sendOk("ÓÉÓÚÎ´ÖªµÄ´íÎó£¬¶Ô¶ÓÎéµÄÒªÇó±»¾Ü¾øÁË.");
+                        cm.safeDispose();
+                    }
+                }
+                break;
+            case 11:
+                cm.banMember("ChaosZak", selection);
+                cm.dispose();
+                break;
+            case 12:
+                if (selection != -1) {
+                    cm.acceptMember("ChaosZak", selection);
+                }
+                cm.dispose();
+                break;
+        }
+    } else {
+        switch (status) {
+            case 0:
+                if (cm.getPlayer().getLevel() < 50) {
+                    cm.sendOk("ÓĞÒ»¸ö50¼¶ÒªÇóµÄ³¢ÊÔÔúÀ¥.");
+                    cm.dispose();
+                    return;
+                }
+                var em = cm.getEventManager("ZakumBattle");
+
+                if (em == null) {
+                    cm.sendOk("ÊÂ¼şÎ´Æô¶¯£¬ÇëÁªÏµGM.");
+                    cm.safeDispose();
+                    return;
+                }
+                var prop = em.getProperty("state");
+                var marr = cm.getQuestRecord(160101);
+                var data = marr.getCustomData();
+                if (data == null) {
+                    marr.setCustomData("0");
+                    data = "0";
+                }
+                var time = parseInt(data);
+                if (prop == null || prop.equals("0")) {
+                    var squadAvailability = cm.getSquadAvailability("ZAK");
+                    if (squadAvailability == -1) {
+                        status = 1;
+                        cm.sendYesNo("ÄãÓĞĞËÈ¤³ÉÎªÔ¶Õ÷¶ÓµÄÁì¶ÓÂğ?");
+
+                    } else if (squadAvailability == 1) {
+
+                        // -1 = Cancelled, 0 = not, 1 = true
+                        var type = cm.isSquadLeader("ZAK");
+                        if (type == -1) {
+                            cm.sendOk("¶ÓÎéÒÑ¾­½áÊø£¬ÇëÖØĞÂ×¢²á.");
+                            cm.safeDispose();
+                        } else if (type == 0) {
+                            var memberType = cm.isSquadMember("ZAK");
+                            if (memberType == 2) {
+                                cm.sendOk("Äã±»½ûÖ¹²Î¼Ó¶ÓÎé.");
+                                cm.safeDispose();
+                            } else if (memberType == 1) {
+                                status = 5;
+                                cm.sendSimple("ÄãÏë×öÊ²Ã´? \r\n#b#L0#¼ì²é³ÉÔ±#l \r\n#b#L1#¼ÓÈë¶ÓÎé#l \r\n#b#L2#ÍË³öĞ¡¶Ó#l");
+                            } else if (memberType == -1) {
+                                cm.sendOk("¶ÓÎéÒÑ¾­½áÊø£¬ÇëÖØĞÂ×¢²á.");
+                                cm.safeDispose();
+                            } else {
+                                status = 5;
+                                cm.sendSimple("ÄãÏë×öÊ²Ã´? \r\n#b#L0#¼ì²é³ÉÔ±#l \r\n#b#L1#¼ÓÈë¶ÓÎé#l \r\n#b#L2#ÍË³öĞ¡¶Ó#l");
+                            }
+                        } else { // Is leader
+                            status = 10;
+                            cm.sendSimple("ÄãÏë×öÊ²Ã´°¡°¡°¡°¡? \r\n#b#L0#¼ì²é³ÉÔ±#l \r\n#b#L1#É¾³ı³ÉÔ±#l \r\n#b#L2#±à¼­ÏŞÖÆÁĞ±í#l \r\n#r#L3#½øÈëµØÍ¼#l");
+                        // TODO viewing!
+                        }
+                    } else {
+                        var eim = cm.getDisconnected("ZakumBattle");
+                        if (eim == null) {
+                            var squd = cm.getSquad("ZAK");
+                            if (squd != null) {
+                                cm.sendYesNo("Ô¶Õ÷¶Ó¶Ô¿¹ÔúÀ¥ÒÑ¾­¿ªÊ¼ÁË.\r\n" + squd.getNextPlayer());
+                                status = 3;
+                            } else {
+                                cm.sendOk("Ô¶Õ÷¶Ó¶Ô¿¹ÔúÀ¥ÒÑ¾­¿ªÊ¼ÁË.");
+                                cm.safeDispose();
+                            }
+                        } else {
+                            cm.sendYesNo("°¡£¬Äã»ØÀ´ÁË¡£ÄãÔ¸Òâ¼ÓÈëÄãµÄ¶ÓÎéÔÚÕ½¶·ÖĞÂğ?");
+                            status = 2;
+                        }
+                    }
+                } else {
+                    var eim = cm.getDisconnected("ZakumBattle");
+                    if (eim == null) {
+                        var squd = cm.getSquad("ZAK");
+                        if (squd != null) {
+                            cm.sendYesNo("Ô¶Õ÷¶Ó¶Ô¿¹ÔúÀ¥ÒÑ¾­¿ªÊ¼ÁË.\r\n" + squd.getNextPlayer());
+                            status = 3;
+                        } else {
+                            cm.sendOk("Ô¶Õ÷¶Ó¶Ô¿¹ÔúÀ¥ÒÑ¾­¿ªÊ¼ÁË.");
+                            cm.safeDispose();
+                        }
+                    } else {
+                        cm.sendYesNo("°¡£¬Äã»ØÀ´ÁË¡£ÄãÔ¸Òâ¼ÓÈëÄãµÄ¶ÓÎéÔÚÕ½¶·ÖĞÂğ?");
+                        status = 2;
+                    }
+                }
+                break;
+            case 1:
+                if (mode == 1) {
+					if(cm.getMap(280030000).getCharactersSize() > 0){
+						cm.sendOk("ÀïÃæÒÑ¾­ÓĞÈËÁË~.");
+						cm.dispose();
+						return
+						
+					}
+					var cishu = cm.getBossLog("zhakun");
+                    if(cishu >= cishuxianzhi){
+						cm.sendOk("±§Ç¸£¬Äã½ñÈÕÒÑ²Î¼Ó¹ı "  + cishu + " ´ÎÔúÀ¥Ô¶Õ÷£¬µ±ÈÕµÄBOSS´ÎÊıÒÑ´ïµ½ÉÏÏŞ¡£");
+					}else{
+						if (cm.registerSquad("ZAK", 5, " ÒÑ±»ÈÎÃüÎª°à³¤£¨¶¨ÆÚ£©¡£Èç¹ûÄãÏë¼ÓÈëÇëÔÚÊ±¼ä¶ÎÄÚ×¢²áµÄÔ¶Õ÷¶Ó.")) {
+							cm.sendOk("ÄãÒÑ¾­±»ÈÎÃüÎªÔ¶Õ÷¶ÓÁìĞäÁìĞä¡£ÔÚ½ÓÏÂÀ´µÄ5·ÖÖÓ£¬Äã¿ÉÒÔ¼ÓÈëÔ¶Õ÷¶ÓµÄ³ÉÔ±¡£");
+							cm.worldMessage("[BOSS¹«¸æ] " + cm.getPlayer().getName() + " ÔÚ " + cm.getChannel() + " ÆµµÀ´´½¨ÁËÔúÀ¥Ô¶Õ÷¶Ó£¬Çë¸÷Î»Íæ¼Ò¾¡¿ì±¸ºÃµ¯Ò©£¬À´ÌÖ·¥ÔúÀ¥°É£¡");
+						} else {
+							cm.sendOk("Ìí¼ÓÄãµÄĞ¡¶ÓÊ±·¢ÉúÁËÒ»¸ö´íÎó.");
+						}
+					}
+                    
+                } else {
+                    cm.sendOk("Èç¹ûÄãÏë³ÉÎªÔ¶Õ÷¶ÓÁì¶ÓµÄ»°£¬¸úÎÒÌ¸Ì¸.")
+                }
+                cm.safeDispose();
+                break;
+            case 2:
+				//BOSSÖØ·µ
+				if(cm.getBossLog("ÔúÀ¥ÖØ·µ") >= ÖØ·µ´ÎÊı){
+					cm.sendOk("±§Ç¸£¬Ã¿¸öBOSSÒ»Ìì×î¶àÖ»ÄÜÖØ·µ" + ÖØ·µ´ÎÊı + "´Î¡£")
+				}else{
+					if (!cm.reAdd("ZakumBattle", "ZAK")) {
+						cm.sendOk("Îó²î¡­ÇëÔÙÊÔÒ»´Î.");
+					}else{
+						cm.setBossLoga("ÔúÀ¥ÖØ·µ");
+					}
+				}
+				// cm.sendOk("±§Ç¸£¬BOSSÖØ·µ¹¦ÄÜ´¦ÓÚ¹Ø±Õ×´Ì¬¡£")
+                cm.safeDispose();
+                break;
+            case 3:
+            /*     if (mode == 1) {
+					var party = cm.×é¶Ó³ÉÔ±();
+			//cm.getPlayer().dropMessage(5, "¶ÓÎéÓĞ"+cm.×é¶ÓÈËÊı()+"ÈË");
+			cm.dispose();
+            for (var i = 0; i < cm.×é¶ÓÈËÊı(); i++) {
+			//cm.getPlayer().dropMessage(5, "ËùÔÚµØÍ¼´úÂë"+party.get(i).getMapid());
+			cm.dispose();
+            if (party.get(i).getMapid() == 280030000){//ÅĞ¶Ï¶Ó³¤ÔÚ²»ÔÚÕâ¸öµØÍ¼,¿ÉÒÔÖØ·µµÄµØÍ¼
+            cm.flytoID(party.get(i).getId());
+			cm.dispose();
+			return;
+                } } } */
+                cm.dispose();
+                break;
+            case 5:
+                if (selection == 0) {
+                    if (!cm.getSquadList("ZAK", 0)) {
+                        cm.sendOk("ÓÉÓÚÎ´ÖªµÄ´íÎó£¬¶Ô¶ÓÎéµÄÒªÇó±»¾Ü¾øÁË.");
+                        cm.safeDispose();
+                    } else {
+                        cm.dispose();
+                    }
+                } else if (selection == 1) { // join
+					var cishu = cm.getBossLog("zhakun");
+                    if(cishu >= cishuxianzhi){
+						cm.sendOk("±§Ç¸£¬Äã½ñÈÕÒÑ²Î¼Ó¹ı "  + cishu + " ´ÎÔúÀ¥Ô¶Õ÷£¬µ±ÈÕµÄBOSS´ÎÊıÒÑ´ïµ½ÉÏÏŞ¡£");
+						cm.safeDispose();
+					}else{
+						var ba = cm.addMember("ZAK", true);
+						if (ba == 2) {
+							cm.sendOk("¶ÓÎéÄ¿Ç°ÒÑÂú£¬ÇëÉÔºóÔÙÊÔ.");
+							cm.safeDispose();
+						} else if (ba == 1) {
+							cm.sendOk("ÄãÒÑ¾­³É¹¦¼ÓÈëÁË¶ÓÎé");
+							cm.worldMessage( "[BOSS¹«¸æ] Íæ¼Ò " + cm.getPlayer().getName() + " ¼ÓÈëÁË " + cm.getChannel() + "ÆµµÀµÄÔúÀ¥ÌÖ·¥Ô¶Õ÷¶Ó¡£");
+							cm.safeDispose();
+						} else {
+							cm.sendOk("ÄãÒÑ¾­ÊÇ¶ÓÎéµÄÒ»²¿·ÖÁË.");
+							cm.safeDispose();
+						}
+					}
+                    
+                } else {// withdraw
+                    var baa = cm.addMember("ZAK", false);
+                    if (baa == 1) {
+                        cm.sendOk("ÄãÒÑ¾­ÍË³öÁË¶ÓÎéµÄ³É¹¦");
+                        cm.safeDispose();
+                    } else {
+                        cm.sendOk("Äã²»ÊÇ¶ÓÎéµÄÒ»²¿·Ö.");
+                        cm.safeDispose();
+                    }
+                }
+                break;
+            case 10:
+                if (selection == 0) {
+                    if (!cm.getSquadList("ZAK", 0)) {
+                        cm.sendOk("ÓÉÓÚÎ´ÖªµÄ´íÎó£¬¶Ô¶ÓÎéµÄÒªÇó±»¾Ü¾øÁË¡£");
+                    }
+                    cm.safeDispose();
+                } else if (selection == 1) {
+                    status = 11;
+                    if (!cm.getSquadList("ZAK", 1)) {
+                        cm.sendOk("ÓÉÓÚÎ´ÖªµÄ´íÎó£¬¶Ô¶ÓÎéµÄÒªÇó±»¾Ü¾øÁË.");
+                        cm.safeDispose();
+                    }
+
+                } else if (selection == 2) {
+                    status = 12;
+                    if (!cm.getSquadList("ZAK", 2)) {
+                        cm.sendOk("ÓÉÓÚÎ´ÖªµÄ´íÎó£¬¶Ô¶ÓÎéµÄÒªÇó±»¾Ü¾øÁË.");
+                        cm.safeDispose();
+                    }
+
+                } else if (selection == 3) { // get insode
+                    if (cm.getSquad("ZAK") != null) {
+                        var dd = cm.getEventManager("ZakumBattle");//Ö´ĞĞeventÊÂ¼ş
+                        dd.startInstance(cm.getSquad("ZAK"), cm.getMap(), 160101);
+						//cm.getPlayer().setBossLog('zhakun');//¸øbosslog¼ÇÂ¼
+						if(cm.getPlayer().getMapId() == 280030000){
+							//cm.getMap().clearOwnerList();
+							//cm.getMap().addAllOwnerHere();
+							//cm.getMap().¸øÊ±ÖÓ(180, true, true);
+							cm.worldMessage( "[BOSS¹«¸æ] Ô¶Õ÷¶Ó³¤ÒÑ¾­Èë³¡£¬ÔúÀ¥µÄÌÖ·¥¼´½«¿ªÊ¼£¬Çë¼ÓÈëÔ¶Õ÷¶ÓÎéµÄÍæ¼Ò¾¡¿ìÈë³¡£¡");
+							//¸øÍÅ¶ÓÃ¿ÈÕa("zhakun");//¸øÍÅ¶Ó´ÎÊı
+							¸øµØÍ¼Ã¿ÈÕa(cm.getPlayer().getMap(), "zhakun");
+						}
+						
+                        cm.dispose();
+                    } else {
+                        cm.sendOk("ÓÉÓÚÎ´ÖªµÄ´íÎó£¬¶Ô¶ÓÎéµÄÒªÇó±»¾Ü¾øÁË.");
+                        cm.safeDispose();
+                    }
+                }
+                break;
+            case 11:
+                cm.banMember("ZAK", selection);
+                cm.dispose();
+                break;
+            case 12:
+                if (selection != -1) {
+                    cm.acceptMember("ZAK", selection);
+                }
+                cm.dispose();
+                break;
         }
     }
+}
+
+function ¸øÍÅ¶ÓÃ¿ÈÕa(name){
+	if(cm.getPlayer().getParty() != null && cm.getPlayer().getParty().getMembers().size() > 1){
+		var chrs = cm.getPlayer().getParty().getMembers();
+		var it = chrs.iterator();
+		while(it.hasNext()){
+			var chr = it.next();
+			var curChar = cm.getPlayer().getMap().getCharacterById(chr.getId());
+			if (curChar != null) {
+				curChar.setBossLoga(name);
+			}
+		}
+	}else{
+		cm.setBossLoga(name);
+	}
+	
+}
+
+function ¸øµØÍ¼Ã¿ÈÕa(map, name){
+	var chrs = map.getCharactersThreadsafe();
+	if(chrs != null && !chrs.isEmpty()){
+		var it = chrs.iterator();
+		while(it.hasNext()){
+			var chr = it.next();
+			if (chr != null) {
+				chr.setBossLoga(name);
+			}
+		}
+	}
+}

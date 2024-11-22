@@ -1,23 +1,9 @@
-/**
--- Krypto JavaScript ------------------------------------------------------------------------------
-	Portal to Magic Library
--- By ---------------------------------------------------------------------------------------------
-	Information
--- Description ------------------------------------------------------------------------------------
-	For Knight of Cygnus quest
--- Version Info -----------------------------------------------------------------------------------
-	1.0 - First Version by Information
--- Additional Comments ----------------------------------------------------------------------------
-	None
----------------------------------------------------------------------------------------------------
-**/
-
+/*
+ * Ellinia
+ * Enter Magician magic library
+ * TODO : mapid 910110000 for cygnus quest
+ */
 function enter(pi) {
-//	if (pi.getPlayer().getQuestStatus(ID) == started) {
-//		return true;
-//	}
-//	else {
-		pi.warp(101000003, 0);
-		return true;
-//	}
+    pi.playPortalSE();
+    pi.warp(101000003, 8);
 }

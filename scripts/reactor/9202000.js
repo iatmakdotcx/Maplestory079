@@ -1,6 +1,7 @@
-//CherryMS LoveMXD
-//非同意内禁止转载
-//CherryMS.cn
+/*
+Guild Quest - Protector Rock 
+Drops the Protector Rock earrings necessary (normally) to stay alive in the Guild Quest
+*/
 
 function act() {
 	rm.dropItems();

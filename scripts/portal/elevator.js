@@ -1,25 +1,20 @@
-//电梯的传送门
-//修复
+var em;
 
 function enter(pi) {
-	if(pi.getPlayer().getMapId() == 222020100) {
-		if(pi.getPlayer().getClient().getChannelServer().getEventSM().getEventManager("elevator").getProperty("isDown").equals("true")) {
-			pi.warp(222020110, "sp");
-			return true;
-		} else {
-			pi.playerMessage("现在还不能进去");
-			return false;
-		}
-	} else if(pi.getPlayer().getMapId() == 222020200) {
-		if(pi.getPlayer().getClient().getChannelServer().getEventSM().getEventManager("elevator").getProperty("isUp").equals("true")) {
-			pi.warp(222020210, "sp");
-			return true;
-		} else {
-			pi.playerMessage("现在还不能进去");
-			return false;
-		}
-	} else {
-		pi.playerMessage("出现错误。请到论坛和管理员联系");
-		return false;
+
+	if (pi.getMapId() == 222020100) {
+	    if (pi.getClient().getChannelServer().getEventSM().getEventManager("elevator").getProperty("isDown").equals("true")) {
+		pi.playPortalSE();
+		pi.warp(222020110, "sp");
+	    } else {
+		pi.playerMessage("电梯没有到达，请你稍等一下。");
+	    }
+	} else { // 222020200
+	    if (pi.getClient().getChannelServer().getEventSM().getEventManager("elevator").getProperty("isUp").equals("true")) {
+		pi.playPortalSE();
+		pi.warp(222020210, "sp");
+	    } else {
+		pi.playerMessage("电梯没有到达，请你稍等一下。");
+	    }
 	}
 }

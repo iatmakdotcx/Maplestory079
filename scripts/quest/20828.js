@@ -1,4 +1,4 @@
-/* Cygnus revamp
+﻿/* Cygnus revamp
  Noblesse tutorial
  Kimu
  Made by Daenerys
@@ -22,11 +22,11 @@ function end(mode, type, selection) {
         else
             status--;
         if (status == 0) {
-            qm.sendNext("做得好。这很简单吧？对骑士团而言体力管理是必备的。有很多累人的任务呢。 那麽，就要继续进行下一个训练吗？");
+            qm.sendNext("做得好。這很簡單吧？對騎士團而言體力管理是必備的。有很多累人的任務呢。 那麼，就要繼續進行下一個訓練嗎？");
         } else if (status == 1) {
             qm.warp(130030105);
             qm.forceStartQuest();
-            qm.completeQuest();
+            qm.forceCompleteQuest();
             qm.dispose();
         }
     }

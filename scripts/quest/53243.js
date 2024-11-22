@@ -48,8 +48,8 @@ function end(mode, type, selection) {
             } else if (status == 10) {
                 qm.sendNext("Hay mang no den Ariant #m260020620#, khach hang dang doi o phia trong #m552000074#",2111007);
             } else if (status == 11) {
-                qm.completeQuest();
-                qm.completeQuest(53244);
+                qm.forceCompleteQuest();
+                qm.forceCompleteQuest(53244);
                 qm.dispose();
             } 
         }

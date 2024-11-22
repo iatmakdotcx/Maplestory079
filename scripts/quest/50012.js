@@ -1,7 +1,9 @@
-/*
-	任务: 魔术、科学和宇宙能源
-	描述: #o9400295#也可以夺取处于昏迷状态的#p9120030#的肉体，再伪装成#p9120030#的意志并控制#o9400296#…！我必须尽快将此事告诉#p9120025#。
-*/
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
 
 function start(mode, type, selection) {
     qm.dispose();
@@ -9,10 +11,10 @@ function start(mode, type, selection) {
 
 function end(mode, type, selection) {
     if (qm.getQuestStatus(50012) == 0) {
-        qm.forceStartQuest();
+	qm.forceStartQuest();
     } else {
-        qm.completeQuest(50015);
-        qm.completeQuest();
+	qm.forceCompleteQuest(50015);
+	qm.forceCompleteQuest();
     }
     qm.dispose();
 }

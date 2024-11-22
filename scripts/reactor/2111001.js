@@ -1,11 +1,13 @@
+/*
+	Zakum Altar - Summons Zakum.
+*/
 
 function act() {
-        if(rm.getPlayer().getEventInstance() != null)
-        rm.getPlayer().getEventInstance().setProperty("canEnter", "false");
-	rm.getReactor().getMap().addMapTimer(2 * 60 * 60,211042300); 
-        rm.changeMusic("Bgm06/FinalFight");
-        rm.spawnFakeMonster(8800000);
-        for (i=8800003; i<8800011; i++) rm.spawnMonster(i);
-        //rm.createMapMonitor(280030000,true,211042300,"ps00",211042300,2118002); 
-	rm.mapMessage("请注意!扎昆出来了.");
+    rm.changeMusic("Bgm06/FinalFight");
+    rm.getMap().spawnZakum( -38, -230);
+    rm.mapMessage("扎昆出现了，请击败它。");
+    if (!rm.getPlayer().isGM()) {
+        rm.getMap().startSpeedRun();
+    }
+	rm.全服公告("[BOSS公告] 随着火焰的眼的消失，祭台产生了一道刺眼的血色光芒，地狱的使者<扎昆>出现了。");
 }

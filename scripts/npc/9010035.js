@@ -64,7 +64,7 @@ function action(mode, type, selection) {
                         state = 1;
                     } else {
                         cm.getPlayer().setEPoints(cm.getPlayer().getEPoints() - 7);
-                        cm.gainExp(cm.getPlayer().getNeededExp() / 20);
+                        cm.gainExpR(cm.getPlayer().getNeededExp() / 20);
 						cm.playerMessage("You have lost 7 Event Points.");
                         //cm.showMessage(7, "You have lost " + 7 + " Event Points.");
                     }

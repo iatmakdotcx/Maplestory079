@@ -35,7 +35,7 @@ function action(mode, type, selection) {
 			}
 			    cm.gainItem(4033356,-5);
     			    cm.sendOk("#b伤害上限突破成功.\r\n\r\n本次追加伤害为：#r"+ random1 +"#b.");
-			    cm.worldSpouseMessage(0x20,"[伤害突破] 玩家 "+ cm.getChar().getName() +" 使用 正义火种1 让武器伤害上限突破成功 本次追加 "+ random1 +" 伤害值 。");
+			    cm.worldSpouseMessage(0x13,"[伤害突破] 玩家 "+ cm.getChar().getName() +" 使用 正义火种1 让武器伤害上限突破成功 本次追加 "+ random1 +" 伤害值 。");
 			}else{
     			    cm.sendOk("#b突破失败.\r\n系统为检测到角色身上装备武器.");
 			}
@@ -55,7 +55,7 @@ function action(mode, type, selection) {
 			    cm.setBossLog("点卷突破1",1);
 			    cm.gainItem(4000463,-100);
     			    cm.sendOk("#b伤害上限突破成功.\r\n\r\n本次追加伤害为：#r10000#b.");
-			    cm.worldSpouseMessage(0x20,"[伤害突破] 玩家 "+ cm.getChar().getName() +" 使用 中介币 让武器伤害上限突破成功 本次追加 500000 伤害值。");
+			    cm.worldSpouseMessage(0x13,"[伤害突破] 玩家 "+ cm.getChar().getName() +" 使用 中介币 让武器伤害上限突破成功 本次追加 500000 伤害值。");
 			}else{
     			    cm.sendOk("#b突破失败.\r\n系统为检测到角色身上装备武器.");
 			}

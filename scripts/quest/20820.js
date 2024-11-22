@@ -1,4 +1,4 @@
-/* Cygnus revamp
+﻿/* Cygnus revamp
 	Noblesse tutorial
 	Kimu
     Made by Daenerys
@@ -17,7 +17,7 @@ function start(mode, type, selection) {
     } else if (status == 2) {	    
 		qm.warp(130030100);
 		qm.forceStartQuest();
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 		qm.dispose();
 	}
 }

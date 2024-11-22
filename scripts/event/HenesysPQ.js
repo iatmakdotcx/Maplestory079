@@ -1,39 +1,37 @@
-importPackage(java.awt);
-importPackage(net.sf.cherry.server.life);
 
-var minPlayers = 1;
-var leaderid = 1;
-var pqMap = 910010000;
-var pqTime = 60000;//10 Minutes
+var minPlayers = 3;
 
 function init() {
-	
+    em.setProperty("state", "0");
+    em.setProperty("leader", "true");
 }
 
-function setup(level, partyId) {
-    var eim = em.newInstance("HenesysPQ" + (leaderid++));
-    var map = eim.getMapInstance(pqMap);
-	map.killAllMonsters();
-    eim.startEventTimer(pqTime);
-	map.spawnMonsterwithpos(MapleLifeFactory.getMonster(9300061), new Point(-200,-200));	
+function setup(eim, leaderid) {
+    em.setProperty("state", "1");
+    em.setProperty("leader", "true");
+    var eim = em.newInstance("HenesysPQ" + leaderid);
+    em.setProperty("stage", "0");
+    var map = eim.setInstanceMap(910010000);
+    map.resetFully();
+    map.setSpawns(false);
+    eim.startEventTimer(1200000);
     return eim;
 }
 
 function playerEntry(eim, player) {
-    var map = eim.getMapInstance(pqMap);
+    var map = eim.getMapInstance(0);
     player.changeMap(map, map.getPortal(0));
-    player.startQuest(1200, 1012114, true);  //迎月花保护月妙组队任务
+    player.tryPartyQuest(1200);
 }
 
-function playerRevive(eim, player) {}
-
-function scheduledTimeout(eim) {
-    end(eim);
-}
 
 function changedMap(eim, player, mapid) {
-    if (mapid != pqMap) {
+    if (mapid != 910010000) {
         eim.unregisterPlayer(player);
+        if (eim.disposeIfPlayerBelow(0, 0)) {
+            em.setProperty("state", "0");
+            em.setProperty("leader", "true");
+        }
     }
 }
 
@@ -43,33 +41,47 @@ function playerDisconnected(eim, player) {
 
 function monsterValue(eim, mobId) {
     if (mobId == 9300061) {
-        eim.broadcastPlayerMsg(5, "The Moon Bunny has been killed.");
+        eim.broadcastPlayerMsg(5, "月兔被杀死了，任务失败了");
         end(eim);
-    }else{
-		eim.broadcastPlayerMsg(5, mobId);
-	}
+    }
     return 1;
 }
 
 function playerExit(eim, player) {
     eim.unregisterPlayer(player);
+
+    if (eim.disposeIfPlayerBelow(0, 0)) {
+        em.setProperty("state", "0");
+        em.setProperty("leader", "true");
+    }
 }
 
 function end(eim) {
-    eim.disposeIfPlayerBelow(100, 910010300);
+    eim.disposeIfPlayerBelow(100, 100000200);
+    em.setProperty("state", "0");
+    em.setProperty("leader", "true");
 }
 
 function clearPQ(eim) {
     end(eim);
 }
 
-function allMonstersDead(eim) {}
+function allMonstersDead(eim) {
+}
 
 function leftParty(eim, player) {
-    end(eim);
+    var party = eim.getPlayers();
+    if (party.size() < minPlayers) {
+        end(eim);
+    } else
+        playerExit(eim, player);
 }
 function disbandParty(eim) {
     end(eim);
 }
 function playerDead(eim, player) {}
 function cancelSchedule() {}
+function playerRevive(eim, player) {}
+function scheduledTimeout(eim) {
+    end(eim);
+}

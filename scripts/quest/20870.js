@@ -18,7 +18,7 @@ function start(mode, type, selection) {
 	} else if (status == 1) {
 	    qm.sendOk("Come to Ereve when you are ready for the exam. Your Chief Knight will test your abilities.");
 	    qm.forceStartQuest();
-	    qm.completeQuest();
+	    qm.forceCompleteQuest();
 	    qm.dispose();
 	}
 }

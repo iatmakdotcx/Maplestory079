@@ -1,13 +1,14 @@
-/*
-	任务: 邂逅 ～再生～
-	描述: 这是……这是最后的战斗…！我终于打倒了#o9400289#。可惜，异次元已经开始和逆奥之城空间进行融合…！…这样下去的话，就像阿卡夏的诅咒所说的，逆奥之城最后终将毁灭！
-*/
-
-var status = -1;
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+ var status = -1;
 
 function start(mode, type, selection) {
-    cm.sendNext("Auf Haven the angel is defeated...");
-    cm.completeQuest(50019);
+    cm.sendNext("纽黑文天使被击败...");
+    cm.forceCompleteQuest(50019);
     cm.forceStartQuest();
     cm.dispose();
 }

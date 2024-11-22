@@ -43,7 +43,7 @@ function end(mode, type, selection) {
             delay(3000);
             qm.removeNpc(552000074,9270092);
             qm.removeNpc(552000074,9270090);
-            qm.completeQuest();
+            qm.forceCompleteQuest();
 			cm.EnableUI(0);
             qm.warp(240000000);
             qm.dispose();

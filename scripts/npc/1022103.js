@@ -1,3 +1,6 @@
+/*
+ ZEVMS冒险岛(079)游戏服务端
+ */
 var status = -1;
 
 function action(mode, type, selection) {
@@ -10,7 +13,7 @@ function action(mode, type, selection) {
 	status--;
     }
     if (status == 0) {
-	cm.sendYesNo("Would you like to head back?");
+	cm.sendYesNo("你想回头吗？");
     } else if (status == 1) {
 	cm.warp(193000000);
 	cm.dispose();

@@ -55,7 +55,7 @@ function action(mode, type, selection) {
 		}else{
  		var itemList = new Array(
 			2431991, //随机冒险心
-		2431995,// 惊人的武器卷100%
+		//2431995,// 惊人的武器卷100%
 		2431938,// --法弗纳武器箱   材料150武器
 1113075, //最高级贝勒德戒指
 1032223, //最高级贝勒德耳环
@@ -65,7 +65,7 @@ function action(mode, type, selection) {
                 item = cm.gainGachaponItem(itemList[Math.floor(Math.random() * itemList.length)], 1, "卧虎藏龙", 3);
 }
             if (item != -1) {
-		cm.warp(910000000);
+		cm.warp(101050000);
 		cm.dispose();
             } else {
                 cm.sendOk("请你确认在背包的装备,消耗,其他窗口中是否有一格以上的空间?");

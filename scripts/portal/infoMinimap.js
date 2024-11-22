@@ -1,5 +1,4 @@
 function enter(pi) {
-	pi.showWZEffect("UI/tutorial.img/25", 1);
-	pi.blockPortal();
-	return true;
+	pi.showInstruction("开始踏上旅途吧~", 120, 1);
+	
 }

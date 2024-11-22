@@ -22,7 +22,7 @@ function start(mode, type, selection) {
     } else if (status == 2) {
         qm.PlayerToNpc("黑暗力量不再侵蚀我的灵魂了呢。这都是你的功劳。");
     } else if (status == 3) {
-        qm.sendNextPrev("过奖了。这一切都要归功于夜光法师你想要战胜黑暗力量的坚强意志。我只是在旁边帮了点小忙而已。这个你应该知道，是能够自由出入希利尼提的极光三棱镜。收下吧。", 1);
+        qm.sendNextPrevS("过奖了。这一切都要归功于夜光法师你想要战胜黑暗力量的坚强意志。我只是在旁边帮了点小忙而已。这个你应该知道，是能够自由出入希利尼提的极光三棱镜。收下吧。", 1);
     } else if (status == 4) {
         if (qm.getJob() == 2700) {
             qm.changeJob(2710);
@@ -30,7 +30,7 @@ function start(mode, type, selection) {
         if (!qm.haveItem(2430874, 1)) {
             qm.gainItem(2430874, 1);
         }
-        qm.completeQuest();
+        qm.forceCompleteQuest();
         qm.dispose();
     }
 }

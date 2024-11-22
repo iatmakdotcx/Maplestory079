@@ -38,7 +38,7 @@ function end(mode, type, selection) {
 			} else {
 				qm.gainItem(1142109, 1);
 				qm.removeAll(4031059);
-				qm.completeQuest();
+				qm.forceCompleteQuest();
 				qm.getPlayer().changeJob(131);
 				//qm.gainSp(3);
 				qm.dispose();

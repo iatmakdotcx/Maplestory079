@@ -32,11 +32,11 @@ if (mode == -1) {
 	if (status == 0) {
 	    qm.sendNext("What do you want? I'm busy...");
 	} else if (status == 1) {
-	    qm.sendNextPrev("(You tell Arwen what's going on.)",2);
+	    qm.sendNextPrevS("(You tell Arwen what's going on.)",2);
 	} else if (status == 2) {
 	    qm.sendNextPrev("Missing students? That sounds dangerous... Ellinel isn't the safest place to go missing.");
 	} else if (status == 3) {
-	    qm.completeQuest();
+	    qm.forceCompleteQuest();
 		qm.gainExp(1900);
 	    qm.dispose();		
 	}

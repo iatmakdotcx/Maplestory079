@@ -10,7 +10,7 @@ function start(mode, type, selection) {
 		qm.sendYesNo("Do you want to go Kerning Square now?");
 	} else if (status == 1) {
 		qm.warp(103040000,0);
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 		qm.dispose();
 	}
 }

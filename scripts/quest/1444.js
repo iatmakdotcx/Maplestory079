@@ -45,7 +45,7 @@ function end(mode, type, selection) {
 		qm.getPlayer().changeJob(521);
 		qm.gainSp(3);
 	    qm.sendOk("You have advanced to Outlaw. Good luck, see you again at level 120.");
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 		qm.dispose();
 		 }
     }

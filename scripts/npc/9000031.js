@@ -1,67 +1,275 @@
-var a;
-var destinyweapons;
-var sel;
-
-function start() {
-    // destinyweapons = cm.getPlayer().getDestinyWeapons();
-    // a = 0;
-    // cm.sendSimple("Hello, what may I do for you?\r\n#L0#Tell me about the #bDestiny Weapons#k.#l\r\n#L1#What is the #bReward System#k?#l\r\n");
-	cm.sendOk("Hi, I'm currently disabled. Enjoy AstralMS!");
-	cm.dispose();
-	return;
+/*
+ 脚本：卷轴回收脚本
+ */
+ var 小烟花 ="#fMap/MapHelper/weather/squib/squib4/1#";
+ var 星星 ="#fMap/MapHelper/weather/witch/3#";
+ var 奖励物品 = 2430253;
+ var 卷轴列表 = new Array(
+ 2048017,
+ 2048016,
+ 2048015,
+ 2048014,
+ 2048013,
+ 2048012,
+ 2048011,
+ 2048010,
+ 2048005,
+ 2048002,
+ 2040413,
+ 2044909,
+ 2044902,
+ 2044901,
+ 2044816,
+ 2044811,
+ 2044809,
+ 2044807,
+ 2044802,
+ 2044801,
+ 2044711,
+ 2044702,
+ 2044701,
+ 2044611,
+ 2044602,
+ 2044601,
+ 2044511,
+ 2044502,
+ 2044501,
+ 2044416,
+ 2044414,
+ 2044412,
+ 2044402,
+ 2044401,
+ 2044316,
+ 2044314,
+ 2044312,
+ 2044302,
+ 2044301,
+ 2044216,
+ 2044214,
+ 2044212,
+ 2044202,
+ 2044201,
+ 2044116,
+ 2044114,
+ 2044112,
+ 2044102,
+ 2044101,
+ 2044024,
+ 2044014,
+ 2044012,
+ 2044002,
+ 2044001,
+ 2043811,
+ 2043802,
+ 2043801,
+ 2043711,
+ 2043701,
+ 2043311,
+ 2043302,
+ 2043301,
+ 2043216,
+ 2043214,
+ 2043212,
+ 2043202,
+ 2043201,
+ 2043116,
+ 2043114,
+ 2043112,
+ 2043102,
+ 2043101,
+ 2043021,
+ 2043019,
+ 2043017,
+ 2043009,
+ 2043008,
+ 2043002,
+ 2043001,
+ 2041310,
+ 2041307,
+ 2041304,
+ 2041301,
+ 2041207,
+ 2041206,
+ 2041202,
+ 2041201,
+ 2041023,
+ 2041022,
+ 2041020,
+ 2041019,
+ 2041017,
+ 2041016,
+ 2041014,
+ 2041013,
+ 2041011,
+ 2041010,
+ 2041008,
+ 2041007,
+ 2041005,
+ 2041004,
+ 2041002,
+ 2041001,
+ 2040933,
+ 2040931,
+ 2040928,
+ 2040927,
+ 2040925,
+ 2040924,
+ 2040920,
+ 2040919,
+ 2040915,
+ 2040914,
+ 2040902,
+ 2040901,
+ 2040825,
+ 2040824,
+ 2040817,
+ 2040816,
+ 2040807,
+ 2040805,
+ 2040804,
+ 2040802,
+ 2040801,
+ 2040708,
+ 2040707,
+ 2040705,
+ 2040704,
+ 2040702,
+ 2040701,
+ 2040627,
+ 2040625,
+ 2040622,
+ 2040621,
+ 2040619,
+ 2040618,
+ 2040613,
+ 2040612,
+ 2040602,
+ 2040601,
+ 2040534,
+ 2040532,
+ 2040517,
+ 2040516,
+ 2040514,
+ 2040513,
+ 2040505,
+ 2040504,
+ 2040502,
+ 2040501,
+ 2040427,
+ 2040422,
+ 2040421,
+ 2040419,
+ 2040418,
+ 2040413,
+ 2040412,
+ 2040402,
+ 2040401,
+ 2040328,
+ 2040326,
+ 2040323,
+ 2040321,
+ 2040318,
+ 2040317,
+ 2040311,
+ 2040310,
+ 2040302,
+ 2040301,
+ 2040206,
+ 2040205,
+ 2040201,
+ 2040200,
+ 2040106,
+ 2040105,
+ 2040101,
+ 2040100,
+ 2040031,
+ 2040029,
+ 2040026,
+ 2040025,
+ 2040017,
+ 2040016,
+ 2040005,
+ 2040004,
+ 2040002,
+ 2040001,
+ 2043702,
+ 2048001,
+ 2048002,
+ 2048004,
+ 2040413,
+ 2040425,
+ 2040423
+ );
+ 
+ function start() {
+    status = -1;
+    action(1, 0, 0);
 }
-
-function action(mode, type, selection) {
-    if (mode != 1) {
-        cm.dispose();
-        return;
-    }
-    a++;
-    if (a == 1) {
-        sel = selection;
-    }
-    if (sel == 0) {
-        switch (a) {
-            case 1:
-                cm.sendSimple("The #bDestiny Weapons#k are regular weapons, which enhances as you level.\r\n\r\nTheir new stats are never known, and they may obtain stats which they do not have upon leveling. These stats will be enhanced as you level aswell. \r\n\r\n#bStat Enhancements Maximum#k:\r\n#gHp & Mp#k: If level is lower than 150, then 500 else, 1000.\r\n#gSpeed & Jump#k: If level is lower than 150, then 20 else, 40.\r\n#gAttack & Magic#k: If level is lower than 150, then 150 else, 200.\r\n#gOther Stats#k: If level is lower than 150, then 100 else, 150.\r\n\r\nYou may only hold one #bDestiny Weapon#k, and #rSecondary Destiny Weapons#k are not found yet.\r\n\r\nThere is only one way to know if a weapon is a #bDestiny Weapon#k.\r\n#L0#How do I know if my weapon is a #bDestiny Weapon#k?#l\r\n ");
-                break;
-            case 2:
-                cm.sendSimple("There is an uncompleted list of #bDestiny Weapons#k which is being updated.\r\nHowever, the weapons look like regular weapons. The #bDestiny Weapons#k will have their crafter's name signed on it, and there is only one person who can craft them, which is the legendary #rShadow Knight#k.\r\n#L0#May I see the list?#l\r\n ");
-                break;
-            case 3:
-                var list = "Yes of course,";
-                for (var i = 0; i < destinyweapons.length; i++)
-                    list += "\r\n#v" + destinyweapons[i] + "##t" + destinyweapons[i] + "#"
-                list += "\r\n#L0#How can I obtain the #bDestiny Weapons#k?#l\r\n ";
-                cm.sendSimple(list);
-                break;
-            case 4:
-                cm.sendSimple("Since these weapons are very unique, the only way to obtain them is to purchase them from the only seller who knows to craft them, #rThe Shadow Knight#k.\r\nHe can be found at the #rFree Market#k, since it is the best place to trade.\r\nThe Shadow Knight had been found to have some suspicious activities related to the #rBlack Mage#k, he was found trading #i4251202# with the Black Wings for some materials to craft the #bDestiny Weapons#k...\r\n#L0#What is the payment he accepts?#l\r\n ");
-                break;
-            case 5:
-                cm.sendSimple("He sells them for some old coins whose were found to be hold by monsters. You shall go and see him yourself!\r\n#L0#Alright, thanks for you help.#l\r\n ");
-                cm.dispose();
-                break;
-            default:
-                cm.dispose();
-                return;
-        }
+ 
+ function action(mode, type, selection) {
+    if (mode == 1) {
+        status++;
     } else {
-        switch (sel) {
-            case 1:
-                switch (a) {
-                    case 1:
-                        cm.sendOk("The reward system is a new system, which allows you to obtain #dItems#k, #rMaple Points#k, #bMesos#k, or #gExp#k.\r\nYou can access your Rewards by clicking the #fEffect/BasicEff.img/MainNotice/userReward/Default/0##bReward UI#k.\r\nThe Reward UI will appear when you have any rewards you can claim.\r\nYou can get #bRewards#k by creating a character, or leveling up.");
-                        cm.dispose();
-                        break;
-                    default:
-                        cm.dispose();
-                        return;
-                }
-                break;
-            default:
-                cm.dispose();
-                return;
+        if (status == 0) {
+            cm.sendOk("不想回收吗？…找我可以把背包里所有的#b10%与60%卷轴替换成有用的道具#k哦！\r\n\r\n");
+            cm.dispose();
         }
+        status--;
     }
+    if (status == 0) {
+		 
+        var text = "#r我可以把背包里所有的#b10%#r与#b60%卷轴#r回收获得#v2430253#，快行动吧！\r\n#e#d" + 小烟花 + "回收导致损失不予补偿！" + 小烟花 + "#n#k\r\n\r\n";
+        text += "#L1##r" + 小烟花 +  "确认分解" + 小烟花 + "\r\n\r\n";
+		text += "#L104##b" + 小烟花 + "碎片商店" + 小烟花 + "#l\r\n\r\n";
+        text += "#L101##b" + 小烟花 + "我再考虑考虑" + 小烟花 + "#l\r\n\r\n";
+        cm.sendSimple(text);
+    } else if (status == 1) {
+		if(selection == 1){
+			if(cm.判断背包其他栏().isFull()){
+				cm.sendOk("#r背包其他栏已满，请先至少留出一格位置\r\n");
+				cm.dispose();
+			}else{
+				var 是否有卷轴 = false;
+				var 兑换数量 = 0;
+				for (var i = 0; i < 卷轴列表.length; i++) {
+					var mount = 0;
+					while(cm.haveItem(卷轴列表[i], mount + 1)){
+						mount += 1;
+						兑换数量 += 1;
+					}
+					if(mount > 0){
+						cm.gainItem(卷轴列表[i], -mount);
+						cm.gainItem(奖励物品, mount);
+						是否有卷轴 = true;
+					}
+				}
+				if(是否有卷轴){
+					cm.sendOk("卷轴回收完毕，#b共计回收了 #r" + 兑换数量 + " #b张卷轴，获得 #r" + 兑换数量 + 
+					" #b个" + cm.显示物品(奖励物品) + "，请检查背包。\r\n");
+				}else{
+					cm.sendOk("#r回收失败，你背包里并没有卷轴啊。\r\n");
+				}
+				cm.dispose();
+				return;
+			}
+		}else if (selection == 101) {
+			cm.sendOk("不想回收吗？…找我可以把背包里所有的#b10%与60%卷轴回收获得#v2430253##k哦！\r\n\r\n");
+			cm.dispose();
+		
+		}else if (selection == 104) {
+			cm.结束对话();
+			cm.openNpc(9900004,9904);
+		} 
+		
+		
+        
+	} else {
+		cm.dispose();
+	}
+        
+
 }
+
+
+ 
+ 

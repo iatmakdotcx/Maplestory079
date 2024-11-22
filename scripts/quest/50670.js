@@ -1,14 +1,16 @@
-/*
-	任务: 十字旅团
-	描述: 从一个名叫十字旅团的奇怪团体那里接到了提议。到金银岛的村庄中寻找十字旅团的#b#p9120206##k，并与其对话吧。
-*/
-var status = -1;
+/* ==================
+ 脚本类型:  任务	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+ var status = -1;
 
 function start(mode, type, selection) {
-    qm.sendNext("Join the Silent Crusade...");
-    qm.completeQuest();
-    qm.dispose();
+	qm.sendNext("加入无声的远征...");
+	qm.forceCompleteQuest();
+	qm.dispose();
 }
 function end(mode, type, selection) {
-    qm.dispose();
+	qm.dispose();
 }

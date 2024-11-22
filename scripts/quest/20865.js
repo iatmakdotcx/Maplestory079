@@ -35,7 +35,7 @@ function end(mode, type, selection) {
 		qm.getPlayer().gainSP(5, 0);
 		qm.gainExp(1242);
 	}
-	qm.completeQuest();
+	qm.forceCompleteQuest();
     } else if (status == 2) {
 	qm.sendNextPrev("I have also expanded yer inventory slot counts for yer equipment and etc. inventory. Use those slots wisely and fill them up with items required for Knights to carry.");
     } else if (status == 3) {

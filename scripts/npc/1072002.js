@@ -1,47 +1,54 @@
-/* Bowman Job Instructor (OUTSIDE)
-	Bowman 2nd Job Advancement
-	warning street - on the road to the dungeon: 106010000
-*/
-
-/** 
-Made by xQuasar
-**/
-
-var status = 0;
+/*
+ 
+ 弓箭手二转转职教官
+ */
+var 介绍物件 = 4031010;
+var 介绍人 = "赫丽娜";
+var 收集物品 = 4031013;
+var 收集数量 = 30;
+var 试炼地图 = 108000100;
+var status;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+  status = -1;
+  action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else if ((status == 0 || status == 1) && mode == 0) {
-		cm.sendOk("I suggest you stock up on supplies before entering.");
-		cm.dispose();
-	} else if (status == -1) {
-		if (cm.haveItem(4031010) && (!cm.haveItem(4031013))) {
-			status = 0;
-			cm.sendNext("Ah, Athena Pierce sent you here?");
-		} else if (cm.haveItem(4031010) && cm.haveItem(4031013)) {
-			cm.sendOk("Hmm? You already have Dark Marbles in your inventory... please drop them all before talking to me again.");
-			cm.dispose();
-		} else {
-			cm.sendOk("The path of a Bowman is a path of utmost danger...");
-			cm.dispose();
-		}
-	} else if (status == 0) {
-		status = 1;
-		cm.sendYesNo("Would you like to go and attempt the test now? Inside are monsters that you will have to defeat to gain Dark Marbles from. Once you have collected 30, talk to the other instructor inside to gain the Proof of a Hero and complete the test.");
-	} else if (status == 1) {
-		status = 2;
-		cm.sendOk("Alright, in you go. Good luck! If you die or disconnect while doing the test, you'll have to go back to Athena Pierce for another Letter.");
-	} else if (status == 2) {
-		cm.gainItem(4031010,-1);
-		cm.warp(108000100,0);
-		cm.dispose();
-	} else {
-		cm.dispose();
-	}
+  if (mode == -1) cm.对话结束();
+  else {
+    if (mode == 1) status++;
+    else status--;
+    if (cm.haveItem(介绍物件)) {
+      if (status == 0)
+        cm.是否说明文字("Hi #b#h ##k，你是#b" + 介绍人 + "#k介绍来的吗？");
+      else if (status == 1) cm.是否说明文字("所以你要证明你的实力吗? ");
+      else if (status == 2) cm.是否说明文字("我可以给你一次机会,请你把握。");
+      else if (status == 3)
+        cm.是否说明文字(
+          "请给我#b" +
+            收集数量 +
+            "个 #v" +
+            收集物品 +
+            "# #t" +
+            收集物品 +
+            "##k，祝你好运。"
+        );
+      else if (status == 4) {
+        cm.warp(试炼地图, 0);
+        cm.对话结束();
+      }
+    } else {
+      cm.说明文字(
+        "很抱歉,我需要#b#v" +
+          介绍物件 +
+          "# #t" +
+          介绍物件 +
+          "##k请去找" +
+          介绍人 +
+          "拿取谢谢。"
+      );
+      cm.对话结束();
+    }
+  }
 }

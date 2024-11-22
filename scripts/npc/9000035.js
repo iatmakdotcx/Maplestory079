@@ -1,124 +1,157 @@
+/*  This is mada by Kent    
+ *  This source is made by Funms Team
+ *  功能：等级送礼
+ *  @Author Kent
+ */
+
+var A1 = "#fUI/UIWindow/Quest/icon2/7#";
+var A2 = "#fUI/UIWindow/Quest/icon2/7#";
+var TX = A1;
+var tx1 = "#fUI/UIWindow/Quest/icon2/7#";
+var tx2 = "#fUI/UIWindow/Quest/icon2/7#";
+
 var status = 0;
-var wui = 0;
-var jobName;
-var job;
+var bossid = "等级礼包";
+var giftLevel = Array(10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120);
+var giftContent = Array(
+
+//10
+Array(5000066, 1, 0), //虎年宠物啊呜啊呜
+Array(5180000, 1, 0), //生命水
+
+//20
+Array(1022233, 1, 1), //新手赏金猎人太阳眼镜
+
+//30
+Array(1032242, 1, 2), //新手赏金猎人耳环
+
+//40
+Array(1113164, 1, 3), //新手赏金猎人戒指
+
+//50
+Array(1102612, 1, 4), //革命披风
+
+//60
+Array(1072853, 1, 5), //革命鞋子
+
+//70
+Array(1082540, 1, 6), //革命手套
+
+//80
+Array(1003946, 1, 7), //革命帽子
+
+//90
+Array(1142404, 1, 8), //英雄意志勋章+
+Array(1132242, 1, 8), //革命腰带
+
+//100
+Array(1052647, 1, 9), //革命战斗服
+
+//110
+Array(1113034, 1, 10), //10周年黑色枫叶戒指
+
+//120
+Array(2290096, 1, 11), //冒险岛勇士
+Array(5050000, 100, 11) //洗能力点卷轴
+
+
+);
+var giftId = -1;
+var giftToken = Array();
+var gifts = null;
 
 function start() {
-    status = -1;
-    action(1, 0, 0);
+	status = -1;
+	action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-
-    if (mode == -1) {
-        cm.dispose();
-    } else {
-        if (status >= 0 && mode == 0) {
-            cm.dispose();
-            return;
-        }
-        if (mode == 1)
-            status++;
-        else
-            status--;
-        if (status == 0) {
-	cm.sendSimple ("#eMake a selection #h #,#n#d " +
-                 "#k\r\n#L81##rLow Rebirth Shop" +
-                 "#k\r\n#L80##rHigh Rebirth Shop#l" +
-				 "#k\r\n#L82##rCharacter Statistics#k");
-
-            } else if (selection == 80) {
-                cm.sendSimple ("Hi, Which of the following would you like to purchase\r\n (#r#eMake sure you have enough room in your Inventory!#k#e)#d"+
-                 "#k\r\n#L0##bSpecial Job#k -  (#r250 Rebirths & 13337 Chickens#k)" +
-                 "#k\r\n#L1##b3K Stat Earrings#k - (#r45 Reborns & 1000 Chickens#k) " +
-                 "#k\r\n#L2##b5K stat Earrings#k - (#r75 Reborns & 5000 Chickens#k) " +
-                 "#k\r\n\r\n#L3##rBecome Beginner");
-
-            } else if (selection == 0) {
-                if (cm.getPlayer().getReborns() > 249 && cm.haveItem(4000252, 13337)) {
-                    cm.gainItem (4000252, -13337);
-                    cm.changeJobById(900);
-                    cm.reloadChar();
-                    cm.sendOk ("Congratulations, You have purchased the Regular GM Job!");
-                    cm.dispose();
-                } else {
-                    cm.sendOk ("#r#eYou don't have enough #v4000252# or you don't have enough reborns!");
-                    cm.dispose();
-                    }
-            } else if (selection == 1) {
-                if (cm.getPlayer().getReborns() > 29 && !cm.haveItem(1032034) && cm.haveItem(4000252, 1000)) {
-         cm.gainItem (1032036);
-         cm.gainItem (4000252, -1000);
-        cm.editEquipById(cm.getPlayer(), 1, 1032036, "str", 3000);
-        cm.editEquipById(cm.getPlayer(), 1, 1032036, "dex", 3000);
-        cm.editEquipById(cm.getPlayer(), 1, 1032036, "luk", 3000);
-        cm.editEquipById(cm.getPlayer(), 1, 1032036, "int", 3000);
-        cm.reloadChar();
-        cm.dispose();
-         } else {
-        cm.sendOk ("You don't have the Required ammount of Reborns, you already have the Item, or you don't have 1000 #v4000252#");
-        cm.dispose();
-}
-            } else if (selection == 2) {
-                if (cm.getPlayer().getReborns() > 74 && !cm.haveItem(1032034) && cm.haveItem(4000252, 5000)) {
-         cm.gainItem (4000252, -5000);
-         cm.gainItem (1032036);
-        cm.editEquipById(cm.getPlayer(), 1, 1032036, "str", 5000);
-        cm.editEquipById(cm.getPlayer(), 1, 1032036, "dex", 5000);
-        cm.editEquipById(cm.getPlayer(), 1, 1032036, "luk", 5000);
-        cm.editEquipById(cm.getPlayer(), 1, 1032036, "int", 5000);
-        cm.reloadChar();
-        cm.dispose();
-         } else {
-        cm.sendOk ("You don't have the Required ammount of Reborns, you already have the Item, or you don't have 5000 #v4000252#");
-        cm.dispose();
-}
-            } else if (selection == 81) {
-                cm.sendSimple ("Hi, Which of the following would you like to purchase\r\n (#r#eMake sure you have enough room in your Inventory!#e#k)#d" +
-                 "#k\r\n#L4##b500 Stat Ring#k - (#r15 Reborns & 500 Chickens#k)" +
-                 "#k\r\n#L5##b1000 Stat Earring#k - (#r25 Reborns & 1000 Chickens#k)");
-            } else if (selection == 4) {
-                if (cm.getPlayer().getReborns() > 14 && !cm.haveItem(1032038) && cm.haveItem(4000252, 500)) {
-         cm.gainItem (4000252, -500);
-         cm.gainItem (1032038);
-        cm.editEquipById(cm.getPlayer(), 1, 1032038, "str", 500);
-        cm.editEquipById(cm.getPlayer(), 1, 1032038, "dex", 500);
-        cm.editEquipById(cm.getPlayer(), 1, 1032038, "luk", 500);
-        cm.editEquipById(cm.getPlayer(), 1, 1032038, "int", 500);
-        cm.reloadChar();
-        cm.dispose();
-         } else {
-        cm.sendOk ("You don't have the Required ammount of Reborns, you already have the Item, or you don't have 500 #v4000252#");
-        cm.dispose();
-}
-            } else if (selection == 5) {
-                if (cm.getPlayer().getReborns() > 24 && !cm.haveItem(1032039) && cm.haveItem(4000252, 1000)) {
-         cm.gainItem (4000252, -1000);
-         cm.gainItem (1032039);
-        cm.editEquipById(cm.getPlayer(), 1, 1032039, "str", 1000);
-        cm.editEquipById(cm.getPlayer(), 1, 1032039, "dex", 1000);
-        cm.editEquipById(cm.getPlayer(), 1, 1032039, "luk", 1000);
-        cm.editEquipById(cm.getPlayer(), 1, 1032039, "int", 1000);
-        cm.reloadChar();
-        cm.dispose();
-         } else {
-        cm.sendOk ("You don't have the Required ammount of Reborns, you already have the Item, or you don't have 1000 #v4000252#");
-        cm.dispose();
-}
-
-	} else if (selection == 82) {
-		cm.sendOk("#eCharacter Statistics#n\r\nCharacter Name: #e#r#h ##k#n\r\nRebirths: #e#r" +cm.getPlayer().getReborns() + "#n#k\r\nLevel: #e#r" +cm.getPlayer().getLevel()+"#n#k");
+	if (status == 0 && mode == 0) {
 		cm.dispose();
-		
-            } else if (selection == 3) {
-           if(cm.getJobId() == 900) {
-                    cm.changeJobById(000);
-                    cm.sendOk ("Job: Beginner (#rAccepted#k).");
-                    cm.dispose();
-                  } else {
-                    cm.sendOk ("Job: Regular GM(#rDeclined#k).");
-                    cm.dispose();
+		cm.openNpc(0, "福利中心");
+		return;
+	}
+	if (mode == 1) {
+		status++;
+	} else {
+		status--;
+	}
+	if (status == 0) {
+		var text = "    " + tx1 + "\r\n";
+		text += "#e#d-  等级奖励中心:#n#k\r\n可领取等级为：#e#d每10级一次#n#k\r\n";
+		for (var key in giftLevel) {
+
+			//检查等级是否满足
+			if (cm.getChar().getLevel() < giftLevel[key]) {
+				TX = A2;
+			} else {
+				TX = A1;
+			}
+
+			var tips = "";
+			giftToken[key] = false;
+			if (cm.getChar().getLevel() >= giftLevel[key]) {
+				if (cm.getPQLog(bossid + key, 1) == 0) {
+					tips = 0; //未领取
+					giftToken[key] = true;
+				} else {
+					tips = 1; //已领取
+				}
+			}
+			if (tips == 0) {
+				text += "#b#L" + (parseInt(key)) + "#领取#r#e" + giftLevel[key] + "#n#b级等级礼包 " + "#l#k\r\n";
+			}
+		}
+		cm.sendSimple(text);
+	} else if (status == 1) {
+		giftId = parseInt(selection);
+		var text = "#r#e" + giftLevel[giftId] + "#n#b级礼包内容：\r\n";
+		gifts = getGift(giftId);
+		for (var key in gifts) {
+			var itemId = gifts[key][0];
+			var itemQuantity = gifts[key][1];
+			text += "#v" + itemId + "##b#z" + itemId + "##k #rx " + itemQuantity + "#k\r\n";
+		}
+		text += "\r\n#d是否现在就领取该礼包？#k";
+		cm.sendYesNo(text);
+	} else if (status == 2) {
+		if (giftId != -1 && gifts != null) {
+			if (cm.getSpace(1) < 8 || cm.getSpace(2) < 8 || cm.getSpace(3) < 8 || cm.getSpace(4) < 8 || cm.getSpace(5) < 8) {
+				cm.sendOk("您的背包空间不足，请保证每个栏位至少8格的空间，以避免领取失败。");
+				cm.dispose();
+				return;
+			}
+			var job = cm.getChar().getJob();
+			if ((job == 10000 || job == 10100 || job == 10110 || job == 10111 || job == 10112) && cm.getChar().getLevel() < 140) {
+				cm.sendOk("神之子需要到140才能领取！");
+				cm.dispose();
+				return;
+			}
+			if (giftToken[giftId] && cm.getPQLog(bossid + key, 1) == 0) {
+				cm.setPQLog(bossid + (giftId), 1, 1);
+				for (var key in gifts) {
+					var itemId = gifts[key][0];
+					var itemQuantity = gifts[key][1];
+					cm.gainItem(itemId, itemQuantity);
+				}
+				cm.sendOk("恭喜您，领取成功！快打开包裹看看吧！");
+				cm.dispose();
+			} else {
+				status = -1;
+				cm.playerMessage(-1, "领取失败!等级未达到要求!!");
+				cm.sendNextS(" #e#b哎呀,我的等级好像不够呢!!#n#k", 3);
+			}
+		} else {
+			cm.sendOk("领取错误！请联系管理员！");
+			cm.dispose();
+		}
+	}
 }
-}
-}
+
+function getGift(id) {
+	var lastGiftContent = Array();
+	for (var key in giftContent) {
+		if (giftContent[key][2] == id) lastGiftContent.push(giftContent[key]);
+	}
+	return lastGiftContent;
 }

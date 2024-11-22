@@ -1,187 +1,179 @@
-/* Joyce
-	Event NPC
-*/
-
-var status = -1;
-var maps;
-var pqMaps;
-var selectedMap = -1;
-var selectedArea = -1;
+/* global cm */
+//var 爱心 = "#fEffect/CharacterEff/1003276/0/0#";
+var 音符 = "#fEffect/CharacterEff/1003276/0/0#";
+var 爱心 = "#fEffect/CharacterEff/1022223/4/0#";
+var 红色箭头 = "#fUI/UIWindow/Quest/icon6/7#";
+var 蓝色角点 = "#fUI/UIWindow.img/PvP/Scroll/enabled/next2#";
+var aaa = "#fUI/UIWindow.img/Quest/icon9/0#";
+var zzz = "#fUI/UIWindow.img/Quest/icon8/0#";
+var sss = "#fUI/UIWindow.img/QuestIcon/3/0#";
 
 function start() {
     status = -1;
-    selectedMap = -1;
-    selectedArea = -1;
+
     action(1, 0, 0);
-    if (cm.isGMS()) {
-        maps = Array(910001000, 680000000, 230000000, 260000000, 101000000, 211000000, 120030000, 130000200, 100000000, 103000000, 222000000, 240000000, 240070000, 104000000, 220000000, 120000000, 221000000, 200000000, 102000000, 300000000, 801000000, 540000000, 541000000, 250000000, 251000000
-            , 551000000, 550000000, 800040000, 261000000, 541020000, 270000000, 682000000, 140000000, 970010000, 103040000, 555000000, 310000000, 200100000, 211060000, 310040300, 970020000, 960000000, 101050000, 600000000); 
-        pqMaps = Array(682010200, 541000300, 220050300, 230040200, 541010010, 551030100, 240040500, 800020110, 801040004, 105030500, 610020004, 102040200, 105100100, 211041100, 610030010, 670010000, 310040200, 889100100, 951000000);
-    } else {
-        maps = Array(910001000, 680000000, 230000000, 260000000, 101000000, 211000000, 120030000, 130000200, 100000000, 103000000, 222000000, 240000000, 104000000, 220000000, 802000101, 120000000, 221000000, 200000000, 102000000, 300000000, 801000000, 540000000, 541000000, 250000000, 251000000
-            , 551000000, 550000000, 800040000, 261000000, 541020000, 270000000, 682000000, 140000000, 970010000, 103040000, 555000000, 310000000, 200100000, 211060000, 310040300, 219000000, 960000000); 
-        pqMaps = Array(682010200, 541000300, 220050300, 229000020, 230040200, 541010010, 551030100, 240040500, 800020110, 801040004, 105030500, 610020004, 102040200, 105100100, 211041100, 610030010, 670010000, 674030100, 310040200, 219010000, 219020000);
-    }
 }
-
 function action(mode, type, selection) {
-    if (mode == 1) {
-        status++;
+    if (mode == -1) {
+        cm.dispose();
     } else {
-        if (status >= 2 || status == 0) {
-            cm.dispose();
-            return;
-        }
-        status--;
-    }
-    if (cm.getPlayer().getLevel() < 10 && cm.getPlayer().getJob() != 200) {
-        cm.sendOk("Please talk to me at level 10.");
-        cm.dispose();
-        return;
-    }
-    if (status == 0) {
-        if (!cm.isQuestFinished(29003) && !cm.haveItem(1142184, 1, true, true)) {
-            if (!cm.haveItem(1002419, 1, true, true) && cm.canHold(1002419,1)) {
-                cm.gainItem(1002419, 1);
-            }
-            if (cm.canHold(1142184,1)) {
-                cm.gainItem(1142184, 1);
-                cm.gainMeso(250000);
-                cm.forceCompleteQuest(29003);
-                cm.sendOk("Welcome! As a complementary gift, I present to you these for your journey! If you wish to buy Cash related items, please visit the Cash Shop or visit the NPC in FM!");
-            } else {
-                cm.sendOk("Please get an inventory space.");
-            }
-            cm.dispose();
-            return;
-        }
-        cm.sendSimple("Hello #r#h ##k!. \r\n#b#L1#Secret Scroll [4th Job] for 10 million mesos#l \r\n#b#L2#I would like to learn a skill#l \r\n#b#L3#I want to go somewhere#l"/* + "\r\n#L5#Trade Meso for Gold Maple Leaf#l\r\n#L6#Trade Gold Maple Leaf for Meso#l"*/ + "\r\n#L11#Universal Shop#l#k\r\n#L12#Reset Stats#l");
-    } else if (status == 1) {
-        if (selection == 1) {
-            if (cm.haveItem(4031348)) {
-                cm.sendOk("You already have one, I don't think you'll need it anyway.");
-            } else if (cm.getPlayerStat("LVL") >= 120 && cm.getPlayerStat("LVL") <= 200 && cm.getMeso() >= 10000000) {
-                if (!cm.canHold(4031348)) {
-                    cm.sendOk("Please check if you have sufficient space.");
-                } else {
-                    cm.gainMeso(-10000000);
-                    cm.gainItem(4031348, 1);
-                }
-            } else {
-                cm.sendOk("Hey, I dont think you have enough mesos or the required level range of 120 ~ 200 without 4th job.");
-            }
-            cm.dispose();
-        } else if (selection == 2) {
-            status = 5;
-            cm.sendSimple("#b#L1#Follow the Lead#l\r\n#L4#Monster Rider#l\r\n#L5#Monster Rider Shop#l#k");
-        } else if (selection == 3) {
-            cm.sendSimple("#b#L0#Town maps#l\r\n#L1#Monster maps and PQ Maps(Meant for level 50+) #l\r\n#L2#Dimensional Mirror#l\r\n#L3#Internet Cafe#l#k");
-        } else if (selection == 5) {
-            if (cm.getMeso() >= 1147483647) {
-                cm.sendOk("You must have room for mesos before doing the trade.");
-            } else if (!cm.haveItem(4001168, 1)){
-                cm.sendOk("You do not have a Golden Maple Leaf.");
-            } else {
-                if (cm.removeItem(4001168)) {
-                    cm.gainMeso(1000000000);
-                    cm.sendOk("Thank you for the trade, I have given you 1 billion for the Maple Leaf.");
-                } else {
-                    cm.sendOk("Please unlock your item.");
-                }
-            }
-            cm.dispose();
-        } else if (selection == 6) {
-            if (cm.getMeso() < 1030000000) {
-                cm.sendOk("You must have 1,030,000,000 mesos before doing the trade.");
-            } else if (!cm.canHold(4001168,1)) {
-                cm.sendOk("Please make room.");
-            } else {
-                cm.gainItem(4001168, 1);
-                cm.gainMeso(-1030000000);
-                cm.sendOk("Thank you for the trade, I have given you Golden Maple Leaf for 1,030,000,000 meso (1 billion + 0.03% tax).");
-            }
-            cm.dispose();
-        
-        } else if (selection == 11) {
-            cm.dispose();
-            cm.openShop(61);
+        if (status >= 0 && mode == 0) {
 
-        } else if (selection == 12) {
-            cm.getPlayer().resetStats(4, 4, 4, 4);
+            cm.sendOk("感谢你的光临！");
             cm.dispose();
-        }
-    } else if (status == 2) {
-        var selStr = "Select your destination.#b";
-        if (selection == 0) {
-            for (var i = 0; i < maps.length; i++) {
-                selStr += "\r\n#L" + i + "##m" + maps[i] + "# #l";
-            }
-        } else if (selection == 2) {
-            cm.dispose();
-            cm.openNpc(9010022);
             return;
-        } else if (selection == 3) {
-            cm.dispose();
-            cm.openNpc(9070007);
-            return;
-        } else {
-            for (var i = 0; i < pqMaps.length; i++) {
-                selStr += "\r\n#L" + i + "##m" + pqMaps[i] + "# #l";
-            }
         }
-        selectedArea = selection;
+        if (mode == 1) {
+            status++;
+        }
+        else {
+            status--;
+        }
+        if (status == 0) {
+			if(cm.getJob() >= 0 && cm.getJob()<= 522 && cm.hasSkill(1017) == false){
+			cm.teachSkill(1017,1,1);
+			}else if(cm.getJob() >=1000 || cm.getJob() <= 2112 && cm.hasSkill(20001019) == false){
+			cm.teachSkill(20001019,1,1);
+			}
+            var tex2 = "";
+            var text = "";
+            for (i = 0; i < 10; i++) {
+                text += "";
+            }
+            text += ""+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+"\r\n"
+		   text += " \t\t\t#e#r #v1702224#  透明装备进阶  #v1702224##k#n              \r\n"
+            text += ""+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+音符+"\r\n"
+            text += "#d\t角色名称：#b" + cm.getName() + "#k#n\t\t  #d剩余金币：#b" + cm.getMeso() + "#k#n\r\n"	
+		
+		var tex2 = ""+cm.getHyPay(1)+"";
+		    // text += "\t#k将强化的装备放在第一格最高强化至满阶(5次)\r\n"//3\r\n"//3
+            text += "#L1##r#v1102039#披风进阶#r#l\t\t #L2##r#v1012057#面具进阶#l\r\n"//3\r\n"//3
+            text += "#L3##r#v1022048#眼饰进阶#r#l\t\t#L4##r#v1032024#耳环进阶#r#l\r\n"//3
+			text += "#L7##r#v1082102#手套进阶#r#l\t\t#L6##r#v1072153#鞋子进阶#r#l\r\n"//3
+			text += "#L8##r#v1702224#武器进阶#r#l\r\n"//3
+			text += "\r\n";
+			// text += "#L7#\t\t\t#r#v1102039#披风中心#r#l\r\n"//3
 
-        cm.sendSimple(selStr);
-    } else if (status == 3) {
-        cm.sendYesNo("So you have nothing left to do here? Do you want to go to #m" + (selectedArea == 0 ? maps[selection] : pqMaps[selection]) + "#?");
-        selectedMap = selection;
-
-    } else if (status == 4) {
-        if (selectedMap >= 0) {
-            cm.warp(selectedArea == 0 ? maps[selectedMap] : pqMaps[selectedMap], 0);
-        }
-        cm.dispose();
-    } else if (status == 6) {
-        if (selection == 1) {
-            if (cm.getPlayer().getSkillLevel(8) > 0 || cm.getPlayer().getSkillLevel(10000018) > 0 || cm.getPlayer().getSkillLevel(20000024) > 0 || cm.getPlayer().getSkillLevel(20011024) > 0 || cm.getPlayer().getSkillLevel(30001024) > 0 || cm.getPlayer().getSkillLevel(30011024) > 0 || cm.getPlayer().getSkillLevel(20021024) > 0) {
-                cm.sendOk("You already have this skill.");
-            } else {
-                if (cm.getJob() == 3001 || (cm.getJob() >= 3100 && cm.getJob() <= 3112)) {
-                    cm.teachSkill(30011024, 1, 0); // Maker
-                } else if (cm.getJob() >= 3000) {
-                    cm.teachSkill(30001024, 1, 0); // Maker
-                } else if (cm.getJob() == 2002 || cm.getJob() >= 2300) {
-                    cm.teachSkill(20021024, 1, 0); // Maker
-                } else if (cm.getJob() == 2001 || cm.getJob() >= 2200) {
-                    cm.teachSkill(20011024, 1, 0); // Maker
-                } else if (cm.getJob() >= 2000) {
-                    cm.teachSkill(20000024, 1, 0); // Maker
-                } else if (cm.getJob() >= 1000) {
-                    cm.teachSkill(10000018, 1, 0); // Maker
-                //} else if (cm.getJob() == 1 || cm.getJob() == 501 || (cm.getJob() > 522 && cm.getJob() <= 532)) {
-                //	cm.teachSkill(10008, 1, 0); // Maker, idk TODO JUMP
-                } else {
-                    cm.teachSkill(8, 1, 0); // Maker
-                }
-                cm.sendOk("I have taught you Follow the Lead skill.");
-            }
+text += "\r\n"+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+"\r\n\r\n"
+		    cm.sendSimple(text);
+        } else if (selection == 1) {//披风进阶
             cm.dispose();
-        } else if (selection == 4) {
-            if (cm.getPlayer().getSkillLevel(80001000) > 0 || cm.getPlayer().getSkillLevel(cm.getPlayer().getStat().getSkillByJob(1004, cm.getPlayer().getJob()))) {
-                cm.sendOk("You already have this skill.");
-            } else {
-                if (cm.getJob() >= 3000 && cm.getJob() < 4000) {
-                    cm.sendOk("Sorry but Resistance characters may not get the Monster Riding skill.");
-                    cm.dispose();
-                    return;
-                }
-                cm.teachSkill(cm.isGMS() ? 80001000 : cm.getPlayer().getStat().getSkillByJob(1004, cm.getPlayer().getJob()), 1, 0); // Maker
-                cm.sendOk("I have taught you Monster Rider skill.");
-            }
+            cm.openNpc(9900004, 10029);
+		} else if (selection == 2) {//面具进阶
             cm.dispose();
-        } else if (selection == 5) {
-            //cm.openShop(33151);
+            cm.openNpc(9900004, 10079);
+		} else if (selection == 3) {//眼饰进阶
             cm.dispose();
-        }
+            cm.openNpc(9900004, 10084);
+		} else if (selection == 4) {//耳环进阶
+            cm.dispose();
+            cm.openNpc(9900004, 10085);
+        } else if (selection == 5) {//武器进阶
+            cm.dispose();
+            cm.openNpc(9900004, 10086);
+	    } else if (selection == 6) {//鞋子进阶
+            cm.dispose();
+            cm.openNpc(9900004, 10087);
+        } else if (selection == 7) {//手套进阶
+            cm.dispose();
+            cm.openNpc(9900004, 10088);
+        } else if (selection == 8) {//武器进阶
+            cm.dispose();
+            //cm.openNpc(9900004, 10075);
+			cm.openNpc(9270035, 1);
+		}
+        // else if (selection == 76) {//枫叶合成
+            // cm.openNpc(2000, 4);
+        // } else if (selection == 2) {//金花戒指
+            // cm.openNpc(9900004, 9893);
+        // } else if (selection == 8) {//皇家班
+            // cm.openNpc(9900004, 10075);
+        // } else if (selection == 3) { //十字团戒指
+            // cm.openNpc(9900004, 9894);
+		// } else if (selection == 4) {//法服呐
+            // cm.openNpc(9900004, 2003);
+        // } else if (selection == 5) {//法服呐
+            // cm.openNpc(9900004, 2004);
+        // } else if (selection == 6) {//暴君
+            // cm.openNpc(9000037, 0);
+        // } else if (selection == 6) {//埃苏
+            // cm.openNpc(9900004, 2005);
+        // } else if (selection == 7) {//神器
+            // cm.openNpc(9900004, 2006);
+        // } else if (selection == 77) {//发型脸型
+           // cm.openNpc(9900004, 3045);
+        // } else if (selection == 10) {//快速升级
+            // cm.openNpc(9900004, 78);
+        // } else if (selection == 9) {//跑商送货
+            // cm.openNpc(9010009, 0);
+        // } else if (selection == 10) {//免费点装
+            // cm.openNpc(9310071, 0);
+        // } else if (selection == 11) {//坐骑补给
+            // cm.openNpc(9900004, 68);
+        // } else if (selection == 12) {//豆豆兑换
+            // cm.openNpc(2000, 22);
+        // } else if (selection == 13) {//勋章领取
+            // cm.openNpc(9900004, 7);
+        // } else if (selection == 14) {//本服介绍
+            // cm.openNpc(9310033, 0);
+        // } else if (selection == 15) {//充值介绍
+            // cm.openNpc(9900004, 81);
+        // } else if (selection == 2999) {//每日任务
+            // cm.openNpc(9900004, 2);
+        // } else if (selection == 3999) {//每日签到
+            // cm.openNpc(9010010, 0);
+        // } else if (selection == 4999) {//流浪商人
+            // cm.openNpc(9310057, 0);
+        // } else if (selection == 5999) {//血衣制作
+            // cm.openNpc(2100007, 0);
+        // } else if (selection == 6999) {//抽奖
+            // cm.openNpc(9050007, 0);
+        // } else if (selection == 7999) {//觉醒
+            // cm.openNpc(9000021, 0);
+        // } else if (selection == 999) {//21点
+            // cm.openNpc(9900004, 932);
+        // } else if (selection == 9999) {//开锁
+            // cm.openNpc(9000008, 0);
+        // } else if (selection == 10999) {//
+            // cm.openNpc(2000, 0);
+     // } else if (selection == 1000) {//
+            // cm.openNpc(9900004, 1004);
+        // } else if (selection == 6666) {//
+            // cm.openNpc(9900004, 16);
+        // } else if (selection == 7777) {//
+            // cm.openNpc(9900004, 7);
+        // } else if (selection == 8888) {//
+            // cm.openNpc(9900004, 6);
+        // } else if (selection == 1002) {//
+           // cm.openNpc(9900004, 1002);
+            // cm.dispose();
+        // } else if (selection == 1003) {//
+            // cm.dispose();
+          // cm.openNpc(9100200, 0);
+        // } else if (selection == 111999) {//
+            // cm.dispose();
+          // cm.openNpc(9270050, 0);
+        // } else if (selection == 1111999) {//
+            // cm.dispose();
+          // cm.openNpc(9310071, 0);
+        // } else if (selection == 1004) {//
+            // cm.gainNX(999999);;
+            // cm.gainMeso(210000000);
+              // cm.sendOk("\r\n\r\n\t\t\t#e#r恭喜你获得了99999点卷!\r\n\r\n\t\t\t#e#r恭喜你获得了2E金币!");
+            // cm.dispose();
+        // } else if (selection == 9999) {//
+		// if(cm.getBossLog("2016活动") <= 0 && cm.canHold(4001215,3) && cm.getLevel() >= 8){
+			// cm.setBossLog("2016活动");
+            // cm.gainItem(4001215, 3);
+			// cm.worldMessage(6,"玩家：["+cm.getName()+"]领取了2016-04-10晚上活动集体奖励坐骑卷x3！");
+            // cm.sendOk("领取成功！");
+            // cm.dispose();
+		// }else{
+            // cm.sendOk("你已经领取过了！\r\n或者请留出背包空间");
+            // cm.dispose();
+		// }
+		// }
     }
 }
+
+

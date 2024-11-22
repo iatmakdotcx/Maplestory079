@@ -16,9 +16,9 @@ function end(mode, type, selection) {
 		status--;
     }
     if (status == 0) {
-		qm.sendAcceptDecline("You're received the Superior Hunter title!");
+		qm.askAcceptDecline("You're received the Superior Hunter title!");
     } else if (status == 1) {
-		qm.completeQuest();
+		qm.forceCompleteQuest();
         qm.gainItem(2043602,5);
         qm.gainItem(2043402,5);
         var rnum = Math.floor(Math.random() * 10);

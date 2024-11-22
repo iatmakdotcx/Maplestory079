@@ -1,95 +1,63 @@
-/************************************************************************
-/
-/	Author: 		xQuasar
-/	NPC Name: 		Sera
-/	Map(s): 		Maple Road : Entrance - Mushroom Town Training Camp (0),
-/				Maple Road: Upper level of the Training Camp (1), 
-/				Maple Road : Entrance - Mushroom Town Training Camp (3).
-/	Description: 	First NPC you ever see
-/	
-************************************************************************/
+/* ==================
+ 脚本类型: NPC	    
+ 脚本版权：游戏盒团队
+ 联系扣扣：297870163    609654666
+ =====================
+ */
+importPackage(Packages.client);
 
-importPackage(net.sf.cherry.client);
-
-var status;
-var map;
+var status = 0;
+var yes = 0;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+    status = -1;
+    action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (cm.getChar().getMapId() == 0 || cm.getChar().getMapId() == 3) {
-			if (mode == 0 && status != 3) {
-				status -= 2;
-			}
-			if (status == -1) {
-				status = 0;
-				cm.sendNext("Hey #b#h ##k, welcome to #rDestinyMS#k! I see you're new here. I guess I'll have to explain a few basics of this server, then.");
-			} else if (status == 0) {
-				status = 1;
-				var GMList = cm.getGMList();
-				cm.sendNext("If you need any help, whisper a GameMaster of #rDestinyMS#k and they'll do their best to help you out. If you want a list of GameMasters, use the player command '@gmlist'. For now, here's a quick list:\r\n\r\n#r" + GMList + ".#k");
-			} else if (status == 1) {
-				status = 2;
-				cm.sendNextPrev("Use @help to see all of #rDestinyMS#k's player commands.");
-			} else if (status == 2) {
-				status = 3;
-				cm.sendNextPrev("There's also an achievement system, in which you can... do stuff which will give a message broadcasted to the entire server, and some NX Cash. What are the achievements? Find out for yourself.");
-			} else if (status == 3) {
-				status = 4;
-				cm.sendSimple("Alright, I think that's about it for now. Where would you like to go?\r\n#b#L0#Training Camp#l\r\n#L1#Snail Hunting Ground I#l\r\n#L2#Lith Harbour#l#k");
-			} else if (status == 4) {
-				if (selection == 0) {
-					map = 1;
-					status = 5;
-					cm.sendOk("Alright, in you go. Here's a free stat reset, and some cash to start you off. Have fun playing DestinyMS!\r\n\r\n#bStat Reset#k #fUI/UIWindow.img/QuestIcon/5/0#\r\n\r\n#b25,000#k #fUI/UIWindow.img/QuestIcon/7/0#");
-				} else if (selection == 1) {
-					map = 40000;
-					status = 5;
-					cm.sendOk("Alright. Here's a free stat reset, and some cash to start you off. Have fun playing DestinyMS!\r\n\r\n#bStat Reset#k #fUI/UIWindow.img/QuestIcon/5/0#\r\n\r\n#b25,000#k #fUI/UIWindow.img/QuestIcon/7/0#");
-				} else if (selection == 2) {
-					map = 104000000;
-					status = 5;
-					cm.sendOk("Alright. Here's a free stat reset, and some cash to start you off. Have fun playing DestinyMS!\r\n\r\n#bStat Reset#k #fUI/UIWindow.img/QuestIcon/5/0#\r\n\r\n#b25,000#k #fUI/UIWindow.img/QuestIcon/7/0#");
-				} else {
-					cm.dispose();
-				}
-			} else if (status == 5) {
-				var statup = new java.util.ArrayList();
-				var p = cm.getPlayer();
-				var totAp = p.getRemainingAp() + p.getStr() + p.getDex() + p.getInt() + p.getLuk();		
-				p.setStr(4);
-				p.setDex(4);
-				p.setInt(4);
-				p.setLuk(4);
-				p.setRemainingAp (totAp - 16);
-				statup.add(new net.sf.cherry.tools.Pair(MapleStat.STR, java.lang.Integer.valueOf(4)));
-				statup.add(new net.sf.cherry.tools.Pair(MapleStat.DEX, java.lang.Integer.valueOf(4)));
-				statup.add(new net.sf.cherry.tools.Pair(MapleStat.LUK, java.lang.Integer.valueOf(4)));
-				statup.add(new net.sf.cherry.tools.Pair(MapleStat.INT, java.lang.Integer.valueOf(4)));
-				statup.add(new net.sf.cherry.tools.Pair(MapleStat.AVAILABLEAP, java.lang.Integer.valueOf(p.getRemainingAp())));
-				cm.getC().getSession().write (net.sf.cherry.tools.MaplePacketCreator.updatePlayerStats(statup));
-				cm.warp(map, 0);
-				cm.gainMeso(25000);
-				cm.dispose();				
-			}
-		} else {
-			if (mode == 1)
-				status++;
-			else
-				status--;
-			if (status == 0) {
-				cm.sendNext("This is the image room where your first training program begins. In this room, you will have an advance look into the job of your choice.");
-			} else if (status == 1) {
-				cm.sendPrev("Once you train hard enough, you will be entitled to occupy a job. You can become a Bowman in Henesys, a Magician in Ellinia, a Warrior in Perion, or a Thief in Kerning City...");
-			} else if (status == 2) {
-				cm.dispose();
-			}
-		}
-	}
+    if (cm.getChar().getMapId() == 0 || cm.getChar().getMapId() == 3) {
+        if (mode == -1) {
+            cm.dispose();
+        } else {
+            if (status == -1 && mode == 0) {
+                cm.sendNext("当你终于做出决定的时候，请再和我说话.");
+                cm.dispose();
+                return;
+            } else if (status >= 0 && mode == 0) {
+                yes = 1;
+                cm.sendYesNo("你真的想马上开始你的旅程吗?");
+            }
+            if (mode == 1)
+                status++;
+            else
+                status--;
+            if (status == 0) {
+                if (yes == 1) {
+                    status = 2;
+                    cm.sendNext("似乎你想开始你的旅程，而不采取培训计划。然后，我会让你进入训练场。小心.");
+                } else
+                    cm.sendYesNo("欢迎来到冒险岛世界,这个训练营的目的是帮助新手.你想参加这个训练营吗?有些人开始他们的旅程,而不采取培训计划,但我强烈建议你先参加培训计划");
+            } else if (status == 1) {
+                cm.sendNext("好吧，那么，我会让你进入训练营.");
+            } else if (status == 2) {
+                cm.warp(1, 0);
+                cm.dispose();
+            } else if (status == 3) {
+                cm.warp(40000);
+                cm.dispose();
+            }
+        }
+    } else {
+        if (mode < 1) {
+            cm.dispose();
+        } else {
+            status++;
+            if (status == 0) 
+                cm.sendNext("这是你的第一个培训计划开始的图像室。在这个房间里，你将能看到整个冒险岛世界的景观.");
+            else if (status == 1)
+                cm.sendPrev("一旦你训练不够努力，你将有权获得一个职业。你可以成为射手村的弓箭手，在魔法密林的魔法师，在勇士部落的战士，在废弃都市的飞侠，和诺特勒斯的海盗.");
+            else
+                cm.dispose();
+        }
+    }
 }

@@ -1,15 +1,17 @@
-/*
-	ä»»åŠ¡: æˆ‘æ˜¯å¹¸è¿å„¿â˜…
-	æè¿°: å‚åŠ 2010å¹´8æœˆ14æ—¥æœºæ¢°å¸ˆå¼€æ”¾çºªå¿µæ´»åŠ¨ï¼Œè·å¾—äº†#bæˆ‘æ˜¯å¹¸è¿å„¿â˜…#kç§°å·ã€‚
-*/
+/* ==================
+ ½Å±¾ÀàĞÍ:  ÈÎÎñ	    
+ ½Å±¾°æÈ¨£ºÓÎÏ·ºĞÍÅ¶Ó
+ ÁªÏµ¿Û¿Û£º297870163    609654666
+ =====================
+ */
 var status = -1;
 
 function start(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }
 
 function end(mode, type, selection) {
-    qm.completeQuest();
+    qm.forceCompleteQuest();
     qm.dispose();
 }

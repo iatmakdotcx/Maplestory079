@@ -15,7 +15,7 @@ function start(mode, type, selection) {
 	} else if (status == 1) {
 		qm.warp(310010000,0);
 		qm.forceStartQuest();
-		qm.completeQuest();
+		qm.forceCompleteQuest();
         qm.dispose();
 	}
 }

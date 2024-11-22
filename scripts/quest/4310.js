@@ -7,7 +7,7 @@ function start(mode, type, selection) {
 		return;
 	}
 	if (status == 0) {
-		qm.completeQuest();
+		qm.forceCompleteQuest();
 		qm.dispose();
 	}
 }

@@ -20,7 +20,7 @@ function action(mode, type, selection) {
     if (status == 0) {
         zyms = "#fMob/1210102.img/move/0##fMob/1210102.img/move/0##b追忆 - MS#fMob/1210102.img/move/0##fMob/1210102.img/move/0#\r\n";
 
-        zyms += "#k金卷余额:#r" + cm.getJQ() + "#k张 购买物品前请看好在购买。\r\n";
+        zyms += "#k金卷元宝:#r" + cm.getJQ() + "#k张 购买物品前请看好在购买。\r\n";
         zyms += "#L1##b双倍道具#l #L2##b椅子商店#l #L3##b点装商店#l #L4##b玩具商店#l\r\n\r\n";
         zyms += "                  #L5##r喇叭商店#l\r\n\r\n";
         zyms += "      #L6##r道具卷轴#l     #fMob/0130101.img/move/0# #L7##r骑宠商店#l\r\n";

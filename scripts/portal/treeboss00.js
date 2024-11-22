@@ -1,51 +1,27 @@
-
-/* 
-    大树妖脚本。 
-    亲亲嘴冒险 芯碎王子 修改
-    非同意内禁止转载 
-*/ 
-
-importPackage(net.sf.cherry.server.maps); 
-importPackage(net.sf.cherry.net.channel); 
-importPackage(net.sf.cherry.tools); 
-
-function enter(pi) { 
- var nextMap = 541020800; 
- var treeboss00Map = pi.getC().getChannelServer().getMapFactory().getMap(541020800); 
- var mapobjects = treeboss00Map.getMapObjects(); 
- var boss = null; 
- var player = null; 
- var iter = mapobjects.iterator(); 
- while (iter.hasNext()) { 
-   o = iter.next(); 
-   if (o.getType() == MapleMapObjectType.MONSTER){ 
-    boss = o; 
-   } 
-   if (o.getType() == MapleMapObjectType.PLAYER){ 
-    player = o; 
-   } 
-  } 
-
-
- if (pi.getBossLog('treeboss00')>=5) {   
-  sendMessage(pi,"每天挑战5次！你明天再来吧"); 
-  return false; }
-   
-
-if(player != null && boss != null){
-	sendMessage(pi,"对抗 大树妖BOSS 还在进行中。。请稍候再来。。。"); 
-  	return false; }
-
- if (treeboss00Map.getCharacters().isEmpty() && pi.getBossLog('treeboss00') < 5) { 
-  treeboss00Map.resetReactors(); 
- } 
-  pi.getC().getChannelServer().getMapFactory().getMap(541020800).clearMapTimer(); 
-  pi.getC().getChannelServer().getMapFactory().getMap(541020800).killAllMonsters(); 
-  pi.setBossLog('treeboss00'); 
-  pi.warp(541020800);  
-  return true; 
-   
-} 
-function sendMessage(pi,message) { 
- pi.getPlayer().getClient().getSession().write(MaplePacketCreator.serverNotice(5, message)); 
-} 
+function enter(pi) {
+	if(pi.getBossLoga("千年树精") >= 2){
+		pi.sendSimpleS("抱歉，你的每日挑战次数已达到2次，无法进入！", 0, 9270045);
+		return;
+	}
+    if (pi.getPlayerCount(541020800) <= 0) { // krex. Map
+	var krexMap = pi.getMap(541020800);
+	krexMap.resetFully();
+	pi.setBossLoga("千年树精");
+	pi.playPortalSE();
+	pi.warp(541020800, "sp");
+	krexMap.clearOwnerList();
+	krexMap.addAllOwnerHere();
+	krexMap.startEventTimer(30, true, true);
+	return true;
+    } else {
+	if (pi.getMap(541020800).getSpeedRunStart() == 0 && (pi.getMonsterCount(541020800) <= 0 || pi.getMap(541020800).isDisconnected(pi.getPlayer().getId()))) {
+		pi.setBossLoga("千年树精");
+	    pi.playPortalSE();
+	    pi.warp(541020800, "sp");
+	    return true;
+	} else {
+	    pi.playerMessage(5, "里面的战斗已经开始了，请稍后片刻.");
+	    return false;
+	}
+    }
+}

@@ -33,8 +33,8 @@ if (mode == -1) {
 	    qm.sendNextPrev("Let's go back to the first floor and talk with the Headmistress.\r\n\r\n(#bGo to the 1st floor of Ellinel Fairy Academy.)");
 	} else if (status == 2) {
 		qm.removeAll(4033829);
-		qm.completeQuest(32114);
-		qm.completeQuest();
+		qm.forceCompleteQuest(32114);
+		qm.forceCompleteQuest();
 	    qm.dispose();		
 	}
   }

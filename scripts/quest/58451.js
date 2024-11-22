@@ -1,4 +1,4 @@
-?/*
+﻿﻿/*
  Made by Pungin
  */
         var status = -1;
@@ -8,7 +8,7 @@ function start(mode, type, selection) {
         status++;
     } else {
         if (status == 5) {
-            qm.sendOkSNew("不想要这个徽章吗？", 0x20, 1);
+            qm.sendOkSNew("不想要這個徽章嗎？", 0x13, 1);
             qm.dispose();
             return;
         }
@@ -16,17 +16,17 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendNextNew("K 城墙崩溃了! 村民陷入危险耶!！", 0x38, 1);
+        qm.sendNextSNew("K 城牆崩潰了! 村民陷入危險耶!！", 0x38, 1);
     } else if (status == 1) {
-        qm.sendNextPrevNew("我也知道 #h0#..但是这是 异世界的事情. 还有已经无法再旅行异世界了. 但是你随时可以再旅行到你记忆里存在的那个时间点. 因为那不是穿越时空，而是追随你的记忆的关系.。", 0x20, 1);
+        qm.sendNextPrevSNew("我也知道 #h0#..但是這是 異世界的事情. 還有已經無法再旅行異世界了. 但是你隨時可以再旅行到你記憶裡存在的那個時間點. 因為那不是穿越時空，而是追隨你的記憶的關係.。", 0x13, 1);
     } else if (status == 2) {
-        qm.sendNextPrevNew("虽然这个时间非常依依不舍…但是只能放弃。", 0x38, 1);
+        qm.sendNextPrevSNew("雖然這個時間非常依依不捨…但是只能放棄。", 0x38, 1);
     } else if (status == 3) {
-        qm.sendNextPrevNew("看在你这麽依依不舍，我特别给你一个礼物吧. 异世界的徽章! 但是我不能免费给你. 带来跟这徽章交换的物品时，我会再跟你交换喔。", 0x20, 1);
+        qm.sendNextPrevSNew("看在你這麼依依不捨，我特別給你一個禮物吧. 異世界的徽章! 但是我不能免費給你. 帶來跟這徽章交換的物品時，我會再跟你交換喔。", 0x13, 1);
     } else if (status == 4) {
-        qm.sendNextPrevNew("想跟哪一种道具交换呢？  ", 0x38, 1);
+        qm.sendNextPrevSNew("想跟哪一種道具交換呢？  ", 0x38, 1);
     } else if (status == 5) {
-        qm.sendYesNoSNew("我想一下~ 小小的东西就可以了! 去看看杂货商店如何? 应该会有跟这徽章能交换的道具吧? 那我在这里等你把东西找到吧?。", 0x20, 1);
+        qm.sendYesNoSNew("我想一下~ 小小的東西就可以了! 去看看雜貨商店如何? 應該會有跟這徽章能交換的道具吧? 那我在這裡等你把東西找到吧?。", 0x13, 1);
     } else if (status == 6) {
         qm.forceStartQuest();
         qm.dispose();
@@ -47,18 +47,18 @@ function end(mode, type, selection) {
             qm.dispose();
             return;
         }
-        qm.sendNextNew("那，就用这徽章交换没有问题吗？", 0x38, 1);
+        qm.sendNextSNew("那，就用這徽章交換沒有問題嗎？", 0x38, 1);
     } else if (status == 1) {
-        qm.sendNextPrevNew("好吧 。#h0#…献给你 异世界最後的回忆吧。", 0x20, 1);
+        qm.sendNextPrevSNew("好吧 。#h0#…獻給你 異世界最後的回憶吧。", 0x13, 1);
     } else if (status == 2) {
         if (!qm.canHold(1182141)) {
-            qm.topMsg("装备栏位不足。请空出 1格以上的空位。");
+            qm.topMsg("裝備欄位不足。請空出 1格以上的空位。");
             qm.dispose();
             return;
         }
         qm.gainItem(1182140, -1);
         qm.gainItem(1182141, 1);
-        qm.completeQuest();
+        qm.forceCompleteQuest();
         qm.dispose();
     } else {
         qm.dispose();
