@@ -21,9 +21,9 @@ public class ServerConfig {
     public static boolean Encoder = false;
     public static boolean TESPIA = false;
     public static boolean DISCOUNTED = false;
-    public static String SERVER_NAME = "大王ZLHSS冒险岛";
-    public static String TOUDING = "大王ZLHS 欢迎您 记得点拍卖签到.领取宠物";
-    public static String IP = "47.95.13.193";
+    public static String SERVER_NAME = "冒险岛";
+    public static String TOUDING = "欢迎您";
+    public static String IP = "127.0.0.1";
     private static String EVENTS = null;
     public static boolean DEBUG_MODE = false;
     public static boolean NMGB = true;

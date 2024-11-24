@@ -1866,5 +1866,59 @@ public class MapleItemInformationProvider {
         }
         return 2100000000;
     }
+    private static String getDayInt(int day) {
+        if (day == 1) {
+            return "SUN";
+        }
+        if (day == 2) {
+            return "MON";
+        }
+        if (day == 3) {
+            return "TUE";
+        }
+        if (day == 4) {
+            return "WED";
+        }
+        if (day == 5) {
+            return "THU";
+        }
+        if (day == 6) {
+            return "FRI";
+        }
+        if (day == 7) {
+            return "SAT";
+        }
+        return null;
+    }
 
+    protected Map<Integer, Map<String, String>> getExpCardTimes = new HashMap();
+    public boolean isExpOrDropCardTime(int itemId) {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/ShangHai"));
+        String day = getDayInt(cal.get(Calendar.DAY_OF_WEEK));
+        //log.info("" + cal.get(Calendar.HOUR_OF_DAY));
+        Map<String, String> times;
+        if (getExpCardTimes.containsKey(itemId)) {
+            times = getExpCardTimes.get(itemId);
+        } else {
+            List<MapleData> data = getItemData(itemId).getChildByPath("info").getChildByPath("time").getChildren();
+            Map<String, String> hours = new HashMap<String, String>();
+            for (MapleData childdata : data) {
+                //MON:03-07
+                String[] time = MapleDataTool.getString(childdata).split(":");
+                hours.put(time[0], time[1]);
+            }
+            times = hours;
+            this.getExpCardTimes.put(Integer.valueOf(itemId), hours);
+            cal.get(7);
+        }
+        if (times.containsKey(day)) {
+            String[] hourspan = ((String) times.get(day)).split("-");
+            int starthour = Integer.parseInt(hourspan[0]);
+            int endhour = Integer.parseInt(hourspan[1]);
+            if ((cal.get(11) >= starthour) && (cal.get(11) <= endhour)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

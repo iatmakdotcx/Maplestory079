@@ -3248,9 +3248,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements Se
             }
         }
 
-        if (getExpm() > 1.0D) {
-            gain = (int) (gain * getExpm());
-        }
         if (isVip()) {
             gain = (int) (gain * (1.0D + (getVipExpRate() / 100D)));
         }
@@ -4844,6 +4841,40 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements Se
         dropMessage(6, message);
     }
 
+    public int hasEXPCard() { //双倍卡 温暖的围脖
+        int[] 三倍经验卡 = {5211060};
+        int[] expCards = {5210000, 5210001, 5210002, 5210003, 5210004, 5210005, 5210006, 5211000, 5211001, 5211002, 5211047, 4100000, 4100001, 4100002, 4100003, 4100004, 4100005, 4100006};
+        MapleInventory iv = getInventory(MapleInventoryType.CASH);
+        MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
+
+        for (Integer id : 三倍经验卡) {
+            if (iv.countById(id) > 0) {
+                if (ii.isExpOrDropCardTime(id)) {
+                    return 3;
+                }
+            }
+        }
+        for (Integer id : expCards) {
+            if (iv.countById(id) > 0) {
+                if (ii.isExpOrDropCardTime(id)) {
+                    return 2;
+                }
+            }
+        }
+        return 1;
+    }
+
+    public int hasDropCard() {//双倍爆率卡
+        int[] dropCards = {5360000, 5360014, 5360015, 5360016};
+        MapleInventory iv = getInventory(MapleInventoryType.CASH);
+        MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
+        for (Integer id : dropCards) {
+            if (iv.countById(id) > 0) {
+                return 2;
+            }
+        }
+        return 1;
+    }
     /**
      * @param type     1 = NX点数 2 = 枫叶点数
      * @param quantity 获得点数数量
@@ -6127,26 +6158,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements Se
         this.canTalk = talk;
     }
 
-    public int getEXPMod() {
-        return stats.expMod;
-    }
-
-    public int getDropMod() {
-        return stats.dropMod;
-    }
-
-    public double getDropm() {
-        return stats.dropm;
-    }
-
-    public double getExpm() {
-        return stats.expm;
-    }
-
-    public int getCashMod() {
-        return stats.cashMod;
-    }
-
     // public void setPoints(int p) {
     // this.points = p;
     /*
@@ -6582,9 +6593,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements Se
     }
 
     public void spawnClones() {
-        if (numClones == 0 && stats.hasClone) {
-            cloneLook(); // once and never again
-        }
         for (int i = 0; i < numClones; i++) {
             cloneLook();
         }
@@ -7765,10 +7773,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements Se
 
     public boolean getVipMedal() {
         return Vip_Medal;
-    }
-
-    public void setVipMedat(boolean x) {
-        Vip_Medal = x;
     }
 
     public void setVipMedal(boolean x) {
@@ -9872,12 +9876,6 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements Se
         }
     }
 
-    /**
-     * @Author: Wei Chunlai
-     * @Description:绑定QQ号
-     * @Params: * @param null
-     * @Date: 2019/6/10 15:03
-     */
     public void modifyQQ(String qqstring) {
         try (Connection con = DBConPool.getInstance().getDataSource().getConnection()) {
             try (PreparedStatement ps = con

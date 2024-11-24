@@ -2732,8 +2732,7 @@ public class InventoryHandler {
                     }
                     for (final MapleCharacter m : toGive) {
                         m.gainMeso(
-                                mapitem.getMeso() / toGive.size()
-                                        + (m.getStat().hasPartyBonus ? (int) (mapitem.getMeso() / 20.0) : 0),
+                                mapitem.getMeso() / toGive.size(),
                                 true, true);
                     }
                 } else {
@@ -2846,8 +2845,7 @@ public class InventoryHandler {
                         }
                     }
                     for (final MapleCharacter m : toGive) {
-                        m.gainMeso(splitMeso / toGive.size()
-                                + (m.getStat().hasPartyBonus ? (int) (mapitem.getMeso() / 20.0) : 0), true);
+                        m.gainMeso(splitMeso / toGive.size(), true);
                     }
                     chr.gainMeso(mapitem.getMeso() - splitMeso, true);
                 } else {

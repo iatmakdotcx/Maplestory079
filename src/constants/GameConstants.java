@@ -114,7 +114,6 @@ public class GameConstants {
     public static final int[] blockedSkills = {4341003};
     public static int[] blockedMaps = {109050000, 200000112, 200090020, 240060200, 280030000, 280090000, 280030001,
             240060201, 900090021, 950101100, 950101010};
-    public static int[] Equipments_Bonus = {1122017, 1122086, 1122207, 1122215};
     public static final String[] RESERVED = {"Rental"};
     public static final String[] stats = {"tuc", "reqLevel", "reqJob", "reqSTR", "reqDEX", "reqINT", "reqLUK",
             "reqPOP", "cash", "cursed", "success", "setItemID", "equipTradeBlock", "durability", "randOption",

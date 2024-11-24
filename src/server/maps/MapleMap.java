@@ -471,7 +471,6 @@ public final class MapleMap {
         }
         return ret;
     }
-
     private void dropFromMonster(final MapleCharacter chr, final MapleMonster mob) {
         if (mob == null || chr == null || ChannelServer.getInstance(channel) == null || dropsDisabled
                 || mob.dropsDisabled() || chr.getPyramidSubway() != null) { // no drops in pyramid ok? no cash either
@@ -492,44 +491,42 @@ public final class MapleMap {
         IItem idrop;
         byte d = 1;
         Point pos = new Point(0, mob.getPosition().y);
-        double showdown = 100.0;
+        double showdown = 1.0;
         final MonsterStatusEffect mse = mob.getBuff(MonsterStatus.SHOWDOWN);
         if (mse != null) {
-            showdown += mse.getX();
+            //神偷 技能增加经验值, 物品掉落率
+            showdown += (mse.getX() / 100.0);
         }
+        //角色 buff 和 双倍掉落率卡
+        double lastDrop = chr.getStat().realDropBuff / 100.0;
+
+        double droprate = chServerrate * showdown * lastDrop * chr.hasDropCard();
 
         final MapleMonsterInformationProvider mi = MapleMonsterInformationProvider.getInstance();
         final List<MonsterDropEntry> drops = mi.retrieveDrop(mob.getId());
-        if (drops == null) { // 没掉宝 = 没全域掉宝
+        if (drops == null || drops.isEmpty()) { // 没掉宝 = 没全域掉宝
             return;
         }
         if (getId() != 925040001) {
-            final List<MonsterDropEntry> dropEntry = mi.retrieveDrop(mob.getId());
+//            final List<MonsterDropEntry> dropEntry = mi.retrieveDrop(mob.getId());
             if (chr.getDebugMessage()) {
                 chr.dropMessage("怪物: " + mob.getId());
                 chr.dropMessage("掉宝如下: ");
-                for (MonsterDropEntry de : dropEntry) {
+                for (MonsterDropEntry de : drops) {
                     chr.dropMessage(" 道具: " + de.itemId + " 机率: "
-                            + de.chance * chServerrate * chr.getDropMod() * chr.getDropm()
-                            * ((chr.getVipExpRate() / 100D) + 1.0D)
-                            * (chr.getStat().realDropBuff - 100.0 <= 0 ? 100 : chr.getStat().realDropBuff - 100)
-                            / 100.0 * (showdown / 100.0)
-                            + " 最大/小掉落量: " + de.Maximum + "/" + de.Minimum);
+                            + String.format("%.2f",(de.chance * droprate)/99999.0*100)
+                            + " 最大/小掉落量: " + de.Maximum + "/" + de.Minimum+", "+ ii.getName(de.itemId) + (de.questid==0?"":",("+de.questid+")"));
                 }
             }
-            Collections.shuffle(dropEntry);
+//            Collections.shuffle(drops);
             boolean mesoDropped = false;
-            for (final MonsterDropEntry de : dropEntry) {
+            for (final MonsterDropEntry de : drops) {
                 if (de.itemId == mob.getStolen()) {
                     continue;
                 }
-                double lastDrop = chr.getStat().realDropBuff - 100.0 <= 0 ? 100 : chr.getStat().realDropBuff - 100;
-                if (Randomizer.nextInt(999999) < ((de.itemId == 1012168 || de.itemId == 1012169 || de.itemId == 1012170
-                        || de.itemId == 1012171)
-                        ? de.chance
-                        : ((int) (de.chance * chServerrate * chr.getDropMod() * chr.getDropm()
-                        * ((chr.getVipExpRate() / 100) + 1.0D) * lastDrop / 100.0
-                        * (showdown / 100.0))))) {
+
+                double chance = de.chance * droprate;
+                if (Randomizer.nextInt(99999) < chance) {
                     if (mesoDropped && droptype != 3 && de.itemId == 0) { // not more than 1 sack of meso
                         continue;
                     }
@@ -561,11 +558,14 @@ public final class MapleMap {
                         if (GameConstants.getInventoryType(de.itemId) == MapleInventoryType.EQUIP) {
                             idrop = ii.randomizeStats((Equip) ii.getEquipById(de.itemId));
                         } else {
-                            final int range = Math.abs(de.Maximum - de.Minimum);
-                            idrop = new Item(de.itemId, (byte) 0,
-                                    (short) (de.Maximum != 1 ? Randomizer.nextInt(range <= 0 ? 1 : range) + de.Minimum
-                                            : 1),
-                                    (byte) 0);
+                            if(de.Maximum == 1)
+                            {
+                                idrop = new Item(de.itemId, (byte) 0, (short)1, (byte) 0);
+                            }else {
+                                int range = Math.abs(de.Maximum - de.Minimum);
+                                int quantity = Randomizer.nextInt(range <= 0 ? 1 : range) + de.Minimum;
+                                idrop = new Item(de.itemId, (byte) 0, (short) quantity, (byte) 0);
+                            }
                         }
                         spawnMobDrop(idrop, calcDropPos(pos, mob.getPosition()), mob, chr, droptype, de.questid);
                     }
@@ -586,43 +586,20 @@ public final class MapleMap {
             }
 
         }
-        // 宝箱掉落
-        /*
-         * double lastDropa = chr.getStat().realDropBuff - 100.0 <= 0 ? 100 :
-         * chr.getStat().realDropBuff - 100;
-         * if (Randomizer.nextInt(999999) < (int) (5000 * chServerrate *
-         * chr.getDropMod() * chr.getDropm() * lastDropa / 100.0 * (showdown / 100.0)))
-         * {
-         * if (MapleInventoryManipulator.checkSpace(chr.getClient(), 4001102, 1, "")) {
-         * MapleInventoryManipulator.addById(chr.getClient(), 4001102, (short) 1);
-         * chr.dropMessage(5, "恭喜你获得宝箱。");
-         * } else {
-         * chr.dropMessage(5, "请检查你的背包是否已有宝箱或者已满。");
-         * }
-         * }
-         */
 
-        pos.x = Math.min(Math.max(mobpos - 25 * (d / 2), footholds.getMinDropX() + 25),
-                footholds.getMaxDropX() - d * 25);
+        pos.x = Math.min(Math.max(mobpos - 25 * (d / 2), footholds.getMinDropX() + 25), footholds.getMaxDropX() - d * 25);
         int mesos = Randomizer.nextInt(mob.getLevel()) + mob.getLevel();
         if (mesos > 0) {
-            double lastMeso = chr.getStat().realMesoBuff - 100.0 <= 0 ? 100 : chr.getStat().realMesoBuff - 100;
-            spawnMobMesoDrop(
-                    (int) (mesos * (lastMeso / 100.0) * ((chr.getVipExpRate() / 100) + 1.0D) * chr.getDropMod()
-                            * chr.getDropm() * cmServerrate),
+            double lastMeso = chr.getStat().realMesoBuff / 100.0;
+            double mesodroprate = chServerrate * showdown * lastMeso * chr.hasDropCard();
+            spawnMobMesoDrop((int) (mesos * mesodroprate),
                     calcDropPos(pos, mob.getTruePosition()), mob, chr, false, droptype);
         }
-        final List<MonsterGlobalDropEntry> globalEntry = new ArrayList<>(mi.getGlobalDrop());
-        Collections.shuffle(globalEntry);
-        final int cashz = mob.getStats().isBoss() && mob.getStats().getHPDisplayType() == 0 ? 20 : 1;
-        final int cashModifier = (int) ((mob.getStats().isBoss() ? 0
-                : (mob.getMobExp() / 1000 + mob.getMobMaxHp() / 10000))); // no rate
+        final List<MonsterGlobalDropEntry> globalEntry = mi.getGlobalDrop();
         // Global Drops
         for (final MonsterGlobalDropEntry de : globalEntry) {
-            if (Randomizer.nextInt(999999) < de.chance
-                    && (de.continent < 0 || (de.continent < 10 && mapid / 100000000 == de.continent)
-                    || (de.continent < 100 && mapid / 10000000 == de.continent)
-                    || (de.continent < 1000 && mapid / 1000000 == de.continent))) {
+            double chance = de.chance * droprate;
+            if (Randomizer.nextInt(99999) < chance) {
                 if (droptype == 3) {
                     pos.x = (mobpos + (d % 2 == 0 ? (40 * (d + 1) / 2) : -(40 * (d / 2))));
                 } else {
@@ -635,47 +612,20 @@ public final class MapleMap {
                     if (GameConstants.getInventoryType(de.itemId) == MapleInventoryType.EQUIP) {
                         idrop = ii.randomizeStats((Equip) ii.getEquipById(de.itemId));
                     } else {
-                        idrop = new Item(de.itemId, (byte) 0,
-                                (short) (de.Maximum != 1 ? Randomizer.nextInt(de.Maximum - de.Minimum) + de.Minimum
-                                        : 1),
-                                (byte) 0);
+                        if(de.Maximum == 1)
+                        {
+                            idrop = new Item(de.itemId, (byte) 0, (short)1, (byte) 0);
+                        }else {
+                            int range = Math.abs(de.Maximum - de.Minimum);
+                            int quantity = Randomizer.nextInt(range <= 0 ? 1 : range) + de.Minimum;
+                            idrop = new Item(de.itemId, (byte) 0, (short) quantity, (byte) 0);
+                        }
                     }
-                    spawnMobDrop(idrop, calcDropPos(pos, mob.getPosition()), mob, chr, de.onlySelf ? 0 : droptype,
-                            de.questid);
+                    spawnMobDrop(idrop, calcDropPos(pos, mob.getPosition()), mob, chr, de.onlySelf ? 0 : droptype,  de.questid);
                     d++;
                 }
             }
         }
-
-        /*
-         * if (ServerConstants.MobDropMPoint && Randomizer.nextInt(99) <
-         * ServerConstants.MobDropMPointRate) {
-         *
-         * HashMap<String, Integer> pointsOfDay = new HashMap<String, Integer>();
-         * HashMap<String, Integer> cache = (HashMap)
-         * PointsGained.putIfAbsent(Integer.valueOf(chr.getAccountID()), pointsOfDay);
-         * if (cache != null) {
-         * pointsOfDay = cache;
-         * }
-         * DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-         * Date date = new Date();
-         * String today = dateFormat.format(date);
-         * int count = (pointsOfDay.getOrDefault(today, 0));
-         * if (count >= ServerConstants.MobDropMPointLimit) {
-         * //chr.setAcLog("打怪掉点");
-         * }
-         * if (count < (ServerConstants.MobDropMPointLimit + (chr.getVip() * 500))) {
-         * //if (chr.getAcLogD("打怪掉点") == 0) {
-         * int cash = Randomizer.rand(ServerConstants.MobDropMPointMin,
-         * ServerConstants.MopDropMPointMax);
-         * chr.modifyCSPoints(2, cash, true);
-         * pointsOfDay.put(today, count + cash);
-         * chr.dropMessage(-1, "您今天打了 " + (count + cash) + "/" +
-         * (ServerConstants.MobDropMPointLimit + (chr.getVip() * 500)) + " 枫叶点数");
-         * //}
-         * }
-         * }
-         */
     }
 
     public void removeMonster(final MapleMonster monster) {

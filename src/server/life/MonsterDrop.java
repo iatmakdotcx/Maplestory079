@@ -20,25 +20,26 @@
  */
 package server.life;
 
-public class MonsterDropEntry {
+import java.util.List;
 
-    /**
-     * @param itemId  物品代码
-     * @param chance  机率
-     * @param questid 任务代码
-     * @param Maximum
-     * @param Minimum
-     */
-    public MonsterDropEntry(int itemId, int chance, int Minimum, int Maximum, short questid) {
-        this.itemId = itemId;
-        this.chance = chance;
-        this.questid = questid;
-        this.Minimum = Minimum;
-        this.Maximum = Maximum;
+public class MonsterDrop {
+
+    public List<MonsterDropEntry> drops;
+    public int lastAssigned = -1;
+    int minChance = 1;
+
+    public MonsterDrop(List<MonsterDropEntry> drops){
+        this.drops = drops;
+        for (MonsterDropEntry d : drops) {
+            if (d.chance > minChance) {
+                minChance = d.chance;
+            }
+        }
+        for (MonsterDropEntry d : drops) {
+            d.assignedRangeStart = lastAssigned + 1;
+            d.assignedRangeLength = (int) Math.ceil((1.0 / d.chance) * minChance);
+            lastAssigned += d.assignedRangeLength;
+        }
     }
 
-    public short questid;
-    public int itemId, chance, Minimum, Maximum;
-    public int assignedRangeStart;
-    public int assignedRangeLength;
 }

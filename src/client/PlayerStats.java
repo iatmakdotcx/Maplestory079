@@ -41,21 +41,22 @@ public class PlayerStats implements Serializable {
     private final transient WeakReference<MapleCharacter> chr;
     private final Map<Integer, Integer> setHandling;
     private final List<Equip> durabilityHandling, equipLevelHandling = new ArrayList<>();
+    public boolean petVacItem = false;
     private transient float shouldHealHP, shouldHealMP;
     public short str, dex, luk, int_, hp, maxhp, mp, maxmp;
     private transient short passive_sharpeye_percent, localmaxhp, localmaxmp;
     private transient byte passive_mastery, passive_sharpeye_rate;
     private transient int localstr, localdex, localluk, localint_;
     private transient int magic, watk, hands, accuracy;
-    public transient boolean equippedWelcomeBackRing, equippedFairy, hasMeso, hasItem, hasVac, hasClone, hasPartyBonus,
+    public transient boolean equippedWelcomeBackRing, equippedFairy, hasMeso, hasItem,
             Berserk = false, isRecalc = false, equippedRing;
-    public transient int equipmentBonusExp, expMod, dropMod, cashMod, levelBonus;
+    public transient int equipmentBonusExp, levelBonus;
     public transient double expBuff, dropBuff, mesoBuff, cashBuff, realExpBuff, realDropBuff, realMesoBuff,
             realCashBuff;
     // restore/recovery are separate variables because i dont know jack shit what it
     // even does
     // same with incMesoProp/incRewardProp for now
-    public transient double dam_r, bossdam_r, dropm, expm;
+    public transient double dam_r, bossdam_r;
     public transient int recoverHP, recoverMP, mpconReduce, incMesoProp, incRewardProp, DAMreflect, DAMreflect_rate,
             mpRestore,
             hpRecover, hpRecoverProp, mpRecover, mpRecoverProp, RecoveryUP, incAllskill;
@@ -295,17 +296,9 @@ public class PlayerStats implements Serializable {
         equippedFairy = false;
         hasMeso = false;
         hasItem = false;
-        hasPartyBonus = false;
-        hasVac = false;
-        hasClone = false;
         final boolean canEquipLevel = chra.getLevel() >= 120 && !GameConstants.isKOC(chra.getJob());
         equipmentBonusExp = 0;
         RecoveryUP = 0;
-        dropMod = 1;
-        dropm = 1.0;
-        expMod = 1;
-        expm = 1.0;
-        cashMod = 1;
         levelBonus = 0;
         incAllskill = 0;
         durabilityHandling.clear();
@@ -322,8 +315,7 @@ public class PlayerStats implements Serializable {
 
             if (equip.getPosition() == -11) {
                 if (GameConstants.isMagicWeapon(equip.getItemId())) {
-                    final Map<String, Integer> eqstat = MapleItemInformationProvider.getInstance()
-                            .getEquipStats(equip.getItemId());
+                    final Map<String, Integer> eqstat = MapleItemInformationProvider.getInstance().getEquipStats(equip.getItemId());
 
                     element_fire = eqstat.get("incRMAF");
                     element_ice = eqstat.get("incRMAI");
@@ -362,25 +354,21 @@ public class PlayerStats implements Serializable {
                 case 1114000:
                     equippedRing = true;
                     break;
-                case 1122017:
+                case 1122017: //精灵吊坠-装备后可以增加经验值，时间越久，效果越强。\n #c1小时：10%的额外经验值\n 2小时：20%的额外经验值\n 2小时以上：30%的额外经验值#
                 case 1122086:
                 case 1122207:
                 case 1122215:
+                    equipmentBonusExp += 30;
                     equippedFairy = true;
                     break;
                 case 1812000:
                     hasMeso = true;
                     break;
                 case 1812001:
+                    //宠物拣取券-装备在宠物身上，帮助角色拣取怪物掉的道具。但有时间限制。
                     hasItem = true;
                     break;
                 default:
-                    for (int eb_bonus : GameConstants.Equipments_Bonus) {
-                        if (equip.getItemId() == eb_bonus) {
-                            equipmentBonusExp += GameConstants.Equipment_Bonus_EXP(eb_bonus);
-                            break;
-                        }
-                    }
                     break;
             } // slow, poison, darkness, seal, freeze
             percent_hp += equip.getHpR();
@@ -488,112 +476,17 @@ public class PlayerStats implements Serializable {
                 }
             }
         }
-        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        int weekDay = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_WEEK);
-        /*
-         * if (chra.getMarriageId() > 0) {
-         * expm = 1.1;
-         * dropm = 1.1;
-         * }
-         */
-        expMod = 1;
-        dropMod = 1;
-        for (IItem item : chra.getInventory(MapleInventoryType.CASH)) {
-            /*
-             * if (expMod < 3 && (item.getItemId() == 5211060 || item.getItemId() == 5211050
-             * || item.getItemId() == 5211051 || item.getItemId() == 5211052 ||
-             * item.getItemId() == 5211053 || item.getItemId() == 5211054)) {
-             * expMod = 3;//overwrite
-             * } else if (expMod == 1 && (item.getItemId() == 5210000)) {
-             * expMod = 2;
-             * } else if (expMod == 1 && item.getItemId() == 5210001 && hour >= 0 && hour <=
-             * 6) {
-             * expMod = 2;
-             * } else if (expMod == 1 && item.getItemId() == 5210002 && hour >= 6 && hour <=
-             * 12) {
-             * expMod = 2;
-             * } else if (expMod == 1 && item.getItemId() == 5210003 && hour >= 12 && hour
-             * <= 18) {
-             * expMod = 2;
-             * } else if (expMod == 1 && item.getItemId() == 5210004 && hour >= 18 && hour
-             * <= 24) {
-             * expMod = 2;
-             * }
-             */
-            if (expMod < 3 && (item.getItemId() == 5211060 || item.getItemId() == 5211050 || item.getItemId() == 5211051
-                    || item.getItemId() == 5211052 || item.getItemId() == 5211053 || item.getItemId() == 5211054)) {
-                expMod = 3;// overwrite
-            } else if (expMod < 2 && (item.getItemId() == 5211061 || item.getItemId() == 5211000
-                    || item.getItemId() == 5211001 || item.getItemId() == 5211002 || item.getItemId() == 5211003
-                    || item.getItemId() == 5211046 || item.getItemId() == 5211047 || item.getItemId() == 5211048
-                    || item.getItemId() == 5211049)) {
-                expMod = 2;
-            } else if (expMod < 2 && (item.getItemId() == 5210002 || item.getItemId() == 5210003)
-                    && (((hour >= 6 && hour <= 18) && (weekDay >= 2 && weekDay <= 6))
-                    || (weekDay == 1 || weekDay == 7))) {
-                expMod = 2;
-            } else if (expMod < 2 && (item.getItemId() == 5210004 || item.getItemId() == 5210005)
-                    && (((hour >= 18 || hour <= 6) && (weekDay >= 2 && weekDay <= 6))
-                    || (weekDay == 1 || weekDay == 7))) {
-                expMod = 2;
-            } else if (expMod < 2 && (item.getItemId() == 5210000 || item.getItemId() == 5210001)
-                    && (((hour >= 10 && hour <= 22) && (weekDay >= 2 && weekDay <= 6))
-                    || (weekDay == 1 || weekDay == 7))) {
-                expMod = 2;
-                // } else if (expMod < 1.5 && (item.getItemId() == 5211077 || item.getItemId()
-                // == 5211078 || item.getItemId() == 5211079 || item.getItemId() == 5211068)) {
-                // expMod = 1.5;
-                // } else if (expMod < 1.2 && (item.getItemId() == 5211071 || item.getItemId()
-                // == 5211072 || item.getItemId() == 5211073 || item.getItemId() == 5211074 ||
-                // item.getItemId() == 5211075 || item.getItemId() == 5211076 ||
-                // item.getItemId() == 5211067)) {
-                // expMod = 1.2;
-            }
 
-            if (dropMod == 1) {
-                if (item.getItemId() == 5360015 || item.getItemId() == 5360016) {
-                    dropMod = 2;
-                } else if (item.getItemId() == 5360000 && hour >= 0 && hour <= 6) {
-                    dropMod = 2;
-                } else if (item.getItemId() == 5360001 && hour >= 6 && hour <= 12) {
-                    dropMod = 2;
-                } else if (item.getItemId() == 5360002 && hour >= 12 && hour <= 18) {
-                    dropMod = 2;
-                } else if (item.getItemId() == 5360003 && hour >= 18 && hour <= 24) {
-                    dropMod = 2;
-                }
-            }
-            if (item.getItemId() == 5650000) {
-                hasPartyBonus = true;
-            } else if (item.getItemId() == 5590001) {
+        for (IItem item : chra.getInventory(MapleInventoryType.CASH)) {
+            if (item.getItemId() == 5590001) {
+                //高级装备特许证 - 拥有装备特许证后可以装备比自己等级高#c10级#的装备。
                 levelBonus = 10;
             } else if (levelBonus == 0 && item.getItemId() == 5590000) {
+                //装备特许证 - 拥有装备特许证后可以装备比自己等级高#c5级#的装备。
                 levelBonus = 5;
             }
         }
-        for (IItem item : chra.getInventory(MapleInventoryType.ETC)) { // omfg;
-            switch (item.getItemId()) {
-                case 5062000:
-                    hasVac = true;
-                    break;
-                case 4030004:
-                    hasClone = true;
-                    break;
-                case 4030005:
-                    cashMod = 2;
-                    break;
-                case 4101000:
-                case 4101002:
-                    equippedFairy = true;
-                    chra.setFairyExp((byte) 30);
-                    break;
-            }
-        }
-        for (IItem item : chra.getInventory(MapleInventoryType.CASH)) { // omfg;
-            if (item.getItemId() == 5062000) {
-                hasVac = true;
-            }
-        }
+
         magic += chra.getSkillLevel(SkillFactory.getSkill(22000000));
         // dam_r += (chra.getJob() >= 430 && chra.getJob() <= 434 ? 70 : 0); //leniency
         // on upper stab

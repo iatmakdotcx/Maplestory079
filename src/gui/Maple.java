@@ -2960,20 +2960,17 @@ public class Maple extends javax.swing.JFrame {
 
         关于我们.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel52.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "关于我们", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("微软雅黑", 0, 12))); // NOI18N
+        jPanel52.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "关于", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("微软雅黑", 0, 12))); // NOI18N
         jPanel52.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel9.setText("服务端Ver:079");
-        jPanel52.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 267, -1, 34));
 
         jLabel14.setText("请遵守协议,服务端均来自互联网,如有法律侵权请第一时间联系我们删除.");
         jPanel52.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(238, 443, -1, -1));
 
         jLabel13.setText("请勿商业用途,后果自负.");
-        jPanel52.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(298, 410, -1, -1));
+        jPanel52.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(358, 410, -1, -1));
 
-        jLabel12.setText("游戏中遇到BUG还原PR");
-        jPanel52.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(344, 377, -1, -1));
+        jLabel12.setText("服务端Ver:079");
+        jPanel52.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(374, 377, -1, -1));
 
         jButton7.setText("问题提交");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -2981,6 +2978,7 @@ public class Maple extends javax.swing.JFrame {
                 jButton7ActionPerformed(evt);
             }
         });
+        jButton7.hide();
         jPanel52.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 470, 104, 34));
 
         关于我们.addTab("关于", new javax.swing.ImageIcon(getClass().getResource("/image2/警告日志.png")), jPanel52); // NOI18N

@@ -452,7 +452,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
 
             // exp *= attacker.getEXPMod() * (int) (attacker.getStat().expBuff / 100.0);
             double lastexp = attacker.getStat().realExpBuff - 100.0 <= 0 ? 100 : attacker.getStat().realExpBuff - 100;
-            exp *= attacker.getEXPMod() * (int) (lastexp / 100.0);
+            exp *= attacker.hasEXPCard() * (int) (lastexp / 100.0);
             exp = Math.min(Integer.MAX_VALUE, exp * (attacker.getLevel() < 10 ? GameConstants.getExpRate_Below10(attacker.getJob()) : ChannelServer.getInstance(map.getChannel()).getExpRate()));
             //do this last just incase someone has a 2x exp card and its set to max value
             int classBonusExp = 0;
@@ -1670,9 +1670,6 @@ public class MapleMonster extends AbstractLoadedMapleLife {
                                 if (pchr.getStat().equippedWelcomeBackRing && Premium_Bonus_EXP == 0) {
                                     Premium_Bonus_EXP = 80;
                                 }
-                                if (pchr.getStat().hasPartyBonus && added_partyinc < 4) {
-                                    added_partyinc++;
-                                }
                             }
                         }
                     }
@@ -1861,7 +1858,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             Collections.shuffle(dropEntry);
             IItem idrop;
             for (MonsterDropEntry d : dropEntry) {
-                if (d.itemId > 0 && d.questid == 0 && d.itemId / 10000 != 238 && Randomizer.nextInt(999999) < (int) (10 * d.chance * chServerrate * chr.getDropMod() * chr.getDropm() * ((chr.getVipExpRate() / 100D) + 1.0D) * (chr.getStat().dropBuff / 100.0) * (showdown / 100.0))) { //kinda op
+                if (d.itemId > 0 && d.questid == 0 && d.itemId / 10000 != 238 && Randomizer.nextInt(999999) < (int) (10 * d.chance * chServerrate * ((chr.getVipExpRate() / 100D) + 1.0D) * (chr.getStat().dropBuff / 100.0) * (showdown / 100.0))) { //kinda op
                     if (GameConstants.getInventoryType(d.itemId) == MapleInventoryType.EQUIP) {
                         Equip eq = (Equip) MapleItemInformationProvider.getInstance().getEquipById(d.itemId);
                         idrop = MapleItemInformationProvider.getInstance().randomizeStats(eq);
@@ -1956,4 +1953,5 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         }
         listener = null;
     }
+
 }
