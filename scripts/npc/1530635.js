@@ -61,6 +61,10 @@ function start() {
 }
 
 function action(mode, type, selection) {
+	cm.sendOk("吱吱吱吱吱吱吱吱吱吱吱吱！");
+cm.dispose();
+return;
+	  
     if (status == 0 && mode == 0) {
         cm.dispose();
         return;

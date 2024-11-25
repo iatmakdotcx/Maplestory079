@@ -3020,7 +3020,7 @@ public class Maple extends javax.swing.JFrame {
                 Start.是否控制台启动 = true;
                 Start.main(null);
                 startserverbutton.setText("正在运行中...");
-                startserverbutton.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.normal));
+//                startserverbutton.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.normal));
             }
         }).start();//线程启动服务器初始化
         Dis tt = new Dis();
@@ -4935,8 +4935,8 @@ public class Maple extends javax.swing.JFrame {
         JDialog.setDefaultLookAndFeelDecorated(true);
         try {
             BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.FrameBorderStyle.translucencySmallShadow;//设置本属性将改变窗口边框样式定义
-            UIManager.put("RootPane.setupButtonVisible", false);//关闭设置
             BeautyEyeLNFHelper.launchBeautyEyeLNF();
+            UIManager.put("RootPane.setupButtonVisible", false);//关闭设置
             //顺便加载一下字体
             for (String s : DEFAULT_FONT) {
                 UIManager.put(s, new Font("微软雅黑", Font.PLAIN, 14));

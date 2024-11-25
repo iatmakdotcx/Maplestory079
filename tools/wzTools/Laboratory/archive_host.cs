@@ -859,7 +859,8 @@ internal class archive_host : laboratory_component_base
 
 	private bool search_listview(bool property, bool content, string text, int index)
 	{
-		ListViewItem listViewItem = this.listview.Items[index];
+		text = text.Replace("/", ".");
+        ListViewItem listViewItem = this.listview.Items[index];
 		string value = text.ToLower();
 		if (property && 0 <= listViewItem.SubItems[0].Text.ToLower().IndexOf(value))
 		{

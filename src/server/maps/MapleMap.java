@@ -514,7 +514,7 @@ public final class MapleMap {
                 chr.dropMessage("掉宝如下: ");
                 for (MonsterDropEntry de : drops) {
                     chr.dropMessage(" 道具: " + de.itemId + " 机率: "
-                            + String.format("%.2f",(de.chance * droprate)/99999.0*100)
+                            + String.format("%.2f",(de.chance * droprate)/100000.0*100)
                             + " 最大/小掉落量: " + de.Maximum + "/" + de.Minimum+", "+ ii.getName(de.itemId) + (de.questid==0?"":",("+de.questid+")"));
                 }
             }
@@ -526,7 +526,7 @@ public final class MapleMap {
                 }
 
                 double chance = de.chance * droprate;
-                if (Randomizer.nextInt(99999) < chance) {
+                if (Randomizer.nextInt(100000) < chance) {
                     if (mesoDropped && droptype != 3 && de.itemId == 0) { // not more than 1 sack of meso
                         continue;
                     }

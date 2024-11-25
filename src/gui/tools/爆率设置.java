@@ -16,17 +16,22 @@ import server.MapleItemInformationProvider;
 import server.Start;
 
 import javax.swing.*;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class 爆率设置 extends javax.swing.JFrame {
+
+    private final Map<Integer, Integer> 怪物爆物_Chance = new HashMap<>();
     /**
      * Creates new form WinStart
      */
@@ -36,13 +41,43 @@ public class 爆率设置 extends javax.swing.JFrame {
         setTitle("爆率设置【可关闭】");
         initComponents();
         initview();//初始化控件信息
+        initAction();
     }
 
     public void initview() {
         ((JPanel) getContentPane()).setOpaque(true); // 将JFrame上自带的面板设置为透明，否则背景图片
         UIManager.put("TabbedPane.contentOpaque", true);
     }
+    public void initAction() {
+        怪物爆物.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                int i = 怪物爆物.getSelectedRow();
+                String a = 怪物爆物.getValueAt(i, 0).toString();
+                String a1 = 怪物爆物.getValueAt(i, 1).toString();
+                String a2 = 怪物爆物.getValueAt(i, 2).toString();
+                String a3 = 怪物爆物.getValueAt(i, 3).toString();
+                int chance = 怪物爆物_Chance.get(Integer.parseInt(a));
+                怪物爆物序列号.setText(a);
+                怪物爆物怪物代码.setText(a1);
+                怪物爆物物品代码.setText(a2);
+                怪物爆物爆率.setText(chance+"");
+                //怪物爆物物品名称.setText(a4);
+                //jLabel39.setText(String.format("%.4f",chance / 100000.0 * 100)+" %");
+            }
+        });
+        怪物爆物爆率.addCaretListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                if(怪物爆物爆率.getText().matches("[0-9]+")){
+                    int chance = Integer.parseInt(怪物爆物爆率.getText());
+                    jLabel39.setText(String.format("%.4f",chance / 100000.0 * 100)+" %");
+                }else {
+                    jLabel39.setText("- %");
+                }
+            }
+        });
 
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -333,7 +368,7 @@ public class 爆率设置 extends javax.swing.JFrame {
         jTabbedPane9.addTab("箱子爆率", jPanel16);
 
         jPanel28.setBackground(new java.awt.Color(250, 250, 250));
-        jPanel28.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "全局爆物/(10000=1%)", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("幼圆", 0, 18))); // NOI18N
+        jPanel28.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "全局爆物/(%)", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("幼圆", 0, 18))); // NOI18N
         jPanel28.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         世界爆物.setFont(new java.awt.Font("幼圆", 0, 15)); // NOI18N
@@ -342,7 +377,7 @@ public class 爆率设置 extends javax.swing.JFrame {
 
                 },
                 new String[]{
-                        "序列号", "物品代码", "爆率", "物品名"
+                        "序列号", "物品代码", "爆率（%）", "物品名"
                 }
         ) {
             final boolean[] canEdit = new boolean[]{
@@ -503,7 +538,7 @@ public class 爆率设置 extends javax.swing.JFrame {
         jPanel18.setFont(new java.awt.Font("微软雅黑", 0, 12)); // NOI18N
 
         jPanel27.setBackground(new java.awt.Color(250, 250, 250));
-        jPanel27.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "怪物爆物/(10000=1%)", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("幼圆", 0, 18))); // NOI18N
+        jPanel27.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "怪物爆物/(%)", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("幼圆", 0, 18))); // NOI18N
         jPanel27.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         怪物爆物.setFont(new java.awt.Font("幼圆", 0, 15)); // NOI18N
@@ -512,11 +547,11 @@ public class 爆率设置 extends javax.swing.JFrame {
 
                 },
                 new String[]{
-                        "序列号", "怪物代码", "物品代码", "爆率", "物品名字"
+                        "序列号", "怪物代码", "物品代码", "爆率（%）", "物品名字","怪物名字"
                 }
         ) {
             final boolean[] canEdit = new boolean[]{
-                    false, false, false, false, false
+                    false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -568,10 +603,11 @@ public class 爆率设置 extends javax.swing.JFrame {
         怪物爆物爆率.setFont(new java.awt.Font("幼圆", 0, 15)); // NOI18N
 
         jLabel39.setFont(new java.awt.Font("微软雅黑", 0, 15)); // NOI18N
-        jLabel39.setText("物品名:");
+        jLabel39.setText("100.00 %");
 
         怪物爆物物品名称.setEditable(false);
         怪物爆物物品名称.setFont(new java.awt.Font("幼圆", 0, 15)); // NOI18N
+        怪物爆物物品名称.hide();
 
         添加怪物爆物.setFont(new java.awt.Font("微软雅黑", 0, 14)); // NOI18N
         添加怪物爆物.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image2/新增.png"))); // NOI18N
@@ -656,7 +692,7 @@ public class 爆率设置 extends javax.swing.JFrame {
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(怪物爆物序列号, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(怪物爆物物品名称, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(jPanel18Layout.createSequentialGroup()
@@ -678,9 +714,18 @@ public class 爆率设置 extends javax.swing.JFrame {
                                                                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                         .addComponent(删除怪物爆物, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                         .addGroup(jPanel18Layout.createSequentialGroup()
-                                                                                .addComponent(jLabel212, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                                .addComponent(怪物爆物爆率, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+
+
+
+                                                                        )
+                                                                )
+                                                        )
+                                                        .addGroup(jPanel18Layout.createSequentialGroup()
+                                                                .addComponent(jLabel212, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(怪物爆物爆率, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        )
+                                                )
                                                 .addGap(18, 18, 18)
                                                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                         .addComponent(jLabel316)
@@ -705,16 +750,24 @@ public class 爆率设置 extends javax.swing.JFrame {
                                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(怪物爆物序列号, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel213, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(怪物爆物物品名称, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+//                                        .addComponent(怪物爆物物品名称, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                                        .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                )
+                                .addGap(12, 12, 12)
+                                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(怪物爆物物品代码)
+                                        .addComponent(jLabel211, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(怪物爆物怪物代码)
+                                        .addComponent(jLabel120, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                )
                                 .addGap(12, 12, 12)
                                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel212, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(怪物爆物爆率, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(怪物爆物物品代码)
-                                        .addComponent(jLabel211, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(怪物爆物怪物代码)
-                                        .addComponent(jLabel120, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+
+                                        .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(怪物爆物物品名称, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                )
                                 .addGap(26, 26, 26)
                                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(添加怪物爆物, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1232,42 +1285,7 @@ public class 爆率设置 extends javax.swing.JFrame {
             for (int i = this.怪物爆物.getModel().getRowCount() - 1; i >= 0; i--) {
                 ((DefaultTableModel) (this.怪物爆物.getModel())).removeRow(i);
             }
-            try {
-                Connection con = DBConPool.getInstance().getDataSource().getConnection();
-                PreparedStatement ps = null;
-
-                ResultSet rs = null;
-                ps = con.prepareStatement("SELECT * FROM drop_data WHERE itemid =  " + Integer.parseInt(this.查询物品掉落代码.getText()) + "");
-                rs = ps.executeQuery();
-                while (rs.next()) {
-
-                    ((DefaultTableModel) 怪物爆物.getModel()).insertRow(怪物爆物.getRowCount(), new Object[]{
-                            rs.getInt("id"),
-                            rs.getInt("dropperid"),
-                            rs.getInt("itemid"),
-                            rs.getInt("chance"),
-                            MapleItemInformationProvider.getInstance().getName(rs.getInt("itemid"))
-                    });
-                }
-                rs.close();
-                ps.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            怪物爆物.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
-                    int i = 怪物爆物.getSelectedRow();
-                    String a = 怪物爆物.getValueAt(i, 0).toString();
-                    String a1 = 怪物爆物.getValueAt(i, 1).toString();
-                    String a2 = 怪物爆物.getValueAt(i, 2).toString();
-                    String a3 = 怪物爆物.getValueAt(i, 3).toString();
-                    //String a4 = 怪物爆物.getValueAt(i, 4).toString();
-                    怪物爆物序列号.setText(a);
-                    怪物爆物怪物代码.setText(a1);
-                    怪物爆物物品代码.setText(a2);
-                    怪物爆物爆率.setText(a3);
-                }
-            });
+            怪物爆物查询("where itemid =  " + Integer.parseInt(this.查询物品掉落代码.getText()));
         } else {
             JOptionPane.showMessageDialog(null, "[信息]:请输入你要查找的物品代码。");
         }
@@ -1305,7 +1323,7 @@ public class 爆率设置 extends javax.swing.JFrame {
     }//GEN-LAST:event_删除指定的掉落按键ActionPerformed
 
     private void 刷新怪物爆物ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_刷新怪物爆物ActionPerformed
-        JOptionPane.showMessageDialog(null, "[信息]:刷新怪物物品掉落数据。");
+//        JOptionPane.showMessageDialog(null, "[信息]:刷新怪物物品掉落数据。");
         刷新怪物爆物();
     }//GEN-LAST:event_刷新怪物爆物ActionPerformed
 
@@ -1331,6 +1349,7 @@ public class 爆率设置 extends javax.swing.JFrame {
                 ps.executeUpdate();
                 ps.close();
                 JOptionPane.showMessageDialog(null, "[信息]:添加成功。");
+                怪物爆物查询_refresh();
             } catch (SQLException ex) {
                 Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1340,30 +1359,19 @@ public class 爆率设置 extends javax.swing.JFrame {
     }//GEN-LAST:event_添加怪物爆物ActionPerformed
 
     private void 删除怪物爆物ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_删除怪物爆物ActionPerformed
-        PreparedStatement ps1 = null;
-        ResultSet rs = null;
 
         boolean result = this.怪物爆物序列号.getText().matches("[0-9]+");
         if (result) {
-            int 商城SN编码 = Integer.parseInt(this.怪物爆物序列号.getText());
+            int id = Integer.parseInt(this.怪物爆物序列号.getText());
 
-            try {
-                //清楚table数据
-                for (int i = this.怪物爆物.getModel().getRowCount() - 1; i >= 0; i--) {
-                    ((DefaultTableModel) (this.怪物爆物.getModel())).removeRow(i);
-                }
-                ps1 = DBConPool.getInstance().getDataSource().getConnection().prepareStatement("SELECT * FROM drop_data WHERE id = ?");
-                ps1.setInt(1, 商城SN编码);
-                rs = ps1.executeQuery();
-                if (rs.next()) {
-                    String sqlstr = " delete from drop_data where id =" + 商城SN编码 + "";
-                    ps1.executeUpdate(sqlstr);
-                    JOptionPane.showMessageDialog(null, "[信息]:删除爆物成功。");
-                    刷新指定怪物爆物();
-                }
-                rs.close();
-                ps1.close();
+
+            try (Connection con = DBConPool.getInstance().getDataSource().getConnection();
+                 PreparedStatement ps = con.prepareStatement("delete from drop_data where id = ?")) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+                怪物爆物查询_refresh();
             } catch (SQLException ex) {
+
                 Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -1373,32 +1381,18 @@ public class 爆率设置 extends javax.swing.JFrame {
         boolean result1 = this.怪物爆物怪物代码.getText().matches("[0-9]+");
         boolean result2 = this.怪物爆物物品代码.getText().matches("[0-9]+");
         boolean result3 = this.怪物爆物爆率.getText().matches("[0-9]+");
-        //PreparedStatement ps = null;
-        PreparedStatement ps1 = null;
-        ResultSet rs = null;
         if (result1 && result2 && result3) {
-            try {
-                //ps = DBConPool.getInstance().getDataSource().getConnection().prepareStatement("UPDATE drop_data SET dropperid = ?, itemid = ?, chance = ? WHERE id = ?");
-                ps1 = DBConPool.getInstance().getDataSource().getConnection().prepareStatement("SELECT * FROM drop_data WHERE id = ?");
-                ps1.setInt(1, Integer.parseInt(this.怪物爆物序列号.getText()));
-                rs = ps1.executeQuery();
-                if (rs.next()) {
-                    String sqlString2 = null;
-                    String sqlString3 = null;
-                    String sqlString4 = null;
-                    sqlString2 = "update drop_data set dropperid='" + this.怪物爆物怪物代码.getText() + "' where id=" + this.怪物爆物序列号.getText() + ";";
-                    PreparedStatement dropperid = DBConPool.getInstance().getDataSource().getConnection().prepareStatement(sqlString2);
-                    dropperid.executeUpdate(sqlString2);
-                    sqlString3 = "update drop_data set itemid='" + this.怪物爆物物品代码.getText() + "' where id=" + this.怪物爆物序列号.getText() + ";";
-                    PreparedStatement itemid = DBConPool.getInstance().getDataSource().getConnection().prepareStatement(sqlString3);
-                    itemid.executeUpdate(sqlString3);
-                    sqlString4 = "update drop_data set chance='" + this.怪物爆物爆率.getText() + "' where id=" + this.怪物爆物序列号.getText() + ";";
-                    PreparedStatement chance = DBConPool.getInstance().getDataSource().getConnection().prepareStatement(sqlString4);
-                    chance.executeUpdate(sqlString4);
-                    JOptionPane.showMessageDialog(null, "[信息]:修改成功。");
-                }
-                rs.close();
-                ps1.close();
+
+            try (Connection con = DBConPool.getInstance().getDataSource().getConnection();
+                 PreparedStatement ps = con.prepareStatement("UPDATE drop_data SET dropperid = ?, itemid = ?, chance = ? WHERE id = ? ")) {
+                ps.setInt(1, Integer.parseInt(this.怪物爆物怪物代码.getText()));
+                ps.setInt(2, Integer.parseInt(this.怪物爆物物品代码.getText()));
+                ps.setInt(3, Integer.parseInt(this.怪物爆物爆率.getText()));
+                ps.setInt(4, Integer.parseInt(this.怪物爆物序列号.getText()));
+                ps.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "[信息]:修改成功。");
+                怪物爆物查询_refresh();
             } catch (SQLException ex) {
                 Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1418,45 +1412,8 @@ public class 爆率设置 extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "[信息]:请填写正确的值。");
                 return;
             }
-            for (int i = this.怪物爆物.getModel().getRowCount() - 1; i >= 0; i--) {
-                ((DefaultTableModel) (this.怪物爆物.getModel())).removeRow(i);
-            }
-            try {
-                Connection con = DBConPool.getInstance().getDataSource().getConnection();
-                PreparedStatement ps = null;
+            怪物爆物查询("where a.itemid = " + Integer.parseInt(this.查询物品掉落代码.getText()));
 
-                ResultSet rs = null;
-                ps = con.prepareStatement("SELECT * FROM drop_data WHERE itemid =  " + Integer.parseInt(this.查询物品掉落代码.getText()) + "");
-                rs = ps.executeQuery();
-                while (rs.next()) {
-
-                    ((DefaultTableModel) 怪物爆物.getModel()).insertRow(怪物爆物.getRowCount(), new Object[]{
-                            rs.getInt("id"),
-                            rs.getInt("dropperid"),
-                            rs.getInt("itemid"),
-                            rs.getInt("chance"),
-                            MapleItemInformationProvider.getInstance().getName(rs.getInt("itemid"))
-                    });
-                }
-                rs.close();
-                ps.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            怪物爆物.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
-                    int i = 怪物爆物.getSelectedRow();
-                    String a = 怪物爆物.getValueAt(i, 0).toString();
-                    String a1 = 怪物爆物.getValueAt(i, 1).toString();
-                    String a2 = 怪物爆物.getValueAt(i, 2).toString();
-                    String a3 = 怪物爆物.getValueAt(i, 3).toString();
-                    //String a4 = 怪物爆物.getValueAt(i, 4).toString();
-                    怪物爆物序列号.setText(a);
-                    怪物爆物怪物代码.setText(a1);
-                    怪物爆物物品代码.setText(a2);
-                    怪物爆物爆率.setText(a3);
-                }
-            });
         } else {
             JOptionPane.showMessageDialog(null, "[信息]:请输入你要查找的物品代码。");
         }
@@ -1500,48 +1457,8 @@ public class 爆率设置 extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "[信息]:请填写正确的值。");
                 return;
             }
-            for (int i = this.怪物爆物.getModel().getRowCount() - 1; i >= 0; i--) {
-                ((DefaultTableModel) (this.怪物爆物.getModel())).removeRow(i);
-            }
-            try {
-                Connection con = DBConPool.getInstance().getDataSource().getConnection();
-                PreparedStatement ps = null;
+            怪物爆物查询(" where dropperid = " + Integer.parseInt(this.查询怪物掉落代码.getText()) );
 
-                ResultSet rs = null;
-                ps = con.prepareStatement("SELECT * FROM drop_data WHERE dropperid =  " + Integer.parseInt(this.查询怪物掉落代码.getText()) + " && itemid !=0");//&& itemid !=0
-                rs = ps.executeQuery();
-                while (rs.next()) {
-
-                    ((DefaultTableModel) 怪物爆物.getModel()).insertRow(怪物爆物.getRowCount(), new Object[]{
-                            rs.getInt("id"),
-                            rs.getInt("dropperid"),
-                            rs.getInt("itemid"),
-                            rs.getInt("chance"),
-                            MapleItemInformationProvider.getInstance().getName(rs.getInt("itemid"))
-                    });
-                }
-                rs.close();
-                ps.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            怪物爆物.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
-                    int i = 怪物爆物.getSelectedRow();
-                    String a = 怪物爆物.getValueAt(i, 0).toString();
-                    String a1 = 怪物爆物.getValueAt(i, 1).toString();
-                    String a2 = 怪物爆物.getValueAt(i, 2).toString();
-                    String a3 = 怪物爆物.getValueAt(i, 3).toString();
-                    String a4 = 怪物爆物.getValueAt(i, 4).toString();
-                    怪物爆物序列号.setText(a);
-                    怪物爆物怪物代码.setText(a1);
-                    怪物爆物物品代码.setText(a2);
-                    怪物爆物爆率.setText(a3);
-                    怪物爆物物品名称.setText(a4);
-                    //怪物爆物任务.setText(a5);
-
-                }
-            });
         } else {
             JOptionPane.showMessageDialog(null, "[信息]:请输入你要查找的怪物代码。");
         }
@@ -1682,43 +1599,7 @@ public class 爆率设置 extends javax.swing.JFrame {
     }
 
     public void 刷新怪物卡片() {
-        for (int i = this.怪物爆物.getModel().getRowCount() - 1; i >= 0; i--) {
-            ((DefaultTableModel) (this.怪物爆物.getModel())).removeRow(i);
-        }
-        try {
-            Connection con = DBConPool.getInstance().getDataSource().getConnection();
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            ps = con.prepareStatement("SELECT * FROM drop_data WHERE itemid >=2380000&& itemid <2390000");
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                ((DefaultTableModel) 怪物爆物.getModel()).insertRow(怪物爆物.getRowCount(), new Object[]{
-                        rs.getInt("id"),
-                        rs.getInt("dropperid"),
-                        //MapleLifeFactory.getMonster(rs.getInt("dropperid")),
-                        rs.getInt("itemid"),
-                        rs.getInt("chance"),
-                        MapleItemInformationProvider.getInstance().getName(rs.getInt("itemid"))
-                });
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        怪物爆物.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                int i = 怪物爆物.getSelectedRow();
-                String a = 怪物爆物.getValueAt(i, 0).toString();
-                String a1 = 怪物爆物.getValueAt(i, 1).toString();
-                String a2 = 怪物爆物.getValueAt(i, 2).toString();
-                String a3 = 怪物爆物.getValueAt(i, 3).toString();
-                //String a4 = 怪物爆物.getValueAt(i, 4).toString();
-                怪物爆物序列号.setText(a);
-                怪物爆物怪物代码.setText(a1);
-                怪物爆物物品代码.setText(a2);
-                怪物爆物爆率.setText(a3);
-                //怪物爆物物品名称.setText(a4);
-            }
-        });
+        怪物爆物查询("where a.itemid >=2380000&& a.itemid <2390000");
     }
 
     public void 刷新世界爆物() {
@@ -1731,15 +1612,15 @@ public class 爆率设置 extends javax.swing.JFrame {
             PreparedStatement ps = null;
 
             ResultSet rs = null;
-            ps = con.prepareStatement("SELECT * FROM drop_data_global WHERE itemid !=0");
+            ps = con.prepareStatement("SELECT a.*,b.`name` FROM drop_data_global a join wz_itemdata b on a.itemid=b.itemid ");
             rs = ps.executeQuery();
             while (rs.next()) {
 
                 ((DefaultTableModel) 世界爆物.getModel()).insertRow(世界爆物.getRowCount(), new Object[]{
                         rs.getInt("id"),
                         rs.getInt("itemid"),
-                        rs.getString("chance"),
-                        MapleItemInformationProvider.getInstance().getName(rs.getInt("itemid"))
+                        String.format("%.4f",(rs.getDouble("chance")) / 100000.0 * 100),
+                        rs.getString("name")
                 });
             }
             世界爆物.addMouseListener(new MouseAdapter() {
@@ -1758,88 +1639,49 @@ public class 爆率设置 extends javax.swing.JFrame {
             Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    private String 怪物爆物查询_str = "";
+    public void 怪物爆物查询_refresh() {
+        怪物爆物查询(怪物爆物查询_str);
+    }
+    public void 怪物爆物查询(String sqlWhere) {
+        怪物爆物查询_str = sqlWhere;
+        for (int i = this.怪物爆物.getModel().getRowCount() - 1; i >= 0; i--) {
+            ((DefaultTableModel) (this.怪物爆物.getModel())).removeRow(i);
+        }
+        try (Connection con = DBConPool.getInstance().getDataSource().getConnection();
+             PreparedStatement ps = con.prepareStatement("SELECT a.*,b.`name`,c.`name` mobname FROM drop_data a left join wz_itemdata b on a.itemid=b.itemid " +
+                     " left join wz_mobdata c on a.dropperid=c.id " + sqlWhere)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ((DefaultTableModel) 怪物爆物.getModel()).insertRow(怪物爆物.getRowCount(), new Object[]{
+                        rs.getInt("id"),
+                        rs.getInt("dropperid"),
+                        rs.getInt("itemid"),
+                        String.format("%.4f",rs.getInt("chance") / 100000.0 * 100),
+                        rs.getString("name"),
+                        rs.getString("mobname")
+                });
+                怪物爆物_Chance.put(rs.getInt("id"), rs.getInt("chance"));
+            }
+        } catch (SQLException ex) {
 
+            Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public void 刷新指定怪物爆物() {
         boolean result = this.查询怪物掉落代码.getText().matches("[0-9]+");
         if (result) {
             if (Integer.parseInt(this.查询怪物掉落代码.getText()) < 0) {
                 JOptionPane.showMessageDialog(null, "请填写正确的值");
             }
-            for (int i = this.怪物爆物.getModel().getRowCount() - 1; i >= 0; i--) {
-                ((DefaultTableModel) (this.怪物爆物.getModel())).removeRow(i);
-            }
-            try {
-                Connection con = DBConPool.getInstance().getDataSource().getConnection();
-                PreparedStatement ps = null;
-
-                ResultSet rs = null;
-                ps = con.prepareStatement("SELECT * FROM drop_data WHERE dropperid =  " + Integer.parseInt(this.怪物爆物怪物代码.getText()) + "");
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                    ((DefaultTableModel) 怪物爆物.getModel()).insertRow(怪物爆物.getRowCount(), new Object[]{rs.getInt("id"), rs.getInt("dropperid"), rs.getInt("itemid"), rs.getInt("chance"), MapleItemInformationProvider.getInstance().getName(rs.getInt("itemid"))});
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            怪物爆物.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
-                    int i = 怪物爆物.getSelectedRow();
-                    String a = 怪物爆物.getValueAt(i, 0).toString();
-                    String a1 = 怪物爆物.getValueAt(i, 1).toString();
-                    String a2 = 怪物爆物.getValueAt(i, 2).toString();
-                    String a3 = 怪物爆物.getValueAt(i, 3).toString();
-                    String a4 = 怪物爆物.getValueAt(i, 4).toString();
-                    怪物爆物序列号.setText(a);
-                    怪物爆物怪物代码.setText(a1);
-                    怪物爆物物品代码.setText(a2);
-                    怪物爆物爆率.setText(a3);
-                    怪物爆物物品名称.setText(a4);
-                }
-            });
+            怪物爆物查询("where dropperid = " + Integer.parseInt(this.怪物爆物怪物代码.getText()));
         } else {
             JOptionPane.showMessageDialog(null, "请输入要查询的怪物代码 ");
         }
     }
 
     public void 刷新怪物爆物() {
-        for (int i = this.怪物爆物.getModel().getRowCount() - 1; i >= 0; i--) {
-            ((DefaultTableModel) (this.怪物爆物.getModel())).removeRow(i);
-        }
-        try {
-            Connection con = DBConPool.getInstance().getDataSource().getConnection();
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            ps = con.prepareStatement("SELECT * FROM drop_data WHERE itemid !=0");
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                ((DefaultTableModel) 怪物爆物.getModel()).insertRow(怪物爆物.getRowCount(), new Object[]{
-                        rs.getInt("id"),
-                        rs.getInt("dropperid"),
-                        //MapleLifeFactory.getMonster(rs.getInt("dropperid")),
-                        rs.getInt("itemid"),
-                        rs.getInt("chance"),
-                        MapleItemInformationProvider.getInstance().getName(rs.getInt("itemid"))
-                });
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        怪物爆物.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                int i = 怪物爆物.getSelectedRow();
-                String a = 怪物爆物.getValueAt(i, 0).toString();
-                String a1 = 怪物爆物.getValueAt(i, 1).toString();
-                String a2 = 怪物爆物.getValueAt(i, 2).toString();
-                String a3 = 怪物爆物.getValueAt(i, 3).toString();
-                //String a4 = 怪物爆物.getValueAt(i, 4).toString();
-                怪物爆物序列号.setText(a);
-                怪物爆物怪物代码.setText(a1);
-                怪物爆物物品代码.setText(a2);
-                怪物爆物爆率.setText(a3);
-                //怪物爆物物品名称.setText(a4);
-
-            }
-        });
+        怪物爆物查询("");
     }
 
     private void 刷新钓鱼() {

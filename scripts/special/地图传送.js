@@ -1,417 +1,197 @@
-﻿var isopenvip = false;
-var icon = "#fEffect/CharacterEff/1082565/0/0#";
-//var b = "#fUI/Basic/LevelNo/0#"; //[1]+1
-//var c = "#fUI/Basic/LevelNo/1#"; //[1]+1
-//var d = "#fUI/Basic/LevelNo/2#"; //[1]+1
-//var e = "#fUI/Basic/LevelNo/3#"; //[1]+1
-//var f = "#fUI/Basic/LevelNo/4#"; //[1]+1
-//var g = "#fUI/Basic/LevelNo/5#"; //[1]+1
-//var Icon = "#fUI/UIToolTip.img/Item/Equip/Star/Star1#"; //蓝星星
-//var IconA = "#fEffect/CharacterEff/1082565/0/0#"; //饼干兔子
-//var IconB = "#fUI/UIMiniGame/starPlanetRPS/heart#"; //红心桃心
-//var Icon1 = "#fUI/StarCityUI.img/GradeInfo/icon_ss/2#"
-//	var Icon2 = "#fUI/UIPVP.img/MiniMapIcon/yellow#"
-//	var q6 = "#fUI/RunnerGame.img/RunnerGameUI/UI/Point/2#"
-//	var e = "#fUI/UIPVP.img/MiniMapIcon/red#"
-//	var e1 = "#fUI/UIPVP.img/MiniMapIcon/blue#"
-//	var e2 = "#fUI/UIPVP.img/MiniMapIcon/yellow#"
-//	var e3 = "#fUI/UIPVP.img/UserRanking/NumRank/iceKnight#"
-//	var s = "#fUI/UIWindow2.img/Quest/quest_info/summary_icon/startcondition#"; //开始条件
-//var s1 = "#fUI/RunnerGame/RunnerGameUI/Effect/ItemEffect_Protect1/3#"; //女神
-//var s2 = "#fUI/UIWindow2/ToolTip/Equip/Star/Star2#"; //星星
-//var s3 = "#fUI/UIWindow2/AdditionalOptionTooltip/epic#"; //A图标
-//var s4 = "#fUI/UIWindow2/AdditionalOptionTooltip/unique#"; //S图标
-
-
-
-var townmaps = Array(
-		//地图ID 地图名称 航行时间
-		Array(910000000, "#b自由市场#k", 15),
-		//Array(910001000, "#b匠人街#k  ", 15),
-		//Array(680000000, "#b婚礼村#k  ", 15),
-		//Array(931000500, "#b抓豹子#k  ", 15),
-		//Array(867115950, "#d藏身处  #k", 15),
-		//Array(910800200, "#d三维弹球#k", 15),
-		//Array(103041002, "废都塔  ", 30),
-		//Array(3000200, "可可岛  ", 30),
-		//Array(330000000, "神兽学院", 30),
-		Array(800000000, "蘑菇神社", 30),
-		//Array(141000000, "列纳海峡", 30),
-		Array(500000000, "水上市场", 30),
-		Array(221000000, "地球本部", 50),
-		//Array(1100000, "彩虹岛  ", 30),
-		Array(130000000, "圣地    ", 30),
-		Array(140000000, "里恩    ", 30),
-		//Array(310000000, "德尔斯坦", 30),
-		//Array(807000000, "本能寺  ", 30),
-		//Array(410000000, "狐狸村  ", 30),
-		//Array(866000000, "大树村  ", 30),
-		//Array(400000000, "万神殿  ", 50),
-		Array(104000000, "明珠港  ", 30),
-		Array(100000000, "射手村  ", 20),
-		Array(101000000, "魔法密林", 20),
-		Array(102000000, "勇士部落", 20),
-		Array(103000000, "废弃都市", 20),
-		Array(120000000, "诺特勒斯", 20),
-		//Array(105000000, "林中之城", 20),
-		//Array(402000500, "阿叙隆  ", 30),
-		//Array(402000521, "水晶学院", 30),
-		//Array(402000000, "暴徒村  ", 30),
-		//Array(867118200, "开拓总部", 50),
-		//Array(867115900, "阿特利埃", 30),
-		//Array(101050000, "埃欧雷  ", 30),
-		//Array(101071300, "妖精学院", 40),
-		//Array(120040000, "金海滩  ", 40),
-		//Array(106030100, "蘑菇城  ", 40),
-		Array(200000000, "天空之城", 60),
-		Array(211000000, "冰封雪域", 65),
-		//Array(211060000, "狮子王城", 65),
-		Array(230000000, "水下世界", 65),
-		//Array(224000000, "童话村  ", 65),
-		Array(220000000, "玩具城  ", 65),
-		Array(220050300, "时间通道", 65),
-		//Array(223000000, "梦幻公园", 75),
-		Array(300000000, "艾琳森林", 65),
-		Array(251000000, "百草堂  ", 65),
-		Array(250000000, "武陵镇  ", 65),
-		//Array(252000000, "黄金寺院", 65),
-		Array(260000000, "阿里安特", 65),
-		Array(261000000, "玛加提亚", 65),
-		//Array(241000000, "克里蒂亚", 65),
-		Array(240000000, "神木村  ", 65),
-		//Array(240090000, "勘探本部", 65),
-		//Array(401000000, "赫里希安", 80),
-		//Array(701100000, "上海豫园", 80),
-		//Array(701210000, "嵩山镇  ", 80),
-		//Array(701220000, "大雄宝殿", 80),
-		Array(600000000, "新叶城  ", 80),
-		//Array(610020005, "绯红之地", 80),
-		//Array(865010200, "渔村贝里", 80),
-		//Array(865000000, "凯梅尔兹", 80),
-		Array(800040000, "楓城 天下泰平", 90),
-		Array(924000100, "天巢顶端", 90),
-		Array(270000100, "时间神殿", 90));
-
-		
+﻿
+var bossmaps = Array( 
+Array(100000005,1000000,"蘑菇王"),													        
+Array(105070002,1000000,"僵尸蘑菇王"), 
+Array(105090900,1000000,"被诅咒的寺院"),     
+Array(105090900,1000000,"蓝蘑菇王"), 
+Array(230040420,1000000,"皮亚奴斯洞穴"), 
+Array(211042300,1000000,"扎昆入口"), 
+Array(220080000,1000000,"时间塔的本源"), 
+Array(240020402,1000000,"喷火龙栖息地"), 
+Array(240020101,1000000,"格瑞芬多森林"),   
+Array(270050000,1000000,"神的黄昏:打PB的"),
+Array(551030100,1000000,"阴森世界入口:打熊和狮子"),
+Array(541020700,1000000,"克雷塞尔的遗迹I:树精王"),
+Array(240040700,1000000,"生命之穴入口:暗黑龙王"),
+Array(702070400,1000000,"藏经阁七层:少林妖僧")
+);
 var monstermaps = Array(
-		Array(100040001," [8-15级]"),
-		Array(104040000," [1-15级]"),
-		Array(104010001,"[10-20级]"),
-		Array(103000101,"[20-30级]"),
-		Array(101030101,"[20-30级]"),
-		Array(101030001,"[20-35级]"),
-		Array(230020000,"[20-35级]"),
-		Array(230010400,"[20-35级]"),
-		Array(101030001,"[25-40级]"),
-		Array(105070001,"[20-40级]"),
-		Array(101040003,"[40-45级]"),
-		Array(251010000,"[40-70级]"),
-		Array(200040000,"[40-50级]"),
-		Array(105090300,"[40-50级]"),
-		Array(211041400,"[50-60级]"),
-		Array(222010000,"[50-60级]"),
-		Array(220010500,"[40-70级]"),
-		Array(105040306,"[40-70级]"),
-		Array(220010500,"[40-70级]"),
-		Array(250020000,"[50-60级]"),
-		Array(101030110,"[50-70级]"),
-		Array(106000002,"[50-70级]"),
-		Array(541010000,"[50-70级]"),
-		Array(541010010,"[50-70级]"),
-		Array(541010040,"[50-70级]"),
-		Array(541010050,"[50-70级]"),
-		Array(800020130,"[60-90级]"),
-		Array(200010302,"[70-90级]"),
-		Array(800020400,"[80-100级]"),
-		Array(220070301,"[90-110级]"),
-		Array(220050300,"[80-100级]"),
-		Array(240020100,"[80-100级]"),
-		Array(541020100,"[80-120级]"))
-		Array(240040500,"[110-130级]"),
-		Array(240040000,"[110-130级]");
-		
+Array(100040001,100,"南部森林训练场Ⅰ8级-15级"),
+Array(101010100,100,"大木林Ⅰ8级-15级"), 
+Array(104040000,100,"射手训练场 1级-15级"), 
+Array(103000101,100,"地铁一号线<第1地区> 20级-30级"), 
+Array(103000105,100,"地铁一号线<第4地区> 50级-70级"), 
+Array(101030110,100,"第1军营"), 
+Array(106000002,100,"危险的峡谷Ⅱ"), 
+Array(101030103,100,"遗迹发掘地Ⅲ"), 
+Array(101040001,100,"野猪的领土 20级-35级"), 
+Array(101040003,100,"钢之黑怪之地"), 
+Array(101030001,100,"野猪的领土Ⅱ"), 
+Array(104010001,100,"猪的海岸 10级-20级"), 
+Array(105070001,100,"蚂蚁广场 20级-40级"), 
+Array(105090300,100,"龙穴"), 
+Array(105040306,100,"巨人之林 60级-80级"), 
+Array(230020000,100,"东海叉路"), 
+Array(230010400,100,"西海叉路"), 
+Array(211041400,100,"死亡之林Ⅳ"), 
+Array(222010000,100,"乌山入口"),
+Array(220070301,100,"时间停止之间"), 
+Array(220070201,100,"消失的时间"), 
+Array(220050300,100,"时间通道"), 
+Array(220010500,100,"露台大厅 40级-70级"), 
+Array(250020000,100,"初级修炼场 50级-60级"), 
+Array(251010000,100,"十年药草地"), 
+Array(200040000,100,"云彩公园Ⅲ"), 
+Array(200010301,100,"黑暗庭院Ⅰ"), 
+Array(240020100,100,"火焰死亡战场 100级-120级"), 
+Array(240040500,100,"龙之巢穴入口"), 
+Array(240040000,100,"龙的峡谷"), 
+Array(600020300,100,"狼蛛洞穴"),
+Array(541020000,100,"乌鲁庄园"), 
+Array(800020130,100,"大佛的邂逅")
+); 
+var townmaps = Array(
+Array(910000000,100,"自由市场"),
+Array(809030000,100,"豆豆屋-抽奖"),
+Array(100000104,100,"射手村美发店"),
+Array(140000000,100,"里恩"),
+Array(106020000,100,"蘑菇城堡"),
+Array(104000000,100,"明珠港"), 
+Array(100000000,100,"射手村"), 
+Array(101000000,100,"魔法密林"), 
+Array(102000000,100,"勇士部落"), 
+Array(103000000,100,"废弃都市"), 
+Array(120000000,100,"诺特勒斯号码头"),
+Array(741000208,100,"钓鱼场 无聊玩玩"),
+Array(105040300,100,"林中之城"), 
+Array(200000000,100,"天空之城"),
+Array(211000000,100,"冰峰雪域"), 
+Array(230000000,100,"水下世界"),  
+Array(222000000,100,"童话村"), 
+Array(220000000,100,"玩具城"),
+Array(701000000,100,"东方神州"),
+Array(250000000,100,"武陵"), 
+Array(702000000,100,"少林寺"), 
+Array(500000000,100,"泰国"),
+Array(260000000,100,"沙漠之城"), 
+Array(600000000,100,"新叶城"), 
+Array(240000000,100,"神木村"), 
+Array(261000000,100,"马加提亚"), 
+Array(221000000,100,"地球防御本部"), 
+Array(251000000,100,"百草堂"),
+Array(701000200,100,"上海豫园"),
+Array(550000000,100,"吉隆大都市"),
+Array(130000000,100,"圣地"),  
+Array(801000000,100,"昭和村"), 
+Array(540010000,100,"新加坡机场"),
+Array(541000000,100,"新加坡码头"),
+Array(300000000,100,"艾林森林"), 
+Array(270000100,100,"时间神殿"), 
+Array(702100000,100,"藏经阁"), 
+Array(970000000,100,"各大城市欣赏"), 
+Array(800000000,100,"古代神社") 
 
-var lmaps = Array(
-		//Array(682000200, "消遣跳跳"),
-		//Array(280020001, "扎昆跳跳"),
-		//Array(280020000, "扎昆跳跳"),
-		//Array(260000301, "紫色宫殿"),
-		//Array(260000302, "紫色宫殿"),
-		//Array(260000303, "安特王室"),
-		//Array(260000300, "安特宫殿"),
-		//Array(250010600, "蟠桃果二"),
-		//Array(250010500, "蟠桃果一"),
-		//Array(140010110, "达人殿堂"),
-		//Array(600000000, "市区中心"),
-		//Array(677000012, "藏身之地"),
-		//Array(749050500, "魔幻空间"),
-		//Array(749050501, "璀璨王国"),
-		//Array(914021000, "精灵王国"),
-		//Array(914021000, "樱花村庄"),
-		//Array(914022000, "驱赶小偷"),
-		//Array(920010200, "雅典禁地"),
-		//Array(920030001, "封印庭院"),
-		//Array(921150000, "雪火望台"),
-		//Array(922240000, "太空漫步"),
-		//Array(925000000, "白云之地"),
-		//Array(925020003, "百层高塔"),
-		//Array(980010010, "王的房间"),
-		//Array(980000801, "专属年华"),
-		//Array(931000013, "奇怪实验"),
-		Array(100000200, "月妙"),
-		Array(103000000, "废弃"),
-		Array(221024500, "玩具"),
-		Array(200080101, "女神"),
-		Array(300030100, "毒雾"),
-		Array(251010404, "海盗"),
-		Array(261000021, "男女"),
-		Array(105100100, "蝙蝠"),
-		Array(925020000, "道场")
-		//Array(950100100, "树叶密林")
-	); //旅游地图部分
-
-var tiaotiaomaps = Array(
-		Array(867115950, "						[掉落星星]"),
-		Array(867116900, "				  [掉落咒语痕迹]"),
-		Array(211041500, "				 	  [掉落僵尸金牙]"),
-		Array(211030000, "				  [掉落企鹅王的嘴]"));
-
-var bossmaps = Array(
-		Array(104000400, "[蜗牛王]"),
-		Array(701010320, "[蜈蚣王]"),
-		Array(100000005, "[蘑菇王]"),
-		Array(105090900, "[蝙蝠怪]"),
-		Array(105070002, "[僵尸蘑菇王]"),
-		Array(230040420, "[鱼王]"),
-		Array(211042300, "[扎昆]"),
-		Array(220080000, "[闹钟]"),
-		Array(240020401, "[喷火龙]"),
-		Array(240020101, "[格瑞芬多]"),
-		Array(270050000, "[品克缤]"),
-		Array(551030100, "[熊跟狮子]"),
-		Array(541020700, "[树精王]"),
-		Array(240040700, "[黑龙]"),
-		Array(803001200, "[绯红]"),
-		Array(993000000, "[火焰狼]"),
-		Array(510100200, "[三头犬]"),
-		Array(703020000, "[钻机]"),
-		Array(882100001, "[路西德]"),
-		Array(200101400, "[薛西斯]"),
-		Array(273020000, "[树妖王]"),
-		Array(802000700, "[都纳斯]"),
-		//Array(240080000, "[御龙魔]"), //不会飞
-		//Array(860000000, "[紫色鱼王]"), //地图缺失
-		//Array(952010300, "[摇滚之魂]"), //不刷怪
-		//Array(745000001, "[皇帝]"), //地图错乱
-		Array(350060000, "[斯乌]"),
-		Array(211070000, "[班.雷昂]"),
-		Array(262030000, "[希拉]"),
-		Array(802000800, "[欧碧拉]"),
-		//Array(931050418, "[哈维酋长]"),//102040600
-		//Array(240070602, "[贝加莫特]"),
-		//Array(240070602, "[贝尔加莫特]"),
-		//Array(802000210, "[艾里葛斯]"),
-		//Array(211041700, "[森兰丸]"),
-		//Array(992000000, "[桃乐丝]"),
-		//Array(105200000, "[鲁塔比斯]"),
-		//Array(300030300, "[艾菲妮娅]"),
-		//Array(240093200, "[蜘蛛女王]"),
-		//Array(450007520, "[镜中光明威尔]"),
-		//Array(450007520, "[阿卡伊勒]"),
-		//Array(450007520, "[麦格纳斯]"),
+);
 
 
-		//Array(450007520, "[希纳斯]"),
-		//Array(450007520, "[戴米安]"),
-		//Array(450007520, "[拉瓦那]"),
-		//Array(450007520, "[麦格纳斯]"),
-		//Array(450007520, "[麦格纳斯]"),
-
-
-
-
-
-
-		Array(450012200, "[敦凯尔]"),
-		Array(450011990, "[狂暴希拉]"),
-		Array(450012500, "[黑魔法师]"),
-		Array(702070400, "[少林妖僧]"));
-
-var a = 0;
-var selects = 0;
-var MapType;
+var chosenMap = -1;
+var monsters = 0;
+var towns = 0;
+var bosses = 0;
 
 function start() {
-	a = -1;
-	action(1, 0);
+    status = -1;
+    action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == 0 && a == 0) {
-		cm.dispose();
-	//	cm.openNpc(9310362, "CSNPC");
-	}
-	if (mode == 1) {
-		a++;
-	} else {
-		a--;
-	}
+    if (mode == -1) {
+        cm.dispose();
+    } else {
+        if (status >= 3 && mode == 0) {
+            cm.sendOk("下次再见!.");
+            cm.dispose();
+            return;
+        }
+        if (mode == 1) {
+            status++;
+        } else {
+            status--;
+        }
+        if (status == 0) {
+            if (selection == 0) {
+                cm.sendSimple("#r#fUI/UIWindow.img/QuestIcon/3/0#\r\n#L0#城镇地图#l\r\n#L1#练级地图#l\r\n#L2#BOSS地图#l");
+            } else if (selection == 1) {
+                cm.dispose();
+            }
+        } else if (status == 1) {
+            if (selection == 0) {
+                var selStr = "选择你的目的地吧.#b";
+                for (var i = 0; i < townmaps.length; i++) {
+                    selStr += "\r\n#L" + i + "#" + townmaps[i][2] + "";
+                }
+                cm.sendSimple(selStr);
+                towns = 1;
+            }
+            if (selection == 1) {
+                var selStr = "选择你的目的地吧.#b";
+                for (var i = 0; i < monstermaps.length; i++) {
+                    selStr += "\r\n#L" + i + "#" + monstermaps[i][2] + "";
+                }
+                cm.sendSimple(selStr);
+                monsters = 1;
+            }
+            if (selection == 2) {
+                var selStr = "选择你的目的地吧.#b";
+                for (var i = 0; i < bossmaps.length; i++) {
+                    selStr += "\r\n#L" + i + "#" + bossmaps[i][2] + "";
+                }
+                cm.sendSimple(selStr);
+                bosses = 1;
+            }
+        } else if (status == 2) {
+            if (towns == 1) {
+                cm.sendYesNo("你确定要去 " + townmaps[selection][2] + "? 价格:#r" + townmaps[selection][1] + "#k金币");
+                chosenMap = selection;
+                towns = 2;
+            } else if (monsters == 1) {
+                cm.sendYesNo("你确定要去 " + monstermaps[selection][2] + "? 价格:#r" + monstermaps[selection][1] + "#k金币");
+                chosenMap = selection;
+                monsters = 2;
+            } else if (bosses == 1) {
+                cm.sendYesNo("你确定要去 " + bossmaps[selection][2] + "? 价格:#r" + bossmaps[selection][1] + "#k金币");
+                chosenMap = selection;
+                bosses = 2;
+            }
+        } else if (status == 3) {
+			//print("mode:"+mode+",type:"+type+",selection:"+selection+",bosses:"+bosses)
+            if (towns == 2) {
+                if (cm.getMeso() >= townmaps[chosenMap][1]) {
+                    cm.warp(townmaps[chosenMap][0], 0);
+                    cm.gainMeso( - townmaps[chosenMap][1]);
 
-	randomnumber = Math.ceil(Math.random()*1000);
-	var needmeso = Math.ceil(randomnumber + 10000 + 10000 * (cm.getPlayer().getLevel() * 0.1));
+                } else {
+                    cm.sendOk("你没有足够的金币哦!");
+                }
+                cm.dispose();
+            } else if (monsters == 2) {
+                if (cm.getMeso() >= monstermaps[chosenMap][1]) {
+                    cm.warp(monstermaps[chosenMap][0], 0);
+                    cm.gainMeso( - monstermaps[chosenMap][1]);
+                } else {
+                    cm.sendOk("你没有足够的金币哦!");
+                }
+                cm.dispose();
+            } else if (bosses == 2) {
+                if (cm.getMeso() >= bossmaps[chosenMap][1]) {
+                    cm.warp(bossmaps[chosenMap][0], 0);
+                    cm.gainMeso( - bossmaps[chosenMap][1]);
+                } else {
+                    cm.sendOk("你没有足够的金币哦!");
+                }
+                cm.dispose();
+            }
+        }
 
-	if (a == 0) {
-		var txt = "\r\n\r\n";
-		txt += "    #d#e「 #r#h ##d 」- 贯穿许多位面请选择地方:#k#n\r\n\r\n";
-		txt += "             您传送需要的金币：#r"+ needmeso +"\r\n\r\n";
-		txt += "#r\t\t\t\t #L0#" + icon + "村庄移动#l#k\r\n";
-		txt += "\r\n\t\t\t  --↓需要高级传送石↓--#l#k\r\n";
-		txt += "#r  #L1#" + icon + "升级地图#l#k";
-		//txt += "#r\t#L3#" + Icon + "搬砖入口#l#k\r\n \r\n";
-		txt += "#r  #L4#" + icon + "组队地图#l#k";
-		txt += "#r  #L5#" + icon + "BOSS地图#l#k";
-
-		cm.sendSimple(txt);
-
-	} else if (a == 1) {
-		var text = "请选择你要移动的地方：\r\n#d"
-			switch (selection) {
-			case 0: //村庄
-				for (var i = 0; i < townmaps.length; i++) {
-					text += "#L" + i + "# " + icon + " #m" + townmaps[i][0] + "#\r\n"
-				}
-				MapType = 0
-					needMoney = true;
-				break;
-			case 1: //升级地图
-				for (var i = 0; i < monstermaps.length; i++) {
-					text += "#b#L" + i + "# " + icon + " #r" + monstermaps[i][1] + "#k #m" + monstermaps[i][0] + "#l\r\n"
-				}
-				MapType = 1
-					break;
-			case 2: //
-				for (var i = 0; i < monstermaps.length; i++) {
-					text += "#b#L" + i + "# " + icon + " #m" + monstermaps[i][0] + "##r" + monstermaps[i][1] + "#l\r\n"
-				}
-				MapType = 1
-					break;
-			case 3: //
-				for (var i = 0; i < tiaotiaomaps.length; i++) {
-					text += "#b#L" + i + "# " + icon + " #m" + tiaotiaomaps[i] + "# #r" + tiaotiaomaps[i][1] + "#l\r\n"
-				}
-				MapType = 3
-					needMoney = true;
-				break;
-			case 4: //组队地图
-				for (var i = 0; i < lmaps.length; i++) {
-					text += "#b#L" + i + "# " + icon + " #r" + lmaps[i][1] + " #k#m" + lmaps[i] + "#l\r\n"
-				}
-				MapType = 3
-					needMoney = true;
-				break;
-			case 5: //BOSS
-				for (var i = 0; i < bossmaps.length; i++) {
-					text += "#b#L" + i + "# " + icon + " #m" + bossmaps[i][0] + "##r" + bossmaps[i][1] + "#l\r\n"
-				}
-				MapType = 5
-			}
-			cm.sendSimple(text);
-	} else if (a == 2) {
-		selects = selection;
-		cm.sendNext("这里的事情做完了吗？现在去#d选择的地点#k吗？");
-	} else if (a == 3) {
-		var em = cm.getEventManager("MapTP");
-		//var eim = em.getInstance("MapTP");
-		var player = cm.getPlayer();
-		switch (MapType) {
-		case 0: //村庄
-			if (cm.getPlayer.getLevel >=10 && cm.getPlayer().getMeso() < needmeso) {
-				cm.sendOk("#d你金币不够哦。");
-				cm.dispose();
-				break;
-			}
-			cm.gainMeso(-needmeso);
-			cm.warp(townmaps[selects][0],0);
-			cm.dispose();
-			break;
-
-		case 1: //升级地图
-			if (!cm.haveItem(5041000, 1)) {
-				cm.sendOk("#d你没有高级瞬移石头哦，可以在商场包裹秒秒中买到。");
-				cm.dispose();
-				break;
-			}
-			if (cm.getPlayer().getMeso() < needmeso) {
-				cm.sendOk("#d你金币不够哦。");
-				cm.dispose();
-				break;
-			}
-			cm.gainItem(5041000, -1);//高级瞬移石
-			cm.gainMeso(-needmeso);
-			cm.warp(monstermaps[selects][0]);
-			cm.dispose();
-			break;
-		case 2:
-			if (!cm.haveItem(5041000, 1)) {
-				cm.sendOk("#d你没有高级瞬移石头哦，可以在商场包裹秒秒中买到。");
-				cm.dispose();
-				break;
-			}
-			if (cm.getPlayer().getMeso() < needmeso) {
-				cm.sendOk("#d你金币不够哦。");
-				cm.dispose();
-				break;
-			}
-			cm.gainItem(5041000, -1);//高级瞬移石
-			cm.gainMeso(-needmeso);
-			cm.warp(lmaps[selects][0]);
-			cm.dispose();
-			break;
-		case 3: //搬砖
-			if (cm.getPlayer().getMeso() < needmeso) {
-				cm.sendOk("#d你金币不够哦。");
-				cm.dispose();
-				break;
-			}
-			cm.gainMeso(-needmeso);
-			cm.saveLocation("MULUNG_TC")
-			cm.warp(lmaps[selects][0]);
-			cm.dispose();
-		break;
-		case 4: //组队
-			if (!cm.haveItem(5041000, 1)) {
-				cm.sendOk("#d你没有高级瞬移石头哦，可以在商场包裹秒秒中买到。");
-				cm.dispose();
-				break;
-			}
-			if (cm.getPlayer().getMeso() < needmeso) {
-				cm.sendOk("#d你金币不够哦。");
-				cm.dispose();
-				break;
-			}
-			cm.gainMeso(-needmeso);
-			cm.gainItem(5041000, -1);//高级瞬移石
-			cm.warp(lmaps[selects][0]);
-			cm.dispose();
-			break;
-		case 5: //boss地图
-			if (cm.getPlayer().getMeso() < needmeso) {
-				cm.sendOk("#d你金币不够哦。");
-				cm.dispose();
-				break;
-			}
-			if (!cm.haveItem(5041000, 1)) {
-				cm.sendOk("#d你没有高级瞬移石头哦，可以在商场包裹秒秒中买到。");
-				cm.dispose();
-				break;
-			}
-			cm.gainMeso(-needmeso);
-			cm.gainItem(5041000, -1);//高级瞬移石
-			cm.warp(bossmaps[selects][0]);
-			cm.dispose();
-			break;
-			}
-	cm.dispose();
-
-	} //mode
-} //f
+    }
+}

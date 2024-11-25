@@ -1,5 +1,5 @@
 load("nashorn:mozilla_compat.js");
-portPackage(Packages.tools);
+importPackage(Packages.tools);
 
 var chance = Math.floor(Math.random() * 10 + 1);
 var luk = 0;
