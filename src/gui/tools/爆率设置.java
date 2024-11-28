@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 
 public class 爆率设置 extends javax.swing.JFrame {
 
+    private final Map<Integer, Integer> 世界爆物_Chance = new HashMap<>();
     private final Map<Integer, Integer> 怪物爆物_Chance = new HashMap<>();
     /**
      * Creates new form WinStart
@@ -76,6 +77,30 @@ public class 爆率设置 extends javax.swing.JFrame {
                 }
             }
         });
+        世界爆物.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                int i = 世界爆物.getSelectedRow();
+                String a = 世界爆物.getValueAt(i, 0).toString();
+                String a1 = 世界爆物.getValueAt(i, 1).toString();
+                int chance = 世界爆物_Chance.get(Integer.parseInt(a));
+
+                世界爆物序列号.setText(a);
+                世界爆物物品代码.setText(a1);
+                世界爆物爆率.setText(chance+"");
+            }
+        });
+        世界爆物爆率.addCaretListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                if(世界爆物爆率.getText().matches("[0-9]+")){
+                    int chance = Integer.parseInt(世界爆物爆率.getText());
+                    jLabel40.setText(String.format("%.4f",chance / 100000.0 * 100)+" %");
+                }else {
+                    jLabel40.setText("- %");
+                }
+            }
+        });
+
 
     }
     /**
@@ -456,10 +481,10 @@ public class 爆率设置 extends javax.swing.JFrame {
             }
         });
         jPanel28.add(世界爆物名称, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 570, 100, 30));
-
+        世界爆物名称.hide();
         jLabel40.setFont(new java.awt.Font("微软雅黑", 0, 14)); // NOI18N
-        jLabel40.setText("物品名:");
-        jPanel28.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 569, 50, 30));
+        jLabel40.setText("100.0000%");
+        jPanel28.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 569, 120, 30));
 
         修改世界爆物.setFont(new java.awt.Font("微软雅黑", 0, 14)); // NOI18N
         修改世界爆物.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image2/更改.png"))); // NOI18N
@@ -1191,7 +1216,7 @@ public class 爆率设置 extends javax.swing.JFrame {
                 ps.setInt(7, Integer.parseInt(this.世界爆物爆率.getText()));
                 ps.executeUpdate();
                 JOptionPane.showMessageDialog(null, "[信息]:世界爆物添加成功。");
-                刷新世界爆物();
+                刷新世界爆物_refresh();
                 ps.close();
             } catch (SQLException ex) {
                 Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
@@ -1202,24 +1227,21 @@ public class 爆率设置 extends javax.swing.JFrame {
     }//GEN-LAST:event_添加世界爆物ActionPerformed
 
     private void 删除世界爆物ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_删除世界爆物ActionPerformed
-        PreparedStatement ps1 = null;
-        ResultSet rs = null;
+        int mr = JOptionPane.showConfirmDialog(null, "删除？", "删除", JOptionPane.YES_NO_OPTION);
+        if (mr != JOptionPane.YES_OPTION) {
+            return;
+        }
         boolean result = this.世界爆物序列号.getText().matches("[0-9]+");
         if (result) {
-            int 商城SN编码 = Integer.parseInt(this.世界爆物序列号.getText());
-            try {
-                ps1 = DBConPool.getInstance().getDataSource().getConnection().prepareStatement("SELECT * FROM drop_data_global WHERE id = ?");
-                ps1.setInt(1, 商城SN编码);
-                rs = ps1.executeQuery();
-                if (rs.next()) {
-                    String sqlstr = " delete from drop_data_global where id =" + 商城SN编码 + "";
-                    ps1.executeUpdate(sqlstr);
-                    JOptionPane.showMessageDialog(null, "[信息]:删除成功。");
-                    刷新世界爆物();
-                }
-                rs.close();
-                ps1.close();
+            int id = Integer.parseInt(this.世界爆物序列号.getText());
+
+            try (Connection con = DBConPool.getInstance().getDataSource().getConnection();
+                 PreparedStatement ps = con.prepareStatement("delete from drop_data_global where id = ?")) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+                刷新世界爆物_refresh();
             } catch (SQLException ex) {
+
                 Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -1235,29 +1257,17 @@ public class 爆率设置 extends javax.swing.JFrame {
 
         boolean result2 = this.世界爆物物品代码.getText().matches("[0-9]+");
         boolean result3 = this.世界爆物爆率.getText().matches("[0-9]+");
-        //PreparedStatement ps = null;
-        PreparedStatement ps1 = null;
-        ResultSet rs = null;
         if (result2 && result3) {
-            try {
-                //ps = DBConPool.getInstance().getDataSource().getConnection().prepareStatement("UPDATE drop_data_global SET dropperid = ?, itemid = ?, chance = ? WHERE id = ?");
-                ps1 = DBConPool.getInstance().getDataSource().getConnection().prepareStatement("SELECT * FROM drop_data_global WHERE id = ?");
-                ps1.setInt(1, Integer.parseInt(this.世界爆物序列号.getText()));
-                rs = ps1.executeQuery();
-                if (rs.next()) {
-                    String sqlString2 = null;
-                    String sqlString3 = null;
-                    sqlString2 = "update drop_data_global set itemid='" + this.世界爆物物品代码.getText() + "' where id=" + this.世界爆物序列号.getText() + ";";
-                    PreparedStatement dropperid = DBConPool.getInstance().getDataSource().getConnection().prepareStatement(sqlString2);
-                    dropperid.executeUpdate(sqlString2);
-                    sqlString3 = "update drop_data_global set chance='" + this.世界爆物爆率.getText() + "' where id=" + this.世界爆物序列号.getText() + ";";
-                    PreparedStatement itemid = DBConPool.getInstance().getDataSource().getConnection().prepareStatement(sqlString3);
-                    itemid.executeUpdate(sqlString3);
-                    JOptionPane.showMessageDialog(null, "[信息]:修改成功。");
-                    刷新世界爆物();
-                }
-                rs.close();
-                ps1.close();
+
+            try (Connection con = DBConPool.getInstance().getDataSource().getConnection();
+                 PreparedStatement ps = con.prepareStatement("UPDATE drop_data_global SET itemid = ?, chance = ? WHERE id = ? ")) {
+                ps.setInt(1, Integer.parseInt(this.世界爆物物品代码.getText()));
+                ps.setInt(2, Integer.parseInt(this.世界爆物爆率.getText()));
+                ps.setInt(3, Integer.parseInt(this.世界爆物序列号.getText()));
+                ps.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "[信息]:修改成功。");
+                刷新世界爆物_refresh();
             } catch (SQLException ex) {
                 Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1267,8 +1277,8 @@ public class 爆率设置 extends javax.swing.JFrame {
     }//GEN-LAST:event_修改世界爆物ActionPerformed
 
     private void 刷新世界爆物ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_刷新世界爆物ActionPerformed
-        JOptionPane.showMessageDialog(null, "[信息]:刷新世界物品掉落数据。");
-        刷新世界爆物();
+//        JOptionPane.showMessageDialog(null, "[信息]:刷新世界物品掉落数据。");
+        刷新世界爆物("");
     }//GEN-LAST:event_刷新世界爆物ActionPerformed
 
     private void 查询物品掉落代码1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_查询物品掉落代码1ActionPerformed
@@ -1276,16 +1286,13 @@ public class 爆率设置 extends javax.swing.JFrame {
     }//GEN-LAST:event_查询物品掉落代码1ActionPerformed
 
     private void 查询物品掉落ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_查询物品掉落ActionPerformed
-        boolean result = this.查询物品掉落代码.getText().matches("[0-9]+");
+        boolean result = this.查询物品掉落代码1.getText().matches("[0-9]+");
         if (result) {
-            if (Integer.parseInt(this.查询物品掉落代码.getText()) < 0) {
+            if (Integer.parseInt(this.查询物品掉落代码1.getText()) < 0) {
                 JOptionPane.showMessageDialog(null, "[信息]:请填写正确的值。");
                 return;
             }
-            for (int i = this.怪物爆物.getModel().getRowCount() - 1; i >= 0; i--) {
-                ((DefaultTableModel) (this.怪物爆物.getModel())).removeRow(i);
-            }
-            怪物爆物查询("where itemid =  " + Integer.parseInt(this.查询物品掉落代码.getText()));
+            刷新世界爆物("where a.itemid =  " + Integer.parseInt(this.查询物品掉落代码1.getText()));
         } else {
             JOptionPane.showMessageDialog(null, "[信息]:请输入你要查找的物品代码。");
         }
@@ -1296,27 +1303,19 @@ public class 爆率设置 extends javax.swing.JFrame {
         PreparedStatement ps1 = null;
         ResultSet rs = null;
 
-        boolean result = this.删除指定的掉落.getText().matches("[0-9]+");
+        boolean result = this.删除指定的掉落1.getText().matches("[0-9]+");
         if (result) {
-            int 商城SN编码 = Integer.parseInt(this.删除指定的掉落.getText());
-            try {
-                // for (int i = ((DefaultTableModel) (this.怪物爆物.getModel())).getRowCount() - 1; i >= 0; i--) {
-                //   ((DefaultTableModel) (this.怪物爆物.getModel())).removeRow(i);
-                //}
-                ps1 = DBConPool.getInstance().getDataSource().getConnection().prepareStatement("SELECT * FROM drop_data WHERE itemid = ?");
-                ps1.setInt(1, 商城SN编码);
-                rs = ps1.executeQuery();
-                if (rs.next()) {
-                    String sqlstr = " delete from drop_data where itemid =" + 商城SN编码 + "";
-                    ps1.executeUpdate(sqlstr);
-                    JOptionPane.showMessageDialog(null, "[信息]:成功删除 " + 商城SN编码 + " 物品。");
-                }
-                rs.close();
-                ps1.close();
+            int id = Integer.parseInt(this.删除指定的掉落1.getText());
+
+            try (Connection con = DBConPool.getInstance().getDataSource().getConnection();
+                 PreparedStatement ps = con.prepareStatement("delete from drop_data_global where itemid = ?")) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+                刷新世界爆物_refresh();
             } catch (SQLException ex) {
                 Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
             }
-            刷新怪物爆物();
+            刷新世界爆物_refresh();
         } else {
             JOptionPane.showMessageDialog(null, "[信息]:请输入你要查找的物品代码。");
         }
@@ -1359,11 +1358,13 @@ public class 爆率设置 extends javax.swing.JFrame {
     }//GEN-LAST:event_添加怪物爆物ActionPerformed
 
     private void 删除怪物爆物ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_删除怪物爆物ActionPerformed
-
+        int mr = JOptionPane.showConfirmDialog(null, "删除？", "删除", JOptionPane.YES_NO_OPTION);
+        if (mr != JOptionPane.YES_OPTION) {
+            return;
+        }
         boolean result = this.怪物爆物序列号.getText().matches("[0-9]+");
         if (result) {
             int id = Integer.parseInt(this.怪物爆物序列号.getText());
-
 
             try (Connection con = DBConPool.getInstance().getDataSource().getConnection();
                  PreparedStatement ps = con.prepareStatement("delete from drop_data where id = ?")) {
@@ -1601,40 +1602,28 @@ public class 爆率设置 extends javax.swing.JFrame {
     public void 刷新怪物卡片() {
         怪物爆物查询("where a.itemid >=2380000&& a.itemid <2390000");
     }
-
-    public void 刷新世界爆物() {
-
+    private String 刷新世界爆物_str = "";
+    public void 刷新世界爆物_refresh() {
+        刷新世界爆物(刷新世界爆物_str);
+    }
+    public void 刷新世界爆物(String sqlWhere) {
+        刷新世界爆物_str = sqlWhere;
         for (int i = this.世界爆物.getModel().getRowCount() - 1; i >= 0; i--) {
             ((DefaultTableModel) (this.世界爆物.getModel())).removeRow(i);
         }
-        try {
-            Connection con = DBConPool.getInstance().getDataSource().getConnection();
-            PreparedStatement ps = null;
 
-            ResultSet rs = null;
-            ps = con.prepareStatement("SELECT a.*,b.`name` FROM drop_data_global a join wz_itemdata b on a.itemid=b.itemid ");
-            rs = ps.executeQuery();
+        try (Connection con = DBConPool.getInstance().getDataSource().getConnection();
+             PreparedStatement ps = con.prepareStatement("SELECT a.*,b.`name` FROM drop_data_global a join wz_itemdata b on a.itemid=b.itemid " + sqlWhere)) {
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-
                 ((DefaultTableModel) 世界爆物.getModel()).insertRow(世界爆物.getRowCount(), new Object[]{
                         rs.getInt("id"),
                         rs.getInt("itemid"),
                         String.format("%.4f",(rs.getDouble("chance")) / 100000.0 * 100),
                         rs.getString("name")
                 });
+                世界爆物_Chance.put(rs.getInt("id"), rs.getInt("chance"));
             }
-            世界爆物.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
-                    int i = 世界爆物.getSelectedRow();
-                    String a = 世界爆物.getValueAt(i, 0).toString();
-                    String a1 = 世界爆物.getValueAt(i, 1).toString();
-                    String a2 = 世界爆物.getValueAt(i, 2).toString();
-                    世界爆物序列号.setText(a);
-                    世界爆物物品代码.setText(a1);
-                    世界爆物爆率.setText(a2);
-                }
-            });
-
         } catch (SQLException ex) {
             Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1650,7 +1639,7 @@ public class 爆率设置 extends javax.swing.JFrame {
         }
         try (Connection con = DBConPool.getInstance().getDataSource().getConnection();
              PreparedStatement ps = con.prepareStatement("SELECT a.*,b.`name`,c.`name` mobname FROM drop_data a left join wz_itemdata b on a.itemid=b.itemid " +
-                     " left join wz_mobdata c on a.dropperid=c.id " + sqlWhere)) {
+                     " left join wz_mobdata c on a.dropperid=c.id " + sqlWhere+" order by a.dropperid,a.itemid")) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 ((DefaultTableModel) 怪物爆物.getModel()).insertRow(怪物爆物.getRowCount(), new Object[]{
@@ -1658,7 +1647,7 @@ public class 爆率设置 extends javax.swing.JFrame {
                         rs.getInt("dropperid"),
                         rs.getInt("itemid"),
                         String.format("%.4f",rs.getInt("chance") / 100000.0 * 100),
-                        rs.getString("name"),
+                        (rs.getInt("questid")>0?"(任务)":"")+rs.getString("name"),
                         rs.getString("mobname")
                 });
                 怪物爆物_Chance.put(rs.getInt("id"), rs.getInt("chance"));

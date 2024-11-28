@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+
 public class Start {
     public static boolean 是否控制台启动 = true;
     private static int 回收内存;
@@ -148,6 +149,7 @@ public class Start {
         // World.ClearMemory(5 * 60);// 每小时清理记忆体
         // WorldTimer.getInstance().register(CloseSQLConnections, 60 * 60 * 1000);//
         // 定时清理MySql连接数
+        MapleQuest.wrapToQuestNpcMapInit();
         World.isShutDown = false;
         OnlyID.getInstance();
         // 自动泡点

@@ -591,7 +591,7 @@ public final class MapleMap {
         int mesos = Randomizer.nextInt(mob.getLevel()) + mob.getLevel();
         if (mesos > 0) {
             double lastMeso = chr.getStat().realMesoBuff / 100.0;
-            double mesodroprate = chServerrate * showdown * lastMeso * chr.hasDropCard();
+            double mesodroprate = cmServerrate * showdown * lastMeso * chr.hasDropCard();
             spawnMobMesoDrop((int) (mesos * mesodroprate),
                     calcDropPos(pos, mob.getTruePosition()), mob, chr, false, droptype);
         }

@@ -1,6 +1,6 @@
 function enter(pi) {
     if (pi.isQuestActive(21201)) {
-        pi.forceStartQuest(21202);
+        //pi.forceStartQuest(21202);
 		pi.warp(108000700, 0);
     } else if (pi.getQuestStatus(21302) == 1) {
         var em = pi.getEventManager("aran3rd2");
@@ -19,7 +19,8 @@ function enter(pi) {
             }
         }
     } else {
-        pi.warp(108000700, 0);
+		pi.playerMessage("你没有任务无法进入哦");
+        //pi.warp(108000700, 0);
     }
     return true;
 }

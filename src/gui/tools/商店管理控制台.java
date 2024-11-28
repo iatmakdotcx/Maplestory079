@@ -87,7 +87,7 @@ public class 商店管理控制台 extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        游戏商店2.setBackground(new java.awt.Color(153, 153, 153));
+//        游戏商店2.setBackground(new java.awt.Color(153, 153, 153));
         游戏商店2.setFont(new java.awt.Font("幼圆", 0, 15)); // NOI18N
         游戏商店2.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
@@ -393,9 +393,9 @@ public class 商店管理控制台 extends javax.swing.JFrame {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 if (lx == 0) {
-                    ps = con.prepareStatement("SELECT * FROM shopitems");
+                    ps = con.prepareStatement("select a.*,b.`name` from shopitems a join wz_itemdata b on a.itemid=b.itemid");
                 } else {
-                    ps = con.prepareStatement("SELECT * FROM shopitems WHERE shopid = " + Integer.parseInt(this.查询商店.getText()) + " ");
+                    ps = con.prepareStatement("select a.*,b.`name` from shopitems a join wz_itemdata b on a.itemid=b.itemid WHERE shopid = " + Integer.parseInt(this.查询商店.getText()) + " ");
                 }
                 rs = ps.executeQuery();
                 while (rs.next()) {
@@ -404,12 +404,12 @@ public class 商店管理控制台 extends javax.swing.JFrame {
                             rs.getInt("shopid"),
                             rs.getInt("itemid"),
                             rs.getInt("price"),
-                            MapleItemInformationProvider.getInstance().getName(rs.getInt("itemid"))
+                            rs.getString("name")
                     });
                 }
                 rs.close();
                 ps.close();
-                JOptionPane.showMessageDialog(null, "[信息]:商城物品查询成功。");
+//                JOptionPane.showMessageDialog(null, "[信息]:商城物品查询成功。");
             } catch (SQLException ex) {
                 Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
             }

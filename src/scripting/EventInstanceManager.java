@@ -22,6 +22,10 @@ package scripting;
 
 import client.MapleCharacter;
 import client.MapleQuestStatus;
+import client.inventory.Equip;
+import client.inventory.IItem;
+import client.inventory.MapleInventoryType;
+import constants.GameConstants;
 import constants.ServerConfig;
 import handling.channel.ChannelServer;
 import handling.world.MapleParty;

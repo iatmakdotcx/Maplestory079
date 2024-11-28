@@ -1,5 +1,8 @@
 load("nashorn:mozilla_compat.js");
 importPackage(Packages.tools);
+importPackage(Packages.server);
+importPackage(Packages.client.inventory);
+
 
 var chance = Math.floor(Math.random() * 10 + 1);
 var luk = 0;
@@ -46,7 +49,7 @@ function action(mode, type, selection) {
             if (mode == 1)
                 status++;
             if (status == 0) {
-                cm.sendNext("听……这是一种新的时代，装备其实拥有无尽的力量，可以觉醒出星级的超级属性。");
+                cm.sendNext("听……这是一种新的时代，装备其实拥有无尽的力量，可以觉醒出星级的超级属性。\r\n\r\n然而这些仅仅需要#r"+冒险币+"#k金币");
             } else if (status == 1) {
                 if (cm.getMeso() < needmon) {
                     cm.sendOk("#b武器强化需要#r" + needmon + "冒险币#k#b,你没有这么多冒险币！#k");
@@ -309,10 +312,11 @@ function action(mode, type, selection) {
                         MapleInventoryManipulator.addFromDrop(cm.getChar().getClient(), item, "Edit by Kevin");
                         cm.sendOk("#r恭喜您，武器#v" + itemId1 + "#成功\r\n成功追加星级!#k");
                      //   cm.getC().getChannelServer().getWorldInterface().broadcastMessage(null, net.sf.cherry.tools.MaplePacketCreator.getItemMegas(cm.getC().getChannel(), cm.getPlayer().getName() + " : " + " +" + (item1.getLevel() + 1) + " 追加星级成功!", item, true).getBytes());
-                        var statup = new java.util.ArrayList();
+                        
                         cm.gainMeso(-冒险币);
-                        statup.add(new Pair(MapleStat.AVAILABLEAP, java.lang.Integer.valueOf(cm.getChar().getRemainingAp())));
-                        cm.刷新状态();
+						//var statup = new java.util.ArrayList();
+                        //statup.add(new Pair(MapleStat.AVAILABLEAP, java.lang.Integer.valueOf(cm.getChar().getRemainingAp())));
+                        //cm.刷新状态();
                         cm.dispose();
                     }
                 }else{

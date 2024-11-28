@@ -1866,22 +1866,6 @@ public class AdminCommand {
         }
     }
 
-    public static class 最近传送点 extends CommandExecute {
-
-        @Override
-        public boolean execute(MapleClient c, String[] splitted) {
-            MaplePortal portal = c.getPlayer().getMap().findClosestPortal(c.getPlayer().getTruePosition());
-            c.getPlayer().dropMessage(-11,
-                    portal.getName() + " id: " + portal.getId() + " script: " + portal.getScriptName());
-            return true;
-        }
-
-        @Override
-        public String getMessage() {
-            return "!最近传送点 - 查看最近的传送点";
-        }
-    }
-
     public static class 给所有人点数 extends CashEveryone {
     }
 
@@ -2175,6 +2159,7 @@ public class AdminCommand {
     }
 
 
+    public static class nearNPCs extends 附近NPC { }
     public static class 附近NPC extends CommandExecute {
 
         @Override

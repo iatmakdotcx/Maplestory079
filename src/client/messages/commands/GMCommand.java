@@ -631,7 +631,39 @@ public class GMCommand {
 
         @Override
         public String getMessage() {
-            return "!lookportals - 查看所有反应堆";
+            return "!lookportals - 查看所有传送点";
+        }
+    }
+    public static class NearestPortal extends CommandExecute {
+
+        @Override
+        public boolean execute(MapleClient c, String[] splitted) {
+            MaplePortal portal = c.getPlayer().getMap().findClosestSpawnpoint(c.getPlayer().getPosition());
+            c.getPlayer().dropMessage(6,
+                    portal.getName() + " id: " + portal.getId() + " script: " + portal.getScriptName());
+
+            return true;
+        }
+
+        @Override
+        public String getMessage() {
+            return "!nearestportal - 不知道啥";
+
+        }
+    }
+    public static class 最近传送点 extends CommandExecute {
+
+        @Override
+        public boolean execute(MapleClient c, String[] splitted) {
+            MaplePortal portal = c.getPlayer().getMap().findClosestPortal(c.getPlayer().getTruePosition());
+            c.getPlayer().dropMessage(-11,
+                    portal.getName() + " id: " + portal.getId() + " script: " + portal.getScriptName());
+            return true;
+        }
+
+        @Override
+        public String getMessage() {
+            return "!最近传送点 - 查看最近的传送点";
         }
     }
 
@@ -752,23 +784,7 @@ public class GMCommand {
         }
     }
 
-    public static class NearestPortal extends CommandExecute {
 
-        @Override
-        public boolean execute(MapleClient c, String[] splitted) {
-            MaplePortal portal = c.getPlayer().getMap().findClosestSpawnpoint(c.getPlayer().getPosition());
-            c.getPlayer().dropMessage(6,
-                    portal.getName() + " id: " + portal.getId() + " script: " + portal.getScriptName());
-
-            return true;
-        }
-
-        @Override
-        public String getMessage() {
-            return "!nearestportal - 不知道啥";
-
-        }
-    }
 
     public static class SpawnDebug extends CommandExecute {
 

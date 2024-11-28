@@ -1,14 +1,18 @@
-/* ==================
- 脚本类型:  任务	    
- 脚本版权：游戏盒团队
- 联系扣扣：297870163    609654666
- =====================
- */
+
  var status = -1;
 
 function start(mode, type, selection) {
-	qm.forceStartQuest();//开始任务
-	qm.dispose();
+	if (mode == 1) {
+        status++;
+    } else {
+		
+	}
+	 if (status == 0) {
+        qm.sendOk("该死的小偷偷走了我的宝石，去！干掉他！");
+    } else if (status == 1) {
+       	qm.forceStartQuest();//开始任务
+        qm.dispose();
+    }
 }
 
 function end(mode, type, selection) {

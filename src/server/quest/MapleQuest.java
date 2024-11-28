@@ -1,11 +1,14 @@
 package server.quest;
 
 import client.MapleCharacter;
+import client.MapleClient;
 import client.MapleQuestStatus;
 import client.inventory.MapleInventoryType;
 import database.DBConPool;
 import scripting.NPCScriptManager;
 import server.MapleInventoryManipulator;
+import server.MaplePortal;
+import server.maps.MapleMap;
 import tools.FileoutputUtil;
 import tools.MaplePacketCreator;
 import tools.Pair;
@@ -16,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+
 
 public class MapleQuest implements Serializable {
 
@@ -236,7 +240,8 @@ public class MapleQuest implements Serializable {
             if (!customend) {
                 forceStart(c, npc, null);
             } else {
-                NPCScriptManager.getInstance().endQuest(c.getClient(), npc, getId(), true);
+                NPCScriptManager.getInstance().startQuest(c.getClient(), npc, getId());
+                //NPCScriptManager.getInstance().endQuest(c.getClient(), npc, getId(), true);
             }
         } else if (autoStart && canStart(c, npc)) {
             for (MapleQuestAction a : startActs) {
@@ -250,7 +255,8 @@ public class MapleQuest implements Serializable {
             if (!customend) {
                 forceStart(c, npc, null);
             } else {
-                NPCScriptManager.getInstance().endQuest(c.getClient(), npc, getId(), true);
+                NPCScriptManager.getInstance().startQuest(c.getClient(), npc, getId());
+                //NPCScriptManager.getInstance().endQuest(c.getClient(), npc, getId(), true);
             }
         } else if (id == 8249) {// 修正任务没办法接
             for (MapleQuestAction a : startActs) {
@@ -417,5 +423,52 @@ public class MapleQuest implements Serializable {
             }
         }
         return true;
+    }
+
+    protected static final Map<String, Pair<Integer, Integer>> QuestNpcMapCache = new LinkedHashMap<String, Pair<Integer, Integer>>(); // [rank,
+
+    /**
+     * 任务便捷传送
+     */
+    public static void wrapToQuestNpcMapInit(){
+        try (Connection con = DBConPool.getInstance().getDataSource().getConnection();
+             PreparedStatement ps = con.prepareStatement("select * from quest_portal")) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String key = rs.getString("questid")+","+rs.getString("npcid");
+                QuestNpcMapCache.put(key, new Pair<>(rs.getInt("map"),rs.getInt("port")));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public static boolean wrapToQuestNpcMap(MapleClient c, int questid, int npc){
+        Pair<Integer, Integer> map = QuestNpcMapCache.get(questid+","+npc);
+        if (map == null) {
+            return false;
+        }
+        try {
+            MapleMap target = c.getChannelServer().getMapFactory().getMap(map.left);
+            if (target == null) {
+                c.getPlayer().dropMessage(5, "地图不存在.");
+                return true;
+            }
+            MaplePortal targetPortal = null;
+            try {
+                targetPortal = target.getPortal(map.right);
+            } catch (IndexOutOfBoundsException e) {
+                c.getPlayer().dropMessage(5, "传送点错误.");
+            } catch (NumberFormatException a) {
+            }
+
+            if (targetPortal == null) {
+                targetPortal = target.getPortal(0);
+            }
+            c.getPlayer().changeMap(target, targetPortal);
+            return true;
+        } catch (Exception e) {
+            c.getPlayer().dropMessage(5, "Error: " + e.getMessage());
+        }
+        return false;
     }
 }

@@ -53,13 +53,11 @@ public abstract class AbstractScriptManager {
     }
 
     protected Invocable getInvocable(String path, MapleClient c, boolean npc) {
-        if(c == null)
-            return null;
-
         path = "scripts/" + path;
         ScriptEngine engine = null;
+        if(c != null)
+            engine = c.getScriptEngine(path);
 
-        engine = c.getScriptEngine(path);
         if (engine == null) {
             File scriptFile = new File(path);
             if (!scriptFile.exists()) {
@@ -71,7 +69,9 @@ public abstract class AbstractScriptManager {
                 return null;
             }
             engine = sem.getEngineByName("javascript");
-            c.setScriptEngine(path, engine);
+            if(c != null)
+                c.setScriptEngine(path, engine);
+
             InputStream in = null;
             try {
                 in = new FileInputStream(scriptFile);

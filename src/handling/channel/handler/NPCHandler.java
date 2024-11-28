@@ -164,7 +164,33 @@ public class NPCHandler {
             NPCScriptManager.getInstance().start(c, npc.getId());
         }
     }
+    public static void QuestKJHandler(LittleEndianAccessor slea, MapleClient c)
+    {
+        MapleCharacter chr = c.getPlayer();
 
+        if (chr == null || !chr.isAlive() || chr.getCSPoints(2) < 200) {
+            chr.dropMessage(1, "你的抵用卷余额不足");
+            c.getSession().write(MaplePacketCreator.enableActions());
+            return;
+        }
+        byte action = (byte)(slea.readByte() + 1);
+        short quest = slea.readShort();
+        if (quest < 0) {
+            quest = (short)(quest + 65536);
+        }
+        switch (action) {
+            case 2: {
+                int npc = slea.readInt();
+                if(!MapleQuest.wrapToQuestNpcMap(c, quest, npc)){
+                    chr.dropMessage(1, "无法传送到Npc所在地图！");
+                    return;
+                }
+                break;
+            }
+        }
+        chr.modifyCSPoints(2, -200);
+        c.getSession().write(MaplePacketCreator.enableActions());
+    }
     public static final void QuestAction(final LittleEndianAccessor slea, final MapleClient c,
                                          final MapleCharacter chr) {
         final byte action = slea.readByte();
@@ -211,7 +237,7 @@ public class NPCHandler {
                 }
                 if (npc == 0 && quest > 0) {
                     q.forceStart(chr, npc, null);
-                } else if (quest == 2001 || quest == 8511 || quest == 21301 || quest == 21302 || quest == 3083) {
+                } else if (quest == 2001 || quest == 8511 || quest == 21301 || quest == 3083) {
                     q.forceStart(chr, npc, null);
                 } else if (quest == 8512) {
                     q.start(chr, npc);

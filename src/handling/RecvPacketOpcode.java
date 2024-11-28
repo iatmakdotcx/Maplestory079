@@ -151,6 +151,7 @@ public enum RecvPacketOpcode implements WritableIntValueHolder {
     COUPON_CODE(0xE7),
     MAPLETV,
     REPAIR,
+    quest_KJ,
     REPAIR_ALL,
     TOUCHING_MTS,
     USE_MAGNIFY_GLASS,

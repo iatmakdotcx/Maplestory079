@@ -1,81 +1,78 @@
-/* ==================
- 脚本类型:  任务	    
- 脚本版权：游戏盒团队
- 联系扣扣：297870163    609654666
- =====================
- */
- var status = -1;
+/* 等待主人的武器 */
+
+var status = -1;
 
 function start(mode, type, selection) {
     if (mode == 1) {
-	status++;
+        status++;
     } else {
-	if (status == 0) {
-	    qm.sendNext("这真的很紧急，如果你拒绝，你会后悔. #b它与你的极手臂有关,#k这意味着它与你的过去有关。 谁知道...？ 也许杆臂是唤醒你的能力的关键...?");
-	    qm.dispose();
-	    return;
-	}
-	status--;
+        if (status == 0) {
+            qm.sendNext("有很紧急的事情。要是拒绝的话，肯定会后悔的哦？#b有关你长矛的事情#k，也就是有关你的过去。谁知道呢？……说不定这个长矛能够唤醒你的能力？");
+            qm.dispose();
+            return;
+        }
+        status--;
     }
     if (status == 0) {
-	qm.askAcceptDecline("培训如何进行？ 哇，看着你，我可以告诉你的水平射过屋顶。 这是惊人的...好吧，反正，我看到你的忙，但你必须回到岛上一点.");
+        qm.sendAcceptDecline("修炼进展得如何？哟，等级升得这么高了？难怪人们都说济州岛是养马的天堂，金银岛是升级的天堂……对了，现在还不是说闲话的时候。能否麻烦你回岛上来一趟？");
     } else if (status == 1) {
-	qm.forceStartQuest();//开始任务
-	//qm.forceStartQuest(21201);
-	
-	//qm.forceStartQuest(21202); //skip just in case
-	//qm.forceStartQuest(21203, "0");
-	qm.sendOk("你的 #b巨型臂#k这是保持在#bRien#k 突然间变得奇怪。 根据这本书，当它要求它的主人时，极臂像这样反应. #b也许它在呼唤你?#k? 请回到岛上找出来.");
-	qm.dispose();
+        qm.forceStartQuest(21200); //??
+        //qm.completeQuest();
+        //qm.forceStartQuest(21202); //skip just in case
+        //qm.forceStartQuest(21203, "0");
+        qm.sendOk("#b保管在#m140000000##k的你的#b#p1201001##k突然出现了奇怪的反应。据说长矛在呼唤自己主人的时候才会发出那样的反应。#b也许有什么事情要转达给你？#k请速回岛上一趟吧。");
+        qm.dispose();
     }
 }
 
 function end(mode, type, selection) {
     if (mode == 1) {
-	status++;
+        status++;
     } else {
-	if (status == 11) {
-	    qm.sendNext("嘿，至少你告诉我你试过!");
-	    qm.dispose();
-	    return;
-	} else if (status == 13) {
-	    qm.MovieClipIntroUI(true);
-	    //qm.warp(914090200, 0);
-	    qm.dispose();
-	    return;
-	}
-	status--;
+        if (status == 11) {
+            qm.sendNext("你这家伙！好歹也要努力颠峰一下吧？");
+            qm.dispose();
+            return;
+        } else if (status == 13) {
+            qm.MovieClipIntroUI(true);
+            qm.warp(914090200, 0);
+            qm.dispose();
+            return;
+        }
+        status--;
     }
     if (status == 0) {
-	qm.sendNextS("嗯嗯嗯....", 2);
+        qm.sendNextS("嗡嗡嗡嗡嗡……", 2);
     } else if (status == 1) {
-	qm.sendNextPrevS("#b(巨人的胳膊是嗡嗡声，但谁是那个男孩站在那里?)#k", 2);
+        qm.sendNextPrevS("#b（#p1201001#在发出嗡鸣声。奇怪，那边的少年是谁？）#k", 2);
     } else if (status == 2) {
-	qm.sendNextPrevS("#b(我从来没有见过他。 他不看人.)#k", 2);
+        qm.sendNextPrevS("#b（以前没见过他啊？怎么看起来不太像人类？）#k", 2);
     } else if (status == 3) {
-	qm.sendNextPrev("嘿Aran！ 你还是听不到我吗？ 说真的，你不能听到我吗？ 啊，这是令人沮丧的!");
+        qm.sendNextPrev("喂！战神！还听不见我的声音吗？到底听不听得见？唉，烦死了！");
     } else if (status == 4) {
-	qm.sendNextPrevS("#b(哇，是谁？ 听起来像一个生气的男孩。..)#k", 2);
+        qm.sendNextPrevS("#b（咦？这是谁的声音？怎么听起来像个凶巴巴的少年……）#k", 2);
     } else if (status == 5) {
-	qm.sendNextPrev("真的，一个大师我原来是被困在冰上几百年，放弃了武器，现在的“主人”甚至不能听到我?");
+        qm.sendNextPrev("唉……哪有这样的主人啊？丢开武器在冰窟里睡了几百年，现在连话都听不懂了……");
     } else if (status == 6) {
-	qm.sendNextPrevS("你是谁?", 2);
+        qm.sendNextPrevS("你是谁啊？", 2);
     } else if (status == 7) {
-	qm.sendNextPrev("Aran？ 你现在听到我吗？ 这是我，是我！ 我是你的武器#b玛哈的手臂!#k!");
+        qm.sendNextPrev("啊，战神？现在听到我的声音了？是我啊，不记得我了？我就是武器#b长矛 #p1201002##k啊？");
     } else if (status == 8) {
-	qm.sendNextPrevS("#b(...玛哈？ 巨人手臂实际上在说什么？)#k", 2);
+        qm.sendNextPrevS("#b（……#p1201002#？#p1201001#会说话？）#k", 2);
     } else if (status == 9) {
-	qm.sendNextPrev("你为什么在你的脸上看起来像你不能相信？ 我看到你失去了所有的回忆，但...你也忘记了我吗？ 你怎么能这样对我??");
+        qm.sendNextPrev("不至于吧？这么吃惊？再怎么失忆，总不能连我都忘了吧？太不够意思了！");
     } else if (status == 10) {
-	qm.sendNextPrevS("对不起，但严重...我不记得一件事.", 2);
+        qm.sendNextPrevS("不好意思，真的一点都想不起来。", 2);
     } else if (status == 11) {
-	qm.sendYesNo("这是所有这些年后可以说的吗？ 对不起？ 你明白我为什么无聊我自己几百年了吗？ 把它带出来，如果可以的话。 把你的回忆出来！ 把他们全部！ 如果你需要，挖它们!");
+        qm.sendYesNo("说声不好意思就能算了？！几百年来就我一个人孤苦伶仃地，有多寂寞你知道吗？不管怎样，你快点给我想起来！");
     } else if (status == 12) {
-	qm.sendNextS("#b(声称是玛哈巨人之臂的声音似乎很受干扰。 这个对话没有了。 我最好先和Lirin谈谈.)#k", 2);
-	qm.forceCompleteQuest();
+        qm.sendNextS("#b（一口一个自己是#p1201001#、#p1201002#的，还越说越生气了。再这么说下去也不会有啥进展，还是先走到 #p1201000#跟前，好好商量商量。）#k", 2);
+        qm.completeQuest();
+        //qm.forceStartQuest(21201); //skip just in case
+        //qm.forceStartQuest(21203);
     } else if (status == 13) {
-	qm.sendYesNo("您要跳过视频剪辑吗？ 即使你跳过现场，游戏也不会受到影响.");
+        qm.sendYesNo("您要跳过视频剪辑吗？ 即使你跳过现场，游戏也不会受到影响.");
     } else if (status == 14) {
-	qm.dispose();
+        qm.dispose();
     }
 }

@@ -54,37 +54,56 @@ public class EventScriptManager extends AbstractScriptManager {
         return runningInstanceMapId.addAndGet(1);
     }
 
+    private ChannelServer cserv;
     public EventScriptManager(final ChannelServer cserv, final String[] scripts) {
         super();
-        for (final String script : scripts) {
-            if (!script.equals("")) {
-                final Invocable iv = getInvocable("event/" + script + ".js", null);
-
-                if (iv != null) {
-                    events.put(script, new EventEntry(script, iv, new EventManager(cserv, iv, script)));
-                }
-            }
-        }
+        this.cserv = cserv;
+//
+//        for (final String script : scripts) {
+//            if (!script.equals("")) {
+//                final Invocable iv = getInvocable("event/" + script + ".js", null);
+//
+//                if (iv != null) {
+//                    events.put(script, new EventEntry(script, iv, new EventManager(cserv, iv, script)));
+//                }
+//            }
+//        }
     }
 
     public final EventManager getEventManager(final String event) {
-        final EventEntry entry = events.get(event);
-        if (entry == null) {
-            return null;
+        EventEntry entry = events.get(event);
+        if (entry != null) {
+            return entry.em;
         }
-        return entry.em;
-    }
+        synchronized (this){
+            entry = events.get(event);
+            if (entry != null) {
+                return entry.em;
+            }
+            final Invocable iv = getInvocable("event/" + event + ".js", null);
 
+            if (iv != null) {
+                entry = new EventEntry(event, iv, new EventManager(cserv, iv, event));
+                events.put(event,  entry);
+                init(entry);
+                return entry.em;
+            }
+        }
+        return null;
+    }
+    private void init(EventEntry entry) {
+        try {
+            ((ScriptEngine) entry.iv).put("em", entry.em);
+            entry.iv.invokeFunction("init", (Object) null);
+
+        } catch (final Exception ex) {
+            System.err.println("Error initiating event: " + entry.script + ":" + ex);
+            FilePrinter.printError("EventScriptManager.txt", "Error initiating event: " + entry.script + ":" + ex);
+        }
+    }
     public final void init() {
         for (final EventEntry entry : events.values()) {
-            try {
-                ((ScriptEngine) entry.iv).put("em", entry.em);
-                entry.iv.invokeFunction("init", (Object) null);
-
-            } catch (final Exception ex) {
-                System.err.println("Error initiating event: " + entry.script + ":" + ex);
-                FilePrinter.printError("EventScriptManager.txt", "Error initiating event: " + entry.script + ":" + ex);
-            }
+            init(entry);
         }
     }
 
@@ -92,5 +111,6 @@ public class EventScriptManager extends AbstractScriptManager {
         for (final EventEntry entry : events.values()) {
             entry.em.cancel();
         }
+        events.clear();
     }
 }

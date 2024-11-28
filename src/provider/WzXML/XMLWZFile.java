@@ -43,7 +43,7 @@ public class XMLWZFile implements MapleDataProvider {
     }
 
     private void fillMapleDataEntitys(final File lroot, final WZDirectoryEntry wzdir) {
-        for (final File file : lroot.listFiles()) {
+          for (final File file : lroot.listFiles()) {
             final String fileName = file.getName();
             if (file.isDirectory() && !fileName.endsWith(".img")) {
                 final WZDirectoryEntry newDir = new WZDirectoryEntry(fileName, 0, 0, (MapleDataEntity)wzdir);

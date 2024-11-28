@@ -968,6 +968,10 @@ public class MapleServerHandler extends ChannelInboundHandlerAdapter {
             case EFFECT_ON_OFF:
                 // 69 00
                 break;
+            case quest_KJ:
+                // 6A 00 01 35 53 6A 53 12 00
+                NPCHandler.QuestKJHandler(slea, c);
+                break;
             default:
                 System.err.println("[发现未处理数据包] Recv [" + header.toString() + "]");
                 System.out.println(slea.toString());
